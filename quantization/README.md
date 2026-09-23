@@ -70,6 +70,20 @@ nonuniform formats, incomplete Hessian metrics, and unexpected devices; its
 report records the rhea/moa projection split, recovery counts, and Hessian
 weighted errors. Omit `--complete` only for progress reports during the run.
 
+On rhea, `bash /home/tj/dots-note-work/recipe/quantization/accept_export.sh`
+is the post-run acceptance gate. It requires a successful quantization
+container exit, checks the complete error journal, restores tokenizer and
+multimodal assets, audits the exact tensor namespace and FP8 core bytes,
+installs the model card, and writes SHA-256 hashes for every export file under
+`/home/tj/dots-note-work/state/acceptance/`. These operations use the Sparks'
+ext4 storage. The alternate Hugging Face cache under `/mnt/scratch` is an
+input only; never write run state or cache downloads there.
+Use `verify_artifact_files.py --artifact SNAPSHOT --manifest
+/home/tj/dots-note-work/state/acceptance/artifact-files.json` after copying to
+moa and after each Hugging Face cache download. It accepts the cache's file
+symlinks while checking the complete file set and every byte against the
+accepted export.
+
 The layer-1 boundary was committed with 1,437 BF16 activation shards (10,838,640,640 tensor bytes) and 768 indexed K4 projections. An independent pass verified every activation shard's size and xxh3 digest and the manifest SHA-256. A controlled restart on rhea then restored the boundary and resumed layer 2 without replaying the completed prefix. This is recovery evidence for the first routed boundary, not final artifact acceptance.
 
 Layer 2 is an explicit progress milestone: notify the user when its quantization begins. Do not treat source transfer or calibration selection as reaching that milestone.
