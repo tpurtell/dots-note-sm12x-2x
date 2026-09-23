@@ -6,6 +6,7 @@ hybrid built by build_hybrid_source.py; the source shards remain immutable.
 """
 
 import argparse
+import hashlib
 import json
 import os
 import time
@@ -98,6 +99,37 @@ def main() -> None:
     print(json.dumps({"event": "model-load-complete", "source_tensors": len(turtle._weight_map)}), flush=True)
     if args.load_only:
         return
+    if provenance is not None and not args.benchmark_layer0:
+        from dots3_layer_boundary_store import (
+            Dots3LayerBoundaryController,
+            Dots3LayerBoundaryStore,
+        )
+
+        config = model.model.config
+        checkpoint_root = provenance["run"]["projection_checkpoint"]["root"]
+        identity = {
+            "family_join": provenance["family_join"],
+            "calibration": str(args.calibration),
+            "source": str(args.source),
+        }
+        plan_sha256 = hashlib.sha256(
+            json.dumps(identity, sort_keys=True, separators=(",", ":")).encode()
+        ).hexdigest()
+        store = Dots3LayerBoundaryStore(
+            args.state / "layer-boundaries",
+            plan_sha256=plan_sha256,
+            family_join=provenance["family_join"],
+            projection_checkpoint_root=checkpoint_root,
+            error_journal_path=args.state / "errors.jsonl",
+            hidden_size=int(config.hidden_size),
+            activation_rank=3,
+            routed_experts=int(config.n_routed_experts),
+            first_target_layer=1,
+            last_target_layer=int(config.num_hidden_layers) - 1,
+        )
+        model.quantization_layer_boundary_checkpoint = Dots3LayerBoundaryController(
+            store, defer_publication_materialization=True
+        )
     texts = calibration_texts(args.calibration, args.limit)
     print(json.dumps({"event": "quantize-start", "prompts": len(texts)}), flush=True)
     if args.benchmark_layer0:
