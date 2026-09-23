@@ -1,6 +1,6 @@
 # Dots3 Note source and calibration gates
 
-This directory contains preparation for a uniform EXL3 K4 quantization of the routed language-model experts. The quantization runner, finished checkpoint, and acceptance evidence have not yet been produced. Do not publish an artifact from the preparation scripts alone.
+This directory contains the source audit, corpus, and Spark runner for uniform EXL3 K4 quantization of the routed language-model experts. The full run started on 2026-09-23; the finished checkpoint and acceptance evidence are pending. Do not publish an artifact from preparation scripts alone.
 
 ## Inputs
 
@@ -36,7 +36,13 @@ The runner must use rhea and moa, each with one GB10 and local NVMe. It must str
 
 The 131 BF16 model shards interleave routed weights from many layers. Transfer either the intact source snapshot to both hosts or repack by tensor with a content-verified index. Do not infer a layer ownership split from source shard filenames. Local checks found the intact FP8 snapshot to be about 279 GiB and the BF16 snapshot about 538 GiB on disk. A complete copy of both sources fits each Spark's available local NVMe, while per-layer streaming keeps runtime memory bounded.
 
-The main throughput decision is how to share calibration work. A disjoint prompt split can halve forward work, but EXL3 requires the additive Hessian evidence for each expert to be reduced across hosts before quantization. An expert split avoids Hessian exchange but duplicates the calibration forward pass. Compare measured end-to-end time, peak unified memory, RDMA traffic, and restart behavior on a small number of layers before selecting the full-run schedule. In either design, write content-bound per-layer checkpoints and resume only from validated boundaries. A completed layer must record route coverage, quantization error, exact K4 packed tensor inventory, and the next replay frontier.
+The current distributed schedule runs sequential activation replay on rhea and sends routed projection quantization to moa through GPTQModel's authenticated, checkpointed remote EXL3 API. The coordinator also retains one local GPU slot. A real 128×128 K4 projection passed the cross-host request, result, and checkpoint-reuse path before the full run started. Source shards and the complete calibration selection are staged on both hosts, so the schedule can be revised using measured layer timings.
+
+Splitting prompts between hosts would require a per-layer synchronization barrier: each Spark would replay half the prompts, reduce every routed expert's additive Hessian, distribute the identical packed weights, then start the next layer. The two gate/up Hessians are 5,120×5,120 FP32 per expert; the down Hessian is 1,536×1,536. That is about 52 GiB of Hessian exchange per routed layer before protocol overhead. A naive two-host prompt split without reduction would change the calibration result. Measure replay time against that exchange before switching from the current schedule.
+
+`build_hybrid_source.py` makes a zero-copy checkpoint index with 3,909 native FP8 tensors and exactly 34,560 BF16 routed projection tensors. It excludes the 34,560 stale FP8 routed scale tensors. Its shard links must resolve inside the container, so mount `/home/tj/dots-note-source` at the same absolute path. `quantize_spark.py` streams source layers through GPTQModel's LazyTurtle and writes state and output only to Spark NVMe. `prepare_remote.py` creates the authenticated coordinator/worker configuration and a private token file. `remote_exl3_worker.py` implements the worker protocol. The model adapter is in the pinned GPTQModel submodule.
+
+Projection checkpoints are enabled on the coordinator and worker. A durable activation layer boundary is still needed for efficient restart after a coordinator failure; do not remove run state or source checkpoints while the quant is active.
 
 Layer 2 is an explicit progress milestone: notify the user when its quantization begins. Do not treat source transfer or calibration selection as reaching that milestone.
 

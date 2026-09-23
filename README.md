@@ -2,7 +2,7 @@
 
 This repository is building one Dots3 Note Preview checkpoint and a two-Spark vLLM recipe. The checkpoint will retain the [FP8 source](https://huggingface.co/dots-studio/dots3-note-prev-fp8) outside the routed language-model experts. Every routed expert `gate_proj`, `up_proj`, and `down_proj` weight in layers 1–45 will come from the [BF16 source](https://huggingface.co/dots-studio/dots3-note-prev) and use uniform EXL3 K4. Vision experts remain as supplied by the FP8 checkpoint. The target publication is [`wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1`](https://huggingface.co/wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1).
 
-**Status:** the quantized checkpoint and serving measurements are pending. The source audit and Dots3 calibration builder are prepared; no throughput values below are inferred from another model. Quantization uses rhea and moa. The RTX recipe begins after the Spark recipe is accepted.
+**Status (2026-09-23):** the distributed quantization run is active on rhea and moa. The quantized checkpoint and serving measurements are pending; no throughput values below are inferred from another model. The RTX recipe begins after the Spark recipe is accepted.
 
 ## Source and calibration
 
@@ -15,7 +15,7 @@ The [source audit](quantization/inspect_sources.py) checks the 46-layer, 256-exp
 
 The [calibration builder](quantization/build_calibration_corpus.py) adapts GLMRT's source-disjoint selection to Dots3 Note's non-thinking chat template. Its renderer was checked against the source `chat_template.jinja`. The first generated selection contains 1,437 calibration prompts / 1,081,453 prompt tokens, 89 held-out prompts / 67,466 tokens, and 146 screening prompts / 110,279 tokens. The manifest binds the tokenizer hash, builder revision, source groups, and split hashes. Calibration and held-out source groups must remain disjoint.
 
-Both Sparks have 121 GiB unified memory and local NVMe. The source checkpoint exceeds one Spark's memory, so the quantization forward pass must stream layers and persist a bounded replay frontier. The BF16 checkpoint interleaves layers across all 131 model shards; file-level layer partitioning does not reduce transfer volume. The two-host execution plan must partition at tensor or projection level, checkpoint activation and Hessian evidence, and quantize each expert's three projections at K4.
+Both Sparks have 121 GiB unified memory and local NVMe. The source checkpoint exceeds one Spark's memory, so GPTQModel streams layers through an indexed hybrid source. The BF16 checkpoint interleaves layers across all 131 model shards; file-level layer partitioning does not reduce transfer volume. The current run replays calibration prompts on rhea and distributes K4 expert projection work across rhea and moa. The cross-host K4 kernel and checkpoint-reuse path passed a live projection test. See the [quantization runbook](quantization/README.md) for the prompt-splitting tradeoff and remaining activation restart work.
 
 ## Serving target
 
