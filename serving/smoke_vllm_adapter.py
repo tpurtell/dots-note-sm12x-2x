@@ -20,6 +20,7 @@ def main() -> None:
     parser.add_argument("--fixture", type=Path, required=True)
     parser.add_argument("--b12x", type=Path, required=True)
     parser.add_argument("--experts", type=int, default=4)
+    parser.add_argument("--capacity", type=int)
     parser.add_argument("--graph", action="store_true")
     args = parser.parse_args()
     payload = load_file(args.fixture, device="cpu")
@@ -38,7 +39,7 @@ def main() -> None:
         exl3_params_dtype=torch.bfloat16,
         exl3_tp_size=2,
         exl3_tp_rank=0,
-        dots3_b12x_capacity=int(x.shape[0]),
+        dots3_b12x_capacity=args.capacity or int(x.shape[0]),
         top_k=int(ids.shape[1]),
         activation=MoEActivation.SILU,
         expert_map=None,
@@ -95,6 +96,10 @@ def main() -> None:
     max_abs = float(difference.max().item())
     if max_abs > 0.02 or not torch.isfinite(output).all():
         raise AssertionError(f"Dots3 vLLM adapter differs from B12x: {max_abs}")
+    one = method.apply(layer, x[:1], weights[:1], ids[:1], None, None)
+    one_max_abs = float((one - expected[:1]).abs().max().item())
+    if one_max_abs > 0.02:
+        raise AssertionError(f"one-token B12x route differs: {one_max_abs}")
     graph_max_abs = None
     if args.graph:
         eager = output.clone()
@@ -113,6 +118,8 @@ def main() -> None:
         "event": "dots3-vllm-adapter-smoke-complete",
         "shape": list(output.shape),
         "max_abs_vs_b12x_bf16": max_abs,
+        "one_token_max_abs_vs_b12x_bf16": one_max_abs,
+        "planned_capacity": layer.dots3_b12x_capacity,
         "graph_max_abs_vs_eager": graph_max_abs,
     }), flush=True)
 

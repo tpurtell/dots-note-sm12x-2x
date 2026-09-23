@@ -29,14 +29,24 @@ validator for this model.
 A four-expert fixture extracted from the layer-1 production checkpoints was
 run on a GB10 through the image's B12x K4 path. For four BF16 tokens with two
 routes each, comparison against GPTQModel's ExLlamaV3 projection kernel gave
-minimum output cosine 0.99999899, mean cosine 0.99999923, maximum absolute
-error 0.00866, and relative L2 error 0.000946. This is a small fused-MoE
+minimum output cosine 0.99999899 and relative L2 error 0.000946. A second
+fixture used eight experts and the model's real top-8 routing width: minimum
+output cosine 0.99999940, maximum absolute error 0.00352, and relative L2
+error 0.000905. This is a small fused-MoE
 parity test, not end-to-end model parity or a throughput claim. The exact
 hardware commands are `smoke_b12x_exl3.py` and `reference_exl3_k4.py`.
 The Dots3 vLLM adapter loaded the same per-expert tensors, returned the same
 BF16 result as the direct B12x test, and replayed a four-token CUDA graph with
-zero observed difference from eager execution. The real rank-3 Trellis tensor
-also passed the patched vLLM per-expert loader path.
+zero observed difference from eager execution for both route widths. The real
+rank-3 Trellis tensor also passed the patched vLLM per-expert loader path.
+The top-8 adapter additionally reused one eight-token plan for one-token and
+four-token live calls; both matched the direct BF16 output exactly.
+
+After the full service starts, run `qualify_prefix_xgrammar.py` on an otherwise
+idle endpoint. It records cold and repeated-prompt TTFT, prefix-cache query
+and hit counter deltas, and a constrained JSON response from xgrammar. Its
+result is accepted only when the repeated request records cache hits and the
+JSON response conforms to the requested schema.
 
 Full-model loading, block-FP8 core parity, padded DSA attention, prefix-cache
 hits, xgrammar requests, full-model CUDA graph replay, and the 85% memory target still
