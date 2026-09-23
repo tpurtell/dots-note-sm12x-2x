@@ -84,6 +84,7 @@ python3 serving/benchmarks/prefill.py --base-url http://rhea:8000/v1 --output .c
 python3 serving/benchmarks/context.py --base-url http://rhea:8000 --output .cache/bench/spark-context.jsonl
 python3 serving/benchmarks/retrieval.py --base-url http://rhea:8000 --output .cache/bench/spark-retrieval.jsonl
 python3 serving/benchmarks/tools.py --base-url http://rhea:8000 --output .cache/bench/spark-tools.jsonl
+python3 serving/benchmarks/multimodal.py --base-url http://rhea:8000 --output .cache/bench/spark-multimodal.json
 ```
 
 The scripts keep per-token SSE timestamps and server usage for their reported
