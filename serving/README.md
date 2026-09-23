@@ -80,6 +80,8 @@ python3 serving/benchmarks/workloads.py --suite seven --base-url http://rhea:800
 python3 serving/benchmarks/clients.py --base-url http://rhea:8000/v1 --output .cache/bench/spark-clients.json
 python3 serving/benchmarks/prefill.py --base-url http://rhea:8000/v1 --output .cache/bench/spark-prefill.json
 python3 serving/benchmarks/context.py --base-url http://rhea:8000 --output .cache/bench/spark-context.jsonl
+python3 serving/benchmarks/retrieval.py --base-url http://rhea:8000 --output .cache/bench/spark-retrieval.jsonl
+python3 serving/benchmarks/tools.py --base-url http://rhea:8000 --output .cache/bench/spark-tools.jsonl
 ```
 
 The scripts keep per-token SSE timestamps and server usage for their reported
