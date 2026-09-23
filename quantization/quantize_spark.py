@@ -47,6 +47,7 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--batch-size", type=int, default=1)
+    parser.add_argument("--calibration-device", choices=("cpu", "cuda:0"), default="cpu")
     parser.add_argument("--load-only", action="store_true")
     parser.add_argument("--benchmark-layer0", action="store_true")
     parser.add_argument("--remote-config", type=Path)
@@ -58,7 +59,8 @@ def main() -> None:
     args.state.mkdir(parents=True, exist_ok=True)
     os.environ.setdefault("GPTQMODEL_EXLLAMAV3_BUILD_ROOT", str(args.state / "jit" / "exllamav3"))
     os.environ.setdefault("GPTQMODEL_EXL3_ERROR_JOURNAL", str(args.state / "errors.jsonl"))
-    os.environ.setdefault("GPTQMODEL_EXL3_CAPTURE_FRONTIER", str(args.state / "capture-frontiers"))
+    if args.remote_config is not None:
+        os.environ.setdefault("GPTQMODEL_EXL3_CAPTURE_FRONTIER", str(args.state / "capture-frontiers"))
 
     import torch
     from gptqmodel import GPTQModel
@@ -83,7 +85,7 @@ def main() -> None:
         offload_to_disk=True,
         offload_to_disk_path=str(args.state / "offload"),
         device="cuda:0",
-        calibration_data_device="cpu",
+        calibration_data_device=args.calibration_device,
         dense_vram_strategy_devices=["cuda:0"],
         moe_vram_strategy="balanced",
         moe_vram_strategy_devices=["cuda:0"],

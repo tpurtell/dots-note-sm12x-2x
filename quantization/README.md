@@ -42,6 +42,14 @@ Splitting prompts between hosts would require a barrier at each subset of each l
 
 A bounded [layer-0 replay test](activation-batch-preflight.json) on moa used the first 128 prompts in native order. Excluding model load, batch size 1 took 18.08 seconds and batch size 4 took 23.07 seconds, so the production run retains batch size 1. This is a scheduling check, not a whole-model throughput claim.
 
+A second bounded [input-placement test](activation-device-preflight.json) kept
+the same first 128 prompts on the Spark GPU. It reduced layer-0 time from
+18.08 to 11.66 seconds. A routed-layer capture comparison was attempted but
+stopped before completion because loading its 256 BF16 experts would have
+overlapped production work on moa. The production run still uses CPU-held
+calibration inputs; the layer-0 result alone does not establish a routed-layer
+speedup.
+
 `build_hybrid_source.py` makes a zero-copy checkpoint index with 3,909 native FP8 tensors and exactly 34,560 BF16 routed projection tensors. It excludes the 34,560 stale FP8 routed scale tensors. Its shard links must resolve inside the container, so mount `/home/tj/dots-note-source` at the same absolute path. `quantize_spark.py` streams source layers through GPTQModel's LazyTurtle and writes state and output only to Spark NVMe. `prepare_remote.py` creates the authenticated coordinator/worker configuration and a private token file. `remote_exl3_worker.py` implements the worker protocol. The model adapter is in the pinned GPTQModel submodule.
 
 Projection checkpoints are enabled on the coordinator and worker. The coordinator also writes a rolling decoder-layer activation boundary after a complete routed layer, so a restart can resume at the next layer with the authenticated projection index. GPTQModel's subset Hessian frontier is enabled where its execution plan permits; gate/up captures that also produce forward outputs are not independently reusable. Do not remove run state or source checkpoints while the quant is active.

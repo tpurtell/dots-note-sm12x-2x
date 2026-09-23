@@ -1,0 +1,13 @@
+{
+  "schema": "dots3-spark-layer0-device-preflight-v1",
+  "host": "moa",
+  "gpu": "NVIDIA GB10",
+  "image_digest": "sha256:7d7f30ed44861f9ff964450d32a55f53e46f2cc1a4d69d481b77d684d2bd1acb",
+  "calibration_rows": "first 128 prompts in the committed Dots3 calibration selection",
+  "scope": "model load excluded; input capture and dense layer 0 replay included; batch size 1; stop before routed layer 1",
+  "measurements_seconds": {
+    "cpu_calibration_inputs": 18.07910049398197,
+    "cuda_calibration_inputs": 11.664680970017798
+  },
+  "interpretation": "CUDA-held inputs reduced bounded layer-0 time by 35.5%; this does not measure the routed expert capture or justify switching the production run."
+}
