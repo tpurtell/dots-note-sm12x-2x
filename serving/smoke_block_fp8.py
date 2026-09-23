@@ -4,20 +4,45 @@
 import argparse
 import json
 from pathlib import Path
+import statistics
 
 import torch
 from safetensors import safe_open
+from types import SimpleNamespace
 
 from b12x.gemm import block_fp8_linear as bfl
 from b12x.gemm import blockscaled
 from b12x.gemm._shared.wo_mxfp8 import empty_dense_gemm_mnl_view
 from b12x.preparation import PreparedCall, PreparationSession
+from vllm.config import VllmConfig, set_current_vllm_config
+from vllm.model_executor.layers.quantization.input_quant_fp8 import QuantFP8
+from vllm.model_executor.layers.quantization.utils.quant_utils import GroupShape
+from vllm.model_executor.layers.quantization.fp8 import (
+    create_fp8_quant_key,
+    init_fp8_linear_kernel,
+)
 
 
 def load(source: Path, name: str) -> torch.Tensor:
     index = json.loads((source / "model.safetensors.index.json").read_text())
     with safe_open(source / index["weight_map"][name], framework="pt", device="cpu") as shard:
         return shard.get_tensor(name)
+
+
+def timed(call, iterations: int = 30) -> list[float]:
+    for _ in range(5):
+        call()
+    torch.cuda.synchronize()
+    samples = []
+    for _ in range(iterations):
+        start = torch.cuda.Event(enable_timing=True)
+        end = torch.cuda.Event(enable_timing=True)
+        start.record()
+        call()
+        end.record()
+        end.synchronize()
+        samples.append(start.elapsed_time(end) * 1000)
+    return samples
 
 
 def main() -> None:
@@ -80,9 +105,12 @@ def main() -> None:
             "graph_max_abs_error": graph_error,
             "selected_config": str(plan.selection.config),
         }
-    blocks = x.float().view(1, 40, 128)
-    a_scale = (blocks.abs().amax(dim=-1) / 448.0).clamp_min(1e-12).contiguous()
-    a_values = (blocks / a_scale.unsqueeze(-1)).reshape(1, 5120).to(torch.float8_e4m3fn)
+    with set_current_vllm_config(VllmConfig()):
+        quantizer = QuantFP8(
+            static=False, group_shape=GroupShape(1, 128),
+            num_token_padding=None, use_ue8m0=False,
+        )
+        a_values, a_scale = quantizer(x, None, None, use_triton=False)
     exact_query = blockscaled.query_from_call(
         (a_values, a_scale), (weight, scale),
         ab_dtype="float8_e4m3fn", sf_dtype="float32", sf_vec_size=128,
@@ -129,6 +157,72 @@ def main() -> None:
             ),
             "exact_block_fp8_config": str(exact_plan.selection.config),
         })
+        def exact_from_bf16():
+            values, scales = quantizer(x, None, None, use_triton=False)
+            return blockscaled.mm_block_fp8(
+                values, scales, weight, scale, plan=exact_plan,
+            )
+
+        full_graph = torch.cuda.CUDAGraph()
+        with session.capture(), torch.cuda.graph(full_graph):
+            full_captured = exact_from_bf16()
+        full_graph.replay()
+        torch.cuda.synchronize()
+        result["exact_full_graph_max_abs_error"] = float(
+            (full_captured.float() - exact.float()).abs().max().item()
+        )
+        exact_us = timed(exact_from_bf16)
+    native_config = VllmConfig()
+    native_config.model_config = SimpleNamespace(
+        dtype=torch.bfloat16,
+        hf_text_config=SimpleNamespace(model_type="dots3_note"),
+    )
+    with set_current_vllm_config(native_config):
+        native = init_fp8_linear_kernel(
+            create_fp8_quant_key(static=False, group_shape=GroupShape(1, 128)),
+            create_fp8_quant_key(static=True, group_shape=GroupShape(128, 128)),
+            torch.bfloat16, torch.bfloat16, tuple(weight.shape),
+        )
+    layer = torch.nn.Module()
+    layer.register_parameter("weight", torch.nn.Parameter(weight.clone(), requires_grad=False))
+    layer.register_parameter("weight_scale_inv", torch.nn.Parameter(scale.clone(), requires_grad=False))
+    layer.weight_block_size = [128, 128]
+    layer.input_scale = None
+    native.process_weights_after_loading(layer)
+    native_output = native.apply_weights(layer, x)
+    torch.cuda.synchronize()
+    native_difference = (native_output.float() - exact_reference.float()).abs()
+    original_reference = (x.float() @ reference_weight.T).to(torch.bfloat16)
+    exact_original_difference = (exact.float() - original_reference.float()).abs()
+    native_original_difference = (native_output.float() - original_reference.float()).abs()
+    native_us = timed(lambda: native.apply_weights(layer, x))
+    result.update({
+        "native_kernel": type(native).__name__,
+        "native_cosine_against_source_fp8_reference": float(
+            torch.nn.functional.cosine_similarity(
+                native_output.float(), exact_reference.float()
+            ).item()
+        ),
+        "native_relative_l2_against_source_fp8_reference": float(
+            torch.linalg.vector_norm(native_difference)
+            / torch.linalg.vector_norm(exact_reference.float())
+        ),
+        "native_max_abs_error_against_source_fp8_reference": float(
+            native_difference.max().item()
+        ),
+        "exact_relative_l2_against_original_source": float(
+            torch.linalg.vector_norm(exact_original_difference)
+            / torch.linalg.vector_norm(original_reference.float())
+        ),
+        "native_relative_l2_against_original_source": float(
+            torch.linalg.vector_norm(native_original_difference)
+            / torch.linalg.vector_norm(original_reference.float())
+        ),
+        "exact_median_gpu_us": statistics.median(exact_us),
+        "native_median_gpu_us": statistics.median(native_us),
+        "exact_gpu_us": exact_us,
+        "native_gpu_us": native_us,
+    })
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result), flush=True)

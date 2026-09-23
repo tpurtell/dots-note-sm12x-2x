@@ -92,9 +92,14 @@ above pass with this combination; full-model qualification is pending.
 FP32 checkpoint scales into UE8M0 at runtime and showed about 3.3% relative L2
 difference from a dequantized-source reference for one BF16 token. The exact
 serialized block-FP8 path kept the checkpoint weight and scales unchanged;
-its output matched an explicit dequantized-FP8 reference in BF16 and CUDA
-graph replay matched eager output. The exact path is a candidate for the
-dense core after comparison with vLLM's native block-FP8 output and latency.
-The initial launch keeps native FP8 for dense projections. vLLM v0.30.0 also
-contains a B12x block-FP8 wrapper, but it calls an older plan-free API and
-needs adaptation before it can use this pinned B12x version.
+its output matched an explicit dequantized-FP8 reference in BF16 and the
+complete activation-quantization-plus-GEMM CUDA graph matched eager output.
+With vLLM's dynamic FP8 activation quantizer included in both timed paths,
+the exact B12x route took 82.7 microseconds median versus 64.4 microseconds
+for vLLM's selected DeepGEMM path on this one-token projection. Its relative
+L2 to the original BF16-input/FP8-weight reference was 2.58% versus 3.95%
+for DeepGEMM, which re-quantizes the checkpoint scales. These are one-shape
+component results. The initial launch keeps native FP8 for dense projections
+because the tested exact route is slower. vLLM v0.30.0 also contains a B12x
+block-FP8 wrapper, but it calls an older plan-free API and needs adaptation
+before it can use this pinned B12x version.
