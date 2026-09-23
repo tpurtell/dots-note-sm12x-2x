@@ -93,6 +93,12 @@ all timed decode seconds. The client script requires independently overlapping
 requests for C1, C2, C4, C8, and C16. No model performance number is accepted
 from the standalone component smokes.
 
+Run `capture_runtime.py dots3-vllm-head --output /path/to/rhea-runtime.json` on
+rhea and the same command with `dots3-vllm-worker` on moa. It keeps image,
+launch flags, selected startup lines, Docker memory use, system memory, and
+GPU inventory alongside the benchmark results. Use both receipts to check the
+0.85 memory-utilization target against actual unified-memory availability.
+
 Full-model loading, block-FP8 core parity, padded DSA attention, prefix-cache
 hits, xgrammar requests, full-model CUDA graph replay, and the 85% memory target still
 require the completed checkpoint.

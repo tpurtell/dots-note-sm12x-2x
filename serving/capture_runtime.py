@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""Capture auditable two-Spark vLLM startup and memory evidence."""
+
+import argparse
+import json
+import platform
+from pathlib import Path
+import subprocess
+import time
+
+
+ENVIRONMENT = {
+    "VLLM_HOST_IP", "NCCL_SOCKET_IFNAME", "GLOO_SOCKET_IFNAME",
+    "DOTS3_B12X_VOCAB", "CUTE_DSL_ARCH", "VLLM_EXL3_TRELLIS_MIN_M",
+    "VLLM_EXL3_PREFILL_TRELLIS", "OMP_NUM_THREADS",
+}
+LOG_MARKERS = (
+    "Model loading took", "GPU KV cache size:", "Available KV cache memory:",
+    "Graph capturing finished", "Captured CUDA graph", "Selected DeepGemm",
+    "Selected DeepGEMM", "B12x", "prefix caching", "xgrammar",
+)
+
+
+def command(*args: str) -> str:
+    return subprocess.check_output(args, text=True, stderr=subprocess.STDOUT)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("container")
+    parser.add_argument("--output", required=True, type=Path)
+    args = parser.parse_args()
+    if args.output.exists():
+        raise FileExistsError(args.output)
+    info = json.loads(command("docker", "inspect", args.container))[0]
+    logs = command("docker", "logs", args.container)
+    stats = command(
+        "docker", "stats", "--no-stream", "--format", "{{json .}}", args.container,
+    )
+    meminfo = {}
+    for line in Path("/proc/meminfo").read_text().splitlines():
+        key, _, value = line.partition(":")
+        if key in {"MemTotal", "MemFree", "MemAvailable", "SwapTotal", "SwapFree"}:
+            meminfo[key] = value.strip()
+    report = {
+        "schema": "dots3-spark-vllm-runtime-v1",
+        "captured_unix_seconds": time.time(),
+        "host": platform.node(),
+        "architecture": platform.machine(),
+        "container": args.container,
+        "image_id": info["Image"],
+        "args": info["Args"],
+        "started_at": info["State"]["StartedAt"],
+        "status": info["State"]["Status"],
+        "device_requests": info["HostConfig"]["DeviceRequests"],
+        "selected_environment": [
+            item for item in info["Config"]["Env"]
+            if item.split("=", 1)[0] in ENVIRONMENT
+        ],
+        "selected_startup_lines": [
+            line for line in logs.splitlines()
+            if any(marker in line for marker in LOG_MARKERS)
+        ],
+        "docker_stats": json.loads(stats),
+        "meminfo": meminfo,
+        "gpu_inventory_csv": command(
+            "nvidia-smi", "--query-gpu=index,name,uuid,driver_version,memory.total,power.limit",
+            "--format=csv,noheader",
+        ).splitlines(),
+    }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(report, indent=2) + "\n")
+    print(json.dumps({"event": "runtime-captured", "host": report["host"], "container": args.container}), flush=True)
+
+
+if __name__ == "__main__":
+    main()
