@@ -9,10 +9,19 @@ case "$(hostname -s)" in
   *) echo "This recipe is for rhea and moa only" >&2; exit 2 ;;
 esac
 
-model_revision="${MODEL_REVISION:?Set MODEL_REVISION to the accepted Hub commit}"
 hf_home="${HF_HOME:-$HOME/.cache/huggingface}"
 model_cache="models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1"
-model_snapshot="$hf_home/hub/$model_cache/snapshots/$model_revision"
+model_mount=()
+if [[ -n "${MODEL_DIR:-}" ]]; then
+  # A byte-audited staging export can be qualified before Hub publication.
+  model_snapshot="$(realpath -e "$MODEL_DIR")"
+  model_in_container=/model
+  model_mount=(-v "$model_snapshot:$model_in_container:ro")
+else
+  model_revision="${MODEL_REVISION:?Set MODEL_REVISION to the accepted Hub commit}"
+  model_snapshot="$hf_home/hub/$model_cache/snapshots/$model_revision"
+  model_in_container="/root/.cache/huggingface/hub/$model_cache/snapshots/$model_revision"
+fi
 if [[ ! -f "$model_snapshot/config.json" ]]; then
   echo "Missing accepted checkpoint at $model_snapshot" >&2
   exit 1
@@ -28,7 +37,6 @@ if docker ps -a --format '{{.Names}}' | rg -q "^${container}$"; then
   exit 1
 fi
 
-model_in_container="/root/.cache/huggingface/hub/$model_cache/snapshots/$model_revision"
 runtime_cache="${RUNTIME_CACHE:-$HOME/.cache/dots3-vllm}"
 mkdir -p "$runtime_cache" "$hf_home"
 
@@ -63,5 +71,6 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
   -e DOTS3_B12X_VOCAB=1 \
   -e OMP_NUM_THREADS="${CPU_THREADS:-8}" \
   -v "$hf_home:/root/.cache/huggingface:ro" \
+  "${model_mount[@]}" \
   -v "$runtime_cache:/root/.cache/vllm-runtime" \
   "${IMAGE:-dots3-vllm-spark:dev}" "${args[@]}" "$@"

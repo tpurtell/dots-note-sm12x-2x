@@ -9,9 +9,12 @@ imports the native Dots3 model and hybrid quantization config on moa.
 docker build -f serving/Dockerfile.spark -t dots3-vllm-spark:dev .
 ```
 
-After publishing and installing the accepted checkpoint into each Spark's
-Hugging Face cache, build the same image on both hosts. Set `MODEL_REVISION` to
-the Hub commit, start `start_spark_node.sh` on moa, then on rhea. The script
+After the strict export audit, copy the export to moa with `rdmasync` and set
+`MODEL_DIR` to the audited export on both hosts for prepublication model
+qualification. After publishing and installing the accepted checkpoint into
+each Spark's Hugging Face cache, set `MODEL_REVISION` to the Hub commit and
+unset `MODEL_DIR`. Build the same image on both hosts; start
+`start_spark_node.sh` on moa, then on rhea. The script
 uses the two verified 100 Gb/s RoCE interfaces at `10.55.1.5/6`, vLLM's
 multi-node multiprocessing executor, TP=2, explicit prefix caching, xgrammar,
 and a starting GPU memory utilization target of 0.85. It refuses to start
