@@ -82,7 +82,18 @@ Use `verify_artifact_files.py --artifact SNAPSHOT --manifest
 /home/tj/dots-note-work/state/acceptance/artifact-files.json` after copying to
 moa and after each Hugging Face cache download. It accepts the cache's file
 symlinks while checking the complete file set and every byte against the
-accepted export.
+accepted export. For a Hub snapshot, pass `--allow-extra .gitattributes` to
+permit the repository's LFS metadata file.
+
+`wait_accept_publish.sh` can remain running on rhea while quantization
+finishes. It waits for a successful container exit, runs the full acceptance
+gate, publishes the accepted export to the requested public Hub repository,
+and verifies an immutable revision in rhea's Hugging Face cache. It stops on
+any failed gate. The revision receipt is
+`/home/tj/dots-note-work/state/acceptance/hub-revision.txt`. Install that
+revision in moa's default cache and this project's `.cache/hf/hub`, then run
+the same artifact-file verifier against each snapshot before deleting run
+state or raw exports.
 
 The layer-1 boundary was committed with 1,437 BF16 activation shards (10,838,640,640 tensor bytes) and 768 indexed K4 projections. An independent pass verified every activation shard's size and xxh3 digest and the manifest SHA-256. A controlled restart on rhea then restored the boundary and resumed layer 2 without replaying the completed prefix. This is recovery evidence for the first routed boundary, not final artifact acceptance.
 

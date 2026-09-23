@@ -15,7 +15,7 @@ def digest(path: Path) -> str:
     return value.hexdigest()
 
 
-def verify(root: Path, manifest: dict) -> dict:
+def verify(root: Path, manifest: dict, *, allowed_extra: frozenset[str] = frozenset()) -> dict:
     if not root.is_dir():
         raise ValueError(f"artifact directory is missing: {root}")
     if manifest.get("schema") != "dots3-artifact-file-hashes-v1":
@@ -27,10 +27,11 @@ def verify(root: Path, manifest: dict) -> dict:
         path.relative_to(root).as_posix()
         for path in root.rglob("*") if path.is_file()
     }
-    if actual != set(expected):
+    extra = actual - set(expected)
+    if set(expected) - actual or extra - allowed_extra:
         raise ValueError(
             f"artifact file set differs: missing={sorted(set(expected) - actual)[:8]}, "
-            f"extra={sorted(actual - set(expected))[:8]}"
+            f"extra={sorted(extra - allowed_extra)[:8]}"
         )
     total = 0
     for name, row in expected.items():
@@ -45,7 +46,8 @@ def verify(root: Path, manifest: dict) -> dict:
     if total != manifest.get("total_bytes"):
         raise ValueError("artifact total byte count differs")
     return {"schema": "dots3-artifact-verification-v1", "root": str(root.resolve()),
-            "files": len(expected), "total_bytes": total, "verified": True}
+            "files": len(expected), "total_bytes": total,
+            "allowed_extra": sorted(extra), "verified": True}
 
 
 def main() -> None:
@@ -53,8 +55,11 @@ def main() -> None:
     parser.add_argument("--artifact", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--report", type=Path)
+    parser.add_argument("--allow-extra", action="append", default=[],
+                        help="Allow a named Hub metadata file such as .gitattributes")
     args = parser.parse_args()
-    result = verify(args.artifact, json.loads(args.manifest.read_text()))
+    result = verify(args.artifact, json.loads(args.manifest.read_text()),
+                    allowed_extra=frozenset(args.allow_extra))
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
