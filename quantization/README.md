@@ -60,6 +60,12 @@ uniform K4 Trellis, sign rotations and MCG marker, rejects leftover FP8 routed
 weights or scales, and compares the bytes of all preserved FP8 core tensors.
 Keep its JSON report with the publication receipts.
 
+Run `summarize_errors.py --journal /work/state/errors.jsonl --complete` after
+the last layer. It rejects duplicate or missing routed projections,
+nonuniform formats, incomplete Hessian metrics, and unexpected devices; its
+report records the rhea/moa projection split, recovery counts, and Hessian
+weighted errors. Omit `--complete` only for progress reports during the run.
+
 The layer-1 boundary was committed with 1,437 BF16 activation shards (10,838,640,640 tensor bytes) and 768 indexed K4 projections. An independent pass verified every activation shard's size and xxh3 digest and the manifest SHA-256. A controlled restart on rhea then restored the boundary and resumed layer 2 without replaying the completed prefix. This is recovery evidence for the first routed boundary, not final artifact acceptance.
 
 Layer 2 is an explicit progress milestone: notify the user when its quantization begins. Do not treat source transfer or calibration selection as reaching that milestone.
