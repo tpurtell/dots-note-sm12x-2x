@@ -158,7 +158,7 @@ def main() -> None:
         "Return a JSON object whose answer is the integer 42.", schema=schema,
     )
     value = json.loads(constrained["content"])
-    if set(value) != {"answer"} or type(value["answer"]) is not int:
+    if value != {"answer": 42} or type(value["answer"]) is not int:
         raise AssertionError(f"xgrammar response broke JSON schema: {value}")
     tool_result = forced_tool(base, args.model)
     result = {
