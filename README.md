@@ -29,6 +29,16 @@ Use B12x where its exact Dots3 geometry and semantics qualify: EXL3 MoE, dense p
 
 The tables use the workload families from the [Qwen3.8 Flash Next recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next). A dash means the workload has not been measured on this checkpoint.
 
+The available GB10 results are component checks, not whole-model throughput:
+
+| Component check | Measured result |
+| --- | --- |
+| Real K4 top-8 expert fixture versus GPTQModel ExLlamaV3 | Minimum cosine 0.99999940; relative L2 0.000905 |
+| Real TP=2 BF16 vocabulary shard, one-token GPU median | B12x 3.06 ms on each shard; PyTorch 3.18 / 3.14 ms |
+| Real FP8 core `q_a_proj`, exact-scale B12x versus dequantized-FP8 reference | BF16 output relative L2 0.0000114; CUDA graph replay difference 0 |
+
+The [serving component probes](serving/README.md) describe their input sizes and limits. No entry above represents an end-to-end Dots3 serving rate.
+
 | Measurement | 2× DGX Spark | 2× RTX PRO 6000 |
 | --- | ---: | ---: |
 | C1 seven-workload weighted decode, tokens/s | — | — |
