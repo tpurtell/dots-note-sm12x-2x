@@ -19,4 +19,4 @@ RUN python3 -c 'import b12x; from b12x.moe import fused_moe; assert fused_moe.is
 
 LABEL org.opencontainers.image.source="https://github.com/tpurtell/dots-note-sm12x-2x" \
       io.tpurtell.vllm.version="0.30.0" \
-      io.tpurtell.b12x.commit="4b0954148523b5a2e93813f963d483ffd350b9c9"
+      io.tpurtell.b12x.commit="45552aa1ee84e552ce2c6717da74442ba4ae8168"

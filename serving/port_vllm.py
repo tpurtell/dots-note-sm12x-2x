@@ -52,7 +52,7 @@ for name, digest in TARGETS.items():
             "            # EXL3 per-expert Trellis tiles also have rank three.\n"
             "            is_fused = (\n"
             "                loaded_weight.dim() == 3\n"
-            "                and self.quant_method.__class__.__name__ != \"Exl3MoEMethod\"\n"
+            "                and not getattr(self.quant_method, \"exl3_per_expert_trellis\", False)\n"
             "            )\n",
         )
     compile(updated, str(path), "exec")

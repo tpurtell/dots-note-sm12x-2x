@@ -1276,6 +1276,8 @@ _exl3_moe_weight_loader.supports_moe_loading = True  # type: ignore[attr-defined
 class Exl3MoEMethod(FusedMoEMethodBase):
     """Correctness MoE path: route, then use three dense EXL3 GEMMs/expert."""
 
+    exl3_per_expert_trellis = True
+
     def __init__(self, quant_config: Exl3Config, moe) -> None:
         super().__init__(moe)
         self.quant_config = quant_config
