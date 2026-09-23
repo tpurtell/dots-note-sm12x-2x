@@ -37,7 +37,7 @@ The available GB10 results are component checks, not whole-model throughput:
 | Real TP=2 BF16 vocabulary shard, one-token GPU median | B12x 3.06 ms on each shard; PyTorch 3.18 / 3.14 ms |
 | Real FP8 core `q_a_proj`, exact-scale B12x versus dequantized-FP8 reference | BF16 output relative L2 0.0000114; CUDA graph replay difference 0 |
 
-The [serving component probes](serving/README.md) describe their input sizes and limits. No entry above represents an end-to-end Dots3 serving rate.
+The [serving component probes](serving/README.md) describe their input sizes and limits; their raw vocabulary and FP8 samples are in [benchmarks/component](benchmarks/component). No entry above represents an end-to-end Dots3 serving rate.
 
 | Measurement | 2× DGX Spark | 2× RTX PRO 6000 |
 | --- | ---: | ---: |
