@@ -45,6 +45,12 @@ zero observed difference from eager execution for both route widths. The real
 rank-3 Trellis tensor also passed the patched vLLM per-expert loader path.
 The top-8 adapter additionally reused one eight-token plan for one-token and
 four-token live calls; both matched the direct BF16 output exactly.
+Before full-model startup, the same preparation path also completed with the
+launch capacity of 2,048 tokens and all 256 routed experts on GB10. That
+bounded geometry smoke replicated eight real layer-1 K4 experts to fill the
+256 slots, ran four live top-8 tokens, and returned finite outputs. Its
+[completion receipt](../benchmarks/component/capacity2048-full-geometry.log)
+is retained with the component evidence.
 
 The real TP=2 BF16 `lm_head` shards were checked with `smoke_vocab.py` on
 GB10. Both shards selected the B12x native single-token kernel, kept the

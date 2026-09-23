@@ -57,12 +57,20 @@ def main() -> None:
     parser.add_argument("--hidden", type=int, default=5120)
     parser.add_argument("--intermediate", type=int, default=768)
     parser.add_argument("--tokens", type=int, default=4)
+    parser.add_argument("--capacity", type=int)
     parser.add_argument("--top-k", type=int, default=2)
     parser.add_argument("--fixture", type=Path)
+    parser.add_argument("--fixture-experts", type=int)
     parser.add_argument("--save", type=Path)
     args = parser.parse_args()
     if args.top_k > args.experts:
         raise ValueError("top-k cannot exceed expert count")
+    capacity = args.tokens if args.capacity is None else args.capacity
+    if capacity < args.tokens:
+        raise ValueError("capacity must cover live tokens")
+    fixture_experts = args.experts if args.fixture_experts is None else args.fixture_experts
+    if args.fixture is not None and args.experts % fixture_experts:
+        raise ValueError("fixture expert count must divide target expert count")
     device = torch.device("cuda:0")
     source = fused_moe.Exl3TrellisSource(bits=4)
     activation = fused_moe.ActivationSpec(
@@ -80,7 +88,7 @@ def main() -> None:
     )
     e, h, n, bits = args.experts, args.hidden, args.intermediate, source.bits
     weights = (
-        fixture_weights(args.fixture, experts=e, hidden=h, intermediate=n, device=device)
+        fixture_weights(args.fixture, experts=fixture_experts, hidden=h, intermediate=n, device=device)
         if args.fixture is not None
         else fused_moe.Exl3TrellisWeights(
             w13=torch.zeros((2, e, h // 16, n // 16, 16 * bits), dtype=torch.int16, device=device),
@@ -92,10 +100,21 @@ def main() -> None:
             mcg=0xCBAC1FED,
         )
     )
+    if args.fixture is not None and fixture_experts != e:
+        copies = e // fixture_experts
+        weights = fused_moe.Exl3TrellisWeights(
+            w13=weights.w13.repeat(1, copies, 1, 1, 1).contiguous(),
+            w2=weights.w2.repeat(copies, 1, 1, 1).contiguous(),
+            gate_suh=weights.gate_suh.repeat(copies, 1).contiguous(),
+            up_suh=weights.up_suh.repeat(copies, 1).contiguous(),
+            intermediate_rotations=weights.intermediate_rotations.repeat(copies, 1).contiguous(),
+            down_svh=weights.down_svh.repeat(copies, 1).contiguous(),
+            mcg=weights.mcg,
+        )
     experts = fused_moe.prepare_weights(plan=weight_plan, weights=weights)
     plan = fused_moe.plan_execution(
         experts=experts,
-        capacity=fused_moe.ExecutionCapacity(max_tokens=args.tokens, top_k=args.top_k),
+        capacity=fused_moe.ExecutionCapacity(max_tokens=capacity, top_k=args.top_k),
     )
     x = torch.randn((args.tokens, h), dtype=torch.bfloat16, device=device)
     ids = torch.arange(args.tokens * args.top_k, dtype=torch.int32, device=device)
@@ -103,20 +122,30 @@ def main() -> None:
     route_weights = torch.full((args.tokens, args.top_k), 1 / args.top_k, dtype=torch.float32, device=device)
 
     def prepare(state):
+        dummy_x = torch.randn((capacity, h), dtype=torch.bfloat16, device=device)
+        dummy_ids = torch.arange(capacity * args.top_k, dtype=torch.int32, device=device)
+        dummy_ids = dummy_ids.reshape(capacity, args.top_k).remainder_(e).contiguous()
+        dummy_weights = torch.full(
+            (capacity, args.top_k), 1 / args.top_k,
+            dtype=torch.float32, device=device,
+        )
         scratch = tuple(
             torch.empty(spec.shape, dtype=spec.dtype, device=device)
             for spec in state.scratch.scratch_specs()
         )
-        output = torch.empty_like(x, dtype=torch.float32)
+        output = torch.empty_like(dummy_x, dtype=torch.float32)
         binding = state.bind(
             scratch=scratch,
-            a=x,
+            a=dummy_x,
             experts=experts,
-            topk_weights=route_weights,
-            topk_ids=ids,
+            topk_weights=dummy_weights,
+            topk_ids=dummy_ids,
             output=output,
         )
-        return PreparedCall(run=binding.run, output=output, owners=(scratch, binding))
+        return PreparedCall(
+            run=binding.run, output=output,
+            owners=(scratch, dummy_x, dummy_ids, dummy_weights, binding),
+        )
 
     with PreparationSession(device=device, autotune=False, compile_workers=2) as session:
         session.prepare((plan.request(name="dots3-uniform-exl3-k4", prepare_call=prepare),))
@@ -153,6 +182,7 @@ def main() -> None:
             "event": "b12x-exl3-k4-smoke-complete",
             "device": torch.cuda.get_device_name(0),
             "shape": list(result.shape),
+            "capacity": capacity,
             "max_abs": float(result.abs().max().item()),
         }), flush=True)
 
