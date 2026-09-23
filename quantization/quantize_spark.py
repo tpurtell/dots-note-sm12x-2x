@@ -8,6 +8,7 @@ hybrid built by build_hybrid_source.py; the source shards remain immutable.
 import argparse
 import json
 import os
+import time
 from pathlib import Path
 
 
@@ -15,6 +16,10 @@ EXPERT_PATTERN = (
     r"^model\.layers\.(?:[1-9]|[1-3][0-9]|4[0-5])\.mlp\.experts\.\d+\."
     r"(?:gate_proj|up_proj|down_proj)$"
 )
+
+
+class Layer0Complete(Exception):
+    """Intentional early exit for a bounded replay benchmark."""
 
 
 def calibration_texts(path: Path, limit: int | None) -> list[str]:
@@ -40,9 +45,13 @@ def main() -> None:
     parser.add_argument("--state", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--load-only", action="store_true")
+    parser.add_argument("--benchmark-layer0", action="store_true")
     parser.add_argument("--remote-config", type=Path)
     args = parser.parse_args()
+    if args.batch_size <= 0:
+        raise ValueError("batch size must be positive")
     if args.source.is_symlink() or args.state.is_symlink() or args.output.is_symlink():
         raise ValueError("source/state/output root must not be symbolic links")
     args.state.mkdir(parents=True, exist_ok=True)
@@ -90,7 +99,19 @@ def main() -> None:
         return
     texts = calibration_texts(args.calibration, args.limit)
     print(json.dumps({"event": "quantize-start", "prompts": len(texts)}), flush=True)
-    model.quantize(texts, batch_size=1, calibration_sort=None)
+    if args.benchmark_layer0:
+        def stop_before_routed_layer(_module, _name, layer_index, _config):
+            if layer_index >= 1:
+                raise Layer0Complete
+            return True
+
+        model.should_quantize_layer = stop_before_routed_layer
+    started = time.monotonic()
+    try:
+        model.quantize(texts, batch_size=args.batch_size, calibration_sort=None)
+    except Layer0Complete:
+        print(json.dumps({"event": "layer0-benchmark-complete", "prompts": len(texts), "batch_size": args.batch_size, "seconds": time.monotonic() - started}), flush=True)
+        return
     if args.output.exists() and any(args.output.iterdir()):
         raise ValueError("output directory must be empty before publication")
     args.output.mkdir(parents=True, exist_ok=True)

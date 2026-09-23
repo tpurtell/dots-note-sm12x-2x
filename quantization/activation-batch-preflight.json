@@ -1,0 +1,13 @@
+{
+  "schema": "dots3-spark-layer0-batch-preflight-v1",
+  "host": "moa",
+  "gpu": "NVIDIA GB10",
+  "image_digest": "sha256:7d7f30ed44861f9ff964450d32a55f53e46f2cc1a4d69d481b77d684d2bd1acb",
+  "calibration_rows": "first 128 prompts in the committed Dots3 calibration selection",
+  "scope": "model load excluded; input capture and dense layer 0 replay included; stop before routed layer 1",
+  "measurements_seconds": {
+    "batch_1": 18.07910049398197,
+    "batch_4": 23.068677906994708
+  },
+  "decision": "retain batch size 1 for the full native-order calibration run"
+}
