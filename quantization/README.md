@@ -54,7 +54,11 @@ speedup.
 
 Projection checkpoints are enabled on the coordinator and worker. The coordinator also writes a rolling decoder-layer activation boundary after a complete routed layer, so a restart can resume at the next layer with the authenticated projection index. GPTQModel's subset Hessian frontier is enabled where its execution plan permits; gate/up captures that also produce forward outputs are not independently reusable. Do not remove run state or source checkpoints while the quant is active.
 
-After export, run `audit_export.py` on rhea against its local FP8 source and
+After export, run `finalize_export.py` against rhea's local FP8 source. It
+fills any tokenizer, chat-template, license, or multimodal preprocessing assets
+omitted by the GPTQModel writer, while retaining files the writer generated.
+Keep its source/export SHA-256 inventory. Then run `audit_export.py` on rhea
+against its local FP8 source and
 the exported directory before upload. It checks every routed projection's
 uniform K4 Trellis, sign rotations and MCG marker, rejects leftover FP8 routed
 weights or scales, and compares the bytes of all preserved FP8 core tensors.
