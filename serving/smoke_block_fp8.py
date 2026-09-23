@@ -9,6 +9,7 @@ import torch
 from safetensors import safe_open
 
 from b12x.gemm import block_fp8_linear as bfl
+from b12x.gemm import blockscaled
 from b12x.gemm._shared.wo_mxfp8 import empty_dense_gemm_mnl_view
 from b12x.preparation import PreparedCall, PreparationSession
 
@@ -79,6 +80,55 @@ def main() -> None:
             "graph_max_abs_error": graph_error,
             "selected_config": str(plan.selection.config),
         }
+    blocks = x.float().view(1, 40, 128)
+    a_scale = (blocks.abs().amax(dim=-1) / 448.0).clamp_min(1e-12).contiguous()
+    a_values = (blocks / a_scale.unsqueeze(-1)).reshape(1, 5120).to(torch.float8_e4m3fn)
+    exact_query = blockscaled.query_from_call(
+        (a_values, a_scale), (weight, scale),
+        ab_dtype="float8_e4m3fn", sf_dtype="float32", sf_vec_size=128,
+        block_fp8=True, c_dtype="bfloat16",
+    )
+    exact_plan = blockscaled.plan(exact_query)
+
+    def prepare_exact(state):
+        return PreparedCall(run=lambda: state.run_serialized(
+            a_values, a_scale, weight, scale, None,
+            ab_dtype="float8_e4m3fn", sf_dtype="float32",
+            c_dtype="bfloat16", sf_vec_size=128,
+            block_fp8=True, stream=None,
+        ))
+
+    with PreparationSession(device=x.device, autotune=False, compile_workers=2) as session:
+        session.prepare((exact_plan.request(name="dots3-exact-block-fp8", prepare_call=prepare_exact),))
+        exact = blockscaled.mm_block_fp8(
+            a_values, a_scale, weight, scale, plan=exact_plan,
+        )
+        exact_reference = (
+            (a_values.float() * a_scale.repeat_interleave(128, 1))
+            @ reference_weight.T
+        ).to(torch.bfloat16)
+        graph = torch.cuda.CUDAGraph()
+        with session.capture(), torch.cuda.graph(graph):
+            captured_exact = blockscaled.mm_block_fp8(
+                a_values, a_scale, weight, scale, plan=exact_plan,
+            )
+        graph.replay()
+        torch.cuda.synchronize()
+        exact_difference = (exact.float() - exact_reference.float()).abs()
+        result.update({
+            "exact_block_fp8_cosine": float(torch.nn.functional.cosine_similarity(
+                exact.float(), exact_reference.float()
+            ).item()),
+            "exact_block_fp8_relative_l2": float(
+                torch.linalg.vector_norm(exact_difference)
+                / torch.linalg.vector_norm(exact_reference.float())
+            ),
+            "exact_block_fp8_max_abs_error": float(exact_difference.max().item()),
+            "exact_block_fp8_graph_max_abs_error": float(
+                (captured_exact.float() - exact.float()).abs().max().item()
+            ),
+            "exact_block_fp8_config": str(exact_plan.selection.config),
+        })
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result), flush=True)
