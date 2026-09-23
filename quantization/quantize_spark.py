@@ -57,6 +57,7 @@ def main() -> None:
     args.state.mkdir(parents=True, exist_ok=True)
     os.environ.setdefault("GPTQMODEL_EXLLAMAV3_BUILD_ROOT", str(args.state / "jit" / "exllamav3"))
     os.environ.setdefault("GPTQMODEL_EXL3_ERROR_JOURNAL", str(args.state / "errors.jsonl"))
+    os.environ.setdefault("GPTQMODEL_EXL3_CAPTURE_FRONTIER", str(args.state / "capture-frontiers"))
 
     import torch
     from gptqmodel import GPTQModel
