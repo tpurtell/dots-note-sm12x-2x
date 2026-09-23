@@ -20,6 +20,7 @@ spec.loader.exec_module(contracts)
 def request(base, model, prompt, max_tokens):
     payload = {"model": model, "messages": [{"role": "user", "content": prompt}],
                "temperature": 0, "max_tokens": max_tokens,
+               "chat_template_kwargs": {"enable_thinking": False},
                "stream": True, "stream_options": {"include_usage": True},
                "return_token_ids": True}
     started = time.perf_counter()

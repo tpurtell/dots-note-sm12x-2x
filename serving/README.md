@@ -70,7 +70,9 @@ JSON and tool responses conform to their requested schemas.
 
 The `benchmarks/` scripts adapt the same seven content contracts, independent
 client timing, exact-length prefill, and context scaling used in the adjacent
-Qwen recipe. Run them from a client while the server is otherwise idle and
+Qwen recipe. Chat workloads set the source model's `enable_thinking=False`
+template option to measure direct answers consistently with calibration.
+Run them from a client while the server is otherwise idle and
 retain the JSON/JSONL files under this project's `.cache/bench/` until the
 measurement is accepted. `context.py` and `prefill.py` start at 2K and 8K;
 pass longer depths only after the matching service context limit is qualified.

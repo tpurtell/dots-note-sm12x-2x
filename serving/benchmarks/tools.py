@@ -54,6 +54,7 @@ def main():
                                  {"role": "user", "content": "What is 7 times 8?" + (" Use the calculator." if mode == "auto" else "")}],
                     "tools": [tool], "tool_choice": mode if mode != "named" else {"type": "function", "function": {"name": "calculator"}},
                     "temperature": 0, "max_tokens": 1024,
+                    "chat_template_kwargs": {"enable_thinking": False},
                     "stream": streaming,
                 }
                 if streaming:

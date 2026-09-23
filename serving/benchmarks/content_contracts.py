@@ -222,11 +222,12 @@ def main() -> None:
             {
                 "model": args.model,
                 "messages": [{"role": "user", "content": case.prompt}],
+                "chat_template_kwargs": {"enable_thinking": False},
             },
         )
         payload = {
             "model": args.model,
-            # Use the model's native chat template for visible-answer contracts.
+            # Use the model's native direct-answer template for visible contracts.
             "prompt": render["token_ids"],
             "temperature": 0,
             "seed": args.seed,

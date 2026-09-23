@@ -39,6 +39,7 @@ def request_once(
                 ),
             }
         ],
+        "chat_template_kwargs": {"enable_thinking": False},
         "n": concurrency,
         "max_tokens": output_tokens,
         "min_tokens": output_tokens,

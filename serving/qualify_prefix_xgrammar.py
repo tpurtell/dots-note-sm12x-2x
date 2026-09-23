@@ -31,6 +31,7 @@ def chat(base: str, model: str, prompt: str, *, schema=None) -> dict:
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0,
         "max_tokens": 48,
+        "chat_template_kwargs": {"enable_thinking": False},
         "stream": True,
         "stream_options": {"include_usage": True},
     }
@@ -86,6 +87,7 @@ def forced_tool(base: str, model: str) -> dict:
         "messages": [{"role": "user", "content": "Use add_numbers to add 2 and 3."}],
         "temperature": 0,
         "max_tokens": 128,
+        "chat_template_kwargs": {"enable_thinking": False},
         "tools": [{
             "type": "function",
             "function": {
