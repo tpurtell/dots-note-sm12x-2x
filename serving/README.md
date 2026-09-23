@@ -57,6 +57,26 @@ and hit counter deltas, and a constrained JSON response from xgrammar. Its
 result is accepted only when the repeated request records cache hits and the
 JSON response conforms to the requested schema.
 
+The `benchmarks/` scripts adapt the same seven content contracts, independent
+client timing, exact-length prefill, and context scaling used in the adjacent
+Qwen recipe. Run them from a client while the server is otherwise idle and
+retain the JSON/JSONL files under this project's `.cache/bench/` until the
+measurement is accepted. `context.py` and `prefill.py` start at 2K and 8K;
+pass longer depths only after the matching service context limit is qualified.
+
+```bash
+python3 serving/benchmarks/workloads.py --suite seven --base-url http://rhea:8000 --output .cache/bench/spark-seven.jsonl
+python3 serving/benchmarks/clients.py --base-url http://rhea:8000/v1 --output .cache/bench/spark-clients.json
+python3 serving/benchmarks/prefill.py --base-url http://rhea:8000/v1 --output .cache/bench/spark-prefill.json
+python3 serving/benchmarks/context.py --base-url http://rhea:8000 --output .cache/bench/spark-context.jsonl
+```
+
+The scripts keep per-token SSE timestamps and server usage for their reported
+decode rates. The seven-workload summary divides all timed decode tokens by
+all timed decode seconds. The client script requires independently overlapping
+requests for C1, C2, C4, C8, and C16. No model performance number is accepted
+from the standalone component smokes.
+
 Full-model loading, block-FP8 core parity, padded DSA attention, prefix-cache
 hits, xgrammar requests, full-model CUDA graph replay, and the 85% memory target still
 require the completed checkpoint.
