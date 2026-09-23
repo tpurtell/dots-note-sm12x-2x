@@ -54,6 +54,12 @@ speedup.
 
 Projection checkpoints are enabled on the coordinator and worker. The coordinator also writes a rolling decoder-layer activation boundary after a complete routed layer, so a restart can resume at the next layer with the authenticated projection index. GPTQModel's subset Hessian frontier is enabled where its execution plan permits; gate/up captures that also produce forward outputs are not independently reusable. Do not remove run state or source checkpoints while the quant is active.
 
+After export, run `audit_export.py` on rhea against its local FP8 source and
+the exported directory before upload. It checks every routed projection's
+uniform K4 Trellis, sign rotations and MCG marker, rejects leftover FP8 routed
+weights or scales, and compares the bytes of all preserved FP8 core tensors.
+Keep its JSON report with the publication receipts.
+
 The layer-1 boundary was committed with 1,437 BF16 activation shards (10,838,640,640 tensor bytes) and 768 indexed K4 projections. An independent pass verified every activation shard's size and xxh3 digest and the manifest SHA-256. A controlled restart on rhea then restored the boundary and resumed layer 2 without replaying the completed prefix. This is recovery evidence for the first routed boundary, not final artifact acceptance.
 
 Layer 2 is an explicit progress milestone: notify the user when its quantization begins. Do not treat source transfer or calibration selection as reaching that milestone.
