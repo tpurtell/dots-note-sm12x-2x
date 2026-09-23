@@ -7,6 +7,7 @@ import hmac
 import json
 import os
 import threading
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from gptqmodel.utils.exl3_projection_checkpoint import EXL3ProjectionCheckpointStore
@@ -93,7 +94,9 @@ def main() -> None:
                 if envelope.get("schema") != REMOTE_REQUEST_SCHEMA or envelope.get("contract") != REMOTE_CONTRACT:
                     raise ValueError("invalid request envelope")
                 request = envelope.get("request")
+                queued_at = time.perf_counter()
                 with quantize_lock:
+                    queue_wait = time.perf_counter() - queued_at
                     packed, result, checkpoint_hit = execute_remote_projection(
                         request=request,
                         tensors=tensors,
@@ -101,6 +104,7 @@ def main() -> None:
                         worker_identity=identity,
                         checkpoint_store=store,
                     )
+                result = {**result, "worker_queue_wait_seconds": queue_wait}
                 response = encode_tensor_envelope(
                     {
                         "schema": REMOTE_RESULT_SCHEMA,

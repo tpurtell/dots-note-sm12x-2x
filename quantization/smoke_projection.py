@@ -55,6 +55,7 @@ def main() -> None:
         )
         assert set(packed) == {"trellis", "suh", "svh", "mcg"}
         assert bool(metadata["worker_checkpoint_hit"]) == bool(attempt)
+        assert isinstance(result.get("worker_queue_wait_seconds"), (int, float))
         print(json.dumps({"attempt": attempt, "duration_seconds": result["duration_seconds"], "checkpoint_hit": metadata["worker_checkpoint_hit"]}), flush=True)
 
 
