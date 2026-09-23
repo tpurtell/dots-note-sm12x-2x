@@ -86,3 +86,11 @@ require the completed checkpoint.
 The vLLM base currently ships Torch 2.13 and CuTe DSL 4.7.1 while the pinned
 B12x package declares CuTe DSL 4.6.2. The small GB10 parity and graph tests
 above pass with this combination; full-model qualification is pending.
+
+`smoke_block_fp8.py` also exercised B12x's block-FP8 path on the real layer-0
+`q_a_proj` weight and scale. CUDA graph replay was stable, but its output had
+0.99928 cosine and 3.80% relative L2 difference from a dequantized-source
+reference for one BF16 token. That path re-quantizes arbitrary FP32 checkpoint
+scales into UE8M0 at runtime. Native vLLM block-FP8 output and end-to-end
+quality still need comparison before using this optional dense path; the
+initial launch keeps the source FP8 method for dense projections.
