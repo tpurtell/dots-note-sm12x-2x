@@ -1,0 +1,9 @@
+**
+!serving/
+!serving/**
+!third_party/
+!third_party/sparkinfer-glmrt/
+!third_party/sparkinfer-glmrt/**
+third_party/sparkinfer-glmrt/.git
+third_party/sparkinfer-glmrt/**/__pycache__/
+serving/**/__pycache__/

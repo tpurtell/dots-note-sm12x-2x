@@ -1,0 +1,22 @@
+# syntax=docker/dockerfile:1.7
+ARG VLLM_IMAGE=vllm/vllm-openai@sha256:8a69ffad015f138d7170c4ddc429e230a3bc1c1719f67e14324749df200a4b90
+
+FROM ${VLLM_IMAGE}
+
+# The pinned EXL3 adapter is Apache-2.0 Python source from the vLLM fork.
+COPY serving/vendor/exl3.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/exl3.py
+COPY serving/dots3_exl3_fp8.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/dots3_exl3_fp8.py
+COPY serving/port_vllm.py /tmp/port_vllm.py
+RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
+ && python3 -c 'from vllm.model_executor.layers.quantization import get_quantization_config; assert get_quantization_config("exl3").__name__ == "Dots3HybridExl3Config"'
+
+COPY third_party/sparkinfer-glmrt /opt/b12x
+ENV PYTHONPATH=/opt/b12x \
+    CUTE_DSL_ARCH=sm_121a \
+    VLLM_EXL3_TRELLIS_MIN_M=1 \
+    VLLM_EXL3_PREFILL_TRELLIS=1
+RUN python3 -c 'import b12x; from b12x.moe import fused_moe; assert fused_moe.is_supported'
+
+LABEL org.opencontainers.image.source="https://github.com/tpurtell/dots-note-sm12x-2x" \
+      io.tpurtell.vllm.version="0.30.0" \
+      io.tpurtell.b12x.commit="4b0954148523b5a2e93813f963d483ffd350b9c9"
