@@ -22,6 +22,15 @@ if [[ ! -f "$export_root/model.safetensors.index.json" ]]; then
   echo "Quantized export has no safetensors index" >&2
   exit 1
 fi
+# GPTQModel writes the export as container root. Transfer ownership only after
+# a successful exit so host-side asset finalization and publication can write
+# to the accepted directory. The image is the exact one used by this run.
+if [[ "$(stat -c %u "$export_root")" != "$(id -u)" ]]; then
+  quant_image="$(docker inspect dots3-quant-rhea --format '{{.Config.Image}}')"
+  docker run --rm --network none --user 0 \
+    -v "$export_root:/artifact" --entrypoint /bin/chown "$quant_image" \
+    -R "$(id -u):$(id -g)" /artifact
+fi
 mkdir -p "$report_root"
 python3 "$recipe_root/summarize_errors.py" \
   --journal "$work_root/state/errors.jsonl" \
