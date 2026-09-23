@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import threading
 
 import torch
@@ -13,12 +14,68 @@ from vllm.model_executor.layers.fused_moe import MoEActivation, RoutedExperts
 from vllm.model_executor.layers.linear import LinearBase
 from vllm.model_executor.layers.quantization.exl3 import Exl3Config, Exl3MoEMethod
 from vllm.model_executor.layers.quantization.fp8 import Fp8Config
+from vllm.model_executor.layers.vocab_parallel_embedding import (
+    ParallelLMHead,
+    UnquantizedEmbeddingMethod,
+)
 
 
 _SCRATCH_LOCK = threading.Lock()
 _SCRATCH_BY_SPEC = {}
 _SESSION_LOCK = threading.Lock()
 _SESSIONS_BY_DEVICE = {}
+
+
+class Dots3B12xVocabMethod(UnquantizedEmbeddingMethod):
+    """Use the exact BF16 head shard for single-token B12x projection."""
+
+    def process_weights_after_loading(self, layer: ParallelLMHead) -> None:
+        super().process_weights_after_loading(layer)
+        weight = layer.weight
+        if (weight.device.type != "cuda" or weight.dtype != torch.bfloat16
+                or tuple(weight.shape) != (76032, 5120)
+                or not weight.is_contiguous()):
+            raise ValueError("Dots3 B12x vocabulary head requires a TP2 BF16 shard")
+        from b12x.gemm import bf16_vocab_projection as vocab
+        from b12x.preparation import PreparedCall, PreparationSession
+
+        plan = vocab.plan(vocab.Caps(
+            device=weight.device, max_tokens=1,
+            in_features=5120, out_features=76032,
+        ))
+        session_key = (weight.device.type, weight.device.index, threading.get_ident())
+        with _SESSION_LOCK:
+            session = _SESSIONS_BY_DEVICE.get(session_key)
+            if session is None:
+                session = PreparationSession(
+                    device=weight.device, autotune=False, compile_workers=2
+                )
+                _SESSIONS_BY_DEVICE[session_key] = session
+
+        def prepare(state):
+            source = torch.zeros((1, 5120), dtype=torch.bfloat16, device=weight.device)
+            binding = state.bind(plan=plan, source=source, weight=weight)
+            return PreparedCall(
+                run=lambda: state.run(binding.source, binding.weight),
+                owners=(source, binding),
+            )
+
+        session.prepare((
+            plan.request(name=f"dots3-vocab:{id(layer)}", prepare_call=prepare),
+        ))
+        if plan.selection is None or plan.selection.config.backend != "triton":
+            raise ValueError("Dots3 B12x vocabulary did not select a GPU kernel")
+        layer.dots3_b12x_vocab_plan = plan
+
+    def apply(self, layer, x, bias=None):
+        plan = getattr(layer, "dots3_b12x_vocab_plan", None)
+        if (plan is not None and bias is None and x.ndim == 2
+                and tuple(x.shape) == (1, 5120)
+                and x.dtype == torch.bfloat16 and x.is_contiguous()):
+            from b12x.gemm import bf16_vocab_projection as vocab
+
+            return vocab.run(vocab.bind(plan, source=x, weight=layer.weight))
+        return super().apply(layer, x, bias)
 
 
 class Dots3B12xExl3MoEMethod(Exl3MoEMethod):
@@ -240,6 +297,10 @@ class Dots3HybridExl3Config(Exl3Config):
         fp8 = self.fp8_core
         if fp8 is None:
             return super().get_quant_method(layer, prefix)
+        if isinstance(layer, ParallelLMHead):
+            if os.getenv("DOTS3_B12X_VOCAB", "0") == "1":
+                return Dots3B12xVocabMethod()
+            return UnquantizedEmbeddingMethod()
         if isinstance(layer, LinearBase) and not self._linear_prefix_is_exl3(prefix):
             return fp8.get_quant_method(layer, prefix)
         if isinstance(layer, RoutedExperts) and not self._moe_prefix_is_exl3(

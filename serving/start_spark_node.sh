@@ -60,6 +60,7 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
   -e NCCL_SOCKET_IFNAME='=enP2p1s0f0np0' \
   -e GLOO_SOCKET_IFNAME=enP2p1s0f0np0 \
   -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
+  -e DOTS3_B12X_VOCAB=1 \
   -e OMP_NUM_THREADS="${CPU_THREADS:-8}" \
   -v "$hf_home:/root/.cache/huggingface:ro" \
   -v "$runtime_cache:/root/.cache/vllm-runtime" \

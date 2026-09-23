@@ -42,6 +42,15 @@ rank-3 Trellis tensor also passed the patched vLLM per-expert loader path.
 The top-8 adapter additionally reused one eight-token plan for one-token and
 four-token live calls; both matched the direct BF16 output exactly.
 
+The real TP=2 BF16 `lm_head` shards were checked with `smoke_vocab.py` on
+GB10. Both shards selected the B12x native single-token kernel, kept the
+same top-20 token order as PyTorch, and replayed CUDA graphs with zero
+observed difference. The vLLM vocabulary method matched direct B12x output
+exactly. Isolated median GPU times were 3.06 ms for B12x on each shard,
+versus 3.18 and 3.14 ms for PyTorch. The launch enables this method only for
+single-token decode; other shapes use vLLM's ordinary BF16 projection. These
+component timings are not full-model decode measurements.
+
 After the full service starts, run `qualify_prefix_xgrammar.py` on an otherwise
 idle endpoint. It records cold and repeated-prompt TTFT, prefix-cache query
 and hit counter deltas, and a constrained JSON response from xgrammar. Its
