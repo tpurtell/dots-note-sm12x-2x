@@ -1,0 +1,8 @@
+[submodule "third_party/GPTQModel"]
+	path = third_party/GPTQModel
+	url = https://github.com/tpurtell/GPTQModel.git
+	branch = main
+[submodule "third_party/sparkinfer-glmrt"]
+	path = third_party/sparkinfer-glmrt
+	url = https://github.com/tpurtell/sparkinfer-glmrt.git
+	branch = master
