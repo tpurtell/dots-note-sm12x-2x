@@ -37,7 +37,7 @@ def main() -> None:
         "execution": EXL3RemoteClient.execution_contract(endpoint),
     }
     request = build_projection_request(
-        module_full_name="model.layers.1.mlp.experts.0.gate_proj",
+        module_full_name="smoke.projection",
         layer_index=1,
         input_weight=weight,
         hessian=hessian,
