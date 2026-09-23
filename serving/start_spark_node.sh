@@ -55,6 +55,8 @@ args=(
   --kv-cache-dtype fp8
   --enable-prefix-caching
   --structured-outputs-config '{"backend":"xgrammar"}'
+  --enable-auto-tool-choice
+  --tool-call-parser dots
 )
 if [[ "$role" == worker ]]; then
   args+=(--headless)

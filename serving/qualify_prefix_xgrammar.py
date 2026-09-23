@@ -80,6 +80,49 @@ def chat(base: str, model: str, prompt: str, *, schema=None) -> dict:
     }
 
 
+def forced_tool(base: str, model: str) -> dict:
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": "Use add_numbers to add 2 and 3."}],
+        "temperature": 0,
+        "max_tokens": 128,
+        "tools": [{
+            "type": "function",
+            "function": {
+                "name": "add_numbers",
+                "description": "Add two integers.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "a": {"type": "integer"},
+                        "b": {"type": "integer"},
+                    },
+                    "required": ["a", "b"],
+                    "additionalProperties": False,
+                },
+                "strict": True,
+            },
+        }],
+        "tool_choice": {"type": "function", "function": {"name": "add_numbers"}},
+    }
+    request = Request(
+        base + "/v1/chat/completions",
+        data=json.dumps(payload).encode(),
+        headers={"Content-Type": "application/json"},
+    )
+    with urlopen(request, timeout=900) as response:
+        body = json.load(response)
+    choice = body["choices"][0]
+    calls = choice["message"].get("tool_calls") or []
+    if len(calls) != 1 or calls[0].get("type") != "function":
+        raise AssertionError(f"forced Dots tool call was not returned: {calls}")
+    function = calls[0]["function"]
+    args = json.loads(function["arguments"])
+    if function["name"] != "add_numbers" or args != {"a": 2, "b": 3}:
+        raise AssertionError(f"forced Dots tool arguments were invalid: {function}")
+    return {"choice": choice, "usage": body.get("usage"), "arguments": args}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base-url", default="http://127.0.0.1:8000")
@@ -117,6 +160,7 @@ def main() -> None:
     value = json.loads(constrained["content"])
     if set(value) != {"answer"} or type(value["answer"]) is not int:
         raise AssertionError(f"xgrammar response broke JSON schema: {value}")
+    tool_result = forced_tool(base, args.model)
     result = {
         "schema": "dots3-prefix-xgrammar-v1",
         "model": args.model,
@@ -130,6 +174,7 @@ def main() -> None:
         "warm_prefix_queries": warm_queries,
         "xgrammar": constrained,
         "xgrammar_json": value,
+        "forced_tool": tool_result,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n")
@@ -139,6 +184,7 @@ def main() -> None:
         "warm_prefix_queries": warm_queries,
         "cold_ttft_seconds": cold["ttft_seconds"],
         "warm_ttft_seconds": warm["ttft_seconds"],
+        "forced_tool_arguments": tool_result["arguments"],
     }), flush=True)
 
 

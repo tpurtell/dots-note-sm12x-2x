@@ -17,7 +17,8 @@ unset `MODEL_DIR`. Build the same image on both hosts; start
 `start_spark_node.sh` on moa, then on rhea. The script
 uses the two verified 100 Gb/s RoCE interfaces at `10.55.1.5/6`, vLLM's
 multi-node multiprocessing executor, TP=2, explicit prefix caching, xgrammar,
-and a starting GPU memory utilization target of 0.85. It refuses to start
+the native `dots` tool-call parser, and a starting GPU memory utilization
+target of 0.85. It refuses to start
 while the quantization containers are active. The initial 32K context and
 2048 batched-token settings are qualification settings; increase them after
 measured memory and prefix-cache checks.
@@ -56,9 +57,10 @@ component timings are not full-model decode measurements.
 
 After the full service starts, run `qualify_prefix_xgrammar.py` on an otherwise
 idle endpoint. It records cold and repeated-prompt TTFT, prefix-cache query
-and hit counter deltas, and a constrained JSON response from xgrammar. Its
+and hit counter deltas, a constrained JSON response from xgrammar, and a
+forced Dots-format function call with integer arguments. Its
 result is accepted only when the repeated request records cache hits and the
-JSON response conforms to the requested schema.
+JSON and tool responses conform to their requested schemas.
 
 The `benchmarks/` scripts adapt the same seven content contracts, independent
 client timing, exact-length prefill, and context scaling used in the adjacent
