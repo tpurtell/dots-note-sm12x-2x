@@ -1,0 +1,18 @@
+FROM ghcr.io/tpurtell/ds41rt-spark-expert:v9
+
+# Keep the NVIDIA GB10 PyTorch/CUDA build from the base image. The model
+# adapter and the Dots3 Transformers PR are bind mounted at runtime.
+RUN python3 -m pip install --no-cache-dir --no-deps \
+    'accelerate>=1.13.0' \
+    'device-smi>=0.5.7' \
+    'logbar>=0.4.14' \
+    'pypcre>=0.6.2' \
+    'tokenicer>=0.0.14' \
+    'defuser>=0.0.27' \
+    'threadpoolctl>=3.6.0' \
+    'maturin>=1.9.4' \
+    'tokenizers>=0.23.1,<0.24.0' \
+    'huggingface_hub>=1.14.0'
+
+ENV PYTHONPATH=/work/transformers/src:/work/GPTQModel:/work/recipe
+WORKDIR /work/recipe
