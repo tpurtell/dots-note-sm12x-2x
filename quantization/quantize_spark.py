@@ -149,6 +149,19 @@ def main() -> None:
         return
     if args.output.exists() and any(args.output.iterdir()):
         raise ValueError("output directory must be empty before publication")
+    boundary = getattr(model, "quantization_layer_boundary_checkpoint", None)
+    if boundary is not None:
+        # Deferred layers are metadata shells during calibration. Rebind their
+        # authenticated checkpoint files before save so GPTQModel can stream
+        # packed weights and preserve the native source tensors directly.
+        boundary.materialize_deferred_prefix(model=model, force=True)
+    packed_count = sum(
+        getattr(module, "QUANT_TYPE", None) == "exl3"
+        for module in model.model.modules()
+    )
+    if packed_count != 45 * 256 * 3:
+        raise RuntimeError(f"publication requires 34560 packed projections, found {packed_count}")
+    print(json.dumps({"event": "publication-checkpoints-bound", "projections": packed_count}), flush=True)
     args.output.mkdir(parents=True, exist_ok=True)
     model.save(str(args.output), max_shard_size="8GB")
     print(json.dumps({"event": "export-complete", "path": str(args.output)}), flush=True)
