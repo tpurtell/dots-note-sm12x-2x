@@ -69,6 +69,11 @@ def main():
         torch.cuda.set_device(0);device=torch.device('cuda:0')
         dist.init_process_group('gloo',timeout=timedelta(seconds=args.timeout))
         group=dist.group.WORLD
+        configs=[None,None]
+        dist.all_gather_object(configs, {'rows':args.rows,'trials':args.trials,
+            'hcas':args.hcas,'gid_index':args.gid_index,'timeout':args.timeout})
+        if configs[0]!=configs[1]:
+            raise RuntimeError(f'Rank probe configuration mismatch: {configs}')
         def barrier():
             dist.monitored_barrier(group=group,timeout=timedelta(seconds=args.timeout),wait_all_ranks=True)
         barrier()
