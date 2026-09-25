@@ -1,0 +1,174 @@
+{
+  "schema": "dots3-spark-gc-postwarm-development-v1",
+  "passed": true,
+  "release_qualification": false,
+  "image_id": "sha256:8ff5bd07a3bf10af89f7cbab47b2fe54f066a69df7bcb870e5641809e4389c03",
+  "boundary": {
+    "usage": {
+      "prompt_tokens": 524032,
+      "total_tokens": 524288,
+      "completion_tokens": 256
+    },
+    "ttft_seconds": 1071.0700301350003,
+    "decode_tps": 39.190433393652064,
+    "cached_tokens": null,
+    "nonce": "e4b24d5afbe84285a944eec35945e0cb",
+    "prompt_sha256": "372fe17d332bc1d84142b3d8e0aa55dc29ed743aa16232bfef267c6e73ebc585"
+  },
+  "memory": {
+    "rhea": {
+      "external_window_min_available_bytes": 4246147072,
+      "external_samples": 193,
+      "guard_full_log_min_available_bytes": 4155768832,
+      "guard_samples": 1514,
+      "guard_max_swap_used_bytes": 0
+    },
+    "moa": {
+      "external_window_min_available_bytes": 5727322112,
+      "external_samples": 193,
+      "guard_full_log_min_available_bytes": 5666922496,
+      "guard_samples": 1539,
+      "guard_max_swap_used_bytes": 0
+    }
+  },
+  "allocator_policy": {
+    "rhea": {
+      "phase": "after_compile_and_warmup_before_requests",
+      "per_process_fraction": 0.8999999999984694,
+      "settings": {
+        "PYTORCH_CUDA_ALLOC_CONF": "max_split_size_mb:17592186044415,garbage_collection_threshold:0.90",
+        "max_split_size": -1048576,
+        "garbage_collection_threshold": 0.9,
+        "expandable_segments": false,
+        "pinned_num_register_threads": 1,
+        "release_lock_on_cudamalloc": false,
+        "pinned_use_cuda_host_register": false,
+        "graph_capture_record_stream_reuse": false,
+        "max_round_threshold": -1,
+        "max_cached_size": -1,
+        "roundup_power2_divisions": {
+          "1": 0,
+          "2": 0,
+          "4": 0,
+          "8": 0,
+          "16": 0,
+          "32": 0,
+          "64": 0,
+          "128": 0,
+          "256": 0,
+          "512": 0,
+          "1024": 0,
+          "2048": 0,
+          "4096": 0,
+          "8192": 0,
+          "16384": 0,
+          "32768": 0
+        }
+      },
+      "previous_settings": {
+        "PYTORCH_CUDA_ALLOC_CONF": "max_split_size_mb:17592186044415",
+        "max_split_size": -1048576,
+        "garbage_collection_threshold": 0.0,
+        "expandable_segments": false,
+        "pinned_num_register_threads": 1,
+        "release_lock_on_cudamalloc": false,
+        "pinned_use_cuda_host_register": false,
+        "graph_capture_record_stream_reuse": false,
+        "max_round_threshold": -1,
+        "max_cached_size": -1,
+        "roundup_power2_divisions": {
+          "1": 0,
+          "2": 0,
+          "4": 0,
+          "8": 0,
+          "16": 0,
+          "32": 0,
+          "64": 0,
+          "128": 0,
+          "256": 0,
+          "512": 0,
+          "1024": 0,
+          "2048": 0,
+          "4096": 0,
+          "8192": 0,
+          "16384": 0,
+          "32768": 0
+        }
+      },
+      "total_device_bytes": 130661203968,
+      "allocator_ceiling_bytes": 117595083571,
+      "reclamation_threshold_bytes": 105835575213
+    },
+    "moa": {
+      "phase": "after_compile_and_warmup_before_requests",
+      "per_process_fraction": 0.8999999999984694,
+      "settings": {
+        "PYTORCH_CUDA_ALLOC_CONF": "max_split_size_mb:17592186044415,garbage_collection_threshold:0.90",
+        "max_split_size": -1048576,
+        "garbage_collection_threshold": 0.9,
+        "expandable_segments": false,
+        "pinned_num_register_threads": 1,
+        "release_lock_on_cudamalloc": false,
+        "pinned_use_cuda_host_register": false,
+        "graph_capture_record_stream_reuse": false,
+        "max_round_threshold": -1,
+        "max_cached_size": -1,
+        "roundup_power2_divisions": {
+          "1": 0,
+          "2": 0,
+          "4": 0,
+          "8": 0,
+          "16": 0,
+          "32": 0,
+          "64": 0,
+          "128": 0,
+          "256": 0,
+          "512": 0,
+          "1024": 0,
+          "2048": 0,
+          "4096": 0,
+          "8192": 0,
+          "16384": 0,
+          "32768": 0
+        }
+      },
+      "previous_settings": {
+        "PYTORCH_CUDA_ALLOC_CONF": "max_split_size_mb:17592186044415",
+        "max_split_size": -1048576,
+        "garbage_collection_threshold": 0.0,
+        "expandable_segments": false,
+        "pinned_num_register_threads": 1,
+        "release_lock_on_cudamalloc": false,
+        "pinned_use_cuda_host_register": false,
+        "graph_capture_record_stream_reuse": false,
+        "max_round_threshold": -1,
+        "max_cached_size": -1,
+        "roundup_power2_divisions": {
+          "1": 0,
+          "2": 0,
+          "4": 0,
+          "8": 0,
+          "16": 0,
+          "32": 0,
+          "64": 0,
+          "128": 0,
+          "256": 0,
+          "512": 0,
+          "1024": 0,
+          "2048": 0,
+          "4096": 0,
+          "8192": 0,
+          "16384": 0,
+          "32768": 0
+        }
+      },
+      "total_device_bytes": 130661203968,
+      "allocator_ceiling_bytes": 117595083571,
+      "reclamation_threshold_bytes": 105835575213
+    }
+  },
+  "capacity_tokens": 3586490,
+  "scope": "One diagnostic-image forced-output boundary, not a final-digest measurement or a quality test.",
+  "production_delta": "Metadata/atomic policy receipt addition and removal of diagnostic sampling thread; production identity must be bound separately.",
+  "confound": "Actual KV capacity 3,586,490 differs from older approximately 2.79M configuration; cannot isolate GC-only performance or capacity improvement."
+}

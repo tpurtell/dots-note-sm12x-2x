@@ -1,0 +1,180 @@
+{
+  "schema": "lossless-development-archive-v1",
+  "files": [
+    {
+      "source": ".cache/serving/spark/context-diagnostic-gc90-postwarm-524.jsonl",
+      "archive": "context-diagnostic-gc90-postwarm-524.jsonl.gz",
+      "bytes": 6830,
+      "sha256": "ef82f8b72002020fabc1eeef5577b4c5a4bbcab34c80797fa09a3eed241ab37e",
+      "gzip_sha256": "3ad75260f3bc0724d8adc31cbc6e93dba777c57ffae5e841c7f4754447030905"
+    },
+    {
+      "source": ".cache/serving/spark/context-diagnostic-gc90-postwarm-524.log",
+      "archive": "context-diagnostic-gc90-postwarm-524.log.gz",
+      "bytes": 98,
+      "sha256": "24fb1dd787d6fe7e309cea4f74ceb8c9514d85c42673b95a416a862c57c85eb6",
+      "gzip_sha256": "000cebc5ee9c4d6ed95a0656f818519b660c06502eee9b44e0e4904584293428"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-external.jsonl",
+      "archive": "diagnostic-gc90-external.jsonl.gz",
+      "bytes": 101591,
+      "sha256": "16c7337b3fa8c8fc5a73cff5cf7161f5828a32b6d5cef20136ab65ec22113e5c",
+      "gzip_sha256": "ecff566e9a3af03a50a080f83e9c7364eaa4828d19f22e33fdbb1c2e4180e026"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-policy.json",
+      "archive": "diagnostic-gc90-postwarm-policy.json.gz",
+      "bytes": 3701,
+      "sha256": "fb1ab463035bcf5c1b1ee6983e8cdb3b3d00e7568ed30aa24de17ba91b9cc837",
+      "gzip_sha256": "40277466c3bae192fcde9839759a790d508532e0d4c177cbd12765f700efdbac"
+    },
+    {
+      "source": ".cache/serving/spark/memory-diagnostic-gc90-postwarm-attestation.json",
+      "archive": "memory-diagnostic-gc90-postwarm-attestation.json.gz",
+      "bytes": 290210,
+      "sha256": "12943f50ec1d4a638b8f59630f4aef3d9cfa226af363c979321de12d82c0219a",
+      "gzip_sha256": "1d161101c173bc8b7af091609e44c9199c5d6a33eb2ce73dfec9e1bc9aa411e3"
+    },
+    {
+      "source": ".cache/serving/spark/launch-memory-diagnostic-gc90-postwarm.sh",
+      "archive": "launch-memory-diagnostic-gc90-postwarm.sh.gz",
+      "bytes": 1168,
+      "sha256": "7e025e455566abfd91b92fd7d8e14010db9d064b65a4287bcf2b9a74cf9a8ba0",
+      "gzip_sha256": "6a48254825762b952b726aaabb30996deed153d4c58a9c01a7767f642d117899"
+    },
+    {
+      "source": ".cache/serving/spark/monitor-diagnostic-gc90.py",
+      "archive": "monitor-diagnostic-gc90.py.gz",
+      "bytes": 1424,
+      "sha256": "85666c3f329af6e6d52628ab7f7a51c98087480c64031d37f41c1b19837e62c5",
+      "gzip_sha256": "896d66ee639a62140eb192e38e19ebe8a3b09a03ae1850664f01712c46d38ef6"
+    },
+    {
+      "source": ".cache/serving/spark/run-gc90-boundary.py",
+      "archive": "run-gc90-boundary.py.gz",
+      "bytes": 1783,
+      "sha256": "97c3ce074387e90449578caefc0c98f0b7de84ddec7da58f3235b3713b792117",
+      "gzip_sha256": "456019eeef36ae2dc121abb0b293587df83f813a21f8d9a4620786e039285ea6"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-rank0.jsonl",
+      "archive": "diagnostic-gc90-postwarm-rank0.jsonl.gz",
+      "bytes": 5535453,
+      "sha256": "cb9fa9683c45123dad03d6177f696aa3230a91698f03fdeae9a1a9c2324a5225",
+      "gzip_sha256": "e274dc8f83aea95b3f3085dc45513f79dd1f64e56aae576dac32e5be002a09ff"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-rank1.jsonl",
+      "archive": "diagnostic-gc90-postwarm-rank1.jsonl.gz",
+      "bytes": 5604964,
+      "sha256": "0dc0199b0e3a3fa6fb94254103e6120840afef2ab0c2feeaebb3835a747a2f89",
+      "gzip_sha256": "360bc6494cd6ac151d497507074a247bc54f4188feb64a43992fb95458a1f269"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-rhea-startup.log",
+      "archive": "diagnostic-gc90-postwarm-rhea-startup.log.gz",
+      "bytes": 74763,
+      "sha256": "29ac5b9cd062715621390c51334903f1776ad975ab6de15f8bb91932def30404",
+      "gzip_sha256": "4409c03b375022ec87cbf31fb745a4d3a90c20f20acb56a1fb5e0a32c6ee23ea"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-gc90-boundary-rhea.json",
+      "archive": "runtime-gc90-boundary-rhea.json.gz",
+      "bytes": 325660,
+      "sha256": "a7b0af138ed34f9f5a42b7948131dce4a144116223b645219140a76112d41b75",
+      "gzip_sha256": "2828957c4cbe486985c44a80177b833741003c254760e4ed4448d1ada36fea63"
+    },
+    {
+      "source": ".cache/serving/spark/gc90-boundary-rhea-final.log",
+      "archive": "gc90-boundary-rhea-final.log.gz",
+      "bytes": 92364,
+      "sha256": "a6a92a3d0fd842eefc994d7d4726ceee4cd9888d3c1a45b12c98cf9df5695680",
+      "gzip_sha256": "5e8be85df945c31b8997e66a33beab7d9ade768e9fa6f55b89ba069fd1de4c44"
+    },
+    {
+      "source": ".cache/serving/spark/gc90-boundary-rhea-memory.log",
+      "archive": "gc90-boundary-rhea-memory.log.gz",
+      "bytes": 151551,
+      "sha256": "e49bec417838e3b5b1192cfa0e6748378de6e4ce68fb1f818a982aa1c70d7754",
+      "gzip_sha256": "1cc59374961f457b96d41d4aeddefc4a9dae3c68f82f30777db193b3e530a1bf"
+    },
+    {
+      "source": ".cache/serving/spark/gc90-boundary-rhea-inspect.json",
+      "archive": "gc90-boundary-rhea-inspect.json.gz",
+      "bytes": 23494,
+      "sha256": "e47ecf526a831185fddb893264bb0fb789741210f6a9e13e8b767ee3c2d5fbf5",
+      "gzip_sha256": "0187b442798dc7f0013642d9568bdc4ba917036e98f81d988e7530cb4bfc43c4"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-moa-startup.log",
+      "archive": "diagnostic-gc90-postwarm-moa-startup.log.gz",
+      "bytes": 36778,
+      "sha256": "5afe0c1154ce2bae45d19b56a4c6d41a99a238c7c8e4ba178bf04599df81684e",
+      "gzip_sha256": "ffcef48388d2a13a11e668b73a2c2a628dae122c49e2eb429f2ad99dcc9e7c89"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-gc90-boundary-moa.json",
+      "archive": "runtime-gc90-boundary-moa.json.gz",
+      "bytes": 4625,
+      "sha256": "d22791976b9a6d3836f326b77456b97603e5fd800f53686a4647d30190adc6f5",
+      "gzip_sha256": "60bf99eeb49d53e75931b93f592f8d7c4bb84897c037fd5cf57a8d7739417af7"
+    },
+    {
+      "source": ".cache/serving/spark/gc90-boundary-moa-final.log",
+      "archive": "gc90-boundary-moa-final.log.gz",
+      "bytes": 37436,
+      "sha256": "7b7a9b0a087ee9eb85f755cafcd7399246d72fbe6eb5c2a06fc22a2250d0eba4",
+      "gzip_sha256": "51460c75ae447f8f6864942e9acf00cb9b91117a309009ec10b8a7a7065d541e"
+    },
+    {
+      "source": ".cache/serving/spark/gc90-boundary-moa-memory.log",
+      "archive": "gc90-boundary-moa-memory.log.gz",
+      "bytes": 153959,
+      "sha256": "4b4733d0d179778f30ded56a0670fac3477fa5706859fb4044bb1a83e277cf33",
+      "gzip_sha256": "ee471e26537032d7923b251dd6b26b0848ed127912f1ed6afc4a91f3449780a8"
+    },
+    {
+      "source": ".cache/serving/spark/gc90-boundary-moa-inspect.json",
+      "archive": "gc90-boundary-moa-inspect.json.gz",
+      "bytes": 24688,
+      "sha256": "0b1e00a730eea4f1a80f0f15697b303e4a439fd8c01306c796863be2e033ab52",
+      "gzip_sha256": "c6c11ab0e5a60133d1f469ac2b207bfa9573364eac14cc496a4aedc0477e32df"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-image/Dockerfile",
+      "archive": "diagnostic-gc90-postwarm-image--Dockerfile.gz",
+      "bytes": 330,
+      "sha256": "d62dad5bd2bc81958da67b609c8dc2d3c6088a158dd6d494b6ecd5bc9de1a93e",
+      "gzip_sha256": "c9df21a1fbea9825ed71486e078fab6946b7234ce66148bbc17211e09f121f45"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-image/allocator_policy.py",
+      "archive": "diagnostic-gc90-postwarm-image--allocator_policy.py.gz",
+      "bytes": 2703,
+      "sha256": "aa5f08ce09dbb11d3a7b3ae8c320de607b3f46e466a6e393c6eaae1629e77376",
+      "gzip_sha256": "a5d8a81f5d27f0512fd63ba54a7840d47f00e0cdb1298a559c5a678bfee67a2c"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-image/port_allocator_policy.py",
+      "archive": "diagnostic-gc90-postwarm-image--port_allocator_policy.py.gz",
+      "bytes": 629,
+      "sha256": "f1cd8fbab95027646a595d0bc78d0b5d636a3bf35e795dd0d6315373993dbe0b",
+      "gzip_sha256": "70ed41f4d48bcaab3c55ca119c12642c48c659be3ed33640c33a8a04a152ba90"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-image/isolated-policy-final-rhea.log",
+      "archive": "diagnostic-gc90-postwarm-image--isolated-policy-final-rhea.log.gz",
+      "bytes": 1414,
+      "sha256": "b6d6a7953ff4a9c02d6e8287955402abcddfcac0696bfe61234822d793bec4d6",
+      "gzip_sha256": "0224efe68f77949b89e6c70f8f6a17a9185b425e15da5361e3684cd94923952e"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-gc90-postwarm-image/build-transfer.log",
+      "archive": "diagnostic-gc90-postwarm-image--build-transfer.log.gz",
+      "bytes": 1081,
+      "sha256": "ee1d20cfd7fde117a4df861ae3a0152c8159ad133766e17c17dbb0e2c07b5d02",
+      "gzip_sha256": "0ae5b06e3b02e619066124fed99aa19152c87ca641cadc4cfa5c87fa02b57e8d"
+    }
+  ]
+}
