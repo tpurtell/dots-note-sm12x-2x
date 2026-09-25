@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "status": "rejected; not adopted",
+  "scope": "Same-cut startup memory experiment; no performance traffic",
+  "parent_image": "sha256:e54f202f986cf5d041f37588759c57252fec0867ff5eaafc8dd31f29f1879ad1",
+  "candidate_image": "sha256:1df1525ce2179191ef57f9f1ea86d1f626b39eec35b98c923cb74b8ce5eb82cf",
+  "source_commit": "4189ca0",
+  "flag": "VLLM_INDEXER_PROFILE_HOLD_LOGITS=1",
+  "comparison": [
+    {
+      "rank": 0,
+      "baseline": {
+        "inactive_split_bytes": 1660634112,
+        "kv_budget_bytes": 7144300135,
+        "peak_activation_memory_bytes": 5204805632
+      },
+      "candidate": {
+        "inactive_split_bytes": 5418730496,
+        "kv_budget_bytes": 2849332839,
+        "peak_activation_memory_bytes": 5741676544
+      }
+    },
+    {
+      "rank": 1,
+      "baseline": {
+        "inactive_split_bytes": 3247663616,
+        "kv_budget_bytes": 9744827597,
+        "peak_activation_memory_bytes": 5384210432
+      },
+      "candidate": {
+        "inactive_split_bytes": 3247663616,
+        "kv_budget_bytes": 9207956685,
+        "peak_activation_memory_bytes": 5921081344
+      }
+    }
+  ],
+  "baseline_archive": "../rtx-hybrid-allocator-profile",
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-lifetime18.json",
+      "archive": "runtime-lifetime18.json.gz",
+      "bytes": 321423,
+      "sha256": "29d3edd3b08ea38c87894ed85fbea2117d1e94485dc27260b12b489f4bce63d7",
+      "gzip_sha256": "dc21f9845d5da016b8fcaeb2b24ce7084bf706f1f759f8714f8af33aaf89c5f2"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-lifetime18.log",
+      "archive": "container-lifetime18.log.gz",
+      "bytes": 190057,
+      "sha256": "ad77992423aba2f7f38b58c3a08549b9e8c1df346243a700dcd8b8f71520ebce",
+      "gzip_sha256": "45ee6db55b276c6040d29f515f7cbc2134b7fa9679e0d3ed4cfc02b7391f3440"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/launch-lifetime18.json",
+      "archive": "launch-lifetime18.json.gz",
+      "bytes": 1024,
+      "sha256": "b0d406cfdffa1f38b3a11d01550b779c19f7835637e2eeb42bc4a0c5f8a3ee4d",
+      "gzip_sha256": "13c9d2e50984d96a3322b79f88199ff0435d70fbaf19cacb4ab7ef6468a15783"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-lifetime18.log",
+      "archive": "start-lifetime18.log.gz",
+      "bytes": 65,
+      "sha256": "7a0c56e3326e58751d57491b7e9e2d6e9da9171adcc012d4256437161e1a2bad",
+      "gzip_sha256": "1f8383a9d2694dcf9e32eda8d2b9b4e0414908b7709cbfd43a1ed0c9a5a67417"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-lifetime18.json",
+      "archive": "runtime-ownership-lifetime18.json.gz",
+      "bytes": 286593,
+      "sha256": "e4210c4d727c7acd205c56e1c0ec1d659dc2972fb17887d9480c712afc360ee6",
+      "gzip_sha256": "06ddf5ae3087c1715f494979b73587c11622569bdf0b5a540f9e4ddc8f3d0c8f"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-profile-lifetime-v1-provenance.json",
+      "archive": "build-profile-lifetime-v1-provenance.json.gz",
+      "bytes": 426,
+      "sha256": "39d9f17f87dbe2a44f0f31580575487aabf8db6963366e48183efb56056f0ed1",
+      "gzip_sha256": "74777a93209f547b266e62ab4e5a3b67421b74d22b691aaa411a9bc8daf24e81"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-profile-lifetime-v1.log",
+      "archive": "build-profile-lifetime-v1.log.gz",
+      "bytes": 1963,
+      "sha256": "5f7e3c3a63841abc7b31e1cd5429b12a4cb644981205ddff8498e48ca546ba9b",
+      "gzip_sha256": "ff7711d80499ea59dbf81c724063576292aac989ec8c1bb836761e5fb26d96f3"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/profile-lifetime-build/Dockerfile",
+      "archive": "profile-lifetime-build-Dockerfile.gz",
+      "bytes": 360,
+      "sha256": "196405858335fdbf0c62e2f047c2fdd02ecf4671bd57e02ea8e51eb7a4b62961",
+      "gzip_sha256": "b3908ef444dae8d4c85a5a5ec961927deceb494dab9578f2bd6582889d4c1751"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/profile-lifetime-build/port_indexer_profile_lifetime.py",
+      "archive": "profile-lifetime-build-port_indexer_profile_lifetime.py.gz",
+      "bytes": 1736,
+      "sha256": "339dc6ca942dbb8bfd8ccf1be842851789c17a5346047893aa934214f86762bc",
+      "gzip_sha256": "d6577af0562c1c4ec34927b1caff19d390bb4f2adf0b78886941e468e299e5e8"
+    }
+  ]
+}

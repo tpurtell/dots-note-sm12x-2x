@@ -85,3 +85,7 @@ MTP depth, context limit, sequence limit and memory utilization identical.
 
 These screens do not establish maximum-context concurrency. Final release
 qualification must still exercise the selected profile at its context boundary.
+
+## Rejected indexer profiling lifetime change
+
+Holding the dummy logits allocation through one profile forward did not remove rank1 fragmentation and worsened rank0 capacity. Same-cut18 startup: rank0 inactive splits1.547→5.047GiB and KV6.654→2.654GiB; rank1 inactive splits stayed3.025GiB while peak increased512MiB. `VLLM_INDEXER_PROFILE_HOLD_LOGITS` is not adopted; `port_indexer_profile_lifetime.py` is a rejected experiment retained for reproducibility, not part of native image/launcher integration. [Raw comparison and provenance](../benchmarks/development/rtx-rejected-indexer-lifetime/manifest.json). No performance traffic or accepted fix is claimed.
