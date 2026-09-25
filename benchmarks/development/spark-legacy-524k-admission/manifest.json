@@ -1,0 +1,38 @@
+{
+  "scope": "Failed legacy padded-cache native524288 admission; MTP3 RoCE, .80, batch512, candidate-v3; no serving requests issued.",
+  "required_kv_gib": 9.09,
+  "available_kv_gib": 7.59,
+  "estimated_max_length": 437504,
+  "minimum_physical_available_gib": {
+    "rhea": 11.6143989563,
+    "moa": 12.7654724121
+  },
+  "guard_low_samples": 0,
+  "swap_used_bytes": 0,
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/legacy524-mtp3-80-moa-memory.log",
+      "artifact": "legacy524-mtp3-80-moa-memory.log.gz",
+      "source_sha256": "b74c9c388f957d40e22c691c5978a1f64f1c6c13bcc67a857a4638c1d8553311",
+      "artifact_sha256": "e71a219a42684ca745a7f3f5ad111bb4c5498c3e15687a3ff12c42f7e8b5ad17"
+    },
+    {
+      "source": ".cache/serving/spark/legacy524-mtp3-80-rhea-memory.log",
+      "artifact": "legacy524-mtp3-80-rhea-memory.log.gz",
+      "source_sha256": "9e93a1fddccaaa0212c891d9afab3dd533dbe43ec917fab6f332f88f8502d4dd",
+      "artifact_sha256": "66be388ebf9c0fc8bcb1f31d875cf2616334141ea02d60a0ee96e8d84b5134d2"
+    },
+    {
+      "source": ".cache/serving/spark/legacy524-mtp3-80-rhea.log",
+      "artifact": "legacy524-mtp3-80-rhea.log.gz",
+      "source_sha256": "c0053da3d29edf0621abdc109c28171e0eec73f526b9e78c1e9ad21d8d6b7b50",
+      "artifact_sha256": "2890344599addcd2ac8fb5921bd723556c9d567d71c40f4917939caca8fa71ea"
+    },
+    {
+      "source": ".cache/serving/spark/legacy524-mtp3-80-moa.log",
+      "artifact": "legacy524-mtp3-80-moa.log.gz",
+      "source_sha256": "3b92ebf56b8b056a0a02050d891eaac10d97a57fdc6a1ae09a5aff7b82e139d4",
+      "artifact_sha256": "1fae7f244c48fc8e676d26dd939a4832e4219eaa3928a830347c5594c145113d"
+    }
+  ]
+}
