@@ -341,3 +341,22 @@ Evidence: `seven-128k-mtp3.jsonl`, `tools-mtp3.jsonl`, `prefix-mtp3.json`,
 `multimodal-mtp3.json`, `clients-mtp3.json`, and `runtime-mtp3-initial.json`.
 MTP4 is now starting with the same 128K/0.94/512 settings; no final speculation
 default has been selected.
+
+MTP4 completed the seven-workload screen at 179.83 weighted tokens/s with
+19/21 content contracts. C1/2/4/8/16 screening rates were
+129.38/192.08/277.83/425.83/640.74 tokens/s. The reference sampled async coding
+task at task-only depth measured a 240.23 tokens/s median. Its fixed 256-token
+output measures speed, not generated-code correctness. The Dots3 coding-depth
+harness now uses vLLM's supported `/tokenize` chat interface.
+
+Spark target-only at 0.82 passed prefix/xgrammar, all eight tools, image/audio,
+and completed the repeated seven screen at 24.38 weighted tokens/s with 16/21
+content contracts. Rhea's available-memory minimum was about 8.5 GiB.
+Concurrency was deliberately deferred at this allocation. The next candidate
+uses 0.80 with MTP1 and native vocabulary projection to preserve headroom.
+
+Actual RTX graph FP8 probes preserve original FP32 weight scales. Q-B improved
+at rows 4/16/64/512 but lost slightly at row 1; output projection has no broadly
+useful gain. These component results do not establish a whole-model benefit.
+See `fp8-qb-graph.json` and `fp8-o-graph.json`. The optional exact path also
+differs from native DeepGemm scale rounding and must pass model qualification.

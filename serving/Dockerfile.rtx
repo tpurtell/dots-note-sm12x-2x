@@ -3,6 +3,10 @@ ARG VLLM_IMAGE=vllm/vllm-openai@sha256:8a69ffad015f138d7170c4ddc429e230a3bc1c171
 
 FROM ${VLLM_IMAGE}
 
+COPY serving/release/audio-requirements.txt /tmp/dots3-audio-requirements.txt
+RUN python3 -m pip install --no-deps --only-binary=:all: --require-hashes -r /tmp/dots3-audio-requirements.txt \
+ && python3 -c "import soundfile; assert soundfile.__version__ == '0.13.1'"
+
 # The pinned EXL3 adapter is Apache-2.0 Python source from the vLLM fork.
 COPY serving/vendor/exl3.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/exl3.py
 COPY serving/dots3_exl3_fp8.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/dots3_exl3_fp8.py

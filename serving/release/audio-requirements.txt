@@ -1,0 +1,6 @@
+# Native wheels include libsndfile; existing image supplies cffi and numpy.
+# Install into the runtime parent BEFORE qualification and cache export:
+# python3 -m pip install --no-deps --only-binary=:all: --require-hashes -r audio-requirements.txt
+soundfile==0.13.1 \
+    --hash=sha256:9c9e855f5a4d06ce4213f31918653ab7de0c5a8d8107cd2427e44b42df547deb \
+    --hash=sha256:03267c4e493315294834a0870f31dbb3b28a95561b80b134f0bd3cf2d5f0e618

@@ -27,10 +27,10 @@ if args.runs < 1 or args.warmups < 0 or args.output_tokens < 2:
     parser.error("require runs >= 1, warmups >= 0, output_tokens >= 2")
 base = args.base_url.rstrip("/").removesuffix("/v1")
 prompt = Path(__file__).with_name("code-agent-prompt.txt").read_text()
-rendered = bench.prefill.post_json(base, "/v1/chat/completions/render", {
+rendered = bench.prefill.post_json(base, "/tokenize", {
     "model": args.model, "messages": [{"role": "user", "content": prompt}],
     "chat_template_kwargs": {"enable_thinking": False}})
-base_ids = rendered["token_ids"]
+base_ids = rendered["tokens"]
 unit = "Slate rivers cross quiet valleys while copper clocks mark patient hours. This is ordinary context with no instructions.\n"
 filler_ids = bench.prefill.post_json(base, "/tokenize", {
     "model": args.model, "prompt": unit, "add_special_tokens": False})["tokens"]
