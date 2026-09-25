@@ -65,8 +65,11 @@ class Dots3B12xSparseImpl(Dots3NotePaddedSparseImpl):
         q_nope, q_rope = q
         cache = kv_c_and_k_pe_cache
         rows = q_rope.shape[0]
-        physical_records = (cache.shape[0] - 1) * (cache.stride(0) // 1088) + 64
-        key = (cache.device, self.capacity, cache.shape[0], physical_records)
+        record_width = cache.shape[-1]
+        if record_width not in (576, 1088) or cache.stride(0) % record_width:
+            raise ValueError("Dots3 cache must have aligned576 or1088-byte records")
+        physical_records = (cache.shape[0] - 1) * (cache.stride(0) // record_width) + 64
+        key = (cache.device, self.capacity, tuple(cache.shape), tuple(cache.stride()), physical_records)
         state = _STATES.get(key)
         if state is None:
             if torch.cuda.is_current_stream_capturing():
@@ -75,6 +78,7 @@ class Dots3B12xSparseImpl(Dots3NotePaddedSparseImpl):
                 device=cache.device, num_q_heads=64, tp_size=2,
                 max_q_rows=self.capacity, num_cache_blocks=cache.shape[0],
                 max_physical_records=physical_records, use_cuda_graph=True,
+                physical_record_width=record_width,
             ))
             query = torch.zeros((self.capacity, 64, 576), dtype=torch.bfloat16, device=cache.device)
             output = torch.empty((self.capacity, 64, 512), dtype=torch.bfloat16, device=cache.device)

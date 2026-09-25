@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """Exercise the real Dots3 vLLM-to-B12x sparse attention adapter."""
+import argparse
 from types import SimpleNamespace
 import torch
 from b12x.attention.sparse_mla import strided
 from vllm.models.dots3_note.nvidia.b12x_attention import Dots3B12xSparseImpl
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--compact", action="store_true", help="576-wide DSA in actual compact mixed-page block stride")
+args = parser.parse_args()
 
 torch.manual_seed(42)
 device = torch.device('cuda')
@@ -11,8 +16,14 @@ impl = object.__new__(Dots3B12xSparseImpl)
 impl.capacity = 4
 impl.topk_indices_buffer = torch.full((4, 2048), -1, dtype=torch.int32, device=device)
 impl.topk_indices_buffer[:, :64] = torch.arange(64, dtype=torch.int32, device=device)
-backing = (torch.randn(4, 3, 64, 1088, device=device) * 10).to(torch.float8_e4m3fn)
-cache = backing[:, 1]
+if args.compact:
+    # Actual14 DSA +14indexer pool, padded to a whole576-byte record.
+    # Layer7 gives a nonzero storage offset; neighboring pages remain untouched.
+    backing = (torch.randn(4 * 634752, device=device) * 10).to(torch.float8_e4m3fn)
+    cache = backing.as_strided((4, 64, 576), (634752, 576, 1), 7 * 64 * 576)
+else:
+    backing = (torch.randn(4, 3, 64, 1088, device=device) * 10).to(torch.float8_e4m3fn)
+    cache = backing[:, 1]
 meta = SimpleNamespace(
     req_id_per_token=torch.arange(4, dtype=torch.int32, device=device),
     block_table=torch.tensor([[0], [3], [1], [2]], dtype=torch.int32, device=device),
