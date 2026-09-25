@@ -694,3 +694,7 @@ per GPU, and preserving memory for native 524K context is the next priority.
 [Lossless outputs, matched baseline subset, build/source/runtime provenance and
 hashes](../benchmarks/development/rtx-swa-qb-priority/manifest.json) are archived.
 The screen is complete and will not be extended.
+
+## Matched hybrid allocator diagnostic
+
+Same-image profile18/profile17 counters isolate a rank1 reserved-memory difference dominated by inactive splits after profiling (about3.025 versus0.805GiB), while active allocation growth is about0.495GiB and non-Torch usage1.124GiB for both. Before-profile free-reserved proxies are0.840/0.830GiB. Allocation origin and the separate lifetime candidate remain under investigation. Profile17 completed12/12 coding tasks naturally with static checks. [Raw snapshots, counter hashes and coding evidence](../benchmarks/development/rtx-hybrid-allocator-profile/manifest.json).

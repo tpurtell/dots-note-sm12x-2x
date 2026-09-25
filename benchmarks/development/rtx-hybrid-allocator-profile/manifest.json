@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "scope": "Matched allocator diagnosis; lifetime-fix candidate not accepted by this evidence",
+  "image_id": "sha256:e54f202f986cf5d041f37588759c57252fec0867ff5eaafc8dd31f29f1879ad1",
+  "rank1_profile_summary": {
+    "18": {
+      "rank": 1,
+      "before_reserved_minus_allocated_bytes": 901671424,
+      "after_inactive_split_bytes": 3247663616,
+      "active_allocation_growth_bytes": 531300352,
+      "after_non_torch_bytes": 1207238656,
+      "kv_budget_bytes": 9744827597
+    },
+    "17": {
+      "rank": 1,
+      "before_reserved_minus_allocated_bytes": 890948608,
+      "after_inactive_split_bytes": 864013312,
+      "active_allocation_growth_bytes": 532348928,
+      "after_non_torch_bytes": 1207238656,
+      "kv_budget_bytes": 11951031501
+    }
+  },
+  "coding_profile17": {
+    "record": "summary",
+    "by_concurrency": {
+      "1": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.09741067000140902,
+        "median_completion_latency_seconds": 27.7420679055067,
+        "median_completed_latency_seconds": 27.7420679055067,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 162.5670932725153,
+        "wave_peak_overlap": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "aggregate_output_tps": 161.6345597786461
+      },
+      "2": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.12899749897769652,
+        "median_completion_latency_seconds": 32.943723968506674,
+        "median_completed_latency_seconds": 32.943723968506674,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 131.84520244758266,
+        "wave_peak_overlap": [
+          2,
+          2
+        ],
+        "aggregate_output_tps": 220.93806127592535
+      },
+      "4": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.23583286249777302,
+        "median_completion_latency_seconds": 39.437385816985625,
+        "median_completed_latency_seconds": 39.437385816985625,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 96.69546059517091,
+        "wave_peak_overlap": [
+          4
+        ],
+        "aggregate_output_tps": 326.3934669263293
+      }
+    }
+  },
+  "interpretation": "Post-profile inactive splits explain reserved-memory difference; allocation origin and any lifetime fix require separate experiments. Before-profile reserved-minus-allocated is a free-reserved proxy, not a directly sampled inactive-split counter.",
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-profile18.json",
+      "archive": "runtime-profile18.json.gz",
+      "bytes": 321422,
+      "sha256": "a41bb7f64474a25d434dfce4007b6eb44fd6e3fe12e71022ed789fbdf47a480d",
+      "gzip_sha256": "d7d5470978049326d460413c666ba4472a76f91660e41f90fccd4cca76b44f5b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-profile17.json",
+      "archive": "runtime-profile17.json.gz",
+      "bytes": 321465,
+      "sha256": "18310a5ae9c447a24d428b3db36de56b045b5411f6884eefbc06cd0eff5238ac",
+      "gzip_sha256": "10844b1cc95797f027cc1f3406ea309818ea299b4eac02442243e065c047e58b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-profile18.log",
+      "archive": "container-profile18.log.gz",
+      "bytes": 189914,
+      "sha256": "2750c3ed501c4f675b64ce83cae0ffeab62823b0e049837e5a64763279525317",
+      "gzip_sha256": "9f06caf359a61082ece08de82d900b1fcd4bc42b66a94e25b96b263036cacac2"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-profile17-complete.log",
+      "archive": "container-profile17-complete.log.gz",
+      "bytes": 235842,
+      "sha256": "bba80f0965ed783df4e715034ac972062e3536d3857ff3fc7f52fd8af78a1070",
+      "gzip_sha256": "6dc986c686233c2c76f2253d46cf970ac40de3bc1209363ba1b77435835a608e"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-profile17.jsonl",
+      "archive": "coding-profile17.jsonl.gz",
+      "bytes": 12548111,
+      "sha256": "a8c491323c96a2b8370641930102168f10d1aa592082982bbdc7d7b88707752c",
+      "gzip_sha256": "fd68656e7cff9c770c862285d0eb6140af84b8aef497c9cb339321deece44c29"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-profile17.log",
+      "archive": "coding-profile17.log.gz",
+      "bytes": 4362,
+      "sha256": "e01537186cad09a3bb9de31943868d5d4c78fca44e3e2aba23c99152d3e6e493",
+      "gzip_sha256": "5507ac2c5f8c188f3fa08ceddfb846e2675c718443cb0dc0505f2c4103885ab1"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/fragmentation-audit.json",
+      "archive": "fragmentation-audit.json.gz",
+      "bytes": 1474,
+      "sha256": "4bf0764f252a41c0c0c3488df4506bd26e6bbf777b346379458b26e9ece3a88e",
+      "gzip_sha256": "1957f4ed24a36fc817b98e73f1ae2836f14aa744d008902f39ec89bc7ad05de2"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/profile-memory-comparison.json",
+      "archive": "profile-memory-comparison.json.gz",
+      "bytes": 1902,
+      "sha256": "c70f93b76be994ec4fbf6751136d7cfce2c62d9112fded87fb8ad72c3237069b",
+      "gzip_sha256": "2aa275f48f95e3975dfce9ae9b43189456f9e150ed91181e166e96349bbaad63"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-profile18.json",
+      "archive": "runtime-ownership-profile18.json.gz",
+      "bytes": 286593,
+      "sha256": "2a4630fdb3bce22dca48260913db2ecfb46c87231caa13da2fae055949b9ae1e",
+      "gzip_sha256": "ec868940598b5c960f37f3144007b299ad076d18a2b9c21290949e1e82b90671"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-profile17.json",
+      "archive": "runtime-ownership-profile17.json.gz",
+      "bytes": 286638,
+      "sha256": "f8e97c35e0227d287b2cfe381551df7513e3b1d5a56112ced5da5ba7e3b4ddca",
+      "gzip_sha256": "b81d2c450f9952022936c32ef9cd0779792eb173f02eee4105fa606852f39242"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-profile18.log",
+      "archive": "start-profile18.log.gz",
+      "bytes": 65,
+      "sha256": "547bd90605c4c59b66314827cb2767ad0d31abe83b9bbe04e934131d99bcb371",
+      "gzip_sha256": "8ba7325ed4db389a53aea5406eda99acf0ecadc249e832309ddfcd884a0f1191"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-profile17.log",
+      "archive": "start-profile17.log.gz",
+      "bytes": 65,
+      "sha256": "2239090ac413ee86ac0782ba3c81fc1c7b98a0e5c96fa253499ff87bc1c0cc02",
+      "gzip_sha256": "901d6467e1485cd5047ed58bac2e06138696c148adab5b4b18525cb6e1ed8585"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/launch-profile17.json",
+      "archive": "launch-profile17.json.gz",
+      "bytes": 1022,
+      "sha256": "e8ac25081513fce3166080959887baa0e5579fca4491ef366466e19db4b75aad",
+      "gzip_sha256": "6df2ce3c78a11caed999a00d931bec19a9b8e29a6c6536caa07b1eb5a0e14e29"
+    }
+  ]
+}
