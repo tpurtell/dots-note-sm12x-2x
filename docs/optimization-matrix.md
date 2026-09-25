@@ -5,6 +5,32 @@ measurements on the named platform and qualification on its release image.
 References: [Brandon RTX recipe](https://github.com/tpurtell/glm-5.3-flash-ext3-4-bit-2x-rtx)
 and [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next).
 
+## Current hybrid release candidates
+
+The detailed ordinary-TP experiments below are historical controls. Current
+candidates use owner-local non-expert work and KV with **routed-expert TP2**,
+a **17/29** decoder cut, vision/audio owners **0/1**, native boundary tables,
+MTP3, batch **512**, and a native **524,288-token** context limit. Release
+acceptance still requires the complete published-image qualification.
+
+- **RTX:** retain narrow B12x SWA Q-B rows **4/8/16**, native vocabulary and
+  collectives, packed routing, fused packing, shared-expert overlap, and balanced
+  KV groups. The complete native build and public wrapper reproduce **2,004,801
+  accounted cache tokens**. Larger batch and boundary-owner decisions are
+  documented below. The final published-image run is in progress.
+- **Spark:** retain batch **512**, utilization **0.80**, and exactly **1 GiB**
+  physical host reserve. Batch 2048/4096 exceeded the allowed 200,000-token KV
+  loss. Batch 1024 passed the accounting limit but failed actual 128K prefill:
+  the memory guard terminated the head container after three low-headroom
+  samples. Its roughly 10% short-prefill improvement does not qualify it.
+  [Batch evidence](../benchmarks/development/spark-prefill-batch-gates/manifest.json).
+  Final native-image boundary validation and narrow SWA Q-B selection remain
+  in progress; RTX kernel gains must not be assumed on GB10.
+- **Both:** reject forced sparse MQA. Long-prefill MQA was already selected on
+  SM12; the flag changes the short dense shortcut, and does not remove the
+  hypothesized long-prefill expansion. See the explanation below and the
+  [qualification ledger](serving-progress.md).
+
 ## FP8 kernel choices
 
 The checkpoint remains uniform EXL3 K4 for routed experts with its original
