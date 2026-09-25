@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "scope": "Completed batch512 baseline and rejected2048/4096 admission experiments;1024measurement pending",
+  "scope": "Completed512/1024 prefill and rejected2048/4096 admission;1024coding pending",
   "image_id": "sha256:e54f202f986cf5d041f37588759c57252fec0867ff5eaafc8dd31f29f1879ad1",
   "batch512": {
     "kv_capacity_tokens": 2049116,
@@ -196,7 +196,193 @@
     "performance_measured": false
   },
   "batch1024": {
-    "status": "in progress; no results included"
+    "status": "prefill completed; coding still active and not archived; no final profile selection",
+    "kv_capacity_tokens": 1916645,
+    "capacity_loss_tokens": 132471,
+    "prefill": {
+      "schema": "dots3-prefill-depth.v1",
+      "nonce": "4c1e32ad85f04a78b73c6d31cab670b0",
+      "method": "C1 exact-length unique prompts; client request to first streamed token; server tokenization and one-token handoff included; no prefix reuse",
+      "model": "dots3-note-exl3-k4",
+      "quant_profile": "fp8-core-exl3-k4-routed",
+      "kv_cache_dtype": "fp8",
+      "runs_per_point": 3,
+      "points": [
+        {
+          "prompt_tokens": 8192,
+          "effective_prompt_tokens_per_second": {
+            "median": 4483.64770420738,
+            "min": 4473.47910044174,
+            "max": 4509.417592232985
+          },
+          "ttft_seconds": {
+            "median": 1.82708378098323,
+            "min": 1.8166425779927522,
+            "max": 1.83123689997592
+          },
+          "runs": [
+            {
+              "prompt_tokens": 8192,
+              "prompt_sha256": "8ce69b65d74e30fa9809bd09feab8412a08ac9211a6c7328a43fa507e8b85c98",
+              "usage": {
+                "prompt_tokens": 8192,
+                "total_tokens": 8193,
+                "completion_tokens": 1
+              },
+              "cached_tokens": null,
+              "ttft_seconds": 1.83123689997592,
+              "effective_prompt_tokens_per_second": 4473.47910044174
+            },
+            {
+              "prompt_tokens": 8192,
+              "prompt_sha256": "deed39d7b8804a2467e08ecddec3037352d2a2859d142dbd958835e0a60422c5",
+              "usage": {
+                "prompt_tokens": 8192,
+                "total_tokens": 8193,
+                "completion_tokens": 1
+              },
+              "cached_tokens": null,
+              "ttft_seconds": 1.8166425779927522,
+              "effective_prompt_tokens_per_second": 4509.417592232985
+            },
+            {
+              "prompt_tokens": 8192,
+              "prompt_sha256": "c81361df3219457168a0be40cec1d9752adac05064a6a356275cb3a01d8d08ff",
+              "usage": {
+                "prompt_tokens": 8192,
+                "total_tokens": 8193,
+                "completion_tokens": 1
+              },
+              "cached_tokens": null,
+              "ttft_seconds": 1.82708378098323,
+              "effective_prompt_tokens_per_second": 4483.64770420738
+            }
+          ]
+        },
+        {
+          "prompt_tokens": 32768,
+          "effective_prompt_tokens_per_second": {
+            "median": 4319.068402924387,
+            "min": 4279.183173820965,
+            "max": 4351.219317391455
+          },
+          "ttft_seconds": {
+            "median": 7.586821264005266,
+            "min": 7.530762668990064,
+            "max": 7.657536185986828
+          },
+          "runs": [
+            {
+              "prompt_tokens": 32768,
+              "prompt_sha256": "998a1bbd5228d9c3e77e67b3b31108e572a677c6cb82ade46a92e596d362bd87",
+              "usage": {
+                "prompt_tokens": 32768,
+                "total_tokens": 32769,
+                "completion_tokens": 1
+              },
+              "cached_tokens": null,
+              "ttft_seconds": 7.530762668990064,
+              "effective_prompt_tokens_per_second": 4351.219317391455
+            },
+            {
+              "prompt_tokens": 32768,
+              "prompt_sha256": "a1302ab7a62d189020758daca083366d90442b81d3468c34e0d04c84e06d6214",
+              "usage": {
+                "prompt_tokens": 32768,
+                "total_tokens": 32769,
+                "completion_tokens": 1
+              },
+              "cached_tokens": null,
+              "ttft_seconds": 7.586821264005266,
+              "effective_prompt_tokens_per_second": 4319.068402924387
+            },
+            {
+              "prompt_tokens": 32768,
+              "prompt_sha256": "4b0746f63bacb84114230649b466ec1f0ecc5314ec684465ef9fdd201f8adcfa",
+              "usage": {
+                "prompt_tokens": 32768,
+                "total_tokens": 32769,
+                "completion_tokens": 1
+              },
+              "cached_tokens": null,
+              "ttft_seconds": 7.657536185986828,
+              "effective_prompt_tokens_per_second": 4279.183173820965
+            }
+          ]
+        },
+        {
+          "prompt_tokens": 131072,
+          "effective_prompt_tokens_per_second": {
+            "median": 3631.782292949655,
+            "min": 3590.6629543108734,
+            "max": 3690.3428450167685
+          },
+          "ttft_seconds": {
+            "median": 36.09026902698679,
+            "min": 35.51756720300182,
+            "max": 36.5035654050007
+          },
+          "runs": [
+            {
+              "prompt_tokens": 131072,
+              "prompt_sha256": "65f07c6e6a40109e4f4137f93705b178e3cf2f2873f0896d62fd424762ed916d",
+              "usage": {
+                "prompt_tokens": 131072,
+                "total_tokens": 131073,
+                "completion_tokens": 1
+              },
+              "cached_tokens": null,
+              "ttft_seconds": 35.51756720300182,
+              "effective_prompt_tokens_per_second": 3690.3428450167685
+            },
+            {
+              "prompt_tokens": 131072,
+              "prompt_sha256": "6886efd49a91a977be1e754ac7c22c04da807863479144334a065a309e1dbb51",
+              "usage": {
+                "prompt_tokens": 131072,
+                "total_tokens": 131073,
+                "completion_tokens": 1
+              },
+              "cached_tokens": null,
+              "ttft_seconds": 36.09026902698679,
+              "effective_prompt_tokens_per_second": 3631.782292949655
+            },
+            {
+              "prompt_tokens": 131072,
+              "prompt_sha256": "9d80bb4471c458538b691d14997ffe23a562b1c2db09ea3a3108d45ccf3e5e0a",
+              "usage": {
+                "prompt_tokens": 131072,
+                "total_tokens": 131073,
+                "completion_tokens": 1
+              },
+              "cached_tokens": null,
+              "ttft_seconds": 36.5035654050007,
+              "effective_prompt_tokens_per_second": 3590.6629543108734
+            }
+          ]
+        }
+      ]
+    },
+    "comparison": [
+      {
+        "prompt_tokens": 8192,
+        "batch512_tps": 4108.74222041498,
+        "batch1024_tps": 4483.64770420738,
+        "change_percent": 9.124580313888252
+      },
+      {
+        "prompt_tokens": 32768,
+        "batch512_tps": 3927.7870755574045,
+        "batch1024_tps": 4319.068402924387,
+        "change_percent": 9.961877256583573
+      },
+      {
+        "prompt_tokens": 131072,
+        "batch512_tps": 3305.4165825824953,
+        "batch1024_tps": 3631.782292949655,
+        "change_percent": 9.87366349182448
+      }
+    ]
   },
   "limitations": [
     "Client prompt tokens divided by TTFT includes tokenization and first-token handoff, not isolated kernel speed.",
@@ -300,6 +486,48 @@
       "bytes": 65,
       "sha256": "ad9ad3a6a4bf526709d3737d0913a7867ec8d471974ced03af06d21643fa0004",
       "gzip_sha256": "8ab8f0aa72dab512cd56511d9bc45697789d4ca98f3fbb3bc888f2245bf20f95"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefill17-b1024.json",
+      "archive": "prefill17-b1024.json.gz",
+      "bytes": 5378,
+      "sha256": "8f3fb29efbe3a7ba1b88832fd4443411ad32ee7b1e86586a450c9cf185d99496",
+      "gzip_sha256": "39e60b6f7f8f99e39251001beb8f303b9357bc60c943bdee9888ad67acb3450a"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefill17-b1024.log",
+      "archive": "prefill17-b1024.log.gz",
+      "bytes": 444,
+      "sha256": "4d3a0e15c4dd8158020e5ce3b80f1a0d46bde76ea4d6c0886773cfb8c88bad17",
+      "gzip_sha256": "6084536413d93ea1cfbc4d5fec284d4ecf79a0901e72ad7d2590d527c43c8a30"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-prefill17-b1024.json",
+      "archive": "runtime-prefill17-b1024.json.gz",
+      "bytes": 321502,
+      "sha256": "289dad6902ef88cda9fcc1ca502466e61a1382aa5e8f5e4a17be73c3c4ed795e",
+      "gzip_sha256": "3c75eac5b64767a34cb6997fb16d32344ad26308a08da78169f9edbdbc521d4b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/launch-prefill17-b1024.json",
+      "archive": "launch-prefill17-b1024.json.gz",
+      "bytes": 1035,
+      "sha256": "2d65f18886dffd3e30fa13040b8ee5c811002528e0a8ff045c629ec5433593c1",
+      "gzip_sha256": "2200c071a1839fa22f3f3d7d7613a60f4b971b0e7aa55a9a3eb5e9edd3625c7a"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-prefill17-b1024.log",
+      "archive": "start-prefill17-b1024.log.gz",
+      "bytes": 65,
+      "sha256": "6c0a83d8c66c22b68156a566aa7a75ad95b17596de428e99d6ab0e983b9f7be2",
+      "gzip_sha256": "51916385449aab21c80eaada93d07e0fd77738a570502dab09b11d320e9a7865"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-prefill17-b1024.json",
+      "archive": "runtime-ownership-prefill17-b1024.json.gz",
+      "bytes": 286640,
+      "sha256": "ab6234113b2e43d4cb84aa6aa9257c8a1f42fae2c368717b0aa6a01731635e79",
+      "gzip_sha256": "c8d64142fd0d15a0163171306fa205ba58e974fe84726b279b702c1e21d4946b"
     }
   ]
 }
