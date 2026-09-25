@@ -109,7 +109,7 @@ def reasoning_status(row):
             content+=piece
             saw_reasoning = saw_reasoning or bool(separate) or '<think>' in content or '</think>' in content
             closed='</think>' in content
-            split_answer=bool(piece and saw_reasoning and '<think>' not in content and not separate)
+            split_answer=bool(piece and saw_reasoning and '<think>' not in content)
             if boundary is None and (closed or split_answer):
                 boundary=item['seconds']; boundary_tokens=token_count
     finished=True if boundary is not None else (False if saw_reasoning else None)
