@@ -22,7 +22,7 @@ def main():
     scope={'os':os,'re':re,'Fp8LinearMethod':Native,'register_weight_loader_v2_supported_method':lambda cls:cls}
     exec(compile(ast.Module(body=nodes,type_ignores=[]),str(source),'exec'),scope)
     factory=scope['maybe_exact_fp8_method'];config=NS(weight_block_size=[128,128],activation_scheme='dynamic')
-    model=NS(layer_types=['deepseek_sparse_attention','sliding_attention'],num_hidden_layers=2)
+    model=NS(layer_types=['deepseek_sparse_attention','sliding_attention'],num_hidden_layers=2,model_type='dots3_note')
     cfg_module=NS(get_current_vllm_config=lambda:NS(model_config=NS(hf_text_config=model)))
     with patch.dict(sys.modules,{'vllm.config':cfg_module}):
         with patch.dict(os.environ,{'DOTS3_B12X_EXACT_FP8':''}):
@@ -46,6 +46,20 @@ def main():
             try:factory(config,'model.layers.9.self_attn.o_proj')
             except ValueError:pass
             else:raise AssertionError('unknown layer silently classified')
+        # Actual native draft prefix omits mtp_block; Dots has one SWA draft.
+        model.layer_types=['deepseek_sparse_attention']*46
+        model.num_hidden_layers=46
+        with patch.dict(os.environ,{'DOTS3_B12X_EXACT_FP8':'swa_q_b_proj'}):
+            for prefix in ['model.layers.46.self_attn.q_b_proj','model.layers.46.mtp_block.self_attn.q_b_proj']:
+                assert factory(config,prefix) is not None
+            for index in (47,48):
+                try:factory(config,f'model.layers.{index}.self_attn.q_b_proj')
+                except ValueError:pass
+                else:raise AssertionError('unknown draft index accepted')
+            model.model_type='other_model'
+            try:factory(config,'model.layers.46.self_attn.q_b_proj')
+            except ValueError:pass
+            else:raise AssertionError('non-Dots draft accepted')
         for shape in [(12288,1024),(8192,1024),(24576,1024),(16384,1024)]:
             assert shape in scope['_GEOMETRIES']['q_b_proj']
         assert scope['_GEOMETRIES']['o_proj']=={(5120,8192),(5120,16384)}

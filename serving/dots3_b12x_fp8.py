@@ -40,7 +40,8 @@ def attention_type_for_prefix(prefix):
     types = model.layer_types
     if index < len(types):
         kind = types[index]
-    elif ('.mtp_block.self_attn.' in prefix and index == model.num_hidden_layers):
+    elif ('.self_attn.' in prefix and index == model.num_hidden_layers
+          and getattr(model,'model_type',None) == 'dots3_note'):
         # Dots3 draft constructor appends one SWA block to the target config.
         kind = 'sliding_attention'
     else:
