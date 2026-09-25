@@ -499,3 +499,25 @@ optional disabled EP/exact FP8 and the RoCE library fix) for native MTP3
 qualification. RTX is comparing MTP2/MTP3 with identical per-request nonce
 seeds and three C1/C16 samples at262K, reducing input variation in the final
 speculation decision.
+
+## RTX speculation selection
+
+The matched262K/0.95/512 comparison used identical payloads across all51
+measured requests, verified directly from preserved raw receipts. MTP2 median
+C1/C16 sampled-prose rates were138.99/774.39 tokens/s versus
+130.58/726.89 for MTP3. MTP3's separate seven workload mix was181.37 with
+17/21 contracts versus the MTP2 shared-primer169.92 with18/21. The balanced
+RTX release candidate therefore uses MTP2, retaining native FP8, native
+collectives and TP2. MTP3 remains a documented workload-dependent option.
+Evidence: `clients-mtp2-matched.json`, `clients-mtp3-matched.json`,
+`seven-262k-mtp3-shared.jsonl`, `runtime-mtp3-matched.json`.
+
+The Spark RoCE library fix and regression tests are now pinned in the parent.
+Current Spark candidate-v2 includes the audio dependency and shared primers,
+and is testing MTP3 with automatically launched host monitors. The new RoCE
+serving adapter is still being prepared; no whole-model communication gain
+has been claimed or selected.
+
+## User preference: agentic coding and reasoning at C1–C4
+
+The final default must prioritize coding/reasoning latency and useful throughput at C1, C2 and C4. Prose C16 and the seven-workload aggregate remain reporting data, not the main selection criterion. The preliminary RTX MTP2 choice is therefore provisional pending matched concurrent coding tests with actual thinking enabled. Existing reference coding-depth tests explicitly disable thinking and cannot establish this new preference.

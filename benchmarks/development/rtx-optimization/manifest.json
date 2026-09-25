@@ -1,0 +1,145 @@
+{
+  "schema": "dots3-development-evidence-v1",
+  "release_qualification": false,
+  "description": "Development optimization receipts; configurations and source builds differ across experiments. Matched MTP prose pair shares the runtime profile except MTP depth. Final defaults prioritize coding/reasoning C1-C4 and remain pending.",
+  "files": {
+    "clients-mtp2-matched.json.gz": {
+      "original_path": ".cache/serving/rtx/clients-mtp2-matched.json",
+      "raw_sha256": "59bc756a8abccd255db7c308a48af2fe8b0094b48da705fbe06dcf28a9dce38a",
+      "compressed_sha256": "7d95746771b12886d0424cbd0bf1c8bab513808ba87ad94ea912d75bf472a341",
+      "raw_bytes": 6022216
+    },
+    "clients-mtp3-matched.json.gz": {
+      "original_path": ".cache/serving/rtx/clients-mtp3-matched.json",
+      "raw_sha256": "9be8001c38f17855c6f3502095bb0af65028e95ee116fac1324ed70ec709f9bf",
+      "compressed_sha256": "006550098c102e9139eee4c45f8dabcac4d8ef84281d32014ecc8b84eae766c2",
+      "raw_bytes": 5696111
+    },
+    "runtime-mtp2-matched.json.gz": {
+      "original_path": ".cache/serving/rtx/runtime-mtp2-matched.json",
+      "raw_sha256": "f57503933e99cd683dc8912fcc0f573c87a8157843507dedc0c706a5af5ef632",
+      "compressed_sha256": "658cd8676aac63f988080c590b7803b52ee2d8a5d4156a547c2e70b5f4c13f3e",
+      "raw_bytes": 8414
+    },
+    "runtime-mtp3-matched.json.gz": {
+      "original_path": ".cache/serving/rtx/runtime-mtp3-matched.json",
+      "raw_sha256": "60e090c3d37f3746a06b60269eda5b39f2e290605938c1beccc4bcb323592a1f",
+      "compressed_sha256": "934b7ad9c07ebe9ec314d2937d6cbbe155a176f87bf8ca93f07bbcf59bf495fc",
+      "raw_bytes": 8425
+    },
+    "ep2-top8-gpu-check.json.gz": {
+      "original_path": ".cache/serving/rtx/ep2-top8-gpu-check.json",
+      "raw_sha256": "a9ec8eef9487e40f36fa2b591500fbc7c685d9e6aabb540d55173496b517f5a0",
+      "compressed_sha256": "6f6dd85b7374473ec1a61be170092a5efa9f5c9b52f936f12f91550ae5d11548",
+      "raw_bytes": 3786
+    },
+    "ep2-startup-attempt1.log.gz": {
+      "original_path": ".cache/serving/rtx/ep2-startup-attempt1.log",
+      "raw_sha256": "8f83e35f435c6bfdcfa6a21be7cce205c52d209d27d7094c7a34ee353086a4e3",
+      "compressed_sha256": "22723e59f8d35e22eed38bd85407045fb15b2827002668b9a26e533075e8c625",
+      "raw_bytes": 108247
+    },
+    "seven-128k-mtp2-ep2.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/seven-128k-mtp2-ep2.jsonl",
+      "raw_sha256": "70f422a09fc463a3111ad5c8c36c779b6d04c253ab72edf7a088813207e427f0",
+      "compressed_sha256": "513689c33679d38a3f32dcededce04e92e7a084578aa962ef09a1a8f31975ead",
+      "raw_bytes": 140755
+    },
+    "clients-mtp2-ep2.json.gz": {
+      "original_path": ".cache/serving/rtx/clients-mtp2-ep2.json",
+      "raw_sha256": "4e1076c2a0c0b6083764561e2c104ea51bba523c28fc0071b195a956fdc4f57e",
+      "compressed_sha256": "9e276fd80e5a5fb5a31728b5010632960183d32117f47a93d7d42cf08d526083",
+      "raw_bytes": 3706099
+    },
+    "runtime-mtp2-ep2.json.gz": {
+      "original_path": ".cache/serving/rtx/runtime-mtp2-ep2.json",
+      "raw_sha256": "e1f44d604fbd488ddeab58c99c94c6aaf3b37bf4106f88f6b6e6572c169960c5",
+      "compressed_sha256": "8586930e652d83271cc3651bd00ffb7e75b37af607849aba723cdc61d5063cf7",
+      "raw_bytes": 8512
+    },
+    "fp8-qb-graph.json.gz": {
+      "original_path": ".cache/serving/rtx/fp8-qb-graph.json",
+      "raw_sha256": "b7600b317be13ef2f3fbf51ee1b084a49e467bb530a199445c572c108a631698",
+      "compressed_sha256": "975b67225d52063bd0224a0a2955967334da9afe17d5c8463b5780ba4457bb0a",
+      "raw_bytes": 16771
+    },
+    "fp8-o-graph.json.gz": {
+      "original_path": ".cache/serving/rtx/fp8-o-graph.json",
+      "raw_sha256": "0befd02ec80abc88bdb8be3b8c7e6ce9addf24f93650b90b722fd8b99e7e377f",
+      "compressed_sha256": "69f26dae21a578baaa0150bf30c19b1ae08308e3ed2737606b47a0e1e8e6b3b9",
+      "raw_bytes": 16853
+    },
+    "fp8-swa-qb-graph.json.gz": {
+      "original_path": ".cache/serving/rtx/fp8-swa-qb-graph.json",
+      "raw_sha256": "c1e814eb27dc0752a42b1d2fb400af25fbcbc38c163629cd5c568bfd3707d3a2",
+      "compressed_sha256": "56d94cecf79c42a47192b8b9efcbc2d5a0293fa461892ae0deac41e2958b9d9f",
+      "raw_bytes": 16691
+    },
+    "exact-fp8-adapter-check.json.gz": {
+      "original_path": ".cache/serving/rtx/exact-fp8-adapter-check.json",
+      "raw_sha256": "ab7c1f990a252db7fedc4fe1490b5365ba9c26b5bfa5258b8d5da7583c0fba7b",
+      "compressed_sha256": "7e22417eacef658e96be67a9d95fd662a83d8493e6e704e65fc6c0021e466182",
+      "raw_bytes": 2740
+    },
+    "runtime-mtp3-exact-qb.json.gz": {
+      "original_path": ".cache/serving/rtx/runtime-mtp3-exact-qb.json",
+      "raw_sha256": "c476e11c8b0d8bc39341de090de1e0600bfcffee2aa5dbd9951ad6758be6af14",
+      "compressed_sha256": "23da73c9823db207a58e883bf9cfc915fe13761a2b0ad900f941a0ec736e704f",
+      "raw_bytes": 8557
+    },
+    "clients-mtp2-batch1024.json.gz": {
+      "original_path": ".cache/serving/rtx/clients-mtp2-batch1024.json",
+      "raw_sha256": "928c684bc74f7bc2808331079b8672b1727a45e9c485129370680016ec54da9d",
+      "compressed_sha256": "f42c987f62e7a15cc86b413e4a46dcc239ee8832565b8853ed6076a9573e4888",
+      "raw_bytes": 321533
+    },
+    "prefill-mtp2-batch1024.json.gz": {
+      "original_path": ".cache/serving/rtx/prefill-mtp2-batch1024.json",
+      "raw_sha256": "ceff3d9d4bcb3dfdd59bb4ea1495ad03a7e1b9bcb815e2e113ad9da913613660",
+      "compressed_sha256": "b031a6f3f0b8eb2aa22561c650dfbb401fc39ab3e2ea4f93da3ff130fb002a5d",
+      "raw_bytes": 2974
+    },
+    "prefill-mtp2-batch512-shared.json.gz": {
+      "original_path": ".cache/serving/rtx/prefill-mtp2-batch512-shared.json",
+      "raw_sha256": "7eb4c668e3a27e95eba2bbcb559e90fbdde85d502416a031ce0cce36cabe8cfd",
+      "compressed_sha256": "cbffb5e0753b2c18b9e9ed32307f2af768343233dc10547757f434e6931738d8",
+      "raw_bytes": 2974
+    },
+    "runtime-mtp2-batch1024.json.gz": {
+      "original_path": ".cache/serving/rtx/runtime-mtp2-batch1024.json",
+      "raw_sha256": "de2585fe56cf701d075222575033c8763fc5659ba4faa578af073fd12234477b",
+      "compressed_sha256": "784c97fbfb459b1e9e71a4eb28a49a4405a796337a5a7dbff3caf873acf31ad0",
+      "raw_bytes": 8418
+    },
+    "runtime-mtp2-shared-qualified-initial.json.gz": {
+      "original_path": ".cache/serving/rtx/runtime-mtp2-shared-qualified-initial.json",
+      "raw_sha256": "493aa17c9757befc0aafad25143b8f9cf9d00c4fb531a9ec04f2dde5ed5b03ea",
+      "compressed_sha256": "a66089315132f0ce1add0df873b02205c3b32ab93ddc21f6ba17867f3de721ba",
+      "raw_bytes": 8414
+    },
+    "context-mtp2-shared-boundary.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/context-mtp2-shared-boundary.jsonl",
+      "raw_sha256": "401b0f3313851ef9de789c6f33548a0f71a5292513e636c76439c9d18468819e",
+      "compressed_sha256": "5dc2fe00b3334a746cd2ca5ad7a7a39d0dee42bd46558f592ea754f9cb474e30",
+      "raw_bytes": 7733
+    },
+    "shared-primer-262k-94-startup.log.gz": {
+      "original_path": ".cache/serving/rtx/shared-primer-262k-94-startup.log",
+      "raw_sha256": "3c54e549269fd8365f8dc08889c794288d6ed668444ac58e8eeb06a6b8eb4c39",
+      "compressed_sha256": "c9b7dc40de0b94605b3701f781373e673fbe01049dec7119b02552fb88fa3f0c",
+      "raw_bytes": 294743
+    },
+    "seven-262k-mtp2-shared.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/seven-262k-mtp2-shared.jsonl",
+      "raw_sha256": "b680b582d94ebff0b692bc7d6dcd1f556cbe5fd34313228297522f8dcfd26236",
+      "compressed_sha256": "6fb9752ec4b8c4c0ab5b8529a131903e97aaea26104dc21cda8572185c88e2b8",
+      "raw_bytes": 139701
+    },
+    "seven-262k-mtp3-shared.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/seven-262k-mtp3-shared.jsonl",
+      "raw_sha256": "d69ec253c837d760bad56d40a1a1468f3e08ddbe900710c0a710a86214bd50fd",
+      "compressed_sha256": "3ea1941c7e5feb3d71aa27713b89eb387fddfbfe7facebf5fd2e4cb22c766932",
+      "raw_bytes": 130487
+    }
+  }
+}
