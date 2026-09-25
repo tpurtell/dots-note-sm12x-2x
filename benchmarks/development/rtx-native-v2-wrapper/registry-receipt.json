@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "status": "published-public; full published-digest qualification pending",
+  "platform": "rtx",
+  "image_tag": "ghcr.io/tpurtell/dots3-note-exl3-k4-rtx:20260925-v2",
+  "registry_digest": "sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e",
+  "wrapper_image_id": "sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e",
+  "parent_image_id": "sha256:7baf7343c8242c69e4f34c5149e4c39a5f3df4db7e0b7f351d61260673f43d57",
+  "recipe_revision": "76fb7728fd8cf7aefcd8dcbf82b484f7848d1891",
+  "model_revision": "d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+  "cache_files": 2116,
+  "registry": {
+    "push": "passed",
+    "authenticated_digest_pull": "passed",
+    "anonymous_digest_pull": "passed",
+    "visibility": "public",
+    "anonymous_config": "empty Docker config with no credentials"
+  },
+  "prepublication_wrapper_gates": {
+    "api": {
+      "record": "summary",
+      "passed": true,
+      "cases_passed": 40,
+      "cases_total": 40,
+      "failed_cases": [],
+      "evidence_issues": [],
+      "speculative_draft_token_delta": 1623.0,
+      "structured_boundary_chunks": [
+        {
+          "case": "json",
+          "repeat": 0,
+          "chunks": [
+            [
+              151722,
+              4913
+            ]
+          ]
+        },
+        {
+          "case": "tool_named",
+          "repeat": 0,
+          "chunks": [
+            [
+              151722,
+              90
+            ]
+          ]
+        },
+        {
+          "case": "tool_required",
+          "repeat": 0,
+          "chunks": [
+            [
+              151722,
+              58
+            ]
+          ]
+        }
+      ],
+      "speculative_metrics_after": {
+        "raw_lines": [
+          "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 557.0",
+          "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1623.0",
+          "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1314.0",
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"0\"} 490.0",
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"1\"} 447.0",
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"2\"} 377.0"
+        ],
+        "totals": {
+          "vllm:spec_decode_num_drafts_total": 557.0,
+          "vllm:spec_decode_num_draft_tokens_total": 1623.0,
+          "vllm:spec_decode_num_accepted_tokens_total": 1314.0,
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1314.0
+        }
+      },
+      "boundary_evidence_scope": "An SSE token chunk crossing </think> shows an accepted output burst; it does not expose rejected drafts or prove their exact contents."
+    },
+    "prefix": "passed",
+    "multimodal": "image and audio passed"
+  },
+  "raw_log_hashes": {
+    "push.log": "102ba500525a5a773bc6e79a5f5505d307a8fe676f8387ebe4c762b5c4cbc32e",
+    "pull-authenticated.log": "976f512e604400d2cd43f3b17e321b653c0d7c0e1ce9647b58843711a4d077da",
+    "pull-anonymous.log": "976f512e604400d2cd43f3b17e321b653c0d7c0e1ce9647b58843711a4d077da"
+  },
+  "release_qualification": false
+}
