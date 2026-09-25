@@ -139,7 +139,7 @@ def assistant_message(result):
     # This is the checkpoint template's documented history field, regardless
     # of which response field alias this vLLM version emits.
     if result['reasoning']:
-        message['reasoning_content'] = result['reasoning']
+        message['reasoning'] = result['reasoning']
     if result['tool_calls']:
         message['tool_calls'] = result['tool_calls']
     return message
