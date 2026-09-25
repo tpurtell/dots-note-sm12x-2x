@@ -21,8 +21,11 @@ Use the server root for `--base-url` (for example `http://127.0.0.1:8001`);
 a supplied `/v1` suffix is also normalized. The runner passes `/v1` specifically
 to `clients.py`, which appends `/chat/completions`; the other benchmark CLIs
 receive the server root and construct their existing `/v1` endpoints themselves.
-The script requires explicit TP2, `--max-model-len 262144`, and the expected MTP
-in the running container arguments. The selected recipe must have its reasoning
+The script requires explicit TP2, the selected context limit, and the expected MTP
+in the running container arguments. Its default limit is 262144; pass
+`--max-model-len 524288` to qualify a candidate at the model's native limit.
+This changes the test plan and does not change the serving container.
+The selected recipe must have its reasoning
 parser, tools, xgrammar, multimodal support, and prefix caching enabled.
 Identity validation requires explicit `--reasoning-parser dots3`,
 `--tool-call-parser dots`, `--enable-auto-tool-choice`,
@@ -43,6 +46,13 @@ Dynamic MTP schedules are rejected because this gate qualifies a fixed K.
 | Context at 2048/8192/32768/65536/131072/261888: one warmup plus three runs, 256 output tokens | 24 |
 | Retrieval at 8192 and 260000 filler tokens, early/middle/late | 6 |
 | **Total** | **359** |
+
+At `--max-model-len 524288`, the context curve adds a 262144-prompt point and
+ends at 524032 prompt + 256 output tokens. Near-maximum retrieval uses 522144
+filler tokens, with the actual rendered prompt lengths recorded. This plan
+contains **363** generation requests. RTX and Spark use matching plans at the
+same selected limit. Both exact-boundary and retrieval validation enforce that
+selected limit; changing it requires a new qualification directory and report.
 
 ### Greedy and sampled code coverage
 

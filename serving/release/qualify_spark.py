@@ -88,7 +88,7 @@ def plan(args):
 
 def validate(step,path,limit):
     if not step['name'].startswith('retrieval-'):
-        result=shared.validate(step,path)
+        result=shared.validate(step,path,limit)
     else:
         rows=[json.loads(line) for line in path.read_text().splitlines() if line.strip()]
         assert rows[0]['record']=='meta'

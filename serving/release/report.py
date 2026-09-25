@@ -240,7 +240,7 @@ def export(args):
         if args.platform == 'spark':
             validator.validate(step, artifact, manifest['limits']['max_model_len'])
         else:
-            validator.validate(step, artifact)
+            validator.validate(step, artifact, manifest.get('limits',{}).get('max_model_len',262144))
         results[step['name']] = stage_metrics(step['name'], load_artifact(artifact, step['format']))
         artifacts.add(receipt_path)
         artifacts.update(p for p in artifact.parent.iterdir() if p.is_file())

@@ -19,6 +19,11 @@ ROOT=Path(__file__).resolve().parents[2]
 DEPTHS=[2048,8192,32768,65536,131072,261888]
 
 
+def context_depths(limit):
+    assert limit in (262144,524288)
+    return DEPTHS[:-1]+([262144] if limit==524288 else [])+[limit-256]
+
+
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -30,6 +35,7 @@ def save(path,obj):
 
 def plan(args):
     base=args.base_url.rstrip('/').removesuffix('/v1')
+    limit=getattr(args,'max_model_len',262144)
     def step(name,script,options,count,kind='jsonl'):
         # clients.py appends /chat/completions to its supplied API base.
         # The other CLIs append /v1 themselves or normalize either form.
@@ -49,10 +55,10 @@ def plan(args):
                  '--output-tokens','256','--nonce-prefix','dots3-final-release-v1'],155,'json'),
            step('coding','serving/benchmarks/coding_clients.py',
                 ['--concurrency','1','2','4','--runs','3','--warmup-runs','1','--output-tokens','8192'],48)]
-    for depth in DEPTHS:
+    for depth in context_depths(limit):
         steps.append(step(f'context-{depth}','serving/benchmarks/context.py',
                           ['--depths',str(depth),'--runs','3','--warmups','1','--output-tokens','256'],4))
-    for depth in (8192,260000):
+    for depth in (8192,limit-2144):
         steps.append(step(f'retrieval-{depth}','serving/benchmarks/retrieval.py',
                           ['--filler-tokens',str(depth),'--positions','0.05','0.5','0.95'],3))
     return steps
@@ -66,7 +72,7 @@ def option(step,name,default=None):
     return options[start:end]
 
 
-def validate(step,path):
+def validate(step,path,limit=262144):
     """Validate completion independently of exit status; retain measured quality misses."""
     name=step['name']; text=path.read_text()
     runs=int(option(step,'--runs',['3'])[0])
@@ -110,7 +116,7 @@ def validate(step,path):
     if name.startswith('retrieval-'):
         assert all(r['passed'] for r in measurements)
         assert {r['position_fraction'] for r in measurements}=={.05,.5,.95}
-        assert all(r['usage']['prompt_tokens']+r['usage']['completion_tokens']<=262144 for r in measurements)
+        assert all(r['usage']['prompt_tokens']+r['usage']['completion_tokens']<=limit for r in measurements)
     else:
         expected_depths=[int(x) for x in option(step,'--depths')]
         warmups=int(option(step,'--warmups',['1'])[0])
@@ -120,8 +126,9 @@ def validate(step,path):
             assert sum(len(c['token_ids']) for c in row['chunks'])==output_tokens
             target=row.get('actual_prompt_tokens',row['depth'])
             assert row['usage']['prompt_tokens']==target
-            if name=='context-261888':
-                assert row['usage']['prompt_tokens']+row['usage']['completion_tokens']==262144
+            assert row['usage']['prompt_tokens']+row['usage']['completion_tokens']<=limit
+            if name==f'context-{limit-256}':
+                assert row['usage']['prompt_tokens']+row['usage']['completion_tokens']==limit
     return {'complete':True}
 
 
@@ -135,7 +142,7 @@ def identity(args):
             if value==name:return command[i+1]
             if value.startswith(name+'='):return value.split('=',1)[1]
         raise ValueError(f'missing explicit server flag {name}')
-    assert int(flag('--max-model-len'))==262144
+    assert int(flag('--max-model-len'))==getattr(args,'max_model_len',262144)
     assert int(flag('--tensor-parallel-size'))==2
     assert flag('--reasoning-parser')=='dots3', 'require Dots-aware reasoning parser'
     assert flag('--tool-call-parser')=='dots', 'require Dots tool parser'
@@ -178,6 +185,7 @@ def main():
     parser.add_argument('--container',required=True)
     parser.add_argument('--expected-image-id',required=True,help='Immutable local sha256 image ID')
     parser.add_argument('--expected-mtp',required=True,type=int,choices=[1,2,3,4])
+    parser.add_argument('--max-model-len',type=int,choices=[262144,524288],default=262144)
     parser.add_argument('--base-url',default='http://127.0.0.1:8001')
     parser.add_argument('--model',default='dots3-note-exl3-k4')
     parser.add_argument('--output-dir',required=True,type=Path)
@@ -190,6 +198,7 @@ def main():
     source_paths=sorted((ROOT/'serving/benchmarks').glob('*.py'))+[Path(__file__),ROOT/'serving/qualify_prefix_xgrammar.py',ROOT/'serving/capture_runtime.py',ROOT/'serving/benchmarks/code-agent-prompt.txt']
     binding={'schema':'dots3-rtx-release-qualification-v1','identity':identity(args),
              'base_url':args.base_url,'model':args.model,'plan':steps,
+             'limits':{'max_model_len':args.max_model_len},
              'source_sha256':{str(p.relative_to(ROOT)):digest(p) for p in source_paths}}
     manifest=out/'manifest.json'
     if manifest.exists():
@@ -205,7 +214,7 @@ def main():
             if receipt.exists():
                 saved=json.loads(receipt.read_text());artifact=stage/saved['artifact']
                 assert digest(artifact)==saved['sha256'], 'completed artifact modified'
-                validate(step,artifact)
+                validate(step,artifact,args.max_model_len)
                 print(json.dumps({'stage':step['name'],'status':'validated-resume-skip'}),flush=True);continue
             run_dir=stage/f'attempt-{time.time_ns()}';run_dir.mkdir()
             artifact=run_dir/('result.'+step['format'])
@@ -214,12 +223,12 @@ def main():
             print(json.dumps({'stage':step['name'],'status':'running','command':command}),flush=True)
             with (run_dir/'stdout.log').open('x') as log:
                 subprocess.run(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,check=True)
-            evidence=validate(step,artifact)
+            evidence=validate(step,artifact,args.max_model_len)
             assert identity(args)==binding['identity'], 'container changed during stage'
             save(receipt,{'artifact':str(artifact.relative_to(stage)),'sha256':digest(artifact),
                           'validated':evidence,'finished_unix':time.time()})
         curves=[]
-        for depth in DEPTHS:
+        for depth in context_depths(args.max_model_len):
             stage=out/f'context-{depth}';receipt=json.loads((stage/'receipt.json').read_text())
             rows=[json.loads(line) for line in (stage/receipt['artifact']).read_text().splitlines()]
             rows=[r for r in rows if r.get('record')=='measurement' and r['timed']]
