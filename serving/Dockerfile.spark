@@ -23,6 +23,8 @@ COPY serving/hybrid_attestation.py /opt/dots3/hybrid_attestation.py
 COPY serving/hybrid_parallel.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/hybrid_parallel.py
 COPY serving/dots3_hybrid_parallel.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/hybrid_parallel.py
 COPY serving/port_hybrid_parallel.py /tmp/port_hybrid_parallel.py
+COPY serving/dots3_hybrid_multimodal.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/hybrid_multimodal.py
+COPY serving/port_hybrid_multimodal.py /tmp/port_hybrid_multimodal.py
 COPY serving/b12x_roce_all_reduce.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/device_communicators/b12x_roce_all_reduce.py
 COPY serving/port_roce.py /tmp/port_roce.py
 RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
@@ -30,12 +32,14 @@ RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_compact_cache.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_roce.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_hybrid_parallel.py /usr/local/lib/python3.12/dist-packages/vllm \
+ && python3 /tmp/port_hybrid_multimodal.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 -c 'from vllm.model_executor.layers.quantization import get_quantization_config; assert get_quantization_config("exl3").__name__ == "Dots3HybridExl3Config"'
 
 COPY third_party/sparkinfer-glmrt /opt/b12x
 ENV PYTHONPATH=/opt/dots3:/opt/b12x \
     VLLM_HYBRID_LAYER_PARTITION="" \
     VLLM_HYBRID_PACKED_ROUTING=0 \
+    VLLM_HYBRID_MM_OWNERS="" \
     DOTS3_COMPACT_DSA_CACHE=0 \
     DOTS3_INDEXER_PREFILL_CONTEXTS=0 \
     CUTE_DSL_ARCH=sm_121a \
