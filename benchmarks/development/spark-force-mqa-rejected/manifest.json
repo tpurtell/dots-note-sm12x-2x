@@ -1,0 +1,115 @@
+{
+  "scope": "Rejected forceMQAhypothesis: installedSM12 _is_masked_mha_available false unlessfamily100; nativeGB10longprefillalreadyMQA. Flagonlyaffects denseprefill<=2048. API40/MM/prefixpassed butno demonstratedlongcontextbenefit. Benchmarkinterruptedafter8K/32K timed3runs while128Kactive, rawpartialstdoutpreserved; nofullbenchmarkJSON/128Kresult. Staticallocation.80 guard1 unchanged.",
+  "capacity_tokens": 2736358,
+  "baseline_capacity_tokens": 2750605,
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/multimodal-mqa-v7-17-b512.json",
+      "artifact": "multimodal-mqa-v7-17-b512.json.gz",
+      "source_sha256": "86be2f00d9f916d1472ef301461cf088e3b7f14cf27491d1d6a3b7ee0265923c",
+      "artifact_sha256": "36d128a40741724e8bedf70d68c5822fc61f21525659ebd4990348ea7f37e8cd"
+    },
+    {
+      "source": ".cache/serving/spark/prefix-mqa-v7-17-b512.json",
+      "artifact": "prefix-mqa-v7-17-b512.json.gz",
+      "source_sha256": "edef4febfb8f56c232524ea406fff1ce2653c3e72f60e4b4430c00c907ea5182",
+      "artifact_sha256": "ebe3d9ec1c1ff3f57e2f238fcf6b3bd5d1fe668b52cdbe2851960676af009dbb"
+    },
+    {
+      "source": ".cache/serving/spark/mqa-v7-17-b512-attestation.json",
+      "artifact": "mqa-v7-17-b512-attestation.json.gz",
+      "source_sha256": "22877a1771ce0ac3b203f6017bc487071cd579c7f7cfb464a1b40262cc49fec3",
+      "artifact_sha256": "b74700350415369a2672fc71b4b4d46aaf1be88b9cc5ce96aedb7d613842bbfa"
+    },
+    {
+      "source": ".cache/serving/spark/mqa-v7-17-b512-rhea-memory.log",
+      "artifact": "mqa-v7-17-b512-rhea-memory.log.gz",
+      "source_sha256": "21d6506fcb3f8f07993ac50815dda75a159d0243af27482c87b0998d92d87c37",
+      "artifact_sha256": "f0dc2b1ca03d875655e6704b3d5ca68562b57487c5cb4cd1c26dcc15277991a3"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-mqa-v7-17-b512.json",
+      "artifact": "runtime-rhea-mqa-v7-17-b512.json.gz",
+      "source_sha256": "1c9030c544d4ab6ddacab818dfa3d2bdba975681b3f1dfd4128425314c95e498",
+      "artifact_sha256": "4e8c87cdb539ba891b06860328ba31d992d356c6f38e4dce350b5917e5f9c782"
+    },
+    {
+      "source": ".cache/serving/spark/mqa-v7-17-b512-moa-memory.log",
+      "artifact": "mqa-v7-17-b512-moa-memory.log.gz",
+      "source_sha256": "5a9e76255f47b7630bf76b8321ede08e30707e04114f36340ab7eb9617b19d35",
+      "artifact_sha256": "c01dfebdc01108e6dc8c85688f6074d465c3b2f2a34c4aeafb7f26b26bbbc317"
+    },
+    {
+      "source": ".cache/serving/spark/mqa-v7-17-b512-rhea.log",
+      "artifact": "mqa-v7-17-b512-rhea.log.gz",
+      "source_sha256": "5b60783aad7a814fb5bb4a744fb3f6f1808a9620d8fffcbf51fb48df41344628",
+      "artifact_sha256": "1a1833c96039eb29cbebe540196c2dad443bb94ae3cac428d72fbfc619026183"
+    },
+    {
+      "source": ".cache/serving/spark/prefill-mqa-v7-17-b512.log",
+      "artifact": "prefill-mqa-v7-17-b512.log.gz",
+      "source_sha256": "573badec0cdd8c42b74608a0b956b89c593c34c004bca2f0d16853d1301edb58",
+      "artifact_sha256": "19e7449266661a566a60985f5ca4b24e327e4c0da6557400ab9ca42bb446f966"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-moa-mqa-v7-17-b512.json",
+      "artifact": "runtime-moa-mqa-v7-17-b512.json.gz",
+      "source_sha256": "311d3dd461822718fb3303ddf19967cf3e052eb18cbea9fa85c115b3b613401f",
+      "artifact_sha256": "3607073a5ba7cbd263510938ae868b00babf95cde2d7971f9997568dc206ee61"
+    },
+    {
+      "source": ".cache/serving/spark/multimodal-mqa-v7-17-b512.log",
+      "artifact": "multimodal-mqa-v7-17-b512.log.gz",
+      "source_sha256": "b0ea1ce0687665403a5b27330f16dcf4612949327a737df2154dca80a706df27",
+      "artifact_sha256": "2e4418232d6f51fcecab62b28689858515a64be90bc9ccfc3eb8ea25ada56340"
+    },
+    {
+      "source": ".cache/serving/spark/prefix-mqa-v7-17-b512.log",
+      "artifact": "prefix-mqa-v7-17-b512.log.gz",
+      "source_sha256": "59974c1d4e7be55dd9483b12af3bcecaf4ef63cd6ee57884a50c47a8fcb4cc9e",
+      "artifact_sha256": "0f15d98cd51e7e86458cca14b61127e64045bad8bdbf4d52c26902a419079af2"
+    },
+    {
+      "source": ".cache/serving/spark/mqa-v7-17-b512-rhea-startup.log",
+      "artifact": "mqa-v7-17-b512-rhea-startup.log.gz",
+      "source_sha256": "b5727ebec4471b069188be470745a8f32d7ca5b6fe5e6d56a2ae4c3ec9f31a08",
+      "artifact_sha256": "61a20d24444c06b1bf761f7a77be85462d5163088e9784d1e71416fc5ab5c1c8"
+    },
+    {
+      "source": ".cache/serving/spark/reasoning-api-mqa-v7-17-b512.log",
+      "artifact": "reasoning-api-mqa-v7-17-b512.log.gz",
+      "source_sha256": "6a5f7c272f16e276eaaccde80984c427a4abba62f9fc928bf6c764b7801eb1d5",
+      "artifact_sha256": "c825304e9b7373fca5180bcb93601ed2cfc255aeb38616844be508b8094c0129"
+    },
+    {
+      "source": ".cache/serving/spark/reasoning-api-mqa-v7-17-b512.jsonl",
+      "artifact": "reasoning-api-mqa-v7-17-b512.jsonl.gz",
+      "source_sha256": "d6000ac9926640f1572fbfe433f745c1dbacb9c53465fa0b38f60a65de82f431",
+      "artifact_sha256": "54e93331441cceecec08fe8c5f543c2d84e710479461935495003ea18a9673cf"
+    },
+    {
+      "source": ".cache/serving/spark/mqa-v7-17-b512-moa.log",
+      "artifact": "mqa-v7-17-b512-moa.log.gz",
+      "source_sha256": "3a27690eaa4f64a7b8559790b07fafd682b2425bc92c99d5c08b0b960c33fb0e",
+      "artifact_sha256": "8a838af4863bf23b194d1c80cbc58249272fd545f347e833422b27fd87c19f42"
+    },
+    {
+      "source": ".cache/serving/spark/mqa128-memory-moa.txt",
+      "artifact": "mqa128-memory-moa.txt.gz",
+      "source_sha256": "16bff3ce975f5c4b7e982ceddb7d36788ad3e6bdc6f2fd7a75ffa3875a56f310",
+      "artifact_sha256": "2e0dbb354c7ab6da0d561d05cbaf1aaf6d16d367307cd640fd03fe6599dea873"
+    },
+    {
+      "source": ".cache/serving/spark/mqa128-memory-rhea.txt",
+      "artifact": "mqa128-memory-rhea.txt.gz",
+      "source_sha256": "70df97265fec2adc32980461f39b255f4595c277a2f73260109f1c59d4739437",
+      "artifact_sha256": "b98301afb9fff5a44af471c0d85cd8c9162312a0b6ed702cf03e03b1c62b7e9b"
+    },
+    {
+      "source": ".cache/serving/spark/mqa-installed-dispatch.txt",
+      "artifact": "mqa-installed-dispatch.txt.gz",
+      "source_sha256": "11df34e1875d853efe06cb62b791190e06ac71fd47af6b6bc56ac7b25d940ff6",
+      "artifact_sha256": "ed2c9469778bd4e0b6719b50557b7d2d08c8a522f83db7f815915e7de90ea567"
+    }
+  ]
+}
