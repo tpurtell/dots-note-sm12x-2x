@@ -52,6 +52,19 @@ for owner in (0,1):
         with ThreadPoolExecutor(2) as pool:steps=list(pool.map(run,(0,1)))
         assert calls==[owner]
         assert steps==[2 if sum(lengths) else 1]*2
+# A recoverable owner-side shape/error must notify its peer rather than leave
+# that peer waiting for a payload that will never arrive.
+barrier=Barrier(2,timeout=10); holder={}
+def failure_case(rank):
+    transport=Transport(rank)
+    try:
+        broadcast_embeddings(transport=transport, owner=0, item_count=1,
+                             device=torch.device('cpu'), encode=lambda: ())
+    except (ValueError, RuntimeError):
+        return transport.step
+    raise AssertionError('invalid encoder output accepted')
+with ThreadPoolExecutor(2) as pool:
+    assert list(pool.map(failure_case,(0,1))) == [1,1]
 with tempfile.TemporaryDirectory() as tmp:
     root=Path(tmp);name='models/dots3_note/nvidia/multimodal.py'
     path=root/name;path.parent.mkdir(parents=True)
