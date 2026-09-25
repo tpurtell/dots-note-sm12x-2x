@@ -1,0 +1,1511 @@
+{
+  "schema": 1,
+  "report_sha256": "907e0fa8ca5df24f0a265e354ee2ae48a2f0e953ec977cb934368f75c5b36d26",
+  "files": [
+    {
+      "path": "runner/attempt-1790341928392973236/metrics-after.txt.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790341928392973236/metrics-after.txt",
+      "raw_bytes": 68646,
+      "raw_sha256": "b7554c9a38bdc4c6bcb6a0a8c496ebb6833b4062bde6e119d74942718536db04",
+      "gzip_sha256": "2d0de16fc4b10bd11a1e2e4e6137d26bb82d0ccd8386234922d9ed529d5eca52"
+    },
+    {
+      "path": "runner/attempt-1790341928392973236/metrics-before.txt.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790341928392973236/metrics-before.txt",
+      "raw_bytes": 60986,
+      "raw_sha256": "99588d6374470e95bc981eeab35bba8036fed6e114a9a17ff5a2419c94bcfc1f",
+      "gzip_sha256": "3fbb53c4fb73c5a0e360bd23aeb2de781ed13eb29a711dd8a90a31f10889840f"
+    },
+    {
+      "path": "runner/attempt-1790341928392973236/moa-after.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790341928392973236/moa-after.json",
+      "raw_bytes": 1154182,
+      "raw_sha256": "5c2ac9338f6c7bed747c944d154879df6291a85298c8e20536f01a5b06f75534",
+      "gzip_sha256": "74078a820ee6d2fb03e6d7826b7286b6d091f59af535a667dafff9b0c0cd6f87"
+    },
+    {
+      "path": "runner/attempt-1790341928392973236/moa-before.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790341928392973236/moa-before.json",
+      "raw_bytes": 136077,
+      "raw_sha256": "ae672971ff7b3a7c7d5fe4707bf7b53a4c47745025f2efd5e9571bebe0e33182",
+      "gzip_sha256": "a0878eb7a6fa133788b5842281033b651b74aabccabd8a9ea556aef0f188b559"
+    },
+    {
+      "path": "runner/attempt-1790341928392973236/physical-memory.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790341928392973236/physical-memory.jsonl",
+      "raw_bytes": 3779786,
+      "raw_sha256": "22932b48107e936261560a1327ffbfb2903f8d0451f091316ec69ddea1203032",
+      "gzip_sha256": "6bc46813fa52b7990b9e601072b02d8b8609682550fd8d9af3672d39ad26d5fc"
+    },
+    {
+      "path": "runner/attempt-1790341928392973236/rhea-after.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790341928392973236/rhea-after.json",
+      "raw_bytes": 2002316,
+      "raw_sha256": "aa5315729d65b1d1da8b06c9966c937e812346495da70347976f84b3a1bdd2bf",
+      "gzip_sha256": "1226f24de90262a1e74782f15f1145fc0c25b54128ae3cda2f6aa5672a2ea2ea"
+    },
+    {
+      "path": "runner/attempt-1790341928392973236/rhea-before.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790341928392973236/rhea-before.json",
+      "raw_bytes": 503748,
+      "raw_sha256": "72038e1a54bc4bbff6c317c23c40209c8be9d7819d15fc2a6226b29076deae23",
+      "gzip_sha256": "58be7e1e26558828912652366c12a2a13f2586581a85d9a40da2ad25b28b5bfd"
+    },
+    {
+      "path": "runner/attempt-1790351718740122228/complete.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790351718740122228/complete.json",
+      "raw_bytes": 1010,
+      "raw_sha256": "8c5820ee2a109184cd754478b33aea2f2e4d1cd3efcd5559892352f73bfe2fff",
+      "gzip_sha256": "f464ff20420844513ad6dd6ba937f355c20294b3409a5af215bcba6c44b20c16"
+    },
+    {
+      "path": "runner/attempt-1790351718740122228/metrics-after.txt.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790351718740122228/metrics-after.txt",
+      "raw_bytes": 68660,
+      "raw_sha256": "8fe992458cc716562e2ada5a9bff03c49cc1ae4c823d51adf826adb1283992cf",
+      "gzip_sha256": "d7c1e0cacf621dc7766f4e2f32f8bfabf40f320ad279989a6ffa5c72d50b5426"
+    },
+    {
+      "path": "runner/attempt-1790351718740122228/metrics-before.txt.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790351718740122228/metrics-before.txt",
+      "raw_bytes": 68646,
+      "raw_sha256": "bf99c2a2661e9e33d110e3adc6105e010e6c4df923230aa88eced2d44a77a618",
+      "gzip_sha256": "13c7e7f8fec57afef79cb6f557161c26444f63ad69194f0ab9ae72f167faa58c"
+    },
+    {
+      "path": "runner/attempt-1790351718740122228/moa-after.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790351718740122228/moa-after.json",
+      "raw_bytes": 1487949,
+      "raw_sha256": "7facd4fa40f0c5df02a67f246d9f90bab57fe031ac8f204c11d199d6be7c10e7",
+      "gzip_sha256": "43571acbb161f714f9b01b4c1587f864956d3c0570bd31addade41cfa8319d38"
+    },
+    {
+      "path": "runner/attempt-1790351718740122228/moa-before.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790351718740122228/moa-before.json",
+      "raw_bytes": 1191371,
+      "raw_sha256": "d5f5418555365d7717b8f26031c649e33c6b3bfd2afa269b8b1b5ddfb5fc2569",
+      "gzip_sha256": "08480c1f2a123eefad659bae2a583c7edd1ddfb5f0c9ea22f8ee662b99446ac9"
+    },
+    {
+      "path": "runner/attempt-1790351718740122228/physical-memory.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790351718740122228/physical-memory.jsonl",
+      "raw_bytes": 1117067,
+      "raw_sha256": "94e9ed975a24188794b429a04c2e67a8aa666d21262d736d21d0549e9e803fa4",
+      "gzip_sha256": "ab5055870edc956a10435bcab0b7cdc77cfb43a77f13c4798a9a18ded04ca298"
+    },
+    {
+      "path": "runner/attempt-1790351718740122228/rhea-after.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790351718740122228/rhea-after.json",
+      "raw_bytes": 2340893,
+      "raw_sha256": "71fef1a019f64ef48309fa54c5e17e965f02bd8fb45ee9a50d589fb24ebbc2b8",
+      "gzip_sha256": "21700d725f9da49b17016e51b8ced116fb5594cf06e7dfc5b192d25d7ac90ec4"
+    },
+    {
+      "path": "runner/attempt-1790351718740122228/rhea-before.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/attempt-1790351718740122228/rhea-before.json",
+      "raw_bytes": 2039720,
+      "raw_sha256": "3bb5501901c85b77441ec0901a9d2e78a2c7d182537c3bdea409a2353329b8ae",
+      "gzip_sha256": "ed4e448475476610c5e7ebd3a85d84609d36ec6c21e1ae8a812d7d336c0b1085"
+    },
+    {
+      "path": "runner/clients/attempt-1790342222841002091/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/clients/attempt-1790342222841002091/command.json",
+      "raw_bytes": 543,
+      "raw_sha256": "a1b5da0c7e364bf4dabb809f20c8d50a2d71cf2c3570bd5f6e7d49d6161d3eb9",
+      "gzip_sha256": "a19d068c280dc023343caad730b7acf28c21f57951cfa852d2cd4837e4e58209"
+    },
+    {
+      "path": "runner/clients/attempt-1790342222841002091/result.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/clients/attempt-1790342222841002091/result.json",
+      "raw_bytes": 10390516,
+      "raw_sha256": "ef25dc3e4b1386f99f75b7ad8dc34ad13175f0ab4c14da6ea6ccd4ea52d00433",
+      "gzip_sha256": "ac095e09c8955ac9285ee2f04969194df5a2dd95c71486eefe0cc907519b4a83"
+    },
+    {
+      "path": "runner/clients/attempt-1790342222841002091/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/clients/attempt-1790342222841002091/stdout.log",
+      "raw_bytes": 456,
+      "raw_sha256": "33d0f5af970d6afce0c67d87fd6917452617d3bcb6ba800672f85abdc3c70523",
+      "gzip_sha256": "0667fefca80646f3e2aeac5d2b0800d2ac101cf3d9e573bfaebc27c51f9fbf8a"
+    },
+    {
+      "path": "runner/clients/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/clients/receipt.json",
+      "raw_bytes": 4451,
+      "raw_sha256": "749818ee859000c9d62cf941b7641e565fc1717003c0c305a0577b1901f346c7",
+      "gzip_sha256": "be50daae9c576705dbadf294ea47e5678179d857072468a60a0f5c14f4049782"
+    },
+    {
+      "path": "runner/code-agent/attempt-1790342081651045876/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/code-agent/attempt-1790342081651045876/command.json",
+      "raw_bytes": 482,
+      "raw_sha256": "24e546d563a2a0a2a21ea605aa64009e8edb9d8a9e210e7461f91162ec112972",
+      "gzip_sha256": "73e97ef1dc7555a738d4112e4bc897c9e1da5686b68a34582e76e6f706bee762"
+    },
+    {
+      "path": "runner/code-agent/attempt-1790342081651045876/result.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/code-agent/attempt-1790342081651045876/result.jsonl",
+      "raw_bytes": 82949,
+      "raw_sha256": "0a3724c2c0b41152e7207105b378d7e4f770fc6eb57934145c439d4214937844",
+      "gzip_sha256": "3cb1bb6b25b6686664845fea2048f704b8db74a776cbddc6fbad9bce1387145d"
+    },
+    {
+      "path": "runner/code-agent/attempt-1790342081651045876/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/code-agent/attempt-1790342081651045876/stdout.log",
+      "raw_bytes": 1645,
+      "raw_sha256": "fc3d62b279871e024fc27ad5b6ba336cb5519bce22c9720ccbccfaa8633f0d91",
+      "gzip_sha256": "cdaee1875a014aeb9b07dddf85b3f547a2389e896a6acea179fe4be6303db9c7"
+    },
+    {
+      "path": "runner/code-agent/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/code-agent/receipt.json",
+      "raw_bytes": 4452,
+      "raw_sha256": "fe9da0fcecb024a0e26496755858a96abc12ef5018c1ed19cecd024bf00971be",
+      "gzip_sha256": "de9fe0f811c0268a76d23c2b3610a25bfb048a1bd4dd1e8373e6f687f3894fdb"
+    },
+    {
+      "path": "runner/coding/attempt-1790342718088876943/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/coding/attempt-1790342718088876943/command.json",
+      "raw_bytes": 485,
+      "raw_sha256": "1696575a4a9b0d2ea37f6ee95e1013292576d84d560f123356930f5a40a92e90",
+      "gzip_sha256": "ba9290aded8e07801f318f469b3618f4e4d97d89432b702612f8b681aa7bf548"
+    },
+    {
+      "path": "runner/coding/attempt-1790342718088876943/result.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/coding/attempt-1790342718088876943/result.jsonl",
+      "raw_bytes": 51038863,
+      "raw_sha256": "15cb5a71dee789d787c08464c0253986d957862c9907c268f8e8e57bb55b8eba",
+      "gzip_sha256": "c7aad9533cabc22139757b7c0a459ac70c1d377a4511de2ff4b4192a5e21002a"
+    },
+    {
+      "path": "runner/coding/attempt-1790342718088876943/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/coding/attempt-1790342718088876943/stdout.log",
+      "raw_bytes": 13315,
+      "raw_sha256": "e7efaa5a68fb6bfa6ea9f60d71915ec6bbb03f2276539f3af76df5254d9de7a6",
+      "gzip_sha256": "599c5b65053e510be7e68cf59ee39533dd14f6440f810b98b6161bb3634cfdfc"
+    },
+    {
+      "path": "runner/coding/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/coding/receipt.json",
+      "raw_bytes": 6717,
+      "raw_sha256": "6d0b8f85cd86677ba8a6121dbd6ee1cc941bf949768d0abb8e1e8e3eac9a58f7",
+      "gzip_sha256": "df5c479c0012fa00d860a008c90a9089d1fcd6a25829d1650d8a16d900d21996"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/inherited-evidence.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/inherited-evidence.json",
+      "raw_bytes": 40988,
+      "raw_sha256": "ae92335a1c223e6e88cb7303372a35a8fb43dd409d2e320f9d4912fc0008f2bf",
+      "gzip_sha256": "efb5a785479ace3733e69d4bcced575427614e3dc8d46103c705322dcc4566e7"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-000.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-000.original",
+      "raw_bytes": 1198,
+      "raw_sha256": "4f77ab27c38df6831ea13d6974e6c789ae4103774efc8ef11474faa1b049ecd0",
+      "gzip_sha256": "70516680bc66e18218d1d7836d47fe6ea0d7a9b211c4baa618790f2401cc44c4"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-000.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-000.raw",
+      "raw_bytes": 5378,
+      "raw_sha256": "f627ee39ad199f8ea0323ee4f45eab88d68cce7c2ec3fd3773cb0cea476f2edb",
+      "gzip_sha256": "4f77ab27c38df6831ea13d6974e6c789ae4103774efc8ef11474faa1b049ecd0"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-001.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-001.original",
+      "raw_bytes": 16357,
+      "raw_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a",
+      "gzip_sha256": "060091f63f0c0489648539e959e9d0e438891298762f18595476a626f7ef4a09"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-001.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-001.raw",
+      "raw_bytes": 321768,
+      "raw_sha256": "0898a886e5d4a2d31cba864370c6603155b1108c870cb0db2e5a4cbe960f56d2",
+      "gzip_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-002.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-002.original",
+      "raw_bytes": 2101,
+      "raw_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393",
+      "gzip_sha256": "a20bcfc0763726c0eb67acb68b143e1700e7f658088be94d8686851fa5018210"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-002.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-002.raw",
+      "raw_bytes": 4593,
+      "raw_sha256": "b3c02eb5cee22b9e3f61e81aab0c3a521a9ea67543af71cc232bdc096ce0a80b",
+      "gzip_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-003.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-003.original",
+      "raw_bytes": 19594,
+      "raw_sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "gzip_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-003.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-003.raw",
+      "raw_bytes": 19594,
+      "raw_sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "gzip_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-004.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-004.original",
+      "raw_bytes": 696,
+      "raw_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36",
+      "gzip_sha256": "3717542e57d7ea361a053e510ede67c042f84ebc9785e45b58b5d67c4f1c6afc"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-004.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-004.raw",
+      "raw_bytes": 1134,
+      "raw_sha256": "8a316745acb3e1b8b8864d2f3d6c8c238dafca8a0112766dce36d842cfb87b29",
+      "gzip_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-005.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-005.original",
+      "raw_bytes": 2024,
+      "raw_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8",
+      "gzip_sha256": "4762dbe80167657342af63e5c2505267a84e7cf0c132efe3dd01b6472af251d7"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-005.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-005.raw",
+      "raw_bytes": 6603,
+      "raw_sha256": "adfee951e3791993273ba5fdffc8886b4708c1ff7c8fa53ed784e6a23d80a344",
+      "gzip_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-006.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-006.original",
+      "raw_bytes": 2019,
+      "raw_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77",
+      "gzip_sha256": "d2edd2c59c4fab3bb8697dbbd87bebf5e86f54742535bb3516375f6e8cfcfba9"
+    },
+    {
+      "path": "runner/context-131072/attempt-1790348777927859720/source-006.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/attempt-1790348777927859720/source-006.raw",
+      "raw_bytes": 6605,
+      "raw_sha256": "04b9a600194d03643db21bd7ea7952a42bf30d9b89f53cf7975d0a7d4d7b4bb6",
+      "gzip_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77"
+    },
+    {
+      "path": "runner/context-131072/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-131072/receipt.json",
+      "raw_bytes": 4579,
+      "raw_sha256": "251741fb3fe0d36c094fd110edf755d722254f410635b3444ac2880d60e5740a",
+      "gzip_sha256": "d2b3e5f5f238ab22eae04971be10b035db332bbcbdcfa12a17509c2be192a70b"
+    },
+    {
+      "path": "runner/context-2048/attempt-1790348378381865471/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-2048/attempt-1790348378381865471/command.json",
+      "raw_bytes": 463,
+      "raw_sha256": "20e14baf528e8f044299a75c76dd9a6fb7f8486cb0c904cead366ad85bb5b204",
+      "gzip_sha256": "24585655180f4dee985012091975249b3ac6c3638139b9ccd6e697708a30363c"
+    },
+    {
+      "path": "runner/context-2048/attempt-1790348378381865471/result.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-2048/attempt-1790348378381865471/result.jsonl",
+      "raw_bytes": 26743,
+      "raw_sha256": "9f71afffe872a0f73cbf6fc8fff700d2a8e4b353ad6bb09b194b615328ca53f0",
+      "gzip_sha256": "9cdc00440c2a3ab9da0c75d6de2d3c56908bc0cab616704dc494dc4b722d47da"
+    },
+    {
+      "path": "runner/context-2048/attempt-1790348378381865471/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-2048/attempt-1790348378381865471/stdout.log",
+      "raw_bytes": 381,
+      "raw_sha256": "86a93854e14ccfb6bad6694adf9e5e067376d5a3a0c484e06f785b1fbada40c6",
+      "gzip_sha256": "8931a45713e6aaec2eed342590f25ec50830107c94fc7fa671ee17c4aad34742"
+    },
+    {
+      "path": "runner/context-2048/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-2048/receipt.json",
+      "raw_bytes": 4452,
+      "raw_sha256": "4c7464befe2f42745ba5fe9f8f62f2acdf9c6169795b2b52f079e20b777aa58e",
+      "gzip_sha256": "310b264028a3715f3272e79d9aabe332e919737805def5e8fb288f48fc19a5c3"
+    },
+    {
+      "path": "runner/context-262144/attempt-1790348778488064128/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-262144/attempt-1790348778488064128/command.json",
+      "raw_bytes": 467,
+      "raw_sha256": "79b9156d9454c8c8d71338612cd1458740ac5ab61ce4f1ab5db62c58c9884a4d",
+      "gzip_sha256": "a42264f669d1ecaab176b4e0aa45131b6d3b41ffea1738dc19bb5260fbdc4664"
+    },
+    {
+      "path": "runner/context-262144/attempt-1790348778488064128/result.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-262144/attempt-1790348778488064128/result.jsonl",
+      "raw_bytes": 26780,
+      "raw_sha256": "b8917c25bc4b1466e4ba939057c1e769430b34a19812063520855eeccb07d53c",
+      "gzip_sha256": "b675ab2457d98ca9b5d14e1542c64bbcbb7d9cd170ea63dc87a41d13b7efafa1"
+    },
+    {
+      "path": "runner/context-262144/attempt-1790348778488064128/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-262144/attempt-1790348778488064128/stdout.log",
+      "raw_bytes": 385,
+      "raw_sha256": "1ea0f8884af1b7535f9342e9de2bdd53ac842ec331eeac62d57dea2386739d3e",
+      "gzip_sha256": "8d4f75055e874d154dfb10686a7cda15e7ed5d4c91659d17fba1e5783f614332"
+    },
+    {
+      "path": "runner/context-262144/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-262144/receipt.json",
+      "raw_bytes": 4452,
+      "raw_sha256": "9719e7c9a370d9becad8fba90cb0262ab18c1649e84046e979e54fbaf4094e01",
+      "gzip_sha256": "bdecb3a566e8333db2f20a01f083eff804d2a3e6a64884c888589faf85d24611"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/inherited-evidence.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/inherited-evidence.json",
+      "raw_bytes": 40986,
+      "raw_sha256": "bc819940db539f3ed2b244937735a64e5acb99963f9706f692aeb3581b57abf3",
+      "gzip_sha256": "668341971ea4cb0dc78272a001b7ecdcbae89bc02d85c70bb1775c051e505753"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-000.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-000.original",
+      "raw_bytes": 1198,
+      "raw_sha256": "4f77ab27c38df6831ea13d6974e6c789ae4103774efc8ef11474faa1b049ecd0",
+      "gzip_sha256": "70516680bc66e18218d1d7836d47fe6ea0d7a9b211c4baa618790f2401cc44c4"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-000.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-000.raw",
+      "raw_bytes": 5378,
+      "raw_sha256": "f627ee39ad199f8ea0323ee4f45eab88d68cce7c2ec3fd3773cb0cea476f2edb",
+      "gzip_sha256": "4f77ab27c38df6831ea13d6974e6c789ae4103774efc8ef11474faa1b049ecd0"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-001.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-001.original",
+      "raw_bytes": 16357,
+      "raw_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a",
+      "gzip_sha256": "060091f63f0c0489648539e959e9d0e438891298762f18595476a626f7ef4a09"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-001.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-001.raw",
+      "raw_bytes": 321768,
+      "raw_sha256": "0898a886e5d4a2d31cba864370c6603155b1108c870cb0db2e5a4cbe960f56d2",
+      "gzip_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-002.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-002.original",
+      "raw_bytes": 2101,
+      "raw_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393",
+      "gzip_sha256": "a20bcfc0763726c0eb67acb68b143e1700e7f658088be94d8686851fa5018210"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-002.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-002.raw",
+      "raw_bytes": 4593,
+      "raw_sha256": "b3c02eb5cee22b9e3f61e81aab0c3a521a9ea67543af71cc232bdc096ce0a80b",
+      "gzip_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-003.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-003.original",
+      "raw_bytes": 19594,
+      "raw_sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "gzip_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-003.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-003.raw",
+      "raw_bytes": 19594,
+      "raw_sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "gzip_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-004.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-004.original",
+      "raw_bytes": 696,
+      "raw_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36",
+      "gzip_sha256": "3717542e57d7ea361a053e510ede67c042f84ebc9785e45b58b5d67c4f1c6afc"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-004.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-004.raw",
+      "raw_bytes": 1134,
+      "raw_sha256": "8a316745acb3e1b8b8864d2f3d6c8c238dafca8a0112766dce36d842cfb87b29",
+      "gzip_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-005.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-005.original",
+      "raw_bytes": 2024,
+      "raw_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8",
+      "gzip_sha256": "4762dbe80167657342af63e5c2505267a84e7cf0c132efe3dd01b6472af251d7"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-005.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-005.raw",
+      "raw_bytes": 6603,
+      "raw_sha256": "adfee951e3791993273ba5fdffc8886b4708c1ff7c8fa53ed784e6a23d80a344",
+      "gzip_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-006.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-006.original",
+      "raw_bytes": 2019,
+      "raw_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77",
+      "gzip_sha256": "d2edd2c59c4fab3bb8697dbbd87bebf5e86f54742535bb3516375f6e8cfcfba9"
+    },
+    {
+      "path": "runner/context-32768/attempt-1790348418155534367/source-006.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/attempt-1790348418155534367/source-006.raw",
+      "raw_bytes": 6605,
+      "raw_sha256": "04b9a600194d03643db21bd7ea7952a42bf30d9b89f53cf7975d0a7d4d7b4bb6",
+      "gzip_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77"
+    },
+    {
+      "path": "runner/context-32768/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-32768/receipt.json",
+      "raw_bytes": 4579,
+      "raw_sha256": "2ef527ea8206354a82dc6a4602863ab80e77ad48988b5091aa24b25465fdaf01",
+      "gzip_sha256": "12e5efb6b1eb710fe031f778d08d7d074ab7dbfdce888fb1bd6d1501a5444b10"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/inherited-evidence.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/inherited-evidence.json",
+      "raw_bytes": 42225,
+      "raw_sha256": "a5cb754472e3c419e9884cc424a5e1c9a9d4b331cf4466bf4954e80ac9d204b3",
+      "gzip_sha256": "9ee28eb8097fbc7245e2601d64d9438e075c030785f870ec0a155911eb276312"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-000.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-000.original",
+      "raw_bytes": 1415,
+      "raw_sha256": "3ad75260f3bc0724d8adc31cbc6e93dba777c57ffae5e841c7f4754447030905",
+      "gzip_sha256": "339dea69237c4453105043dbd9ba2ee4b47cc5263f146b9e279b512dac36e63b"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-000.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-000.raw",
+      "raw_bytes": 6830,
+      "raw_sha256": "ef82f8b72002020fabc1eeef5577b4c5a4bbcab34c80797fa09a3eed241ab37e",
+      "gzip_sha256": "3ad75260f3bc0724d8adc31cbc6e93dba777c57ffae5e841c7f4754447030905"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-001.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-001.original",
+      "raw_bytes": 16792,
+      "raw_sha256": "2828957c4cbe486985c44a80177b833741003c254760e4ed4448d1ada36fea63",
+      "gzip_sha256": "dfe61ae33e949e7a224732892b93c816900b4f00c23cc8e2f8a47334038c69f5"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-001.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-001.raw",
+      "raw_bytes": 325660,
+      "raw_sha256": "a7b0af138ed34f9f5a42b7948131dce4a144116223b645219140a76112d41b75",
+      "gzip_sha256": "2828957c4cbe486985c44a80177b833741003c254760e4ed4448d1ada36fea63"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-002.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-002.original",
+      "raw_bytes": 2125,
+      "raw_sha256": "60bf99eeb49d53e75931b93f592f8d7c4bb84897c037fd5cf57a8d7739417af7",
+      "gzip_sha256": "aa468b4778e78789909ad98433874ffe5ebde9137678ac013a2fc8c0897f4397"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-002.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-002.raw",
+      "raw_bytes": 4625,
+      "raw_sha256": "d22791976b9a6d3836f326b77456b97603e5fd800f53686a4647d30190adc6f5",
+      "gzip_sha256": "60bf99eeb49d53e75931b93f592f8d7c4bb84897c037fd5cf57a8d7739417af7"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-003.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-003.original",
+      "raw_bytes": 8717,
+      "raw_sha256": "b189b6076d81950535a40f352f5606abb67b74d34544cd0d8773c478ddac8e0f",
+      "gzip_sha256": "d4d3f268affe490929347b39d445002b0ac7edb990cfa05075972f8dbb6bcf42"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-003.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-003.raw",
+      "raw_bytes": 8717,
+      "raw_sha256": "b189b6076d81950535a40f352f5606abb67b74d34544cd0d8773c478ddac8e0f",
+      "gzip_sha256": "d4d3f268affe490929347b39d445002b0ac7edb990cfa05075972f8dbb6bcf42"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-004.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-004.original",
+      "raw_bytes": 5502,
+      "raw_sha256": "dbd002ff4aefb7736da272def68417ca173e5474b8628b721e255aff8558eb67",
+      "gzip_sha256": "34b1047fbccc00fd5e835b3f82e9707ab4873c535614b86dccb89d2340379595"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-004.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-004.raw",
+      "raw_bytes": 5502,
+      "raw_sha256": "dbd002ff4aefb7736da272def68417ca173e5474b8628b721e255aff8558eb67",
+      "gzip_sha256": "34b1047fbccc00fd5e835b3f82e9707ab4873c535614b86dccb89d2340379595"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-005.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-005.original",
+      "raw_bytes": 545,
+      "raw_sha256": "40277466c3bae192fcde9839759a790d508532e0d4c177cbd12765f700efdbac",
+      "gzip_sha256": "2f61c23e49533590f713a36ab3a09b893d14e5dee201cbaf88e62247ef83b22c"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-005.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-005.raw",
+      "raw_bytes": 3701,
+      "raw_sha256": "fb1ab463035bcf5c1b1ee6983e8cdb3b3d00e7568ed30aa24de17ba91b9cc837",
+      "gzip_sha256": "40277466c3bae192fcde9839759a790d508532e0d4c177cbd12765f700efdbac"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-006.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-006.original",
+      "raw_bytes": 6933,
+      "raw_sha256": "0187b442798dc7f0013642d9568bdc4ba917036e98f81d988e7530cb4bfc43c4",
+      "gzip_sha256": "19c68723488ba878a4b570d5d592fb903595648f0292322030a249f6bb1fc158"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-006.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-006.raw",
+      "raw_bytes": 23494,
+      "raw_sha256": "e47ecf526a831185fddb893264bb0fb789741210f6a9e13e8b767ee3c2d5fbf5",
+      "gzip_sha256": "0187b442798dc7f0013642d9568bdc4ba917036e98f81d988e7530cb4bfc43c4"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-007.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-007.original",
+      "raw_bytes": 7671,
+      "raw_sha256": "c6c11ab0e5a60133d1f469ac2b207bfa9573364eac14cc496a4aedc0477e32df",
+      "gzip_sha256": "4b365155da226d40d24a80e8d6ff526a3d1d87294aebfc27bdf0bc55d59ce6a1"
+    },
+    {
+      "path": "runner/context-524032/attempt-1790350431892414525/source-007.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/attempt-1790350431892414525/source-007.raw",
+      "raw_bytes": 24688,
+      "raw_sha256": "0b1e00a730eea4f1a80f0f15697b303e4a439fd8c01306c796863be2e033ab52",
+      "gzip_sha256": "c6c11ab0e5a60133d1f469ac2b207bfa9573364eac14cc496a4aedc0477e32df"
+    },
+    {
+      "path": "runner/context-524032/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-524032/receipt.json",
+      "raw_bytes": 4576,
+      "raw_sha256": "c26f7135cd1530609e45431173a921976a7a2a281673376f261c8eb6448d1765",
+      "gzip_sha256": "44f0fd5b1fa6349f2cae56bd6a6f757547ade7d617540533a476be560eb05676"
+    },
+    {
+      "path": "runner/context-65536/attempt-1790348418719868859/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-65536/attempt-1790348418719868859/command.json",
+      "raw_bytes": 465,
+      "raw_sha256": "449017cb5cf12518431cbca04a8b629af299ad0ac03b96310909c54ac46fdd11",
+      "gzip_sha256": "b680841455f81a0f07ceff5c535493ea9d3aaa031dc846595d9a316698401716"
+    },
+    {
+      "path": "runner/context-65536/attempt-1790348418719868859/result.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-65536/attempt-1790348418719868859/result.jsonl",
+      "raw_bytes": 26655,
+      "raw_sha256": "56d542aa07b14c3027569da2504bd7631d92e0cb356855b6fba8a6cd67fef05b",
+      "gzip_sha256": "4a8c7f88f49b8158785c595cd8420e5470bee66413580c04fed2f2f0a12f3ce7"
+    },
+    {
+      "path": "runner/context-65536/attempt-1790348418719868859/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-65536/attempt-1790348418719868859/stdout.log",
+      "raw_bytes": 382,
+      "raw_sha256": "c1ab987f4015f496bfbaedc5848f8b3da697d49b439bcbfd7f3ebac5443d2f4e",
+      "gzip_sha256": "7d6e3f5bc239929fde91f774be423c00b25f8b80a2d781c718ccfd6582a4c5fd"
+    },
+    {
+      "path": "runner/context-65536/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-65536/receipt.json",
+      "raw_bytes": 4452,
+      "raw_sha256": "7ed80549397d1ef79016aa05016ce523a83c11665c3fb678526d1d92fcf4ba70",
+      "gzip_sha256": "c6f51e1fe4430fcfa4bfd869bd975243fe5b30680bd7e02324bbf9427140f54e"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/inherited-evidence.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/inherited-evidence.json",
+      "raw_bytes": 40984,
+      "raw_sha256": "1b162db2dfcdb55653c74322cac2006a631b371d96bcf62a613697debfd077e9",
+      "gzip_sha256": "80f7a610e5ceb645cb415cf41dc9adf2e8146fb0d91823cfae7abd76922cea4e"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-000.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-000.original",
+      "raw_bytes": 1198,
+      "raw_sha256": "4f77ab27c38df6831ea13d6974e6c789ae4103774efc8ef11474faa1b049ecd0",
+      "gzip_sha256": "70516680bc66e18218d1d7836d47fe6ea0d7a9b211c4baa618790f2401cc44c4"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-000.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-000.raw",
+      "raw_bytes": 5378,
+      "raw_sha256": "f627ee39ad199f8ea0323ee4f45eab88d68cce7c2ec3fd3773cb0cea476f2edb",
+      "gzip_sha256": "4f77ab27c38df6831ea13d6974e6c789ae4103774efc8ef11474faa1b049ecd0"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-001.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-001.original",
+      "raw_bytes": 16357,
+      "raw_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a",
+      "gzip_sha256": "060091f63f0c0489648539e959e9d0e438891298762f18595476a626f7ef4a09"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-001.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-001.raw",
+      "raw_bytes": 321768,
+      "raw_sha256": "0898a886e5d4a2d31cba864370c6603155b1108c870cb0db2e5a4cbe960f56d2",
+      "gzip_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-002.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-002.original",
+      "raw_bytes": 2101,
+      "raw_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393",
+      "gzip_sha256": "a20bcfc0763726c0eb67acb68b143e1700e7f658088be94d8686851fa5018210"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-002.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-002.raw",
+      "raw_bytes": 4593,
+      "raw_sha256": "b3c02eb5cee22b9e3f61e81aab0c3a521a9ea67543af71cc232bdc096ce0a80b",
+      "gzip_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-003.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-003.original",
+      "raw_bytes": 19594,
+      "raw_sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "gzip_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-003.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-003.raw",
+      "raw_bytes": 19594,
+      "raw_sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "gzip_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-004.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-004.original",
+      "raw_bytes": 696,
+      "raw_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36",
+      "gzip_sha256": "3717542e57d7ea361a053e510ede67c042f84ebc9785e45b58b5d67c4f1c6afc"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-004.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-004.raw",
+      "raw_bytes": 1134,
+      "raw_sha256": "8a316745acb3e1b8b8864d2f3d6c8c238dafca8a0112766dce36d842cfb87b29",
+      "gzip_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-005.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-005.original",
+      "raw_bytes": 2024,
+      "raw_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8",
+      "gzip_sha256": "4762dbe80167657342af63e5c2505267a84e7cf0c132efe3dd01b6472af251d7"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-005.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-005.raw",
+      "raw_bytes": 6603,
+      "raw_sha256": "adfee951e3791993273ba5fdffc8886b4708c1ff7c8fa53ed784e6a23d80a344",
+      "gzip_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-006.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-006.original",
+      "raw_bytes": 2019,
+      "raw_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77",
+      "gzip_sha256": "d2edd2c59c4fab3bb8697dbbd87bebf5e86f54742535bb3516375f6e8cfcfba9"
+    },
+    {
+      "path": "runner/context-8192/attempt-1790348417559184176/source-006.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/attempt-1790348417559184176/source-006.raw",
+      "raw_bytes": 6605,
+      "raw_sha256": "04b9a600194d03643db21bd7ea7952a42bf30d9b89f53cf7975d0a7d4d7b4bb6",
+      "gzip_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77"
+    },
+    {
+      "path": "runner/context-8192/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/context-8192/receipt.json",
+      "raw_bytes": 4579,
+      "raw_sha256": "345364911478c04d8003763cbedb6eee3741d9ac434ccea4b5cc5bce40958feb",
+      "gzip_sha256": "f5ab5f634e1e665881193f46bdc9a9f0195ed7727b1ee057fcb25141b26d24ba"
+    },
+    {
+      "path": "runner/manifest.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/manifest.json",
+      "raw_bytes": 34021,
+      "raw_sha256": "f8eed1af80800d9e0b8dc0a347752d2cd8ada25510f9cef69c89b9f8c89f8e10",
+      "gzip_sha256": "5639e36785b4bdf9d67f9846348ebfcef4a4263fb182aeda28ed97695c5fb800"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/inherited-evidence.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/inherited-evidence.json",
+      "raw_bytes": 43005,
+      "raw_sha256": "4796d06181a17349b10c6ff58ee06ebcdfe361e68c08e49da5352cbe3e1ab10e",
+      "gzip_sha256": "dfcf133f999f8e6610be02dd6af331632d7614bfbfcf5e5598c3170570cb7f9f"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-000.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-000.original",
+      "raw_bytes": 939,
+      "raw_sha256": "d7c1b3f6a251ccecedbbc775a71d62f70472e6f465c91cc8eb32d1a3d19d76bc",
+      "gzip_sha256": "a1ba088eb72c236b72917e4f0e07ac9cbb46a805e7af47b8b9eef68a446f961a"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-000.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-000.raw",
+      "raw_bytes": 4061,
+      "raw_sha256": "ff207774dddff5ffb3ea954dd183c7ea62bbcb736ce9b55243bbacf71ede757a",
+      "gzip_sha256": "d7c1b3f6a251ccecedbbc775a71d62f70472e6f465c91cc8eb32d1a3d19d76bc"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-001.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-001.original",
+      "raw_bytes": 13314,
+      "raw_sha256": "b10cc468abf1368b8f367a6b0beee91abccdd78e6225e5f961bc9cc78a551fda",
+      "gzip_sha256": "0ac2ea62671fcd9fc08a7a380c3f92da28a0fd5d8ec5152a619742aaef4fa7b9"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-001.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-001.raw",
+      "raw_bytes": 305178,
+      "raw_sha256": "6f6d0a6f327e949152a87ea656274d10b6faaf3ee405463c72871b385ba036ae",
+      "gzip_sha256": "b10cc468abf1368b8f367a6b0beee91abccdd78e6225e5f961bc9cc78a551fda"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-002.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-002.original",
+      "raw_bytes": 2044,
+      "raw_sha256": "7cd4d78add5ce7e5dea3a0718b39e78749603157a3c5f79f3904665ef8c30104",
+      "gzip_sha256": "bf7660c334c3b6e65bf75aba5cff947373540cf72ee76bf941ea7addad018da9"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-002.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-002.raw",
+      "raw_bytes": 4463,
+      "raw_sha256": "83c49e69dcaf4757735e3bb2ba6c948b2eb60b00d7c2474af24573d5f1133582",
+      "gzip_sha256": "7cd4d78add5ce7e5dea3a0718b39e78749603157a3c5f79f3904665ef8c30104"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-003.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-003.original",
+      "raw_bytes": 10865,
+      "raw_sha256": "5fe3c9fdf42e24ce2ecbfc4cce66072895a5022c3d2929e60e458d7448db178a",
+      "gzip_sha256": "96e968120e273d8fda76bc91918d8490cb3353d3477540e6f033321d2bd642d2"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-003.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-003.raw",
+      "raw_bytes": 10865,
+      "raw_sha256": "5fe3c9fdf42e24ce2ecbfc4cce66072895a5022c3d2929e60e458d7448db178a",
+      "gzip_sha256": "96e968120e273d8fda76bc91918d8490cb3353d3477540e6f033321d2bd642d2"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-004.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-004.original",
+      "raw_bytes": 2544,
+      "raw_sha256": "02f72a48700639ce4c10155324b01fee804b60850c96ea58046963350c25ad04",
+      "gzip_sha256": "2ec220cc00c61aa29e27ce6d25d524f81b2fc963616649a33a46269dc3f004e6"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-004.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-004.raw",
+      "raw_bytes": 2544,
+      "raw_sha256": "02f72a48700639ce4c10155324b01fee804b60850c96ea58046963350c25ad04",
+      "gzip_sha256": "2ec220cc00c61aa29e27ce6d25d524f81b2fc963616649a33a46269dc3f004e6"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-005.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-005.original",
+      "raw_bytes": 4248,
+      "raw_sha256": "1477eec33dbd730ec0c44811c8154523f9811e7f34b411a4b437882741a584c5",
+      "gzip_sha256": "d26666bea6238178109f3cfff950c47d1d49867b961284d4f293599c19d22713"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-005.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-005.raw",
+      "raw_bytes": 4248,
+      "raw_sha256": "1477eec33dbd730ec0c44811c8154523f9811e7f34b411a4b437882741a584c5",
+      "gzip_sha256": "d26666bea6238178109f3cfff950c47d1d49867b961284d4f293599c19d22713"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-006.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-006.original",
+      "raw_bytes": 1274,
+      "raw_sha256": "92be54dfab5c05a25266d944981feed45ba3507c452dd2652a3f57cc238528fc",
+      "gzip_sha256": "2982eddcf7c0c4d5dd1ea2edf3c8830a04e83610baf5b19a961212f54c28e88f"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-006.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-006.raw",
+      "raw_bytes": 1274,
+      "raw_sha256": "92be54dfab5c05a25266d944981feed45ba3507c452dd2652a3f57cc238528fc",
+      "gzip_sha256": "2982eddcf7c0c4d5dd1ea2edf3c8830a04e83610baf5b19a961212f54c28e88f"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-007.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-007.original",
+      "raw_bytes": 842,
+      "raw_sha256": "1047750257c1e24418c6e49ffe18d2ac0c91c6586e1b9f6bb1035efb46f92ed4",
+      "gzip_sha256": "d68970c3ec83307cc40c7a4ae9ad18bd2ee840708cb8e1c827e614cf92fc9333"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-007.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-007.raw",
+      "raw_bytes": 842,
+      "raw_sha256": "1047750257c1e24418c6e49ffe18d2ac0c91c6586e1b9f6bb1035efb46f92ed4",
+      "gzip_sha256": "d68970c3ec83307cc40c7a4ae9ad18bd2ee840708cb8e1c827e614cf92fc9333"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-008.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-008.original",
+      "raw_bytes": 1363,
+      "raw_sha256": "45a6be2f9b79068542779b8ec3573a60b89fb90ebe0cea2e0fb9c419fa37de7b",
+      "gzip_sha256": "7e52290de7012991cb9f02cce312ea13d891bd1a7918e6714514348f8c6ce1f8"
+    },
+    {
+      "path": "runner/multimodal/attempt-1790341931941231939/source-008.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-008.raw",
+      "raw_bytes": 1363,
+      "raw_sha256": "45a6be2f9b79068542779b8ec3573a60b89fb90ebe0cea2e0fb9c419fa37de7b",
+      "gzip_sha256": "7e52290de7012991cb9f02cce312ea13d891bd1a7918e6714514348f8c6ce1f8"
+    },
+    {
+      "path": "runner/multimodal/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/multimodal/receipt.json",
+      "raw_bytes": 4579,
+      "raw_sha256": "721aaeceee36bd0682596c87a99ce6c51c854ee1d71167faefb52b0f4ddda1e6",
+      "gzip_sha256": "d8acefc048c2d0d1058c7a530426cf20622f540d4d2c86a0a9ba2bf975938918"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/inherited-evidence.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/inherited-evidence.json",
+      "raw_bytes": 42533,
+      "raw_sha256": "dfdabaea7464aeda0abf034869cff7d474bc71a8184c70a3eac38724881008a3",
+      "gzip_sha256": "be4d315ed93844684eb16bf85183f5ae00d12eea2fa604eb3b7b71794f3d2a96"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-000.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-000.original",
+      "raw_bytes": 782,
+      "raw_sha256": "e8147d0bca898ab9155ed2149d861928f884ea5753a939ee66b95747879f6130",
+      "gzip_sha256": "ee7a85a47ff9f695dc95ae0afdbae62fedf6a8f55b7bda29bc2edea3599dc3b2"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-000.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-000.raw",
+      "raw_bytes": 2675,
+      "raw_sha256": "6ce83375b7c93b9888eb2a11bf9135ed5298946f757957f5831f1ecf94ff7923",
+      "gzip_sha256": "e8147d0bca898ab9155ed2149d861928f884ea5753a939ee66b95747879f6130"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-001.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-001.original",
+      "raw_bytes": 16365,
+      "raw_sha256": "cc037de7199ce9b7168e6d322833da7ec55e3cf814824520cb6fb585532c53d4",
+      "gzip_sha256": "a287657d9771d2a7a3045fdc7706924af44a4340f881601ae4b5d969ec9dfbde"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-001.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-001.raw",
+      "raw_bytes": 321756,
+      "raw_sha256": "d9b27b291bfa3d20de8edfb234e452e58f48e10ce3cf51f278cf4de3dba7b767",
+      "gzip_sha256": "cc037de7199ce9b7168e6d322833da7ec55e3cf814824520cb6fb585532c53d4"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-002.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-002.original",
+      "raw_bytes": 2098,
+      "raw_sha256": "d4bfb26572fae9d3726f190090ad732c4e667807830402d0ab64e7a4219726a7",
+      "gzip_sha256": "13c27ed99e0e7024566451a16dd52f4dcd6daf67212f4a01b4ddf055c06b511a"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-002.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-002.raw",
+      "raw_bytes": 4583,
+      "raw_sha256": "e33307d4ebe246b70d9349ffada4354c45dd3da42741e128b31020e5261edf99",
+      "gzip_sha256": "d4bfb26572fae9d3726f190090ad732c4e667807830402d0ab64e7a4219726a7"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-003.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-003.original",
+      "raw_bytes": 10865,
+      "raw_sha256": "5fe3c9fdf42e24ce2ecbfc4cce66072895a5022c3d2929e60e458d7448db178a",
+      "gzip_sha256": "96e968120e273d8fda76bc91918d8490cb3353d3477540e6f033321d2bd642d2"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-003.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-003.raw",
+      "raw_bytes": 10865,
+      "raw_sha256": "5fe3c9fdf42e24ce2ecbfc4cce66072895a5022c3d2929e60e458d7448db178a",
+      "gzip_sha256": "96e968120e273d8fda76bc91918d8490cb3353d3477540e6f033321d2bd642d2"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-004.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-004.original",
+      "raw_bytes": 2544,
+      "raw_sha256": "02f72a48700639ce4c10155324b01fee804b60850c96ea58046963350c25ad04",
+      "gzip_sha256": "2ec220cc00c61aa29e27ce6d25d524f81b2fc963616649a33a46269dc3f004e6"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-004.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-004.raw",
+      "raw_bytes": 2544,
+      "raw_sha256": "02f72a48700639ce4c10155324b01fee804b60850c96ea58046963350c25ad04",
+      "gzip_sha256": "2ec220cc00c61aa29e27ce6d25d524f81b2fc963616649a33a46269dc3f004e6"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-005.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-005.original",
+      "raw_bytes": 4248,
+      "raw_sha256": "1477eec33dbd730ec0c44811c8154523f9811e7f34b411a4b437882741a584c5",
+      "gzip_sha256": "d26666bea6238178109f3cfff950c47d1d49867b961284d4f293599c19d22713"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-005.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-005.raw",
+      "raw_bytes": 4248,
+      "raw_sha256": "1477eec33dbd730ec0c44811c8154523f9811e7f34b411a4b437882741a584c5",
+      "gzip_sha256": "d26666bea6238178109f3cfff950c47d1d49867b961284d4f293599c19d22713"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-006.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-006.original",
+      "raw_bytes": 1274,
+      "raw_sha256": "92be54dfab5c05a25266d944981feed45ba3507c452dd2652a3f57cc238528fc",
+      "gzip_sha256": "2982eddcf7c0c4d5dd1ea2edf3c8830a04e83610baf5b19a961212f54c28e88f"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-006.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-006.raw",
+      "raw_bytes": 1274,
+      "raw_sha256": "92be54dfab5c05a25266d944981feed45ba3507c452dd2652a3f57cc238528fc",
+      "gzip_sha256": "2982eddcf7c0c4d5dd1ea2edf3c8830a04e83610baf5b19a961212f54c28e88f"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-007.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-007.original",
+      "raw_bytes": 842,
+      "raw_sha256": "1047750257c1e24418c6e49ffe18d2ac0c91c6586e1b9f6bb1035efb46f92ed4",
+      "gzip_sha256": "d68970c3ec83307cc40c7a4ae9ad18bd2ee840708cb8e1c827e614cf92fc9333"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-007.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-007.raw",
+      "raw_bytes": 842,
+      "raw_sha256": "1047750257c1e24418c6e49ffe18d2ac0c91c6586e1b9f6bb1035efb46f92ed4",
+      "gzip_sha256": "d68970c3ec83307cc40c7a4ae9ad18bd2ee840708cb8e1c827e614cf92fc9333"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-008.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-008.original",
+      "raw_bytes": 1363,
+      "raw_sha256": "45a6be2f9b79068542779b8ec3573a60b89fb90ebe0cea2e0fb9c419fa37de7b",
+      "gzip_sha256": "7e52290de7012991cb9f02cce312ea13d891bd1a7918e6714514348f8c6ce1f8"
+    },
+    {
+      "path": "runner/prefix/attempt-1790341930801637469/source-008.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-008.raw",
+      "raw_bytes": 1363,
+      "raw_sha256": "45a6be2f9b79068542779b8ec3573a60b89fb90ebe0cea2e0fb9c419fa37de7b",
+      "gzip_sha256": "7e52290de7012991cb9f02cce312ea13d891bd1a7918e6714514348f8c6ce1f8"
+    },
+    {
+      "path": "runner/prefix/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/prefix/receipt.json",
+      "raw_bytes": 4579,
+      "raw_sha256": "b0e48e16ef43c0676b6ad11d4e391e6c44d6bb2f7177d27b64005375b074c9d3",
+      "gzip_sha256": "bc91ae955f43d17b71d606a969de7e51b6b815771b84caa8653524535f55dd95"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/inherited-evidence.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/inherited-evidence.json",
+      "raw_bytes": 41022,
+      "raw_sha256": "3ffd0766d34f1bdc5d93116370b8124229ee5d8eaca3b27d7459e3f38a8f0e35",
+      "gzip_sha256": "12ce3671c15ae1dfbe0facadd978adb4ae7d71673f78a5670a52d77e10a990c4"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-000.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-000.original",
+      "raw_bytes": 14580,
+      "raw_sha256": "98d3e4753ab0a2f0c5dba8e9f6987f0fea0a2832a47787605955f9a1139ceeb0",
+      "gzip_sha256": "496355050ca6a8431b17ac1a04c138686290ae5379c96d8ac66b0642a22b619d"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-000.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-000.raw",
+      "raw_bytes": 228254,
+      "raw_sha256": "0f2d664f60944409ae7738e3037e8bf3caf6858bdc12ab874d9b0182b224ce98",
+      "gzip_sha256": "98d3e4753ab0a2f0c5dba8e9f6987f0fea0a2832a47787605955f9a1139ceeb0"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-001.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-001.original",
+      "raw_bytes": 16357,
+      "raw_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a",
+      "gzip_sha256": "060091f63f0c0489648539e959e9d0e438891298762f18595476a626f7ef4a09"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-001.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-001.raw",
+      "raw_bytes": 321768,
+      "raw_sha256": "0898a886e5d4a2d31cba864370c6603155b1108c870cb0db2e5a4cbe960f56d2",
+      "gzip_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-002.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-002.original",
+      "raw_bytes": 2101,
+      "raw_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393",
+      "gzip_sha256": "a20bcfc0763726c0eb67acb68b143e1700e7f658088be94d8686851fa5018210"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-002.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-002.raw",
+      "raw_bytes": 4593,
+      "raw_sha256": "b3c02eb5cee22b9e3f61e81aab0c3a521a9ea67543af71cc232bdc096ce0a80b",
+      "gzip_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-003.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-003.original",
+      "raw_bytes": 19594,
+      "raw_sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "gzip_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-003.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-003.raw",
+      "raw_bytes": 19594,
+      "raw_sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "gzip_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-004.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-004.original",
+      "raw_bytes": 696,
+      "raw_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36",
+      "gzip_sha256": "3717542e57d7ea361a053e510ede67c042f84ebc9785e45b58b5d67c4f1c6afc"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-004.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-004.raw",
+      "raw_bytes": 1134,
+      "raw_sha256": "8a316745acb3e1b8b8864d2f3d6c8c238dafca8a0112766dce36d842cfb87b29",
+      "gzip_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-005.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-005.original",
+      "raw_bytes": 2024,
+      "raw_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8",
+      "gzip_sha256": "4762dbe80167657342af63e5c2505267a84e7cf0c132efe3dd01b6472af251d7"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-005.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-005.raw",
+      "raw_bytes": 6603,
+      "raw_sha256": "adfee951e3791993273ba5fdffc8886b4708c1ff7c8fa53ed784e6a23d80a344",
+      "gzip_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-006.original.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-006.original",
+      "raw_bytes": 2019,
+      "raw_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77",
+      "gzip_sha256": "d2edd2c59c4fab3bb8697dbbd87bebf5e86f54742535bb3516375f6e8cfcfba9"
+    },
+    {
+      "path": "runner/reasoning-api/attempt-1790341931366422384/source-006.raw.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-006.raw",
+      "raw_bytes": 6605,
+      "raw_sha256": "04b9a600194d03643db21bd7ea7952a42bf30d9b89f53cf7975d0a7d4d7b4bb6",
+      "gzip_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77"
+    },
+    {
+      "path": "runner/reasoning-api/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/reasoning-api/receipt.json",
+      "raw_bytes": 4580,
+      "raw_sha256": "9c7a84bf6bd2eabc00402370cffa1e31ef1076c96dc51e487008396cdfc286d3",
+      "gzip_sha256": "108e0775a21fa24a077e28a8878a3a4cfd98a1e71d62fb2d2820afee58c2d615"
+    },
+    {
+      "path": "runner/retrieval-522144/attempt-1790350467631281411/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-522144/attempt-1790350467631281411/command.json",
+      "raw_bytes": 453,
+      "raw_sha256": "1631edfe8a90622de3845adc0e7528ac4de2bd2cce50e2fdb705aa750c761569",
+      "gzip_sha256": "73c83f2356c5d4802bd5b67925e35ac64d5910ae449f2505fb574f47e3179c87"
+    },
+    {
+      "path": "runner/retrieval-522144/attempt-1790350467631281411/result.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-522144/attempt-1790350467631281411/result.jsonl",
+      "raw_bytes": 489,
+      "raw_sha256": "7090d91323ea8f062a9fa477a155c0d3a4c44cbbc774a6e9437d8d41f1366309",
+      "gzip_sha256": "dd3aa6fe0f7abf0a02fa016cee48e57104d5932ab0b4d6c244b4611326547ab6"
+    },
+    {
+      "path": "runner/retrieval-522144/attempt-1790350467631281411/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-522144/attempt-1790350467631281411/stdout.log",
+      "raw_bytes": 1481,
+      "raw_sha256": "a9f7376480f714d32c5d9dedf68da49d46151c0d94ca62d43eb6aca47488fb57",
+      "gzip_sha256": "efc01f3a014a3f836337e6fafe53db9b02387ba2ae969f4951510bd27589dd0b"
+    },
+    {
+      "path": "runner/retrieval-522144/attempt-1790351720601868479/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-522144/attempt-1790351720601868479/command.json",
+      "raw_bytes": 476,
+      "raw_sha256": "c9c9a7996392eaf56d190ad2459a52c3e3e42f8e962148c4902fc4179ab942c1",
+      "gzip_sha256": "2df11e9f8f7bd303ac0b17ae4e671fae215fd32d907948735742d970e29bf166"
+    },
+    {
+      "path": "runner/retrieval-522144/attempt-1790351720601868479/original-command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-522144/attempt-1790351720601868479/original-command.json",
+      "raw_bytes": 453,
+      "raw_sha256": "db346fc64e40a15ad912a505571503289845bf9af64a1361bc120ab9b7f10ce3",
+      "gzip_sha256": "0eafa38ae765004febe1e7318557b28e3ab1f4422b0b9e813d79921ae87aee19"
+    },
+    {
+      "path": "runner/retrieval-522144/attempt-1790351720601868479/result.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-522144/attempt-1790351720601868479/result.jsonl",
+      "raw_bytes": 3497,
+      "raw_sha256": "edf0e8d3e5868cf3ca1989f9682c19e108023cb5f73367125107a71d0cca004a",
+      "gzip_sha256": "b4470b5070fde6a725a2013019f345c35a655e0a354dbd09b582439a56ab9fb7"
+    },
+    {
+      "path": "runner/retrieval-522144/attempt-1790351720601868479/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-522144/attempt-1790351720601868479/stdout.log",
+      "raw_bytes": 362,
+      "raw_sha256": "6277259bf0aeb0d285e3ac120a99df34059f33fb15e25555b969ca1b65a7a64d",
+      "gzip_sha256": "9ffd54cf445837702f7ea7447a42536fc97849a6aab2b70ce3986a648b76e593"
+    },
+    {
+      "path": "runner/retrieval-522144/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-522144/receipt.json",
+      "raw_bytes": 4689,
+      "raw_sha256": "007832e3b068dc2796de76bc4859be44f02f6750c3aa324803253a87378fb85a",
+      "gzip_sha256": "ca87bac31b685755b06f9172886e8ad77752894800d58838b6c073e9256c1c00"
+    },
+    {
+      "path": "runner/retrieval-8192/attempt-1790350432457762199/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-8192/attempt-1790350432457762199/command.json",
+      "raw_bytes": 449,
+      "raw_sha256": "e041d579b10d1fc081b85d578c41a8a97ee71f9b1487c9bd84c522818cd71344",
+      "gzip_sha256": "eaea6eb85633d36a0825863c7a3fc757989ed937ed195c4b33096e016254f4d1"
+    },
+    {
+      "path": "runner/retrieval-8192/attempt-1790350432457762199/result.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-8192/attempt-1790350432457762199/result.jsonl",
+      "raw_bytes": 3641,
+      "raw_sha256": "7757ca3534db6653e83557a16a34b2df9ee52ebb06cd53c86b57d79dbdf02dd5",
+      "gzip_sha256": "4da60af4c6468fe38010680ab48a70c7b127260461ace5e128991d48c1ed47f9"
+    },
+    {
+      "path": "runner/retrieval-8192/attempt-1790350432457762199/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-8192/attempt-1790350432457762199/stdout.log",
+      "raw_bytes": 350,
+      "raw_sha256": "1678903850814457677b8f235d364f38b93064ab1a44f0809dfa64b0d3dae812",
+      "gzip_sha256": "de94ae2665b741c9b0d7f54c5715342bb2f3b802720fad23c51ef671db7b6de9"
+    },
+    {
+      "path": "runner/retrieval-8192/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/retrieval-8192/receipt.json",
+      "raw_bytes": 4524,
+      "raw_sha256": "7d3d8f1fd2bc4e7a42ba6181c71aa5deb2617e781af19852d3dae886bff4e489",
+      "gzip_sha256": "00ff1453d82f9bc3a3b295a4c763b91a7134dddc950c15976059bfa8a590de00"
+    },
+    {
+      "path": "runner/seven/attempt-1790341932505013257/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/seven/attempt-1790341932505013257/command.json",
+      "raw_bytes": 428,
+      "raw_sha256": "c3ce4e6528e521899b309d81c62dc90123392245859882852e14a1753996a167",
+      "gzip_sha256": "32b7e3b1beb85def9dbe86dc7161ade341dea36af8350551d5e635028cb8444e"
+    },
+    {
+      "path": "runner/seven/attempt-1790341932505013257/result.jsonl.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/seven/attempt-1790341932505013257/result.jsonl",
+      "raw_bytes": 131422,
+      "raw_sha256": "b0345b7527f5ace97dcfdd18299fa64ef769413352978eb7dc0d81fcbdd11cf2",
+      "gzip_sha256": "0e01f8554e81202153f441f5257bbce65448e4eedee7c6ce009e26721a113e47"
+    },
+    {
+      "path": "runner/seven/attempt-1790341932505013257/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/seven/attempt-1790341932505013257/stdout.log",
+      "raw_bytes": 5177,
+      "raw_sha256": "8526cd01e896851c733284cf557e29e8ed63009152fce09f76db3a047bc5b2d3",
+      "gzip_sha256": "5d5c1b0f953d91700cbc7403bb817c952590194de451c711672174cb8c978eef"
+    },
+    {
+      "path": "runner/seven/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/seven/receipt.json",
+      "raw_bytes": 6047,
+      "raw_sha256": "af23787007d94db98be6422a4ceea200de6e9c54086e9f36e844fdc47c1c451a",
+      "gzip_sha256": "20d2a22975b3fd669ddfddf622dc0198a70984e54300f833c3f1c87f9dae9c7c"
+    },
+    {
+      "path": "runner/timeout-continuation.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/timeout-continuation.json",
+      "raw_bytes": 29639,
+      "raw_sha256": "6eadaa5ac19f6235fd4aada5e936c4df49474fd56cb2267516b8f16d46f144cd",
+      "gzip_sha256": "191127dd88ed80736de07df36e637d928214d8b3d3fe39c61da3da64406a73fa"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/command.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/command.json",
+      "raw_bytes": 373,
+      "raw_sha256": "c809b9e7569c6ee0c6c7bc3ce61127cd256a6af62509bc8a47a751cc240f5515",
+      "gzip_sha256": "71c0771609998291f1949a10f7a46e47cf144e2c9a7c4cfc9e5524addcbbae1b"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/stdout.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/stdout.log",
+      "raw_bytes": 4028,
+      "raw_sha256": "9d9a1d49738abdba010575b0d8df21da50a30b2fbbb398f85f107a0bb057152c",
+      "gzip_sha256": "e7f9da1f459ae36ba968a6a825ee96d7ac4f74b7896df36bd290796e8223e974"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/data/benchmarks.sqlite.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/data/benchmarks.sqlite",
+      "raw_bytes": 1044480,
+      "raw_sha256": "bb03a7be7abab2d5584d53a436f0e2ec97ecc6148aea45a5ea78bd89e739c3f5",
+      "gzip_sha256": "31246e1fd8ae13ff733821357d3cecca510af315b3b9e2b7131b352ddee95b40"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/exit.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/exit.json",
+      "raw_bytes": 54,
+      "raw_sha256": "8adb39bbc9b43539bab187eba084bed53e121839270509153cf84db1bdd99bb7",
+      "gzip_sha256": "a1ac1fcb3b6ae914a8561c700925c9b5c7ff9d1b01f8218d66de90c7ce5f974d"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/manifest.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/manifest.json",
+      "raw_bytes": 1402,
+      "raw_sha256": "6573b00de3dee504a449f6548ddf2dc6aadb03fc2cfee2451c2fbd7492250c39",
+      "gzip_sha256": "24bc993ee3577f5c65e29997b91372456fcf4fd02d45306e72b31b618d557e93"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/receipt.json",
+      "raw_bytes": 1049,
+      "raw_sha256": "829cf3ad67835d374928b86678305edbecf596a3279f9b37e0b9a8e2137016c2",
+      "gzip_sha256": "5ee6f70fc0d1b197267c4619faa20b7e054d2f9fa9944b628f37fbfffddbdf18"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/run.log.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/run.log",
+      "raw_bytes": 24147,
+      "raw_sha256": "39a7fe552752f889a432cf18e33739ec033def3f8386a12adda00f13ec346dd1",
+      "gzip_sha256": "730f6dd114727a963481ced4f1753cf8b96ae52df736615be2f0b464f239d686"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/runs/2026/09/2026-09-25T14-46-53.573673Z_c2a64f51.md.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/runs/2026/09/2026-09-25T14-46-53.573673Z_c2a64f51.md",
+      "raw_bytes": 375175,
+      "raw_sha256": "1c62d95c8f581ee591d6fed566ed7074987244895d0547127ee0de35f40b8a83",
+      "gzip_sha256": "5b3525c0059e02573558017bb33600beac8c41890578e7090399a740515a8902"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/summary.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/summary.json",
+      "raw_bytes": 4986,
+      "raw_sha256": "4b932e7070c5bdfc2523a0bb7d88c3935456707b7df82b0cac1dec1a1cc250fe",
+      "gzip_sha256": "71ca6b911993cccc14bf64aef6e42ff97d2698989ec5e8887658d638fa51e061"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/summary.md.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/summary.md",
+      "raw_bytes": 196,
+      "raw_sha256": "aed70172e391b043f010aed8b38ee63b49034160462334717e42ffb8baf9c8a8",
+      "gzip_sha256": "4ea0b25f55e160603f03ee46bf946738bbf96a5345720cbf95d3e7e6938ae2cd"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/tools.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/tools.json",
+      "raw_bytes": 464515,
+      "raw_sha256": "c416b143d7e801c11f8a70bf37c37a38dd6e54458124a16900ab05314c31b54f",
+      "gzip_sha256": "dfbfb3fa4fc9b7ce235b5faccafefed1ae801538b39630860c5aafa575dbcf02"
+    },
+    {
+      "path": "runner/tool-quality/attempt-1790347613146320443/tool-quality/tools.md.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/tools.md",
+      "raw_bytes": 375175,
+      "raw_sha256": "1c62d95c8f581ee591d6fed566ed7074987244895d0547127ee0de35f40b8a83",
+      "gzip_sha256": "5b3525c0059e02573558017bb33600beac8c41890578e7090399a740515a8902"
+    },
+    {
+      "path": "runner/tool-quality/receipt.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-v1-qualification/tool-quality/receipt.json",
+      "raw_bytes": 10164,
+      "raw_sha256": "5a56f7b369090a33f101eb3dc2cd2867a110f16a43c02f9ffa5b4130e46968ff",
+      "gzip_sha256": "11b0b07523e1d731297497fa3e6f048c64b2db831ee851d52d884c30b3586773"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/clients.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/clients.py",
+      "raw_bytes": 9449,
+      "raw_sha256": "0297ba27333f1875cadc0fa5361584c4d73aafe5209276975862c6fb31bd0145",
+      "gzip_sha256": "42ea658fb4d55ec4464dcc1e939f7333e3641d41717e10c789cd925fc3045c46"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/code_agent.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/code_agent.py",
+      "raw_bytes": 4043,
+      "raw_sha256": "1a22a7f91d0a89b47bb6616cff040918857ab12be45a591ea1ae3834fa9ceda4",
+      "gzip_sha256": "154a1a0d8636e385bfef79c5e9b68370be103864d47b0dbb61a2b08702493997"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/coding_clients.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/coding_clients.py",
+      "raw_bytes": 21928,
+      "raw_sha256": "82be71a16c2af692a73d552dad596fa889876b38564f37f0b3f0669819d95e5f",
+      "gzip_sha256": "a39cd17fc6c8cda3cdb0282269b3a4d609cc36e79c303bd562fa2b4a89b951ec"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/compare_coding.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/compare_coding.py",
+      "raw_bytes": 12923,
+      "raw_sha256": "80270b6bc32e3d977684d19ed96afb13267bcb8b583790ecd176931e66a75d23",
+      "gzip_sha256": "8a3652d01065564411cce38d260a7ed1c1adde0632e417f66d0aa6be850ff24c"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/content_contracts.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/content_contracts.py",
+      "raw_bytes": 10900,
+      "raw_sha256": "ba302bf96adc4dec23bc6e78d3788480b836c479eb8e0c8b6e7e1f50a10db483",
+      "gzip_sha256": "53e3e908a4690ca91a2aefc808ccc69284b8c301f07cd81387f2feaf36334d50"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/context.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/context.py",
+      "raw_bytes": 4826,
+      "raw_sha256": "e906a17c82f7c156dfd6c1e4bc36e114e6aeeecf1b0c4d031af298be421b6fd9",
+      "gzip_sha256": "ae489823520b420444aa67efec8168254795ed8c16bb451c21bbe168a0cde4b0"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/multimodal.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/multimodal.py",
+      "raw_bytes": 3599,
+      "raw_sha256": "344c8d7bb96d4a6906842c188bdaa0b80087cf149d6e3db8aba6b1e0139702c1",
+      "gzip_sha256": "c2bdb018b69ab290e1a128a17c87b31aa39224daf444af1e59d23fb46e1800af"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/prefill.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/prefill.py",
+      "raw_bytes": 7927,
+      "raw_sha256": "2dbd7df894c2f86fe0431e7ca989b511468df5e103b275d32af28995fda52cec",
+      "gzip_sha256": "52e4bb2e2f4c7c372d9bda78b2a05b945316e2d408b72523c1901bdb713304db"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/reasoning_api.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/reasoning_api.py",
+      "raw_bytes": 14658,
+      "raw_sha256": "f69aadccd6c0ad4d605fb0324853077b45afd3e1fe51ea4f68ff21c4f4bd87eb",
+      "gzip_sha256": "ce391bbccf04a16d7060e3638b322c6ada6941626451a680c54dff427472f0ca"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/retrieval.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/retrieval.py",
+      "raw_bytes": 3406,
+      "raw_sha256": "63960021554a70ce576a74f898390434eddecc329340c15f0af5ba764ba70a82",
+      "gzip_sha256": "358c91063c5c0855d507cf25c72346d74ed8dea4ea2d4beb1cb9b051e6f50862"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/tool_quality.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/tool_quality.py",
+      "raw_bytes": 6878,
+      "raw_sha256": "c385860bee61a2451e79ac0b5e812176bf9f5616d834f90ec979e5d375aaf83b",
+      "gzip_sha256": "f510be21363d9aa0d56645efaecebd5bc380e01fd846b156d1fdc41a71e60987"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/tools.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/tools.py",
+      "raw_bytes": 4300,
+      "raw_sha256": "07923b8dc0ee99cd144fc3fac5d50b4f5f549491b58cfb8656fd5950b4bae398",
+      "gzip_sha256": "d5a47457abb0c8b4a464ddab342e2558d1034a12849645bfe2b23418bc7b41b2"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/workloads.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/workloads.py",
+      "raw_bytes": 6655,
+      "raw_sha256": "8e04e8305e54faefd4d1de7cf530c003e416b4fdea2856979f8a9c5a6a21d5ca",
+      "gzip_sha256": "a30ee3283a54cb1df4ee772cd6e30f2817197ead1da77fbf1bf96457957b1fe0"
+    },
+    {
+      "path": "provenance/source/serving/release/qualify_spark.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/release/qualify_spark.py",
+      "raw_bytes": 17228,
+      "raw_sha256": "3f313e5de0adc3a2a3daa8e60fab440f55a91aeb638bfbd6b2d50a2d20195838",
+      "gzip_sha256": "3cf9372aa1127498feda72cb16271cc6c60968f15f48bb2b6cb618df1696e329"
+    },
+    {
+      "path": "provenance/source/serving/release/qualify_rtx.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/release/qualify_rtx.py",
+      "raw_bytes": 17279,
+      "raw_sha256": "9383340d6817f0adf84b9b9341bcad00fb25bd817232a61633409ad8e9d76b1f",
+      "gzip_sha256": "15386e75d1324ad1c96bbdd832ac784c8355cb5327be935cb0fe66e561229ef5"
+    },
+    {
+      "path": "provenance/source/serving/capture_runtime.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/capture_runtime.py",
+      "raw_bytes": 5878,
+      "raw_sha256": "38ccad1db0d59242807739e86ca6575be574a5041ac609573036a9b975eb39a9",
+      "gzip_sha256": "f13c2f09b01e8484097c667fea2b1195c31aeb69ae7afcf5f5a5d48b5a4e51e2"
+    },
+    {
+      "path": "provenance/source/serving/watch_spark_memory.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/watch_spark_memory.py",
+      "raw_bytes": 3201,
+      "raw_sha256": "00f7a05162b87d61baae39744842fac9cea47f3d77926588b73ce7041578b63d",
+      "gzip_sha256": "96d9ae62e6cd21a1bbd4213efead37b0d756b4d2864b44ca33d1c65d5644b5dd"
+    },
+    {
+      "path": "provenance/source/serving/qualify_prefix_xgrammar.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/qualify_prefix_xgrammar.py",
+      "raw_bytes": 7199,
+      "raw_sha256": "2e5b5877261031dae69bea25ca7098e6c54b1ec14b2016ee0a8efe49212640df",
+      "gzip_sha256": "3ab24fbafbf78ee2172b73b52addf90faa57669da74abe83036ae8ac6281d750"
+    },
+    {
+      "path": "provenance/source/serving/benchmarks/code-agent-prompt.txt.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/benchmarks/code-agent-prompt.txt",
+      "raw_bytes": 655,
+      "raw_sha256": "dc9468eed590b52f5874d0ecaf8956746f0ccc2d54ffaff89d16230863fddde8",
+      "gzip_sha256": "6956c0be4c83790914f0611a6c84fea21d2bf6de7cd33475202fc9af8491c99b"
+    },
+    {
+      "path": "provenance/source/serving/release/evidence_lineage.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/release/evidence_lineage.py",
+      "raw_bytes": 11898,
+      "raw_sha256": "b96bc1f47213e86b816c436873b8a247baffded96b7cbae81097ffa4c1150ade",
+      "gzip_sha256": "a389ac095ba4842efe57d51dd8bb88da859a4ebffbdb3df559f2da29ff71d7e4"
+    },
+    {
+      "path": "provenance/source/benchmarks/development/spark-qualification-lineage/manifest.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/benchmarks/development/spark-qualification-lineage/manifest.json",
+      "raw_bytes": 19392,
+      "raw_sha256": "51bcd4a04e2ee3d82be31a4b2d67fbf179a7c3a85be1b909c7d766ccc9cae0e0",
+      "gzip_sha256": "0157387fa8a4ae71524d94cb73967351b01850dc24ff8917937ee3f0b863a9f1"
+    },
+    {
+      "path": "provenance/source/serving/release/report.py.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/serving/release/report.py",
+      "raw_bytes": 37213,
+      "raw_sha256": "8a64fae7891a15c08020d7560826099d6c6fa3a205cf4bb6d26ed6e31102200e",
+      "gzip_sha256": "e8e7d5a32fcd12eb0854666d3fa31c76d4143eb0e1cb74656e47eddfde813005"
+    },
+    {
+      "path": "provenance/cache-seed-manifest.json.gz",
+      "source": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/spark-gc-parent-provenance/seed-merged-manifest.json",
+      "raw_bytes": 1735431,
+      "raw_sha256": "b51b3ffb1fd521d01356beb4aae3ce265aee04893839514233cf6312563f74af",
+      "gzip_sha256": "b1dde456bd72387ad147c1b8719118aed45cbf19c5bd8b961fac65041176c552"
+    }
+  ]
+}

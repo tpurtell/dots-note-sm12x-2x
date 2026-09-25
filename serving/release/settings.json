@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "pending-qualification",
+  "status": "qualified",
   "model_revision": "d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
   "platforms": {
     "rtx": {
@@ -111,21 +111,26 @@
     },
     "spark": {
       "architecture": "arm64",
-      "image": null,
-      "qualification_report": null,
-      "qualification_report_sha256": null,
+      "image": "ghcr.io/tpurtell/dots3-note-exl3-k4-spark@sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad",
+      "qualification_report": "benchmarks/releases/spark-20260925-v1/report.json",
+      "qualification_report_sha256": "907e0fa8ca5df24f0a265e354ee2ae48a2f0e953ec977cb934368f75c5b36d26",
       "port": 8000,
-      "gpu_memory_utilization": null,
-      "max_model_len": null,
-      "max_num_seqs": null,
-      "max_num_batched_tokens": null,
+      "gpu_memory_utilization": 0.8,
+      "max_model_len": 524288,
+      "max_num_seqs": 16,
+      "max_num_batched_tokens": 512,
       "kv_cache_dtype": "fp8",
-      "mtp_tokens": null,
-      "b12x_vocab": null,
+      "mtp_tokens": 3,
+      "b12x_vocab": false,
       "b12x_pcie": false,
-      "b12x_exact_fp8": null,
-      "b12x_exact_fp8_rows": null,
-      "b12x_roce": false,
+      "b12x_exact_fp8": "",
+      "b12x_exact_fp8_rows": [
+        4,
+        16,
+        64,
+        512
+      ],
+      "b12x_roce": true,
       "b12x_roce_eager": false,
       "b12x_roce_rows": [
         1,
@@ -196,9 +201,24 @@
       "reasoning_parser": "dots3",
       "memory_guard": true,
       "min_host_available_gib": 1,
-      "status": "pending-qualification",
-      "compact_dsa_cache": false,
-      "indexer_prefill_contexts": 40
+      "status": "qualified",
+      "compact_dsa_cache": true,
+      "indexer_prefill_contexts": 4,
+      "hybrid_layer_partition": [
+        17,
+        29
+      ],
+      "hybrid_packed_routing": true,
+      "hybrid_balance_kv_groups": true,
+      "hybrid_mm_owners": [
+        0,
+        1
+      ],
+      "hybrid_fused_pack": true,
+      "hybrid_overlap_shared": true,
+      "hybrid_boundary_owners": [],
+      "allocator_fraction": 0.9,
+      "pytorch_alloc_conf": "garbage_collection_threshold:0.90"
     }
   }
 }
