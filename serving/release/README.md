@@ -39,8 +39,10 @@ reasoning in the old image.
 
 ## Build sequence
 
-1. Build the native runtime image, including the optional soundfile dependency
-   from `audio-requirements.txt` before qualifying it. The pinned wheels include
+1. Build the native runtime image from the recorded recipe/submodule commits
+   using the [native build instructions](../README.md#native-development-builds).
+   Both Dockerfiles include the SoundFile dependency from `audio-requirements.txt`.
+   The pinned wheels include
    libsndfile; `--no-deps` preserves the base NumPy/CFFI stack. Validate import and
    actual audio decoding on each platform.
 2. Start and qualify the final recipe, including all intended modalities,
@@ -137,6 +139,43 @@ validated library feature with compatibility checks and new-device numerical
 qualification. Caches from a later source or dependency build must be exported
 again; the release wrapper rejects dependency or source drift.
 
+## Registry access: current RTX publication
+
+RTX version `20260925-v1` has been pushed as:
+
+```text
+ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6
+```
+
+The initial registry verification passed an authenticated pull. Its package
+was private, and the anonymous pull returned `unauthorized`; see the
+[archived publication receipt](../../benchmarks/development/rtx-release-wrapper/README.md).
+This is a publication/access result. The full published-image qualification
+and final profile approval are separate and remain pending.
+
+While the package is private, an account with package access must authenticate
+Docker on the RTX host. If GitHub CLI is already authenticated with a token
+that can read packages, pass it directly to Docker without displaying it:
+
+```bash
+gh auth token | docker login ghcr.io --username YOUR_GITHUB_LOGIN --password-stdin
+docker pull --platform linux/amd64 \
+  ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6
+```
+
+Alternatively use a classic personal access token with `read:packages` via
+Docker's password-stdin login. Authentication does not grant package access
+that the account lacks. See [GitHub's registry authentication documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry).
+The release `pull` action uses the same host Docker credentials once that
+platform's settings are qualified. No model weights are downloaded by this
+image pull.
+
+Anonymous access becomes an available fast path only after package visibility
+is public and a fresh unauthenticated pull has passed. GitHub's supported
+visibility control is [Package settings → Change visibility](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility#configuring-visibility-of-packages-for-your-personal-account).
+Publishing/linking the source repository alone does not establish anonymous
+package access. No Spark digest is supplied before its native publication.
+
 ## Public fast path (enabled after final qualification)
 
 `settings.json` intentionally contains null digest/profile fields and
@@ -165,6 +204,8 @@ bash serving/release/run.sh rtx logs
 ```
 
 For Spark, run `pull` on each native ARM64 host, then start the **worker first**.
+If its published package requires authentication, log Docker in on both hosts
+with an account that has access before pulling.
 Set addresses and the network interface for your own hosts. The interface must
 reach the other Spark; the existing launcher also exposes `/dev/infiniband`.
 

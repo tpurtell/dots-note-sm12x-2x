@@ -25,14 +25,51 @@ on Dots3 before becoming a platform default.
 
 Both Dockerfiles pin vLLM v0.30.0, include the hybrid FP8-core/EXL3-expert
 adapter and pinned B12x source, and install the Dots-aware reasoning parser.
-Build natively on the matching platform:
+For a reproducible checkout, select the parent recipe commit recorded in the
+accepted report, then restore its submodule commits rather than advancing their
+branches:
+
+```bash
+git checkout RECIPE_COMMIT_FROM_REPORT
+git submodule update --init --recursive
+git submodule status
+```
+
+The current pins are GPTQModel `b903382057e4903b5629fcd49838ffc3ccce5f14`
+for quantization and B12x `c5e23d830c3d1e76be56a5df290d13e30bc66702` for both
+serving platforms. GPTQModel is not copied into the serving image. The model is
+already quantized; building a serving image does not repeat quantization.
+B12x is copied from the checked-out submodule into `/opt/b12x`. The source
+checkout must be clean for those commit IDs to describe the copied code.
+
+Both Dockerfiles default to the same immutable multi-architecture vLLM base:
+`vllm/vllm-openai@sha256:8a69ffad015f138d7170c4ddc429e230a3bc1c1719f67e14324749df200a4b90`.
+Use the recorded default rather than substituting a mutable vLLM tag. The RTX
+build targets `sm_120a`; Spark targets `sm_121a`. Build on the matching native
+CPU/GPU platform:
 
 ```bash
 # On the RTX host:
-docker build -f serving/Dockerfile.rtx -t dots3-vllm-rtx:dev .
+docker build --platform linux/amd64 -f serving/Dockerfile.rtx -t dots3-vllm-rtx:dev .
 # On each Spark:
-docker build -f serving/Dockerfile.spark -t dots3-vllm-spark:dev .
+docker build --platform linux/arm64 -f serving/Dockerfile.spark -t dots3-vllm-spark:dev .
 ```
+
+Each Dockerfile copies the repository's hybrid quantization, attention,
+multimodal/cache, optional dense/EP adapters and `dots3` reasoning parser, then
+applies `port_vllm.py` and `port_reasoning.py`. RTX additionally applies
+`port_pcie.py`; Spark applies `port_roce.py` and builds its native verbs proxy.
+Optional integrations are enabled only by the selected runtime profile.
+Both builds install hash-pinned SoundFile 0.13.1 with dependencies left intact.
+The shared EXL3 format adapter is vendored at `serving/vendor/exl3.py`.
+
+These parent builds contain native source and integration patches. Producing
+the distributed release container additionally requires warming the selected
+profile, exporting its actual compiled artifacts, and building the
+[release wrapper](release/README.md#build-sequence). Its manifest records exact
+source/dependency fingerprints and parent image ID. A new build is not assumed
+to reproduce an already published image byte for byte; use its registry digest
+when reproducing that exact image.
 
 The accepted checkpoint is already published and installed. Mount the entire
 Hugging Face cache with `HF_HOME`; leave `MODEL_DIR` unset. `MODEL_DIR` remains
