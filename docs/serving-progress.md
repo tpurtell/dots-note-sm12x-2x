@@ -10,6 +10,26 @@ References: `../brandon-glm-5.3-flash/recipe/README.md` for RTX B12x integration
 `../rtx6k-exl3-qwen3.8-flash-next/README.md` for Spark choices and measurement
 conventions. Evaluate all applicable B12x features against Dots3 geometry.
 
+## Current development: hybrid layer owners and expert TP2
+
+The next release targets native 524,288 context with compact DSA cache storage,
+four indexer prefill contexts, and owner-local non-expert layers. Every routed
+expert remains TP2 across both GPUs. The initial 23/23 split is provisional;
+owner-only vision/audio placement and measured KV budgets will guide an uneven
+split independently for RTX and Spark. See [execution and memory details](hybrid-expert-tp.md).
+
+The matched RTX 524K screen measured native TP2 at 184.68 / 135.08 / 101.63
+per-request decode tokens/s versus the initial unpacked hybrid at 154.96 /
+130.54 / 97.97 for C1/C2/C4. Both completed all 12 requests naturally and passed
+the static response checks. These are small development screens; the published
+RTX v1 results remain the release baseline. [Archived comparison](../benchmarks/development/rtx-native524-hybrid-comparison).
+
+The packed RTX candidate combines routing inputs into one broadcast and has
+passed loaded ownership checks. Whole-model measurements are in progress.
+Spark's initial hybrid candidate passed 40 API cases and prefix/JSON/tool
+checks at 524K, utilization 0.80 and a 1 GiB host reserve; its coding screen is
+in progress. Neither hybrid candidate is yet a qualified release image.
+
 ## Baseline revalidation: 2026-09-25
 
 - GitHub releases API still reports vLLM v0.30.0 as latest stable, published
