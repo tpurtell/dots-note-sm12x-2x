@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "scope": "Compact/legacy sparse-MLA kernel and vLLM adapter/cache-gather component correctness; not full-model qualification",
+  "kernel_revision": "c963d8f7c98792a026eaf81a96a72d01b4aa0047",
+  "kernel_branch": "dots3-tp2-strided-mla",
+  "source_sha256": {
+    "third_party/sparkinfer-glmrt/b12x/attention/sparse_mla/strided.py": "1e7ad1d5403990705c1e09443fc1fc05880a6002cb5cd2da6f4e869439d2d4f0",
+    "third_party/sparkinfer-glmrt/tests/attention/test_sparse_mla_strided.py": "bff028af9322a9ff7e30323d4e42771125b5251ba019077a8661b6bbade2a69e",
+    "third_party/sparkinfer-glmrt/tests/attention/test_sparse_mla_strided_metadata.py": "91f0bc1f4be9171b7bf5c43300a0ae191ef0e645eb2de7f7d52ad8cfa0f98767",
+    "serving/dots3_b12x_attention.py": "32478778d6875679097fe6e7b7bf613bf3bec3719d9bb946008b9640baaceeb8",
+    "serving/port_compact_cache.py": "8a72baf1cac9ea197b2d42b329d0a14299398d2a825a7e20d1ec5d80ddc45712",
+    "serving/check_sparse_adapter.py": "57013fea967e3274acf91d19b291d862697106d54f13c30f0caca6c723b01ed9",
+    "serving/check_cache_gather.py": "88f90692842bfd30f22b2970ef528274e4e16f7774e09572fe785b50335b12df"
+  },
+  "cpu_metadata": {
+    "passed": 5,
+    "failed": 0,
+    "duration_seconds": 0.01,
+    "execution": "docker exec CUDA_VISIBLE_DEVICES empty; proposed strided source loaded in memory; CPU tensors only",
+    "receipt_source": "Recorded agent tool execution transcript; stdout was not separately persisted",
+    "limitation": "CompileJob assertion subsequently tightened from repr width membership to exact args[0].physical_record_width and ordinal assertions; no rerun of that final assertion. Kernel source bytes unchanged."
+  },
+  "gpu_kernel": {
+    "image_id": "sha256:e4de4d340210842e9d958dab61dde0eabcf8aab83957c214d53f690b5e8e82e4",
+    "image_tag": "dots3-vllm-rtx:swa-qb-priority-candidate",
+    "host_b12x_mount": "third_party/sparkinfer-glmrt:/opt/b12x:ro",
+    "command": [
+      "python3",
+      "-m",
+      "pytest",
+      "-q",
+      "/opt/b12x/tests/attention/test_sparse_mla_strided.py",
+      "-k",
+      "2-576 or 2-1088"
+    ],
+    "devices": {
+      "0": {
+        "passed": 16,
+        "deselected": 17,
+        "seconds": 8.83,
+        "exit_code": 0
+      },
+      "1": {
+        "passed": 16,
+        "deselected": 17,
+        "seconds": 8.85,
+        "exit_code": 0
+      }
+    },
+    "coverage": [
+      "Both 576 and 1088 physical record widths at TP2",
+      "FP8 quantized query/output/LSE reference, invalid-tail masking and request-relative index remap",
+      "Layer interleaving and 1102-record mixed blocks with 448-record nonzero storage offset",
+      "Changed query/cache/indices graph replay with stable device allocations",
+      "Contiguous and mixed-pool byte addresses beyond signed int32"
+    ],
+    "warning": "Pytest cache cannot write to read-only source mount; tests passed"
+  },
+  "gpu_adapter_gather": {
+    "image_id": "sha256:b0d59be0a77c1b5c7073da510f4bb1462c75795f7f4a36eb3335f26f09e9074b",
+    "image_tag": "dots3-vllm-rtx:compact-cache-candidate",
+    "source": "Installed candidate kernel; project mounted read-only at /recipe, no host B12x overlay",
+    "commands": [
+      "python3 /recipe/serving/check_sparse_adapter.py --compact",
+      "python3 /recipe/serving/check_cache_gather.py --compact"
+    ],
+    "devices": {
+      "0": {
+        "exit_code": 0
+      },
+      "1": {
+        "exit_code": 0
+      }
+    },
+    "coverage": [
+      "Actual vLLM adapter interleaved mixed pool and changed-query graph",
+      "SWA gather ragged boundaries/interleaved layers/>2 GiB addressing and exact graph replay"
+    ]
+  },
+  "cache_environment": {
+    "PYTHONPATH": "/opt/b12x",
+    "B12X_COMPILE_CACHE_DIR": "/cache/b12x",
+    "TRITON_CACHE_DIR": "/cache/triton",
+    "host_cache_per_device": ".cache/serving/rtx/compact-cache/gpuN mounted at /cache"
+  },
+  "historical_build_manifest_note": "Raw build receipt predates gates/commit and retains kernel_uncommitted_candidate=true,gpu_validation=false. This archive records subsequent successful tests and binds identical kernel bytes to the pushed revision.",
+  "files": [
+    {
+      "source": ".cache/serving/rtx/compact-cache/build-manifest.json",
+      "archive": "build-manifest.json.gz",
+      "raw_bytes": 846,
+      "raw_sha256": "fddc280253058f680c0cab803e9f084500680b679219757369aef993ea02a8b0",
+      "gzip_sha256": "973dfb952e8ef9d23049d3f9e11addb3fec9f8f99a98c0c3dc3bea84fe26d131"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/build.log",
+      "archive": "build.log.gz",
+      "raw_bytes": 1880,
+      "raw_sha256": "7d770e0c59ac1ad7f40ae8919d1528c192e10ff73ab75e53f0b3b5e1b22d4d47",
+      "gzip_sha256": "1c5e5c03540a5e07ea3611056f7bac58cb0a1a260511f9fdbc1f6cdbae7d9517"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/cpu-layout.json",
+      "archive": "cpu-layout.json.gz",
+      "raw_bytes": 762,
+      "raw_sha256": "12ae8c15b1dd9c25d2e6f9e2341dab18961533ac12531e2a7a3adb9036cd438d",
+      "gzip_sha256": "db50902a18dc2c8a01a5fa58bdb914d3702cb530064934bd9ed0e58dabfbcdbd"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/gpu0/pytest.log",
+      "archive": "gpu0/pytest.log.gz",
+      "raw_bytes": 652,
+      "raw_sha256": "a0b376181e0c469f831c0ff6a183619cfd5b9517911d47f02dfcf47f69879458",
+      "gzip_sha256": "631e3c699611d422d17c3bb364b9cb8ceebc5700d1947625128f8b4db84984bc"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/gpu0/adapter-gather.log",
+      "archive": "gpu0/adapter-gather.log.gz",
+      "raw_bytes": 175,
+      "raw_sha256": "987f5a1a9a6389b403a8a006bdcd758a3958a1769a4faa1fd2cb1e62b20b2451",
+      "gzip_sha256": "f4c577b8f8bd5017c719b1842ead7f14f3423532f19edc68102260a4e471f9f3"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/gpu1/pytest.log",
+      "archive": "gpu1/pytest.log.gz",
+      "raw_bytes": 652,
+      "raw_sha256": "8206863795467c31741e7000a903df99f98532433eea2064e52ee2813e144937",
+      "gzip_sha256": "2d51615d4bd857a035e944b4f19211f340ccde966503e40846172a9263a1305f"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/gpu1/adapter-gather.log",
+      "archive": "gpu1/adapter-gather.log.gz",
+      "raw_bytes": 175,
+      "raw_sha256": "987f5a1a9a6389b403a8a006bdcd758a3958a1769a4faa1fd2cb1e62b20b2451",
+      "gzip_sha256": "f4c577b8f8bd5017c719b1842ead7f14f3423532f19edc68102260a4e471f9f3"
+    }
+  ]
+}
