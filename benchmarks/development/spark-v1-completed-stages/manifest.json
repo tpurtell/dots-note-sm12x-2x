@@ -505,7 +505,238 @@
       "sha256": "af23787007d94db98be6422a4ceea200de6e9c54086e9f36e844fdc47c1c451a",
       "archive_sha256": "20d2a22975b3fd669ddfddf622dc0198a70984e54300f833c3f1c87f9dae9c7c",
       "bytes": 6047
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/coding/attempt-1790342718088876943/command.json",
+      "archive_path": "raw/coding/attempt-1790342718088876943/command.json.gz",
+      "sha256": "1696575a4a9b0d2ea37f6ee95e1013292576d84d560f123356930f5a40a92e90",
+      "archive_sha256": "ba9290aded8e07801f318f469b3618f4e4d97d89432b702612f8b681aa7bf548",
+      "bytes": 485
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/coding/attempt-1790342718088876943/result.jsonl",
+      "archive_path": "raw/coding/attempt-1790342718088876943/result.jsonl.gz",
+      "sha256": "15cb5a71dee789d787c08464c0253986d957862c9907c268f8e8e57bb55b8eba",
+      "archive_sha256": "c7aad9533cabc22139757b7c0a459ac70c1d377a4511de2ff4b4192a5e21002a",
+      "bytes": 51038863
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/coding/attempt-1790342718088876943/stdout.log",
+      "archive_path": "raw/coding/attempt-1790342718088876943/stdout.log.gz",
+      "sha256": "e7efaa5a68fb6bfa6ea9f60d71915ec6bbb03f2276539f3af76df5254d9de7a6",
+      "archive_sha256": "599c5b65053e510be7e68cf59ee39533dd14f6440f810b98b6161bb3634cfdfc",
+      "bytes": 13315
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/coding/receipt.json",
+      "archive_path": "raw/coding/receipt.json.gz",
+      "sha256": "6d0b8f85cd86677ba8a6121dbd6ee1cc941bf949768d0abb8e1e8e3eac9a58f7",
+      "archive_sha256": "df5c479c0012fa00d860a008c90a9089d1fcd6a25829d1650d8a16d900d21996",
+      "bytes": 6717
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-2048/attempt-1790348378381865471/command.json",
+      "archive_path": "raw/context-2048/attempt-1790348378381865471/command.json.gz",
+      "sha256": "20e14baf528e8f044299a75c76dd9a6fb7f8486cb0c904cead366ad85bb5b204",
+      "archive_sha256": "24585655180f4dee985012091975249b3ac6c3638139b9ccd6e697708a30363c",
+      "bytes": 463
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-2048/attempt-1790348378381865471/result.jsonl",
+      "archive_path": "raw/context-2048/attempt-1790348378381865471/result.jsonl.gz",
+      "sha256": "9f71afffe872a0f73cbf6fc8fff700d2a8e4b353ad6bb09b194b615328ca53f0",
+      "archive_sha256": "9cdc00440c2a3ab9da0c75d6de2d3c56908bc0cab616704dc494dc4b722d47da",
+      "bytes": 26743
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-2048/attempt-1790348378381865471/stdout.log",
+      "archive_path": "raw/context-2048/attempt-1790348378381865471/stdout.log.gz",
+      "sha256": "86a93854e14ccfb6bad6694adf9e5e067376d5a3a0c484e06f785b1fbada40c6",
+      "archive_sha256": "8931a45713e6aaec2eed342590f25ec50830107c94fc7fa671ee17c4aad34742",
+      "bytes": 381
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-2048/receipt.json",
+      "archive_path": "raw/context-2048/receipt.json.gz",
+      "sha256": "4c7464befe2f42745ba5fe9f8f62f2acdf9c6169795b2b52f079e20b777aa58e",
+      "archive_sha256": "310b264028a3715f3272e79d9aabe332e919737805def5e8fb288f48fc19a5c3",
+      "bytes": 4452
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-262144/attempt-1790348778488064128/command.json",
+      "archive_path": "raw/context-262144/attempt-1790348778488064128/command.json.gz",
+      "sha256": "79b9156d9454c8c8d71338612cd1458740ac5ab61ce4f1ab5db62c58c9884a4d",
+      "archive_sha256": "a42264f669d1ecaab176b4e0aa45131b6d3b41ffea1738dc19bb5260fbdc4664",
+      "bytes": 467
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-262144/attempt-1790348778488064128/result.jsonl",
+      "archive_path": "raw/context-262144/attempt-1790348778488064128/result.jsonl.gz",
+      "sha256": "b8917c25bc4b1466e4ba939057c1e769430b34a19812063520855eeccb07d53c",
+      "archive_sha256": "b675ab2457d98ca9b5d14e1542c64bbcbb7d9cd170ea63dc87a41d13b7efafa1",
+      "bytes": 26780
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-262144/attempt-1790348778488064128/stdout.log",
+      "archive_path": "raw/context-262144/attempt-1790348778488064128/stdout.log.gz",
+      "sha256": "1ea0f8884af1b7535f9342e9de2bdd53ac842ec331eeac62d57dea2386739d3e",
+      "archive_sha256": "8d4f75055e874d154dfb10686a7cda15e7ed5d4c91659d17fba1e5783f614332",
+      "bytes": 385
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-262144/receipt.json",
+      "archive_path": "raw/context-262144/receipt.json.gz",
+      "sha256": "9719e7c9a370d9becad8fba90cb0262ab18c1649e84046e979e54fbaf4094e01",
+      "archive_sha256": "bdecb3a566e8333db2f20a01f083eff804d2a3e6a64884c888589faf85d24611",
+      "bytes": 4452
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-65536/attempt-1790348418719868859/command.json",
+      "archive_path": "raw/context-65536/attempt-1790348418719868859/command.json.gz",
+      "sha256": "449017cb5cf12518431cbca04a8b629af299ad0ac03b96310909c54ac46fdd11",
+      "archive_sha256": "b680841455f81a0f07ceff5c535493ea9d3aaa031dc846595d9a316698401716",
+      "bytes": 465
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-65536/attempt-1790348418719868859/result.jsonl",
+      "archive_path": "raw/context-65536/attempt-1790348418719868859/result.jsonl.gz",
+      "sha256": "56d542aa07b14c3027569da2504bd7631d92e0cb356855b6fba8a6cd67fef05b",
+      "archive_sha256": "4a8c7f88f49b8158785c595cd8420e5470bee66413580c04fed2f2f0a12f3ce7",
+      "bytes": 26655
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-65536/attempt-1790348418719868859/stdout.log",
+      "archive_path": "raw/context-65536/attempt-1790348418719868859/stdout.log.gz",
+      "sha256": "c1ab987f4015f496bfbaedc5848f8b3da697d49b439bcbfd7f3ebac5443d2f4e",
+      "archive_sha256": "7d6e3f5bc239929fde91f774be423c00b25f8b80a2d781c718ccfd6582a4c5fd",
+      "bytes": 382
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/context-65536/receipt.json",
+      "archive_path": "raw/context-65536/receipt.json.gz",
+      "sha256": "7ed80549397d1ef79016aa05016ce523a83c11665c3fb678526d1d92fcf4ba70",
+      "archive_sha256": "c6f51e1fe4430fcfa4bfd869bd975243fe5b30680bd7e02324bbf9427140f54e",
+      "bytes": 4452
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/retrieval-8192/attempt-1790350432457762199/command.json",
+      "archive_path": "raw/retrieval-8192/attempt-1790350432457762199/command.json.gz",
+      "sha256": "e041d579b10d1fc081b85d578c41a8a97ee71f9b1487c9bd84c522818cd71344",
+      "archive_sha256": "eaea6eb85633d36a0825863c7a3fc757989ed937ed195c4b33096e016254f4d1",
+      "bytes": 449
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/retrieval-8192/attempt-1790350432457762199/result.jsonl",
+      "archive_path": "raw/retrieval-8192/attempt-1790350432457762199/result.jsonl.gz",
+      "sha256": "7757ca3534db6653e83557a16a34b2df9ee52ebb06cd53c86b57d79dbdf02dd5",
+      "archive_sha256": "4da60af4c6468fe38010680ab48a70c7b127260461ace5e128991d48c1ed47f9",
+      "bytes": 3641
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/retrieval-8192/attempt-1790350432457762199/stdout.log",
+      "archive_path": "raw/retrieval-8192/attempt-1790350432457762199/stdout.log.gz",
+      "sha256": "1678903850814457677b8f235d364f38b93064ab1a44f0809dfa64b0d3dae812",
+      "archive_sha256": "de94ae2665b741c9b0d7f54c5715342bb2f3b802720fad23c51ef671db7b6de9",
+      "bytes": 350
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/retrieval-8192/receipt.json",
+      "archive_path": "raw/retrieval-8192/receipt.json.gz",
+      "sha256": "7d3d8f1fd2bc4e7a42ba6181c71aa5deb2617e781af19852d3dae886bff4e489",
+      "archive_sha256": "00ff1453d82f9bc3a3b295a4c763b91a7134dddc950c15976059bfa8a590de00",
+      "bytes": 4524
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/command.json",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/command.json.gz",
+      "sha256": "c809b9e7569c6ee0c6c7bc3ce61127cd256a6af62509bc8a47a751cc240f5515",
+      "archive_sha256": "71c0771609998291f1949a10f7a46e47cf144e2c9a7c4cfc9e5524addcbbae1b",
+      "bytes": 373
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/stdout.log",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/stdout.log.gz",
+      "sha256": "9d9a1d49738abdba010575b0d8df21da50a30b2fbbb398f85f107a0bb057152c",
+      "archive_sha256": "e7f9da1f459ae36ba968a6a825ee96d7ac4f74b7896df36bd290796e8223e974",
+      "bytes": 4028
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/data/benchmarks.sqlite",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/data/benchmarks.sqlite.gz",
+      "sha256": "bb03a7be7abab2d5584d53a436f0e2ec97ecc6148aea45a5ea78bd89e739c3f5",
+      "archive_sha256": "31246e1fd8ae13ff733821357d3cecca510af315b3b9e2b7131b352ddee95b40",
+      "bytes": 1044480
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/exit.json",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/exit.json.gz",
+      "sha256": "8adb39bbc9b43539bab187eba084bed53e121839270509153cf84db1bdd99bb7",
+      "archive_sha256": "a1ac1fcb3b6ae914a8561c700925c9b5c7ff9d1b01f8218d66de90c7ce5f974d",
+      "bytes": 54
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/manifest.json",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/manifest.json.gz",
+      "sha256": "6573b00de3dee504a449f6548ddf2dc6aadb03fc2cfee2451c2fbd7492250c39",
+      "archive_sha256": "24bc993ee3577f5c65e29997b91372456fcf4fd02d45306e72b31b618d557e93",
+      "bytes": 1402
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/receipt.json",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/receipt.json.gz",
+      "sha256": "829cf3ad67835d374928b86678305edbecf596a3279f9b37e0b9a8e2137016c2",
+      "archive_sha256": "5ee6f70fc0d1b197267c4619faa20b7e054d2f9fa9944b628f37fbfffddbdf18",
+      "bytes": 1049
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/run.log",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/run.log.gz",
+      "sha256": "39a7fe552752f889a432cf18e33739ec033def3f8386a12adda00f13ec346dd1",
+      "archive_sha256": "730f6dd114727a963481ced4f1753cf8b96ae52df736615be2f0b464f239d686",
+      "bytes": 24147
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/runs/2026/09/2026-09-25T14-46-53.573673Z_c2a64f51.md",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/runs/2026/09/2026-09-25T14-46-53.573673Z_c2a64f51.md.gz",
+      "sha256": "1c62d95c8f581ee591d6fed566ed7074987244895d0547127ee0de35f40b8a83",
+      "archive_sha256": "5b3525c0059e02573558017bb33600beac8c41890578e7090399a740515a8902",
+      "bytes": 375175
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/summary.json",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/summary.json.gz",
+      "sha256": "4b932e7070c5bdfc2523a0bb7d88c3935456707b7df82b0cac1dec1a1cc250fe",
+      "archive_sha256": "71ca6b911993cccc14bf64aef6e42ff97d2698989ec5e8887658d638fa51e061",
+      "bytes": 4986
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/summary.md",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/summary.md.gz",
+      "sha256": "aed70172e391b043f010aed8b38ee63b49034160462334717e42ffb8baf9c8a8",
+      "archive_sha256": "4ea0b25f55e160603f03ee46bf946738bbf96a5345720cbf95d3e7e6938ae2cd",
+      "bytes": 196
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/tools.json",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/tools.json.gz",
+      "sha256": "c416b143d7e801c11f8a70bf37c37a38dd6e54458124a16900ab05314c31b54f",
+      "archive_sha256": "dfbfb3fa4fc9b7ce235b5faccafefed1ae801538b39630860c5aafa575dbcf02",
+      "bytes": 464515
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/attempt-1790347613146320443/tool-quality/tools.md",
+      "archive_path": "raw/tool-quality/attempt-1790347613146320443/tool-quality/tools.md.gz",
+      "sha256": "1c62d95c8f581ee591d6fed566ed7074987244895d0547127ee0de35f40b8a83",
+      "archive_sha256": "5b3525c0059e02573558017bb33600beac8c41890578e7090399a740515a8902",
+      "bytes": 375175
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/tool-quality/receipt.json",
+      "archive_path": "raw/tool-quality/receipt.json.gz",
+      "sha256": "5a56f7b369090a33f101eb3dc2cd2867a110f16a43c02f9ffa5b4130e46968ff",
+      "archive_sha256": "11b0b07523e1d731297497fa3e6f048c64b2db831ee851d52d884c30b3586773",
+      "bytes": 10164
     }
   ],
-  "summary_sha256": "e2bac863551602273818383bcd9d853cc8eb9b22a598775d81415156d411ba44"
+  "summary_sha256": "849f7fc10d6a9bb8cc3404326b157b49f770ddc1cf6481f82be3091f324b391d"
 }
