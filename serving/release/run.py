@@ -35,6 +35,21 @@ def attention_flags(config):
     return ['--attention-config',json.dumps({'sparse_mla_force_mqa':True})] if config.get('sparse_mla_force_mqa',False) else []
 
 
+def allocator_environment(config, selected):
+    fraction = config.get('allocator_fraction')
+    options = config.get('pytorch_alloc_conf', '')
+    if fraction is None:
+        if options:
+            fail('Allocator options require an explicit qualified fraction')
+        return {'DOTS3_ALLOCATOR_FRACTION': '', 'PYTORCH_ALLOC_CONF': ''}
+    if selected != 'spark' or type(fraction) not in (int, float) or not 0 < fraction < 1:
+        fail('Allocator fraction must be a Spark-only value within (0, 1)')
+    match = re.fullmatch(r'garbage_collection_threshold:([0-9.]+)', options)
+    if not match or not 0 < float(match[1]) < 1:
+        fail('Qualified allocator options require one explicit native GC threshold')
+    return {'DOTS3_ALLOCATOR_FRACTION': str(fraction), 'PYTORCH_ALLOC_CONF': options}
+
+
 def settings(path, selected):
     doc = json.loads(path.read_text())
     if doc.get('schema') != 1:
@@ -44,6 +59,7 @@ def settings(path, selected):
     if doc.get('model_revision') != MODEL_REVISION:
         fail('Unexpected checkpoint revision')
     config = dict(doc['platforms'][selected])
+    allocator_environment(config, selected)
     config.setdefault('sparse_mla_force_mqa', False)
     if type(config['sparse_mla_force_mqa']) is not bool:fail('sparse_mla_force_mqa must be boolean')
     config.setdefault('compact_dsa_cache', False)
@@ -212,6 +228,14 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
         if runtime_env is None:
             runtime_env = report.get('hardware', {}).get(host, {}).get('runtime', {}).get('selected_environment', [])
         env = dict(item.split('=', 1) for item in runtime_env)
+        expected_allocator = allocator_environment(config, selected)
+        actual_fraction = env.get('DOTS3_ALLOCATOR_FRACTION', '')
+        expected_fraction = expected_allocator['DOTS3_ALLOCATOR_FRACTION']
+        if (bool(actual_fraction) != bool(expected_fraction) or
+                (actual_fraction and float(actual_fraction) != float(expected_fraction)) or
+                env.get('PYTORCH_ALLOC_CONF', '') != expected_allocator['PYTORCH_ALLOC_CONF'] or
+                env.get('PYTORCH_CUDA_ALLOC_CONF', '')):
+            fail(f'Qualification allocator policy mismatch for {host}')
         if env.get('VLLM_HYBRID_LAYER_PARTITION', '') != ','.join(map(str, config['hybrid_layer_partition'])):
             fail(f'Qualification hybrid layer ownership mismatch for {host}')
         if env.get('VLLM_HYBRID_BALANCE_KV_GROUPS', '0') != str(int(config['hybrid_balance_kv_groups'])):
@@ -338,6 +362,8 @@ def main():
     if native != config['architecture']:
         fail(f'This {args.platform} image requires native {config["architecture"]}')
     env = os.environ.copy()
+    env.update(allocator_environment(config, args.platform))
+    env.pop('PYTORCH_CUDA_ALLOC_CONF', None)
     if env.get('MODEL_DIR'):
         fail('The release fast path uses the qualified model in HF_HOME; unset MODEL_DIR')
     if args.platform == 'spark' and args.action != 'pull':
