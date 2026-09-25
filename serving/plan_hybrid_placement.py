@@ -66,7 +66,7 @@ def storage_plan(receipt, kv_budgets, mm_owners, reserves):
     return candidates,dsa,tower_bytes
 
 
-def apply_real_cache_planner(candidates,dsa):
+def apply_real_cache_planner(candidates,dsa,*,refine=False,max_model_len=524288,max_in_flight_tokens=1024):
     import torch
     from vllm.v1.core.kv_cache_utils import (_get_packed_kv_cache_groups,
         _project_kv_cache_groups_to_worker,get_kv_cache_config_from_groups)
@@ -89,8 +89,13 @@ def apply_real_cache_planner(candidates,dsa):
     for row in candidates:
         if min(row['estimated_kv_budget_bytes'])<=0:
             row.update(feasible_estimate=False,common_blocks=0);continue
-        projected=[_project_kv_cache_groups_to_worker(groups,{name:spec for name,spec in specs.items()
-                    if (layer_ids[name]<row['cut'])==(rank==0)}) for rank in (0,1)]
+        worker_specs=[{name:spec for name,spec in specs.items()
+                       if (layer_ids[name]<row['cut'])==(rank==0)} for rank in (0,1)]
+        candidate_groups=groups
+        if refine:
+            from hybrid_cache_groups import refine_owner_state_groups
+            candidate_groups=refine_owner_state_groups(groups,worker_specs)
+        projected=[_project_kv_cache_groups_to_worker(candidate_groups,worker) for worker in worker_specs]
         cache=[get_kv_cache_config_from_groups(config,g,budget)
                for g,budget in zip(projected,row['estimated_kv_budget_bytes'])]
         # BLHNC tensor descriptors alias the same physical pool. Each size
@@ -100,11 +105,33 @@ def apply_real_cache_planner(candidates,dsa):
         strides=[c.kv_cache_tensors[0].size//c.num_blocks for c in cache]
         blocks=[c.num_blocks for c in cache]
         common=min(blocks)
+        full_blocks=(max_model_len+63)//64
+        swa_blocks=next(s for s in specs.values() if isinstance(s,SlidingWindowMLASpec)).max_admission_blocks_per_request(max_in_flight_tokens,max_model_len)
+        state_groups=sum(isinstance(g.kv_cache_spec.first_spec,SlidingWindowMLASpec) for g in candidate_groups)
+        request_blocks=full_blocks+state_groups*swa_blocks
+        breakdown=[]
+        for rank in (0,1):
+            history_page=sum(s.page_size_bytes for s in worker_specs[rank].values() if not isinstance(s,SlidingWindowMLASpec))
+            state_page=sum(s.page_size_bytes for s in worker_specs[rank].values() if isinstance(s,SlidingWindowMLASpec))
+            history=history_page*full_blocks;state=state_page*swa_blocks
+            full_padding=(strides[rank]-history_page)*full_blocks
+            state_overhead=strides[rank]*state_groups*swa_blocks-state
+            breakdown.append(dict(useful_history_bytes_per_request=history,
+                useful_bounded_swa_bytes_per_request=state,
+                history_arena_padding_bytes_per_request=full_padding,
+                bounded_swa_arena_overhead_bytes_per_request=state_overhead,
+                total_pool_bytes_per_request=strides[rank]*request_blocks,
+                history_padding_all_blocks_upper_bound=(strides[rank]-history_page)*common))
+        row.update(kv_memory_breakdown=breakdown,global_swa_groups=state_groups,
+                   swa_admission_blocks_per_request=swa_blocks,
+                   max_context_request_blocks=request_blocks,
+                   estimated_max_context_concurrency=common/request_blocks,
+                   estimated_equivalent_context_tokens=int(common/request_blocks*max_model_len))
         row.update(feasible_estimate=True,worker_blocks=blocks,common_blocks=common,
                    block_bytes=strides,limiting_rank=blocks.index(common),
                    dsa_layers_per_rank=[sum((i<row['cut'])==(rank==0) for i in dsa) for rank in (0,1)],
                    unused_budget_after_common_pool_bytes=[b-common*s for b,s in zip(row['estimated_kv_budget_bytes'],strides)])
-    return sorted(candidates,key=lambda r:r['common_blocks'],reverse=True)
+    return sorted(candidates,key=lambda r:r.get('estimated_max_context_concurrency',0),reverse=True)
 
 
 def main():
@@ -114,6 +141,9 @@ def main():
     parser.add_argument('--extra-workspace-reserve-gib',type=parse_pair,default=(0.,0.))
     parser.add_argument('--mm-owners',default='0,1')
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--balance-kv-groups',action='store_true')
+    parser.add_argument('--max-in-flight-tokens',type=int,help='Override missing old receipt admission metadata; includes async batches')
+    parser.add_argument('--max-model-len',type=int,help='Override missing old receipt admission metadata')
     args=parser.parse_args()
     mm=tuple(int(x) for x in args.mm_owners.split(','))
     if len(mm)!=2 or any(x not in (0,1) for x in mm): parser.error('MM owners must be two worker ranks')
@@ -125,6 +155,10 @@ def main():
             parser.error('receipt lacks exact worker KV budgets; provide --kv-budgets-gib explicitly')
         budgets = tuple(x/GIB for x in measured)
     candidates,dsa,towers=storage_plan(receipt,budgets,mm,args.extra_workspace_reserve_gib)
+    admission=receipt['workers'][0].get('cache_admission_inputs',{})
+    max_len=args.max_model_len or admission.get('max_model_len')
+    in_flight=args.max_in_flight_tokens or admission.get('max_in_flight_tokens')
+    if not max_len or not in_flight:parser.error('need actual max_model_len and max_in_flight_tokens from receipt or explicit flags')
     result={'schema':'dots3-hybrid-placement-estimate-v1','measured_performance':False,
         'source_attestation':str(args.attestation.resolve()),'source_kv_budgets_gib':budgets,
         'kv_budget_source':'override' if args.kv_budgets_gib else 'exact_worker_receipt',
@@ -133,7 +167,9 @@ def main():
           'Per-rank budgets are pre-allocation available KV memory, not the allocated shared-minimum pools.',
           'Only persistent registered CUDA owner weights/buffers move; attention workspaces and peak activations may change.',
           'Target embedding/vocabulary and draft owner remain unchanged; final runtime admission must be tested.'],
-        'candidates':apply_real_cache_planner(candidates,dsa)}
+        'owner_aware_grouping':args.balance_kv_groups,
+        'admission':{'max_model_len':max_len,'max_in_flight_tokens':in_flight},
+        'candidates':apply_real_cache_planner(candidates,dsa,refine=args.balance_kv_groups,max_model_len=max_len,max_in_flight_tokens=in_flight)}
     import hashlib
     result['source_attestation_sha256']=hashlib.sha256(args.attestation.read_bytes()).hexdigest()
     args.output.parent.mkdir(parents=True,exist_ok=True)
