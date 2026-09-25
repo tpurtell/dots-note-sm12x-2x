@@ -1,0 +1,236 @@
+{
+  "scope": "Development Spark MTP3 native/RoCE transport comparison, 32K context .80, not final release qualification",
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/coding-32k-mtp3-v2-80-8192.jsonl",
+      "artifact": "coding-32k-mtp3-v2-80-8192.jsonl.gz",
+      "source_sha256": "c5d5613a6cc658b3a0aa4aeeb7b03612b01808e4dff0d7477eef86d52e6a84a1",
+      "artifact_sha256": "31a016d972732b640786c601efbddb22251fb14fde578334c43bd350e7a1da87",
+      "source_bytes": 48468670
+    },
+    {
+      "source": ".cache/serving/spark/coding-32k-mtp3-native-c1c4-derived.jsonl",
+      "artifact": "coding-32k-mtp3-native-c1c4-derived.jsonl.gz",
+      "source_sha256": "9eb5613e374c6729e0633c059b90d3b87cbf80cd7d7462544e16766128d2ab4e",
+      "artifact_sha256": "1efd94783ed4bd54b9364ec808ae9ba683e0830f8b3df248443205598aec225d",
+      "source_bytes": 33036341
+    },
+    {
+      "source": ".cache/serving/spark/coding-32k-mtp3-roce-80-8192.jsonl",
+      "artifact": "coding-32k-mtp3-roce-80-8192.jsonl.gz",
+      "source_sha256": "727cd79fc7c72b1f6d5aa5dd75bdecc80c30be7d918ed08947f998992b1a6567",
+      "artifact_sha256": "726cd9203f10866139176801952824a5cf4ae3cb936e21544519606df6eac5fd",
+      "source_bytes": 17402166
+    },
+    {
+      "source": ".cache/serving/spark/coding-32k-mtp3-roce-80-8192-full.jsonl",
+      "artifact": "coding-32k-mtp3-roce-80-8192-full.jsonl.gz",
+      "source_sha256": "5cf967113eb6901bebf6b6055862f5c34f32190c54f26fe4f6c2f09e8deaf667",
+      "artifact_sha256": "981159840ddb1d2bb8433eb6641aaf4645f4894cdb218eadc69a6abdbe823b23",
+      "source_bytes": 31941983
+    },
+    {
+      "source": ".cache/serving/spark/coding-mtp3-native-vs-roce-full.json",
+      "artifact": "coding-mtp3-native-vs-roce-full.json.gz",
+      "source_sha256": "a145c907a55423ecafcc77351099022f64044c1a22b580e7c376f0b9e9e801d8",
+      "artifact_sha256": "2e9b5216ecbc9793751f459f1f66fa5d9ae22627c0c3a732721758c5d9beb9cb",
+      "source_bytes": 61960
+    },
+    {
+      "source": ".cache/serving/spark/coding-32k-mtp3-v2-80-8192-audit.json",
+      "artifact": "coding-32k-mtp3-v2-80-8192-audit.json.gz",
+      "source_sha256": "0ae3022fd9654508dfd06eeae22e0f42340f4791f36bc1e6e2b9f59e38fbe16c",
+      "artifact_sha256": "c317c8eca070cb06904c3f425e119797bfa35755868c791d92bb9f1558d1cf7e",
+      "source_bytes": 42203
+    },
+    {
+      "source": ".cache/serving/spark/mtp3-v2-80-memory-summary.json",
+      "artifact": "mtp3-v2-80-memory-summary.json.gz",
+      "source_sha256": "bb43f4f841e7c9507e320c30c2509fae3e1fe4cd69698289310c8dbd2cbbc095",
+      "artifact_sha256": "d17baae901f6fd182d53589884e8e33d7f3a732d4a745284451201e8f7086654",
+      "source_bytes": 230
+    },
+    {
+      "source": ".cache/serving/spark/prefix-xgrammar-mtp3-v2-80.json",
+      "artifact": "prefix-xgrammar-mtp3-v2-80.json.gz",
+      "source_sha256": "9baf9931a2caeb4cc699b06990deb082315c373e380cb29ec10cdf083c5a3fcf",
+      "artifact_sha256": "91e72fd83b4934f111f34e5ca6cc4869fa93860440e8dd0e6dcc555e2096b7a0",
+      "source_bytes": 2413
+    },
+    {
+      "source": ".cache/serving/spark/prefix-xgrammar-mtp3-roce-80.json",
+      "artifact": "prefix-xgrammar-mtp3-roce-80.json.gz",
+      "source_sha256": "fa5bd24e6048c9a1264af49de00370d29ecea4c15c63881e378c859703ff9776",
+      "artifact_sha256": "384561ef9fd2b45026619b7ad73957999c547a1ebc027dd41e0d1480fc0cb275",
+      "source_bytes": 2411
+    },
+    {
+      "source": ".cache/serving/spark/tools-mtp3-v2-80.jsonl",
+      "artifact": "tools-mtp3-v2-80.jsonl.gz",
+      "source_sha256": "8c1590d6de72502c970ab7494fffa1cfcdca94ca72e4143145a72bdb0f7ef912",
+      "artifact_sha256": "6477d6bd8f5454e12d34e98492f76a3cf2238b9f378b1889ca798f17de5a330e",
+      "source_bytes": 18386
+    },
+    {
+      "source": ".cache/serving/spark/tools-mtp3-roce-80.jsonl",
+      "artifact": "tools-mtp3-roce-80.jsonl.gz",
+      "source_sha256": "09698bc5c93b2b3eab4220096a210b81db6b59b51739f3c0034dc4aa057761f2",
+      "artifact_sha256": "574e9f91d89924ca27881d2efd444251a4ec456a2ad65008cb0c91ff56c1dcdc",
+      "source_bytes": 18388
+    },
+    {
+      "source": ".cache/serving/spark/multimodal-mtp3-v2-80.json",
+      "artifact": "multimodal-mtp3-v2-80.json.gz",
+      "source_sha256": "716c0b32417ddc45addc82c7f73df5f7e7e65a494e1e252c2ed1700a1a683b50",
+      "artifact_sha256": "c48e16150d278256aa6dd7bdf214812ca491890001cf588ea821cadbefd86f5d",
+      "source_bytes": 3954
+    },
+    {
+      "source": ".cache/serving/spark/multimodal-mtp3-roce-80.json",
+      "artifact": "multimodal-mtp3-roce-80.json.gz",
+      "source_sha256": "82e3e5d4478326ed9fefd8fb5b845f56de7cd85897cd4f19f4242fa10ae8c262",
+      "artifact_sha256": "11419ed6ee3a9716c655b0394aa18964524f5eac876dfa0fa8582e9da457829f",
+      "source_bytes": 3956
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-mtp3-v2-80-final.json",
+      "artifact": "runtime-rhea-mtp3-v2-80-final.json.gz",
+      "source_sha256": "084eb433bcf550ac108127213fd4842664ab5ddbcc75b393d532971f692e2bf9",
+      "artifact_sha256": "fa5a2e380becbe9b81798688cd4736a33334c2177267a8042d1727f275cc8ff9",
+      "source_bytes": 8128
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-mtp3-roce-80-final.json",
+      "artifact": "runtime-rhea-mtp3-roce-80-final.json.gz",
+      "source_sha256": "e24056951c2e00b45753b94be6db570a06ab2d04850d26a8b565dff6daf36ac7",
+      "artifact_sha256": "052420c77d4698c8b834934626fbc9ff0c94327db4c2ae356d6e6b7f3c475fad",
+      "source_bytes": 9025
+    },
+    {
+      "source": ".cache/serving/spark/runtime-moa-mtp3-v2-80-final.json",
+      "artifact": "runtime-moa-mtp3-v2-80-final.json.gz",
+      "source_sha256": "25e59f381ade1eb434f53c98338875afbdcd864453b22d3281a36760aa18d887",
+      "artifact_sha256": "8ed75ec02c619ac3f4632604efd5fe056332a71eccd3dc1d33212c9ab1eb27ba",
+      "source_bytes": 2908
+    },
+    {
+      "source": ".cache/serving/spark/runtime-moa-mtp3-roce-80-final.json",
+      "artifact": "runtime-moa-mtp3-roce-80-final.json.gz",
+      "source_sha256": "9a4cea7c99b076445a5ec1a345d0a16d26302b091b374107c4d8bc2f88bbdaaf",
+      "artifact_sha256": "5e227114c6c380886a850be53d8a3dc83711c40001597a7efe6f3090415da21e",
+      "source_bytes": 3806
+    },
+    {
+      "source": ".cache/serving/spark/roce/moa-fast-003-64rows.log",
+      "artifact": "roce--moa-fast-003-64rows.log.gz",
+      "source_sha256": "fcefba4cfecab393a9ccb06ec4989f513dbcab4d021a4b0a88adb8fffdb71dd1",
+      "artifact_sha256": "b923b1ec33e7b2a1791d5d3a05b2add12e5aa4356428f09b9df923468dc42fe9",
+      "source_bytes": 31673
+    },
+    {
+      "source": ".cache/serving/spark/roce/moa-fast-003-64rows.jsonl",
+      "artifact": "roce--moa-fast-003-64rows.jsonl.gz",
+      "source_sha256": "17fec64b5686f8fe56565dfc9708974dbee09ade2788a02630ac5c30978dc2b8",
+      "artifact_sha256": "c0e3e83ebfd095f17fff5972d474e373230e4a355a2619adb8b9a92d274c4f92",
+      "source_bytes": 16515
+    },
+    {
+      "source": ".cache/serving/spark/roce/rhea-adapter-001.jsonl",
+      "artifact": "roce--rhea-adapter-001.jsonl.gz",
+      "source_sha256": "b9c034ee813e56de2284af04e13306bfc16e2b630793490b3bcaad25bac95e68",
+      "artifact_sha256": "6ce3e349ae7557805a13282868baf38fdf861b30837fca847128e809984ddf77",
+      "source_bytes": 5362
+    },
+    {
+      "source": ".cache/serving/spark/roce/rhea-fast-003-64rows.jsonl",
+      "artifact": "roce--rhea-fast-003-64rows.jsonl.gz",
+      "source_sha256": "1504825dc803a84ca70a7f4efa5abbf4bcae76e24ddab4b316cd845fbbb6fc39",
+      "artifact_sha256": "b62c759f5b753870b627ee17d804b1318dc223d14f478db5d0d2121b4e64ec98",
+      "source_bytes": 16517
+    },
+    {
+      "source": ".cache/serving/spark/roce/rhea-fast-003-64rows.log",
+      "artifact": "roce--rhea-fast-003-64rows.log.gz",
+      "source_sha256": "e2ad67ddcf41b93f5842e86f89b671a98f9e5970c670608ae4a736ce4367906f",
+      "artifact_sha256": "68e3c11cb56d8308d3f91b7c7397ea5f3470435ad248a52f396c7b8bf116b3ea",
+      "source_bytes": 35010
+    },
+    {
+      "source": ".cache/serving/spark/roce/moa-adapter-failstop-001.worker.stdout",
+      "artifact": "roce--moa-adapter-failstop-001.worker.stdout.gz",
+      "source_sha256": "8bb105a42516c3649b71007143ab6ec5dc03d6628a4a5792209b26e4c4cbbaaa",
+      "artifact_sha256": "ff174587f6fa0d7aa50e5a8a94baaf14ae994e242cf9a650f3f63580b9159f2b",
+      "source_bytes": 12757
+    },
+    {
+      "source": ".cache/serving/spark/roce/moa-adapter-failstop-001.worker.stderr",
+      "artifact": "roce--moa-adapter-failstop-001.worker.stderr.gz",
+      "source_sha256": "1d96d56a7cf5302e121d50aff2063688c01111ae732a5781d4ac5cd7b03ac068",
+      "artifact_sha256": "760b9b5cf74f54265c3ede88b53dc58008b5f0e971d3b3c233fa1b73a8b73215",
+      "source_bytes": 224
+    },
+    {
+      "source": ".cache/serving/spark/roce/moa-adapter-failstop-001.log",
+      "artifact": "roce--moa-adapter-failstop-001.log.gz",
+      "source_sha256": "02c77f25e3795a4cb706819dee5e5b5a9066ada94e5580eb206e5d1cee97d24f",
+      "artifact_sha256": "9c832ef5edc0c2898502502810eb71137b5c10f8afe9dcfa5ab538c8eb5e2109",
+      "source_bytes": 297
+    },
+    {
+      "source": ".cache/serving/spark/roce/moa-adapter-001.jsonl",
+      "artifact": "roce--moa-adapter-001.jsonl.gz",
+      "source_sha256": "4b7c7ab8b195cdc95df6c20f90fa9988b55726a03eafe8066abc9bd6276b0fa3",
+      "artifact_sha256": "5e11731965f2f90c3dbf71ae8562f8b10171b978e38706484ad60ee4db9f1821",
+      "source_bytes": 5361
+    },
+    {
+      "source": ".cache/serving/spark/roce/rhea-adapter-001.log",
+      "artifact": "roce--rhea-adapter-001.log.gz",
+      "source_sha256": "b8c5cf645df709eeedb6e294ce142ac79a543628d22553f16354b5d767322480",
+      "artifact_sha256": "06d98f8ff7acab5eecb3d66ee4291da0e6fea67d276b7ab1330df67ff5d1a177",
+      "source_bytes": 24571
+    },
+    {
+      "source": ".cache/serving/spark/roce/moa-adapter-failstop-001.json",
+      "artifact": "roce--moa-adapter-failstop-001.json.gz",
+      "source_sha256": "6ef33c9d0a4d6496678210dcec053a154daa78bc30fda26a6ed0367268ded25a",
+      "artifact_sha256": "855b0e8ff6a67b44fecf13ffc298c5e8d0f7acc949da35b595528c6cf04658a7",
+      "source_bytes": 315
+    },
+    {
+      "source": ".cache/serving/spark/roce/rhea-adapter-failstop-001.worker.stdout",
+      "artifact": "roce--rhea-adapter-failstop-001.worker.stdout.gz",
+      "source_sha256": "cc0de27e82723cfdaad221e5207a14a35db031b8f8955a502b7dbfdbefe251ef",
+      "artifact_sha256": "4414b972c283b0ee8883ab456e1184eb9c005105b1e73a17889c3f50688d7d00",
+      "source_bytes": 17227
+    },
+    {
+      "source": ".cache/serving/spark/roce/moa-adapter-001.log",
+      "artifact": "roce--moa-adapter-001.log.gz",
+      "source_sha256": "5cb3a04b66add8b98b4183b57f8b9797c6f10c23c43e46e56f56d2004d0fe89c",
+      "artifact_sha256": "969b2ab4a3f2752a0f62a5d4d02191bad38f246c4763fc7b80675d2d3fab3edb",
+      "source_bytes": 20925
+    },
+    {
+      "source": ".cache/serving/spark/roce/rhea-adapter-failstop-001.worker.stderr",
+      "artifact": "roce--rhea-adapter-failstop-001.worker.stderr.gz",
+      "source_sha256": "7917b60d89681b6e3e65459655a424c09186b97a944ac1fc49f5bfadda9ffe2a",
+      "artifact_sha256": "b49795ca016ed5b0de6c3140807a42b0b95337131919daa27ef83e988d087a6e",
+      "source_bytes": 224
+    },
+    {
+      "source": ".cache/serving/spark/roce/rhea-adapter-failstop-001.json",
+      "artifact": "roce--rhea-adapter-failstop-001.json.gz",
+      "source_sha256": "0be9fd86c4402cdbea82f707c014e638001ef0d52a6d2db60dacb966bf1a88cc",
+      "artifact_sha256": "ed013b159719e15efbe5ff134de3b8a92150d4ed7b952f6d6a2331217d489fd8",
+      "source_bytes": 317
+    },
+    {
+      "source": ".cache/serving/spark/roce/rhea-adapter-failstop-001.log",
+      "artifact": "roce--rhea-adapter-failstop-001.log.gz",
+      "source_sha256": "2cffeef2d65c45434cabca2a6245fe1608466f0907c425003d61e004641e5abc",
+      "artifact_sha256": "955590211952c5b885412057e813605c4360e3e7a506649a37a8245be8310f96",
+      "source_bytes": 299
+    }
+  ]
+}
