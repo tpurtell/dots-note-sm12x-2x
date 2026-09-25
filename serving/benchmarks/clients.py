@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 import http.client
+import hashlib
 import json
 import statistics
 import threading
@@ -65,6 +66,7 @@ def request_once(
 
     token_times: list[list[float]] = [[] for _ in range(concurrency)]
     completion_tokens = None
+    sse_events = []
     while True:
         raw_line = response.readline()
         if not raw_line:
@@ -77,6 +79,7 @@ def request_once(
         if not data or data == "[DONE]":
             continue
         event = json.loads(data)
+        sse_events.append({"seconds": observed - started, "event": event})
         if isinstance(event.get("usage"), dict):
             completion_tokens = event["usage"].get("completion_tokens")
         for choice in event.get("choices", []):
@@ -102,6 +105,8 @@ def request_once(
     return {
         "concurrency": concurrency,
         "request_nonce": nonce,
+        "request_payload": payload,
+        "sse_events": sse_events,
         "started_perf_seconds": started,
         "token_times_seconds": [[t - started for t in times] for times in token_times],
         "timing_convention": "sum(N-1) over global first-to-last SSE token window",
@@ -114,9 +119,9 @@ def request_once(
     }
 
 
-def independent_clients(base_url, model, concurrency, output_tokens, seed):
+def independent_clients(base_url, model, concurrency, output_tokens, seed, nonce=""):
     barrier = threading.Barrier(concurrency)
-    nonce = uuid.uuid4().hex
+    nonce = nonce or uuid.uuid4().hex
 
     def worker(index):
         barrier.wait()
@@ -165,6 +170,7 @@ def main() -> None:
     )
     parser.add_argument("--runs", type=int, default=3)
     parser.add_argument("--seed", type=int, default=20260828)
+    parser.add_argument("--nonce-prefix", help="Stable identifier seed for matched candidate prompts")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if min(args.concurrency) < 1 or args.output_tokens < 2:
@@ -176,7 +182,9 @@ def main() -> None:
     for concurrency in args.concurrency:
         for _ in range(args.warmup_runs):
             runner(
-                args.base_url, args.model, concurrency, warmup_tokens, args.seed
+                args.base_url, args.model, concurrency, warmup_tokens, args.seed,
+                nonce=(hashlib.sha256(f"{args.nonce_prefix}:{concurrency}:warmup:{_}".encode()).hexdigest()[:32]
+                       if args.nonce_prefix is not None else ""),
             )
         runs = []
         for run in range(args.runs):
@@ -186,6 +194,8 @@ def main() -> None:
                 concurrency,
                 args.output_tokens,
                 args.seed,
+                nonce=(hashlib.sha256(f"{args.nonce_prefix}:{concurrency}:run:{run}".encode()).hexdigest()[:32]
+                       if args.nonce_prefix is not None else ""),
             )
             runs.append(result)
             print(
@@ -210,6 +220,7 @@ def main() -> None:
     report = {
         "schema": "dots3-decode-concurrency.v1",
         "request_mode": args.request_mode,
+        "nonce_prefix": args.nonce_prefix,
         "method": (
             ("separate HTTP requests with unique prompt identifiers; " if args.request_mode == "clients"
              else "one short prompt with n parallel continuations; ") +

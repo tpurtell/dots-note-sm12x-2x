@@ -343,6 +343,10 @@ class Dots3HybridExl3Config(Exl3Config):
         ):
             return fp8.get_quant_method(layer, prefix)
         if isinstance(layer, RoutedExperts):
+            if layer.moe_config.moe_parallel_config.use_ep:
+                from vllm.model_executor.layers.quantization.dots3_ep2 import Dots3B12xEp2Method
+
+                return Dots3B12xEp2Method(self, layer.moe_config)
             return Dots3B12xExl3MoEMethod(self, layer.moe_config)
         if isinstance(layer, Attention):
             return fp8.get_quant_method(layer, prefix)

@@ -437,3 +437,65 @@ and retries failed stop attempts. It remains a best-effort monitor, not a
 hard memory limit. Current development jobs continue with their already
 verified manual monitors; final fast-path qualification must verify the
 automatically launched monitor.
+
+RTX shared-primer MTP2/262K/0.95 passed the exact261,888+256 boundary
+(81.79s TTFT,188.11 decode tokens/s), prefix3,520 hits with cold/warm
+0.803/0.057s, constrained JSON, image/audio and all concurrency levels.
+C1/2/4/8/16 single-screen aggregate was
+143.62/213.11/319.16/510.48/715.77. Native allocator retry warnings occurred
+during long prefill, but the request completed and subsequent clients passed.
+Receipts: `context-mtp2-shared-boundary.jsonl`, `prefix-mtp2-shared.json`,
+`multimodal-mtp2-shared.json`, `clients-mtp2-shared.json`,
+`runtime-mtp2-shared-qualified-initial.json`.
+
+An EP2 component probe passed with four real whole experts, arbitrary local
+placement, remote-only and repeated routes, and changed-input graphs. Summed
+rank-local partials matched the unmapped oracle with relativeL2 <=1.91e-8.
+This emulates ranks on one GPU and does not prove distributed loading/reduction.
+The optional whole-model EP2 adapter is now building for that qualification;
+it remains disabled unless `--enable-expert-parallel` is supplied.
+
+The clients benchmark now retains request payloads and raw SSE events in
+addition to timing samples; its timing convention is unchanged. Existing
+development client files predate this extra response evidence. Final release
+qualification uses the enhanced recorder.
+
+## EP2 and Spark RoCE investigations
+
+EP2 loaded all language experts and completed the 128K MTP2 workload/client
+screens:165.83 weighted tokens/s,18/21 content contracts and
+129.98/209.41/346.46/479.69/746.03 aggregate tokens/s at C1/2/4/8/16. Its
+262K/0.95 startup rejected only3.09GiB of available KV versus4.57GiB required;
+the same TP2 profile had5.10GiB. EP2's128K KV was3.79GiB. The capacity loss
+and lower C1 rate do not justify selecting it from these preliminary screens.
+The2.01GiB profile difference remains unisolated; neither extra communicator
+memory nor scratch growth has been established as its cause. Receipts:
+`ep2-startup-attempt1.log`, `seven-128k-mtp2-ep2.jsonl`,
+`clients-mtp2-ep2.json`, `runtime-mtp2-ep2.json`.
+
+The strengthened top8 component probe used16 real whole experts with arbitrary
+placement and global IDs up to255. Mixed, remote-only, repeated and skewed
+routes, changed inputs/router weights and graph replay passed; maximum partial
+sum relativeL2 was6.84e-8. See `ep2-top8-gpu-check.json`. This remains an
+experimental option rather than the release profile.
+
+Spark MTP2 completed37.80 weighted tokens/s with18/21 contracts, all functional
+checks and C1/2/4/8/16 at30.76/45.65/69.23/110.30/150.74 aggregate tokens/s.
+The measured minimum host availability was10.682/11.771GiB. After saving
+receipts both serving containers stopped for isolated collective testing.
+
+The first Spark RoCE probe found a prepared-API dtype conversion bug before
+collective execution. B12x now converts its normalized torch dtype back to the
+launcher's required name; regression tests cover three dtypes. The fix is
+pushed as `c5e23d830c3d1e76be56a5df290d13e30bc66702`. Both ranks then passed
+BF16 exact eager/graph results, changed-input replay, six shapes, alternating
+graphs and ordered streams. Graph microtimings favored B12x, but the unusually
+large native graph costs do not establish whole-model gains. Receipts and
+overlay provenance are under `.cache/serving/spark/roce/`. A serving adapter
+is being prepared for a matched comparison; native NCCL remains current.
+
+Spark now builds the current native source (audio dependency, shared primers,
+optional disabled EP/exact FP8 and the RoCE library fix) for native MTP3
+qualification. RTX is comparing MTP2/MTP3 with identical per-request nonce
+seeds and three C1/C16 samples at262K, reducing input variation in the final
+speculation decision.

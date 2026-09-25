@@ -11,6 +11,7 @@ RUN python3 -m pip install --no-deps --only-binary=:all: --require-hashes -r /tm
 COPY serving/vendor/exl3.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/exl3.py
 COPY serving/dots3_exl3_fp8.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/dots3_exl3_fp8.py
 COPY serving/dots3_b12x_fp8.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/dots3_b12x_fp8.py
+COPY serving/dots3_ep2.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/dots3_ep2.py
 COPY serving/dots3_b12x_attention.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/b12x_attention.py
 COPY serving/source_multimodal_config.json /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/common/source_multimodal_config.json
 COPY serving/dots3_cache_gather.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/cache_gather.py
@@ -27,4 +28,4 @@ RUN python3 -c 'import b12x; from b12x.moe import fused_moe; assert fused_moe.is
 
 LABEL org.opencontainers.image.source="https://github.com/tpurtell/dots-note-sm12x-2x" \
       io.tpurtell.vllm.version="0.30.0" \
-      io.tpurtell.b12x.commit="cbcfd14d80d68bce296bf13184c6959ed8cb847d"
+      io.tpurtell.b12x.commit="c5e23d830c3d1e76be56a5df290d13e30bc66702"
