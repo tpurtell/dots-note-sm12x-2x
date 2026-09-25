@@ -36,8 +36,10 @@ git submodule status
 ```
 
 The current pins are GPTQModel `b903382057e4903b5629fcd49838ffc3ccce5f14`
-for quantization and B12x `c5e23d830c3d1e76be56a5df290d13e30bc66702` for both
-serving platforms. GPTQModel is not copied into the serving image. The model is
+for quantization and B12x `c963d8f7c98792a026eaf81a96a72d01b4aa0047` for new
+native builds on both serving platforms. Published RTX `20260925-v1` retains
+its original B12x `c5e23d830c3d1e76be56a5df290d13e30bc66702`; use that image
+digest and recorded source revision to reproduce v1. GPTQModel is not copied into the serving image. The model is
 already quantized; building a serving image does not repeat quantization.
 B12x is copied from the checked-out submodule into `/opt/b12x`. The source
 checkout must be clean for those commit IDs to describe the copied code.
@@ -57,7 +59,14 @@ docker build --platform linux/arm64 -f serving/Dockerfile.spark -t dots3-vllm-sp
 
 Each Dockerfile copies the repository's hybrid quantization, attention,
 multimodal/cache, optional dense/EP adapters and `dots3` reasoning parser, then
-applies `port_vllm.py` and `port_reasoning.py`. RTX additionally applies
+applies `port_vllm.py`, `port_reasoning.py`, and `port_compact_cache.py`.
+The compact DSA cache integration is opt-in: native builds default to
+`DOTS3_COMPACT_DSA_CACHE=0`. The separate indexer workspace candidate defaults
+to `DOTS3_INDEXER_PREFILL_CONTEXTS=0`, preserving upstream workspace sizing.
+Its compact-cache candidate reduces DSA records to 576 bytes and
+bounds the sliding-window cache pool; enabling it requires its own native
+context, prefix, retrieval and memory qualification. The published v1 image
+does not acquire these changes from a source checkout update. RTX additionally applies
 `port_pcie.py`; Spark applies `port_roce.py` and builds its native verbs proxy.
 Optional integrations are enabled only by the selected runtime profile.
 Both builds install hash-pinned SoundFile 0.13.1 with dependencies left intact.

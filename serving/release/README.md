@@ -37,6 +37,17 @@ wrapper. Building an older development wrapper requires the explicit
 the final release runner rejects it. This option does not establish support for
 reasoning in the old image.
 
+## Compact-cache candidate versus published v1
+
+The current native Dockerfiles include the compact-cache port and B12x
+`c963d8f7c98792a026eaf81a96a72d01b4aa0047`, with
+`DOTS3_COMPACT_DSA_CACHE=0` and `DOTS3_INDEXER_PREFILL_CONTEXTS=0` by default.
+Both leave the optional memory optimizations disabled. RTX `20260925-v1` remains immutable and
+uses B12x `c5e23d830c3d1e76be56a5df290d13e30bc66702` and its qualified padded
+cache layout. Compact-cache experiments need a separately qualified parent,
+new warmed cache export and release wrapper; do not reuse v1's qualification
+report or assume its compiled artifacts match the changed runtime sources.
+
 ## Build sequence
 
 1. Build the native runtime image from the recorded recipe/submodule commits

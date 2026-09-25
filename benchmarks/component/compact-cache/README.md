@@ -7,7 +7,7 @@ bound into the native plan, compilation query and cache validation.
 
 Both physical RTX GPUs passed all 16 selected TP2 kernel cases, covering both
 record formats, oracle output/LSE, invalid indices, ordinary interleaving, the
-actual 1102-record mixed block with a 448-record layer offset, changed-input
+initial 1102-record mixed-block fixture with a 448-record layer offset, changed-input
 CUDA graphs and addresses beyond 2 GiB. Both also passed actual vLLM adapter
 and SWA cache-gather gates, including ragged boundaries and graph replay.
 
@@ -25,3 +25,8 @@ The allocator CPU receipt measures the proposed 524,288-context cache layout
 at about 4.902 GiB per rank versus 9.086 GiB for the old layout. Full-model
 startup, prefix reuse, retrieval and exact native-context boundary remain
 separate qualification gates; these component results do not establish them.
+
+Subsequent full-model inspection identified MTP as SWA: the real compact pool
+uses 589,248 bytes per block (1,023 records), with 13 DSA, 13 indexer and
+34 SWA layers. The initial 1,102-record fixture remains a stride stress case;
+the actual geometry requires its own targeted component gate.
