@@ -19,13 +19,20 @@ _PLANS = {}
 _LOCK = threading.Lock()
 _GEOMETRIES = {
     'q_b_proj': {(12288, 1024), (8192, 1024)},
+    'o_proj': {(5120, 8192)},
+}
+_SELECTORS = {
+    'q_b_proj': ('q_b_proj', None),
+    'swa_q_b_proj': ('q_b_proj', frozenset({(8192, 1024)})),
+    'dsa_o_proj': ('o_proj', frozenset({(5120, 8192)})),
 }
 
 
 def maybe_exact_fp8_method(config, prefix):
     """Return a candidate only for named attention projections; disabled by default.
 
-    DOTS3_B12X_EXACT_FP8=q_b_proj
+    DOTS3_B12X_EXACT_FP8=q_b_proj  # existing all-QB candidate
+    DOTS3_B12X_EXACT_FP8=swa_q_b_proj,dsa_o_proj  # filtered candidate
     DOTS3_B12X_EXACT_FP8_ROWS=4,16,64,512
     Rows are deployment-time specialization declarations, never request-driven.
     """
@@ -33,16 +40,18 @@ def maybe_exact_fp8_method(config, prefix):
     if not enabled:
         return None
     names = set(enabled.split(','))
-    if not names <= set(_GEOMETRIES):
-        raise ValueError('DOTS3_B12X_EXACT_FP8 accepts q_b_proj only')
+    if not names <= set(_SELECTORS):
+        raise ValueError('DOTS3_B12X_EXACT_FP8 accepts q_b_proj, swa_q_b_proj, dsa_o_proj')
     projection = prefix.rsplit('.', 1)[-1]
-    if projection not in names or '.self_attn.' not in prefix:
+    selections=[_SELECTORS[name][1] for name in names if _SELECTORS[name][0]==projection]
+    if not selections or '.self_attn.' not in prefix:
         return None
+    geometry_filter=None if None in selections else frozenset().union(*selections)
     rows = tuple(sorted(set(int(v) for v in os.getenv(
         'DOTS3_B12X_EXACT_FP8_ROWS', '4,16,64,512').split(','))))
     if not rows or min(rows) <= 0:
         raise ValueError('exact FP8 planned row counts must be positive')
-    return Dots3ExactFp8Method(config, projection, rows)
+    return Dots3ExactFp8Method(config, projection, rows, geometry_filter=geometry_filter)
 
 
 @register_weight_loader_v2_supported_method
@@ -50,14 +59,23 @@ class Dots3ExactFp8Method(Fp8LinearMethod):
     # The additional source tensors/plans are not in vLLM's tensorizer format.
     supports_pre_processed_weights = False
 
-    def __init__(self, config, projection, rows):
+    def __init__(self, config, projection, rows, geometry_filter=None):
         super().__init__(config)
         self.projection, self.rows = projection, rows
+        self.geometry_filter = geometry_filter
         self.plans = None
         if config.weight_block_size != [128, 128] or config.activation_scheme != 'dynamic':
             raise ValueError('exact Dots3 FP8 requires dynamic activations and 128x128 weights')
 
     def process_weights_after_loading(self, layer):
+        # Row/column parallel constructors select a method before their final
+        # TP shard exists. Filter the actual loaded geometry before retaining
+        # source weights or allocating plans. Unselected attention types keep
+        # the inherited native FP8 preparation and apply path.
+        if (self.geometry_filter is not None
+                and tuple(layer.weight.shape) not in self.geometry_filter):
+            super().process_weights_after_loading(layer)
+            return
         from b12x.gemm import blockscaled
         from b12x.preparation import PreparationSession, PreparedCall
 
