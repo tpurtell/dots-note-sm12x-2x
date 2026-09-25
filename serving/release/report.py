@@ -162,13 +162,20 @@ def memory_summary(source, platform):
                     if data.get('returncode')!=0:
                         errors.append({'file':files[-1],'line':line_number,'error':data.get('error'),'returncode':data.get('returncode')});continue
                     for fields in csv.reader(data.get('gpu_csv','').splitlines(),skipinitialspace=True):
-                        if len(fields)!=6:raise ValueError('unexpected nvidia-smi six-column sample')
-                        index,uuid,used,total,util,power=fields
+                        if len(fields) not in (6,9,11):raise ValueError('unexpected nvidia-smi column count')
+                        index,uuid,used,total,util,power=fields[:6]
                         gpu=row['gpus'].setdefault(uuid,{'index':index,'memory_used_mib':[],'memory_total_mib':[],'utilization_percent':[],'power_watts':[]})
                         for key,value in zip(('memory_used_mib','memory_total_mib','utilization_percent','power_watts'),(used,total,util,power)):
                             try:number=float(value)
                             except ValueError:continue
                             if math.isfinite(number):gpu[key].append(number)
+                        for key,value in zip(('temperature_celsius','sm_clock_mhz','memory_clock_mhz'),fields[6:9]):
+                            try:number=float(value)
+                            except ValueError:continue
+                            if math.isfinite(number):gpu.setdefault(key,[]).append(number)
+                        for key,value in zip(('sw_thermal_slowdown','hw_thermal_slowdown'),fields[9:11]):
+                            if value.strip().lower() in ('active','not active'):
+                                gpu.setdefault(key,[]).append(value.strip().lower()=='active')
             except (ValueError,KeyError,TypeError) as exc:
                 errors.append({'file':files[-1],'line':line_number,'error':str(exc)})
     result={}
@@ -182,7 +189,9 @@ def memory_summary(source, platform):
                           'memory_used_mib':distribution(gpu['memory_used_mib']),
                           'memory_total_mib':distribution(gpu['memory_total_mib']),
                           'utilization_percent':distribution(gpu['utilization_percent']),
-                          'power_watts':distribution(gpu['power_watts'])}for uuid,gpu in data['gpus'].items()}}
+                          'power_watts':distribution(gpu['power_watts']),
+                          'optional_telemetry':{key:distribution(gpu.get(key,[])) for key in ('temperature_celsius','sm_clock_mhz','memory_clock_mhz')},
+                          'thermal_slowdown':{key:{'observations':len(gpu.get(key,[])), 'active_samples':sum(gpu.get(key,[]))} for key in ('sw_thermal_slowdown','hw_thermal_slowdown')}}for uuid,gpu in data['gpus'].items()}}
     return {'scope':'All recorded runner attempts, including earlier resumed/failed attempts; sampled extrema can miss brief peaks. Host swap use is system-wide, not attributable solely to vLLM.',
             'gpu_scope':'RTX records nvidia-smi MiB. Spark monitor records physical unified host memory; no separate GPU allocation series is inferred.',
             'files':files,'hosts':result,'monitor_errors':errors}

@@ -200,9 +200,17 @@ def memory_monitor(directory,stop):
     with (directory/'memory.jsonl').open('x') as f:
         while not stop.is_set():
             try:
-                result=subprocess.run(['nvidia-smi','--query-gpu=index,uuid,memory.used,memory.total,utilization.gpu,power.draw',
+                fields='index,uuid,memory.used,memory.total,utilization.gpu,power.draw,temperature.gpu,clocks.sm,clocks.mem'
+                thermal_fields=',clocks_event_reasons.sw_thermal_slowdown,clocks_event_reasons.hw_thermal_slowdown'
+                result=subprocess.run(['nvidia-smi','--query-gpu='+fields+thermal_fields,
                                        '--format=csv,noheader,nounits'],capture_output=True,text=True,timeout=15)
+                thermal_warning=None
+                if result.returncode:
+                    thermal_warning=result.stderr
+                    result=subprocess.run(['nvidia-smi','--query-gpu='+fields,
+                                           '--format=csv,noheader,nounits'],capture_output=True,text=True,timeout=15)
                 row={'time':time.time(),'returncode':result.returncode,'gpu_csv':result.stdout,'error':result.stderr,
+                     'thermal_query_warning':thermal_warning,
                      'meminfo':Path('/proc/meminfo').read_text()}
             except Exception as exc:
                 row={'time':time.time(),'error':repr(exc)}
