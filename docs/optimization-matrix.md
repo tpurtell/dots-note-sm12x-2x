@@ -10,14 +10,18 @@ and [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-nex
 The detailed ordinary-TP experiments below are historical controls. Current
 candidates use owner-local non-expert work and KV with **routed-expert TP2**,
 a **17/29** decoder cut, vision/audio owners **0/1**, native boundary tables,
-MTP3, batch **512**, and a native **524,288-token** context limit. Release
-acceptance still requires the complete published-image qualification.
+MTP3, batch **512**, and a native **524,288-token** context limit. RTX published-image
+qualification is complete; Spark remains under qualification.
 
 - **RTX:** retain narrow B12x SWA Q-B rows **4/8/16**, native vocabulary and
   collectives, packed routing, fused packing, shared-expert overlap, and balanced
   KV groups. The complete native build and public wrapper reproduce **2,004,801
   accounted cache tokens**. Larger batch and boundary-owner decisions are
-  documented below. The final published-image run is in progress.
+  documented below. [Final RTX v2 qualification](../benchmarks/releases/rtx-20260925-v2/report.json)
+  completed with C1/C2/C4 rates **163.02/129.26/98.80 tokens/s**, 36/36 natural
+  coding completions and static checks, and the full 524K boundary. The report
+  explicitly preserves 14 stages from before a hardware interruption and three
+  continued stages; it does not claim uninterrupted operation.
 - **Spark:** retain batch **512**, utilization **0.80**, and exactly **1 GiB**
   physical host reserve. Batch 2048/4096 exceeded the allowed 200,000-token KV
   loss. Batch 1024 passed the accounting limit but failed actual 128K prefill:
@@ -43,7 +47,8 @@ FP8 core. Two separate kernel choices are under evaluation:
   consume memory, so both coding throughput and KV capacity are measured.
   The [hybrid screen](../benchmarks/development/rtx-owner-swa-qb-screen/manifest.json)
   provisionally retains it: C1/C2/C4 rates 167.41/139.41/97.04 tokens/s and
-  2,004,801 accounted cache tokens. Final release qualification is pending.
+  2,004,801 accounted cache tokens. The accepted RTX v2 release retains this
+  choice; final measurements above are separate from the candidate screen.
 - **Sparse-attention prefill:** vLLM's
   `--attention-config '{"sparse_mla_force_mqa":true}'` disables its dense-MHA
   shortcut for prefixes no longer than the sparse top-k (2,048 tokens).
