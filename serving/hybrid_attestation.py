@@ -234,6 +234,11 @@ class HybridAttestationWorkerExtension:
         receipt['passed'] = not receipt['errors']
         budget = getattr(self, 'available_kv_cache_memory_bytes', None)
         receipt['available_kv_cache_memory_bytes'] = None if budget is None else int(budget)
+        receipt['cache_admission_inputs'] = {
+            'max_model_len': self.vllm_config.model_config.max_model_len,
+            'max_in_flight_tokens': self.vllm_config.max_in_flight_tokens,
+            'block_size': self.vllm_config.cache_config.block_size,
+        }
         return receipt
 
 
