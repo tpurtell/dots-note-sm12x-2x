@@ -44,7 +44,9 @@ def render(reports,paths):
       'The [Brandon-derived RTX recipe](https://github.com/tpurtell/glm-5.3-flash-ext3-4-bit-2x-rtx) and [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next) are optimization/reporting references. Selected Dots3 features and rejected candidates are recorded in the [optimization matrix](docs/optimization-matrix.md).','',
       '## Headline measurements']
     def stage(platform,name):return reports[platform]['stage_results'].get(name,{}) if reports[platform] else {}
-    table(['Metric','2× Spark','2× RTX'],[(label,*[number(stage(p,'seven').get(key)) for p in ('spark','rtx')]) for label,key in [('C1 seven-workload weighted decode tokens/s','weighted_decode_tps')]]+
+    table(['Metric','2× Spark','2× RTX'],
+      [(f'C{c} reasoning/coding per-request decode tokens/s',*[number(stage(p,'coding').get('by_concurrency',{}).get(c,{}).get('median_per_request_decode_tps')) for p in ('spark','rtx')]) for c in ('1','2','4')]+
+      [(label,*[number(stage(p,'seven').get(key)) for p in ('spark','rtx')]) for label,key in [('C1 seven-workload weighted decode tokens/s','weighted_decode_tps')]]+
       [('Seven content contracts',*[f"{stage(p,'seven')['contracts_passed']}/{stage(p,'seven')['contracts_total']}" if stage(p,'seven') else 'Pending' for p in ('spark','rtx')])])
     for label,name,selector in [
         ('Sampled async code, depth 0, burst-excluded tokens/s','code-agent',lambda s: next((x['decode_tokens_per_second_median'] for x in s.get('points',[]) if x['depth']==0),None)),
@@ -75,9 +77,9 @@ def render(reports,paths):
         for name,s in r['stage_results'].items():
             if name=='code-agent' or name.startswith('context-'):
                 for row in s['points']:rows.append([p,name,row['depth'],number(row['ttft_seconds_median']),number(row['effective_prefill_tokens_per_second_median']),number(row['decode_tokens_per_second_median'])])
-    table(['Platform','Probe','Input depth','TTFT s','Effective prefill tokens/s','Decode tokens/s'],rows)
-    lines+=['','Decode excludes the entire first SSE token burst. Effective prefill is actual prompt tokens divided by client TTFT, including tokenization and first-token handoff. Context probes use unique cold prompts; sampled code-agent history probes can reuse prefixes and are not cold-prefill measurements. Fixed 256-output probes do not demonstrate natural completion.']
-    lines+=['','## Tool-use quality: Basic / Hard / Total']
+    table(['Platform','Probe','Input depth','TTFT s','Prompt tokens / TTFT','Decode tokens/s'],rows)
+    lines+=['','Decode excludes the entire first SSE token burst. Prompt tokens / TTFT includes tokenization and first-token handoff. For unique cold context probes this estimates effective prefill throughput. Sampled code-agent history probes can reuse prefixes; their ratios are not prefill-speed measurements. Fixed 256-output probes do not demonstrate natural completion.']
+    lines+=['','## Tool-use quality: hard mode, Basic / Hard / Total']
     rows=[]
     for p in ('spark','rtx'):
         tool=stage(p,'tool-quality')
