@@ -2,7 +2,7 @@
 
 This repository provides one Dots3 Note Preview checkpoint and is developing two-GPU vLLM recipes for DGX Spark and RTX PRO 6000. The completed checkpoint retains the [FP8 source](https://huggingface.co/dots-studio/dots3-note-prev-fp8) outside the routed language-model experts. Every routed expert `gate_proj`, `up_proj`, and `down_proj` weight in layers 1–45 comes from the [BF16 source](https://huggingface.co/dots-studio/dots3-note-prev) and uses uniform EXL3 K4. Vision experts remain as supplied by the FP8 checkpoint. The published checkpoint is [`wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1`](https://huggingface.co/wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1).
 
-**Status (2026-09-25):** quantization, tensor audit, publication and local cache installation are complete. The checkpoint is pinned to `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. **RTX v2 published-image qualification is complete at the native 524,288-token context.** Its deployment lifecycle checks are being finalized. Spark memory qualification and its final container remain in progress; unmeasured Spark table entries stay blank. See the [RTX v2 report](benchmarks/releases/rtx-20260925-v2/report.json) and [qualification ledger](docs/serving-progress.md).
+**Status (2026-09-25):** quantization, tensor audit, publication and local cache installation are complete. The checkpoint is pinned to `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. **RTX v2 published-image qualification is complete at the native 524,288-token context.** Its public container fast path has passed pull, fresh-cache startup, health, logs, stop and restart checks. Spark memory qualification and its final container remain in progress; unmeasured Spark table entries stay blank. See the [RTX v2 report](benchmarks/releases/rtx-20260925-v2/report.json) and [qualification ledger](docs/serving-progress.md).
 
 ## Container fast path
 
@@ -11,6 +11,8 @@ The public RTX `20260925-v2` image is:
 ```text
 ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e
 ```
+
+The [deployment evidence](benchmarks/releases/rtx-20260925-v2/fastpath/manifest.json) records these checks with zero benchmark requests and no model download.
 
 Follow the [container run instructions](serving/release/README.md#container-fast-path) and [pinned release settings](serving/release/settings.json). Mount the entire existing `HF_HOME`; no model download is needed. RTX uses one amd64 container with two GPUs. Spark uses a separate arm64 image on both hosts, worker first; its final public fast path is pending.
 

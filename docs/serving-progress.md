@@ -48,8 +48,10 @@ records the two runtime identities and interruption. Native-boundary median
 TTFT is 271.38 seconds and decode is 182.53 tokens/s. Coding C1/C2/C4 measures
 163.02 / 129.26 / 98.80 tokens/s per request with 36/36 natural completions and
 static checks. Hard-mode tools score 116/138 Basic, 31/38 Hard, **147/176 Total**.
-Deployment lifecycle verification is the remaining RTX release gate; no
-completed workload stages will be repeated.
+The [public deployment lifecycle](../benchmarks/releases/rtx-20260925-v2/fastpath/manifest.json)
+also passed pull, fresh-cache startup, health, status, logs, stop and restart.
+It sent zero benchmark requests and downloaded no model files. RTX v2 is
+accepted and selected by the release settings.
 
 Spark currently uses the 17/29 split with utilization **0.80** and exactly a
 **1 GiB** host reserve. Its batch-512 baseline accounts for **2,750,605 tokens**.
