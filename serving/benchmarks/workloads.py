@@ -109,7 +109,17 @@ def main():
                        for name in cases
                        for values in [[row["decode_tps"] for row in records
                                        if row["case"] == name and row["decode_tps"] is not None]]}}
+        def passed(row):
+            contract = row["contract"]
+            return bool(contract.get("quality_contract_passed", contract.get("pass", False)))
+        summary["contracts_passed"] = sum(passed(row) for row in records)
+        summary["contracts_total"] = len(records)
+        summary["failed_contracts"] = [
+            {"run": row["run"], "case": row["case"], "contract": row["contract"]}
+            for row in records if not passed(row)
+        ]
         destination.write(json.dumps(summary) + "\n")
+        print(json.dumps(summary), flush=True)
 
 
 if __name__ == "__main__":

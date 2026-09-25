@@ -230,7 +230,7 @@ allocation retries occurred during prefill, but the request completed. Receipts:
 `context-262k-boundary.jsonl`, `startup-262k.log`, and
 `runtime-262k-boundary.json` in `.cache/serving/rtx/`.
 
-A three-run seven-workload control at this capacity passed all contracts and
+A three-run seven-workload control at this capacity passed 19/21 contracts and
 measured 86.30 weighted decode tokens/s (`seven-262k-native-ar.jsonl`). This is
 the control for the optional B12x PCIe adapter adapted from the Brandon recipe
 to the current planned B12x API. It prepares BF16 5120-channel row counts 1–32
@@ -242,7 +242,7 @@ small rows and slower at 16/32, so no default change is justified yet. Raw
 receipt: `pcie-check.log`. The full model is starting with the optional B12x
 adapter for the matched end-to-end comparison; that candidate is unqualified.
 
-The matched PCIe model run completed all content contracts: 86.60 weighted
+The matched PCIe model run passed 19/21 content contracts: 86.60 weighted
 tokens/s versus 86.30 native (about +0.35%). Given the small C1 difference and
 slower 16/32-row components, native remains the default while other candidates
 are investigated. The B12x path stays an explicit evaluation option, not a
@@ -276,7 +276,7 @@ before trusting the guard. These monitors do not replace memory qualification.
 
 RTX MTP1 loaded successfully (79.6 GiB model memory/rank), reports 5.0 GiB KV
 memory and 283,447 equivalent tokens, and returned a correct first chat response.
-Three seven-workload runs passed all content contracts at 136.92 weighted
+Three seven-workload runs passed 16/21 content contracts at 136.92 weighted
 tokens/s. Eight tool checks and prefix/JSON/forced-tool checks pass with MTP1;
 the latter recorded 3,520 cached-token hits. Native no-spec control used 262K
 configured context while this MTP candidate uses 128K, so the final tuning
@@ -289,3 +289,55 @@ speculation counters were saved (`runtime-mtp1-qualified-initial.json`,
 `mtp1-metrics-after-checks.txt`). MTP2 is now starting on RTX with the same 128K,
 0.94 utilization, 512 prefill and native-communication settings. Spark loading
 continues with both memory monitors live and substantial available RAM.
+
+## Content-contract audit correction
+
+The first single-pass screen passed 7/7. Later three-run summaries were
+overstated from selected live log rows: native and B12x PCIe each passed
+19/21, MTP1 16/21, and MTP2 18/21. Misses concern fable length/moral and the
+paging-topic requirement. Raw responses are unchanged; the derived
+`content-contract-audit.json` binds counts/issues to source-file SHA256 hashes.
+The benchmark now prints aggregate pass counts and every failed contract in
+its final summary. Performance results must always be accompanied by these
+quality counts. MTP2 measured 170.53 weighted tokens/s; no MTP release default
+is selected. Tools, prefix/JSON and multimodal checks are independent receipts.
+
+## Current candidates
+
+MTP2 passed all eight tool cases, prefix/JSON/forced-tool checks, image/audio
+contracts, and C1/2/4/8/16 client execution. Its preliminary C16 aggregate is
+776.21 tokens/s; content quality remains 18/21 on the three-run seven-workload
+screen. Runtime and counters are saved in `runtime-mtp2-initial.json` and
+`mtp2-metrics.txt`. RTX is now starting MTP3 at the same 128K/0.94/512 settings.
+
+The corrected Spark pair reached HTTP health 200 at utilization 0.85. Its
+reported KV allocation was 15.24 GiB, but physical available RAM on Rhea was
+only about 8.3 GiB before real-request workspace allocation. Both containers
+were deliberately stopped after saving `target-85-startup.log`, container
+inspection and `memory-watch-85.log` on each host. No first request was sent
+at that tight budget. The pair is now restarting at 0.82 utilization with the
+same shared-scratch fix and memory monitors. The Spark launch default follows
+this provisional 0.82 budget; final tuning still targets the user's approximate
+85% goal subject to real unified-memory headroom.
+
+The Spark launcher now accepts NODE_RANK, HOST_IP, MASTER_ADDR and SOCKET_IFNAME
+for other two-Spark deployments while retaining the verified Rhea/Moa defaults.
+
+## Parallel qualification after Spark recovery
+
+The Spark 0.82 candidate reached health and answered its first real request
+correctly. Physical available memory was approximately 9.7 GiB on Rhea and
+10.9 GiB on Moa with both host memory guards active and zero swap. Functional
+qualification is running; these are startup observations, not a final memory
+capacity claim.
+
+RTX MTP3 completed the repeated seven-workload screen at 183.02 weighted
+decode tokens/s with 17/21 content contracts. Eight tool cases, prefix caching
+(3,520 cached tokens), constrained JSON, forced tool arguments, and both
+image/audio contracts passed. Cold/warm prefix TTFT was 0.766/0.057 seconds.
+The one-run C1/2/4/8/16 screening rates were 136.68/212.21/317.06/497.56/723.82
+aggregate tokens/s. This did not improve on MTP2 concurrency consistently.
+Evidence: `seven-128k-mtp3.jsonl`, `tools-mtp3.jsonl`, `prefix-mtp3.json`,
+`multimodal-mtp3.json`, `clients-mtp3.json`, and `runtime-mtp3-initial.json`.
+MTP4 is now starting with the same 128K/0.94/512 settings; no final speculation
+default has been selected.

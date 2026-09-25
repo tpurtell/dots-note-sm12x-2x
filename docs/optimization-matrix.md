@@ -18,7 +18,7 @@ and [Qwen Spark recipe](../../rtx6k-exl3-qwen3.8-flash-next/README.md).
 | KV capacity | FP8 KV, prefix caching; RTX 32K and 262K exact boundaries passed. 262K candidate reports 310,070 equivalent cache tokens at utilization 0.94. | Native model limit is 524,288; maximize useful capacity and qualify retrieval/concurrency under the final allocation. |
 | Scheduler / prefill | 16 slots, initial 512-token chunks; actual C1/2/4/8/16 overlap verified on RTX. | Sweep chunks and slot counts with memory accounting and latency/throughput tradeoffs. |
 | CUDA graphs / warmup | Live multimodal input contract repaired. RTX generation, tools, modalities and concurrent graph paths pass. | Package compiled platform kernels; qualify release startup warmup and post-ready JIT behavior. |
-| Speculation | Native MTP weights and vLLM support verified. Hybrid FP8 config conversion probe passes. | MTP1 at 128K passed seven content contracts, tools and prefix/JSON checks (136.92 weighted tokens/s). Concurrency and further draft-length tuning remain. |
+| Speculation | Native MTP weights and vLLM support verified. Hybrid FP8 config conversion probe passes. | MTP1 at 128K passed 16/21 content contracts plus tools, prefix/JSON and multimodal checks (136.92 weighted tokens/s). MTP2 measured 170.53 with 18/21 contracts; native control passed 19/21. Final quality/capacity/tuning remain. |
 | XGrammar / tools | Named/required JSON parsing repaired while auto retains Dots XML parsing. Eight RTX API cases pass. | Spark and final-release qualification; repeat with speculation if enabled. |
 
 Raw development evidence currently lives under `.cache/serving/{rtx,spark}`.
