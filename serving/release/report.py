@@ -369,6 +369,17 @@ def export(args):
                 completion.get('continued_stages') == restart['remaining_stages'], 'Restart stage binding mismatch')
     else:
         require(not completion.get('restart_continuation'), 'Missing restart ledger')
+    timeout_audit = None
+    timeout_path = source/'timeout-continuation.json'
+    if timeout_path.exists():
+        require(args.platform == 'spark', 'Timeout continuation supports Spark only')
+        import continue_spark_timeout
+        timeout_audit = continue_spark_timeout.verify(source, manifest)
+        require(completion.get('timeout_continuation') == {'artifact': timeout_path.name, 'sha256': sha(timeout_path)}, 'Timeout ledger completion mismatch')
+        require(completion.get('uninterrupted_run') is False, 'Client timeout interruption must be disclosed')
+        require(completion.get('preserved_stages') == timeout_audit['preserved_stages'] and completion.get('continued_stages') == timeout_audit['remaining_stages'], 'Timeout stage lineage mismatch')
+    else:
+        require(not completion.get('timeout_continuation'), 'Missing timeout ledger')
     identities = {'rtx': manifest['identity']} if args.platform == 'rtx' else manifest['identity']
     if restart:
         identities = {'rtx': restart['continuation_identity']}
@@ -404,6 +415,9 @@ def export(args):
     if restart:
         artifacts.add(restart_path)
         artifacts.update(contained(source, relative) for relative in restart['preserved_files'])
+    if timeout_audit:
+        artifacts.add(timeout_path)
+        artifacts.update(contained(source, relative) for relative in timeout_audit['preserved_files'])
     results = {}
     require(len({s['name'] for s in manifest['plan']}) == len(manifest['plan']), 'Duplicate stage names')
     for step in manifest['plan']:
@@ -424,6 +438,8 @@ def export(args):
         if current_schema:
             expected_identity = restart_audit.stage_identity(restart, step['name']) if restart else manifest['identity']
             require(inherited or receipt.get('identity')==expected_identity, 'Stage runtime image/profile identity mismatch')
+        if timeout_audit and step['name'] in timeout_audit['remaining_stages']:
+            require(receipt.get('timeout_continuation') == {'artifact': timeout_path.name, 'sha256': sha(timeout_path)}, 'Continued stage timeout binding mismatch')
         require(sha(artifact) == receipt['sha256'], f'Artifact hash mismatch: {step["name"]}')
         require(receipt['validated'].get('complete') is True, 'Unvalidated stage receipt')
         if args.platform == 'spark':
@@ -478,6 +494,8 @@ def export(args):
         'completion': completion, 'registry_receipt': {k: registry[k] for k in ('registry_digest', 'registry', 'image_tag') if k in registry} if registry else None,
         'quality_scope': 'Static code/content checks are not executed-code correctness. Misses/truncations remain in stage results. Fixed-output timing probes are not natural-completion tests.',
         'prefill_scope': 'Actual prompt tokens / client TTFT, including first-token handoff; not kernel-only prefill speed.'}
+    if timeout_audit:
+        report['timeout_continuation'] = timeout_audit
     if restart:
         report['restart_continuation'] = restart
     target.parent.mkdir(parents=True, exist_ok=True)
