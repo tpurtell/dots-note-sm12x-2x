@@ -1,0 +1,12 @@
+{"html_url":"https://github.com/vllm-project/vllm/pull/58550","number":58550,"state":"closed","title":"[Chore] Use Transformers v5 names and drop redundant processor `use_fast`","updated_at":"2026-09-24T15:31:51Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/56718","number":56718,"state":"open","title":"[Bugfix] Apply kv_b_proj LoRA during MLA prefill","updated_at":"2026-09-24T14:21:52Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/57752","number":57752,"state":"open","title":"[Don't merge][Experiment] Move MediaIO decode to MM preprocessing","updated_at":"2026-09-24T03:51:45Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/52988","number":52988,"state":"closed","title":"[Spec decode] Support variable-length decode for Kimi-K3 adaptive ver","updated_at":"2026-09-24T04:17:15Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/57655","number":57655,"state":"open","title":"[Bugfix][Multimodal] Preserve Dots3 NOTE video audio on MM processor cache misses","updated_at":"2026-09-19T07:30:33Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/53610","number":53610,"state":"closed","title":"[MM] Further cleanup _apply_hf_processor_main","updated_at":"2026-09-16T17:21:04Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/56203","number":56203,"state":"open","title":"[Core] Extend GPU sync linter with cross-variable flow analysis","updated_at":"2026-09-15T22:41:58Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/54635","number":54635,"state":"closed","title":"[Bugfix][Spec Decode] Implement SupportsPP on more MTP drafters (Kimi-K3, MiniMax-M3, GLM4-MoE)","updated_at":"2026-09-15T18:44:52Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/55966","number":55966,"state":"closed","title":"[ROCm][Spec Decode] Add Aiter MLA decode support non-causal draft block","updated_at":"2026-09-15T17:18:10Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/56279","number":56279,"state":"closed","title":"[Bugfix] Avoid double context-length scaling for deepseek_yarn","updated_at":"2026-09-11T11:38:52Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/54672","number":54672,"state":"closed","title":"[Bugfix] Fix Step-3.5 MTP","updated_at":"2026-09-11T00:28:02Z"}
+{"html_url":"https://github.com/vllm-project/vllm/pull/56304","number":56304,"state":"open","title":"[Security] Bound Dots3 NOTE video audio decode duration and bytes","updated_at":"2026-09-10T15:34:30Z"}
