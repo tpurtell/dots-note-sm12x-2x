@@ -1,0 +1,54 @@
+{
+  "scope": "Compact524K .80 MTP3/RoCE/indexercontexts4 startup admitted, first exact524032+256 prefill aborted by physical8GiBguard. No successful boundary or quality claim.",
+  "kv_gib_rank0": 10.05,
+  "kv_gib_rank1": 10.04,
+  "equivalent_tokens": 1153156,
+  "reported_max_concurrency": 2.2,
+  "guard_killed": "dots3-vllm-head",
+  "minimum_reported_available_bytes": 8331423744,
+  "next_profile_allocation": 0.78,
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/compact524-mtp3-80-moa-final.log",
+      "artifact": "compact524-mtp3-80-moa-final.log.gz",
+      "source_sha256": "efa98e2674c7a95d70649c77925759e62031065003bd1b89ce0b6bac09c06209",
+      "artifact_sha256": "7350d36e2a2308a039dace0f4d96899ff521832f0c8442b8362f6037943e86b4"
+    },
+    {
+      "source": ".cache/serving/spark/compact524-mtp3-80-rhea-final.log",
+      "artifact": "compact524-mtp3-80-rhea-final.log.gz",
+      "source_sha256": "bca80800fa7fe8b8e866cb1f1aaaa28b3c2565f125833cbc59b9a2950efaccbc",
+      "artifact_sha256": "d5fcee0938618a3acce2288d4d168fb53e9037f99e74e4efcec8fca2d437906e"
+    },
+    {
+      "source": ".cache/serving/spark/compact524-mtp3-80-rhea-startup.log",
+      "artifact": "compact524-mtp3-80-rhea-startup.log.gz",
+      "source_sha256": "e8ad925de72d1a9a35f4ca3a221a4b48036e25d60c534d62c0a5cb60804b8090",
+      "artifact_sha256": "404245eaffe369ff960eb169c6ee051c8122b0a31e97f326ba61e2b0f9832b05"
+    },
+    {
+      "source": ".cache/serving/spark/compact524-mtp3-80-moa-memory.log",
+      "artifact": "compact524-mtp3-80-moa-memory.log.gz",
+      "source_sha256": "635e979e0bf52c12c95afaccd1420ce8bd321d30dab6546e3b3fbc4ad05bf03a",
+      "artifact_sha256": "5ea48bea6266f4a11e99e2e88c775c308ca2759c7a22668893aae834b5888279"
+    },
+    {
+      "source": ".cache/serving/spark/compact524-mtp3-80-rhea-memory.log",
+      "artifact": "compact524-mtp3-80-rhea-memory.log.gz",
+      "source_sha256": "b84f836a015f4e582cde0bc373f15708e162500e1fba5f5ba7348d5e97bfd70f",
+      "artifact_sha256": "fb6023dfe77d81e89537d0792af78a319477da8437ec52b4475fc6ab6c4adadd"
+    },
+    {
+      "source": ".cache/serving/spark/context-compact524-mtp3-80.jsonl",
+      "artifact": "context-compact524-mtp3-80.jsonl.gz",
+      "source_sha256": "4cee923877c0687bb10d0ad5dab8b6845ff54ccf5bbb25d8bc401a3f59e363eb",
+      "artifact_sha256": "083a1f0a226d697675ea09846c9bf7c37f877206613a2e1b0371a1b1ad0a51e9"
+    },
+    {
+      "source": ".cache/serving/spark/context-compact524-mtp3-80.log",
+      "artifact": "context-compact524-mtp3-80.log.gz",
+      "source_sha256": "3d327688e8a14ade77cfdccdc3bf3d498762c9777f6d95002cec66d003ce600b",
+      "artifact_sha256": "a29bc7200794c5cf52b1056c4d506230c7aa0f3f433e841c09b28e09aa84c839"
+    }
+  ]
+}
