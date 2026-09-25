@@ -5,6 +5,8 @@ CPU/filesystem only. Never calls Docker, SSH, or the model API. Does not set
 release profiles qualified or establish anonymous registry access.
 """
 import argparse
+import csv
+import math
 import gzip
 import hashlib
 import importlib
@@ -48,6 +50,81 @@ def load_artifact(path, fmt):
     return read(path) if fmt == 'json' else [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
 
+def distribution(values):
+    values=[v for v in values if isinstance(v,(int,float)) and math.isfinite(v)]
+    return {'samples':len(values),'min':min(values) if values else None,
+            'median':statistics.median(values) if values else None,
+            'max':max(values) if values else None}
+
+
+def memory_summary(source, platform):
+    """Observed sample extrema, not exact instantaneous allocation peaks."""
+    hosts={};errors=[];files=[]
+    def add(host,memory,timestamp):
+        row=hosts.setdefault(host,{'samples':0,'timestamps':[],'available':[],'swap_used':[],'gpus':{}})
+        row['samples']+=1;row['timestamps'].append(timestamp)
+        if 'MemAvailable' in memory:row['available'].append(memory['MemAvailable'])
+        if 'SwapTotal' in memory and 'SwapFree' in memory:row['swap_used'].append(memory['SwapTotal']-memory['SwapFree'])
+        return row
+    pattern='memory.jsonl' if platform=='rtx' else 'physical-memory.jsonl'
+    for path in sorted(source.glob('attempt-*/'+pattern)):
+        files.append(str(path.relative_to(source)))
+        for line_number,line in enumerate(path.read_text().splitlines(),1):
+            try:
+                data=json.loads(line)
+                if data.get('error') and ('hosts' not in data and 'meminfo' not in data):
+                    errors.append({'file':files[-1],'line':line_number,'error':data['error']});continue
+                if platform=='spark':
+                    for host,observed in data.get('hosts',{}).items():
+                        add(host,observed['physical_memory_bytes'],data['time'])
+                else:
+                    memory={parts[0].rstrip(':'):int(parts[1])*1024 for text in data.get('meminfo','').splitlines()
+                            if len(parts:=text.split())>=2 and parts[0].rstrip(':') in ('MemAvailable','SwapTotal','SwapFree')}
+                    row=add('rtx',memory,data['time'])
+                    if data.get('returncode')!=0:
+                        errors.append({'file':files[-1],'line':line_number,'error':data.get('error'),'returncode':data.get('returncode')});continue
+                    for fields in csv.reader(data.get('gpu_csv','').splitlines(),skipinitialspace=True):
+                        if len(fields)!=6:raise ValueError('unexpected nvidia-smi six-column sample')
+                        index,uuid,used,total,util,power=fields
+                        gpu=row['gpus'].setdefault(uuid,{'index':index,'memory_used_mib':[],'memory_total_mib':[],'utilization_percent':[],'power_watts':[]})
+                        for key,value in zip(('memory_used_mib','memory_total_mib','utilization_percent','power_watts'),(used,total,util,power)):
+                            try:number=float(value)
+                            except ValueError:continue
+                            if math.isfinite(number):gpu[key].append(number)
+            except (ValueError,KeyError,TypeError) as exc:
+                errors.append({'file':files[-1],'line':line_number,'error':str(exc)})
+    result={}
+    for host,data in hosts.items():
+        result[host]={'samples':data['samples'],'first_sample_unix':min(data['timestamps']),
+                      'last_sample_unix':max(data['timestamps']),
+                      'minimum_mem_available_bytes':min(data['available']) if data['available'] else None,
+                      'maximum_swap_used_bytes':max(data['swap_used']) if data['swap_used'] else None,
+                      'gpus':{uuid:{'index':gpu['index'],
+                          'peak_observed_memory_used_mib':max(gpu['memory_used_mib']) if gpu['memory_used_mib'] else None,
+                          'memory_used_mib':distribution(gpu['memory_used_mib']),
+                          'memory_total_mib':distribution(gpu['memory_total_mib']),
+                          'utilization_percent':distribution(gpu['utilization_percent']),
+                          'power_watts':distribution(gpu['power_watts'])}for uuid,gpu in data['gpus'].items()}}
+    return {'scope':'All recorded runner attempts, including earlier resumed/failed attempts; sampled extrema can miss brief peaks. Host swap use is system-wide, not attributable solely to vLLM.',
+            'gpu_scope':'RTX records nvidia-smi MiB. Spark monitor records physical unified host memory; no separate GPU allocation series is inferred.',
+            'files':files,'hosts':result,'monitor_errors':errors}
+
+
+def startup_memory(runtime):
+    patterns={'model_loading_gib':r'Model loading took ([0-9.]+) GiB',
+              'available_kv_gib':r'Available KV cache memory: ([0-9.]+) GiB',
+              'gpu_kv_cache_tokens':r'GPU KV cache size: ([0-9,]+) tokens',
+              'graph_capture_gib':r'Graph capturing finished.*took ([0-9.]+) GiB'}
+    result={name:[] for name in patterns}
+    for line in runtime.get('selected_startup_lines',[]):
+        for name,pattern in patterns.items():
+            if match:=re.search(pattern,line):
+                value=match.group(1)
+                result[name].append({'value':int(value.replace(',','')) if name.endswith('_tokens') else float(value),'raw_line':line})
+    result['scope']='Directly parsed startup log entries; rank-specific/repeated graph phases are preserved and not summed or treated as simultaneous allocations.'
+    return result
+
+
 def stage_metrics(name, data):
     if name == 'prefix':
         return {key: data[key] for key in ['warm_prefix_hits', 'warm_prefix_queries', 'xgrammar_json', 'cold', 'warm', 'forced_tool']}
@@ -61,6 +138,18 @@ def stage_metrics(name, data):
     if name in ('seven', 'coding'):
         result = dict(data[-1])
         if name == 'coding':
+            measured=[(wave,r) for wave in data if wave.get('record')=='wave' and wave['timed'] for r in wave['request_results']]
+            result['distributions_by_concurrency']={}
+            for c in sorted({wave['concurrency'] for wave,r in measured}):
+                rows=[r for wave,r in measured if wave['concurrency']==c]
+                completed=[r for r in rows if r['completed'] and r.get('error') is None]
+                truncated=[r for r in rows if r['truncated'] and r.get('error') is None]
+                groups={'all_terminal':rows,'naturally_completed':completed,'truncated':truncated}
+                result['distributions_by_concurrency'][str(c)]={key:{
+                    'requests':len(group),
+                    'output_tokens':distribution(r['stream_token_count'] for r in group if r.get('token_accounting_valid')),
+                    'latency_seconds':distribution(r['completion_latency_seconds'] for r in group)} for key,group in groups.items()}
+            result['distribution_scope']='Output token distributions include reasoning and require valid stream/usage accounting. Natural completion and length truncation latency distributions are separate; all_terminal includes any errors.'
             result['quality_misses'] = [{'concurrency': wave['concurrency'], 'run': wave['run'],
                 'task': r['task'], 'truncated': r['truncated'], 'finish_reason': r['finish_reason'],
                 'content_result': r['content_result']} for wave in data if wave.get('record') == 'wave' and wave['timed']
@@ -84,6 +173,15 @@ def stage_metrics(name, data):
             'ttft_seconds_median': statistics.median(r['ttft_seconds'] for r in group),
             'decode_tokens_per_second_median': statistics.median(r['decode_tps'] for r in group),
             'effective_prefill_tokens_per_second_median': statistics.median(r['usage']['prompt_tokens']/r['ttft_seconds'] for r in group)})
+    if name=='code-agent':
+        for point in result:
+            group=[r for r in rows if r['depth']==point['depth']]
+            point['reference_n_minus_one_tokens_per_second']=distribution(r.get('reference_n_minus_one_tps') for r in group)
+        return {'points':result,
+            'decode_timing':'decode_tokens_per_second_median excludes every token in the first SSE burst; elapsed time is last burst minus first burst.',
+            'reference_timing':'reference_n_minus_one_tokens_per_second uses (output_tokens-1) / the same elapsed time, matching the older reference convention; speculative multi-token first bursts can make this larger.',
+            'headline_mapping':'Sampled async coding baseline is depth0, temperature0.2, thinking disabled, fixed256-token completion. State which timing convention is used.',
+            'generation_scope':'Fixed-length throughput probe; natural completion and code correctness are not established.'}
     return {'points': result, 'generation_scope': 'Fixed-length throughput probe; natural completion and code correctness are not established.'}
 
 
@@ -156,16 +254,19 @@ def export(args):
         require(runtime['image_id'] in image_ids, 'Final runtime image mismatch')
         hardware['rtx'] = {k: runtime[k] for k in ['host', 'architecture', 'gpu_inventory_csv', 'meminfo', 'docker_stats']}
         profiles['rtx']['selected_environment'] = runtime['selected_environment']
+        hardware['rtx']['startup_memory_evidence']=startup_memory(runtime)
     else:
         for host in identities:
             snapshot = read(complete_path.parent/f'{host}-after.json')
             require(snapshot['identity'] == identities[host], 'Final host identity changed')
             hardware[host] = {k: v for k, v in snapshot.items() if k not in ('container_log', 'guard_log', 'identity')}
+            hardware[host]['startup_memory_evidence']=startup_memory(snapshot.get('runtime',{}))
     report = {'schema': 'dots3-release-report-v1', 'status': 'runner-completed; release-profile approval separate',
         'platform': args.platform, 'image': args.image, 'image_id': next(iter(image_ids)),
         'model_revision': cache['model_revision'], 'recipe_revision': cache['recipe_revision'],
         'parent_image_id': cache['source_image_id'], 'source_sha256': manifest['source_sha256'],
         'hardware': hardware, 'profile': profiles, 'stage_results': results,
+        'memory_observations':memory_summary(source,args.platform),
         'completion': completion, 'registry_receipt': {k: registry[k] for k in ('registry_digest', 'registry', 'image_tag') if k in registry} if registry else None,
         'quality_scope': 'Static code/content checks are not executed-code correctness. Misses/truncations remain in stage results. Fixed-output timing probes are not natural-completion tests.',
         'prefill_scope': 'Actual prompt tokens / client TTFT, including first-token handoff; not kernel-only prefill speed.'}

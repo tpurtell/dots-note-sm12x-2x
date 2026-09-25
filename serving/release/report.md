@@ -41,3 +41,44 @@ package, verifying anonymous access, approving final settings and populating
 README tables remain separate steps. An older private registry receipt stays
 labeled with its original observation; add fresh public-access evidence when
 available. Do not reinterpret authenticated pull as anonymous success.
+
+## Timing and README data mapping
+
+| Promised measurement | Report source and interpretation |
+| --- | --- |
+| C1 seven-workload weighted decode | `stage_results.seven.weighted_decode_tps`; measured decode tokens divided by measured decode seconds across the seven cases and three runs |
+| C1 greedy `merge_intervals` | `stage_results.seven.median_tps_by_case.code`; temperature0, thinking disabled, first SSE burst excluded; report its contract outcomes |
+| C1 sampled async coding baseline | `stage_results.code-agent.points` entry with `depth=0`; temperature0.2, thinking disabled, forced256-token completion |
+| Sampled async coding timing convention | `decode_tokens_per_second_median` excludes the entire initial SSE burst. `reference_n_minus_one_tokens_per_second.median` instead uses `(output_tokens-1)/elapsed`, as in the older reference recipe. Name the convention explicitly; speculative first bursts can contain multiple tokens. |
+| C16 aggregate sampled prose | `stage_results.clients.points` entry with `concurrency=16`; also report `minimum_overlap` |
+| Reasoning-enabled coding C1/C2/C4 | `stage_results.coding.by_concurrency`; use completed-only latency with completion/truncation counts and the additional distributions below |
+| Context/prefill | Each `stage_results.context-N.points` row; actual prompt count / TTFT includes first-token handoff. The final boundary is actual prompt+completion tokens, not a nominal model configuration alone. |
+
+The sampled async coding headline refers to the reference task at baseline depth,
+not the separate reasoning-enabled `async_pool` task. Neither fixed-length coding
+probe establishes completed-code correctness. The report preserves both timing
+metrics so older reference numbers are not silently mixed with burst-aware rates.
+
+Reasoning coding adds `distributions_by_concurrency` with sample count, minimum,
+median and maximum for output tokens and latency. Natural completions and length
+truncations are separate groups; `all_terminal` retains all requests, including
+any errors. Output tokens include reasoning and require valid stream/usage token
+accounting. A completed-only latency excludes truncated answers and must not be
+presented as latency for all attempted requests.
+
+## Memory evidence
+
+`memory_observations` summarizes the actual monitoring files from all runner
+attempts, including resumed/failed attempts. It reports minimum physical host
+`MemAvailable`, maximum system-wide swap use, and on RTX the observed per-GPU
+peak memory use plus memory/utilization/power distributions. NVIDIA memory units
+are MiB; host memory values are bytes. These are sampled observations, not
+instantaneous peaks or memory attributable solely to the serving process. Monitor
+errors and unavailable samples remain visible. Spark's current monitor provides
+physical unified-memory samples; no separate GPU-allocation series is inferred.
+
+`hardware.*.startup_memory_evidence` retains source log lines and parsed model
+loading GiB, available KV GiB, KV-cache token capacity, and graph-capture GiB where
+present. Per-rank and repeated graph phases remain separate; summing them would
+misrepresent simultaneous allocation. Original snapshots and monitoring logs are
+still archived losslessly.
