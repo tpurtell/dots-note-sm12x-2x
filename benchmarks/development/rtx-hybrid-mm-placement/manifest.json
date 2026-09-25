@@ -1,0 +1,436 @@
+{
+  "schema": 1,
+  "scope": "MM owner placement development screens; not final release qualification",
+  "image_id": "sha256:04d1914c243482e144d0982bb5eb8c848a78a2e4333017de37cfc56b68283da7",
+  "source_commit": "e177cdf",
+  "profiles": {
+    "mm-v3": "partition23,23",
+    "mm-cut18": "partition18,28"
+  },
+  "features": "packed routing and MM ownership enabled; fused pack/shared overlap/boundary ownership disabled",
+  "coding_cut18": {
+    "record": "summary",
+    "by_concurrency": {
+      "1": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.08401638799114153,
+        "median_completion_latency_seconds": 25.168345334983314,
+        "median_completed_latency_seconds": 25.168345334983314,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 157.58170330119324,
+        "wave_peak_overlap": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "aggregate_output_tps": 155.25766947130742
+      },
+      "2": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.12189129149192013,
+        "median_completion_latency_seconds": 37.49018706950301,
+        "median_completed_latency_seconds": 37.49018706950301,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 126.55962567355346,
+        "wave_peak_overlap": [
+          2,
+          2
+        ],
+        "aggregate_output_tps": 222.97563956308431
+      },
+      "4": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.2379095524956938,
+        "median_completion_latency_seconds": 49.40503446650109,
+        "median_completed_latency_seconds": 49.40503446650109,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 96.15294921599201,
+        "wave_peak_overlap": [
+          4
+        ],
+        "aggregate_output_tps": 305.08146586572184
+      }
+    }
+  },
+  "reasoning": {
+    "mm-v3": {
+      "record": "summary",
+      "passed": true,
+      "cases_passed": 40,
+      "cases_total": 40,
+      "failed_cases": [],
+      "evidence_issues": [],
+      "speculative_draft_token_delta": 2044.0,
+      "structured_boundary_chunks": [
+        {
+          "case": "json",
+          "repeat": 0,
+          "chunks": [
+            [
+              532,
+              151722,
+              4913
+            ]
+          ]
+        },
+        {
+          "case": "tool_named",
+          "repeat": 0,
+          "chunks": [
+            [
+              729,
+              624,
+              151722,
+              90
+            ]
+          ]
+        },
+        {
+          "case": "tool_required",
+          "repeat": 0,
+          "chunks": [
+            [
+              729,
+              624,
+              151722,
+              58
+            ]
+          ]
+        }
+      ],
+      "speculative_metrics_after": {
+        "raw_lines": [
+          "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 725.0",
+          "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 2134.0",
+          "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1663.0",
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"0\"} 630.0",
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"1\"} 560.0",
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"2\"} 473.0"
+        ],
+        "totals": {
+          "vllm:spec_decode_num_drafts_total": 725.0,
+          "vllm:spec_decode_num_draft_tokens_total": 2134.0,
+          "vllm:spec_decode_num_accepted_tokens_total": 1663.0,
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1663.0
+        }
+      },
+      "boundary_evidence_scope": "An SSE token chunk crossing </think> shows an accepted output burst; it does not expose rejected drafts or prove their exact contents."
+    },
+    "mm-cut18": {
+      "record": "summary",
+      "passed": true,
+      "cases_passed": 40,
+      "cases_total": 40,
+      "failed_cases": [],
+      "evidence_issues": [],
+      "speculative_draft_token_delta": 2044.0,
+      "structured_boundary_chunks": [
+        {
+          "case": "json",
+          "repeat": 0,
+          "chunks": [
+            [
+              532,
+              151722,
+              4913
+            ]
+          ]
+        },
+        {
+          "case": "tool_named",
+          "repeat": 0,
+          "chunks": [
+            [
+              729,
+              624,
+              151722,
+              90
+            ]
+          ]
+        },
+        {
+          "case": "tool_required",
+          "repeat": 0,
+          "chunks": [
+            [
+              729,
+              624,
+              151722,
+              58
+            ]
+          ]
+        }
+      ],
+      "speculative_metrics_after": {
+        "raw_lines": [
+          "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 725.0",
+          "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 2134.0",
+          "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1663.0",
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"0\"} 630.0",
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"1\"} 560.0",
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"2\"} 473.0"
+        ],
+        "totals": {
+          "vllm:spec_decode_num_drafts_total": 725.0,
+          "vllm:spec_decode_num_draft_tokens_total": 2134.0,
+          "vllm:spec_decode_num_accepted_tokens_total": 1663.0,
+          "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1663.0
+        }
+      },
+      "boundary_evidence_scope": "An SSE token chunk crossing </think> shows an accepted output burst; it does not expose rejected drafts or prove their exact contents."
+    }
+  },
+  "historical_planner_limitation": "Original placement estimates count some registered CPU buffers as if VRAM. Preserve these receipts for provenance only; later6239980 CUDA-only helper supersedes their estimator. Actual startup/functional receipts remain measurements.",
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/Dockerfile.mm-v3",
+      "archive": "Dockerfile.mm-v3.gz",
+      "bytes": 1263,
+      "sha256": "d2b34c4956e4bd79f7925581c27393da733e1609b6c8b7d97f4c6c4afa3737cf",
+      "gzip_sha256": "b6dc4dde36e09db78a5fe340727bdfa9c9a4468157b65606dd0d2e1d77cb1137"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-mm-v3-provenance.json",
+      "archive": "build-mm-v3-provenance.json.gz",
+      "bytes": 1426,
+      "sha256": "37375ca11cde51c81ee0cc9fdd8bfa98e8e4ecaf265e1fb15ee5f2ebd1cce9ac",
+      "gzip_sha256": "733de5b77bf8c926887aacb11f5b97284303e8b77febcd41667ab5d05b607e99"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-mm-v3.log",
+      "archive": "build-mm-v3.log.gz",
+      "bytes": 2646,
+      "sha256": "b171e89ce1b4830da767e3002cdcee5c39faa4b81bb9b111fe37cd8b2c6b593f",
+      "gzip_sha256": "268db20e6c7dddea5c3883071939ea652350c1faa4a6cbca4dedc46913bcf597"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-mm-cut18.jsonl",
+      "archive": "coding-mm-cut18.jsonl.gz",
+      "bytes": 13615329,
+      "sha256": "332040814725e85af828a0f8e6a0d30df23dc015a57351ce8e03f3ee376cf474",
+      "gzip_sha256": "b8ce3a5e1cfbba1ebdcb20f984fd221d694c5e7d6c3d1856e980e513e4220a2e"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-mm-cut18.log",
+      "archive": "coding-mm-cut18.log.gz",
+      "bytes": 4366,
+      "sha256": "6efc52ea9858112fefdf03192633c1ad5e74747e53eacd91fc4db9cf5afe260a",
+      "gzip_sha256": "882413374fd27264e9d7eeed5c0a74bbd27f47fa0fc21468d80cedcce47d3757"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-mm-cut18.json",
+      "archive": "container-mm-cut18.json.gz",
+      "bytes": 16861,
+      "sha256": "ba741c8629dd3811121098cabbe22bc686d0c720165dfa841a724c3d28d760a8",
+      "gzip_sha256": "fb369fc20632d02c21999dc1e84d7e9e7ac2efe4922b6fac312371373d5d0307"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-mm-v3.json",
+      "archive": "container-mm-v3.json.gz",
+      "bytes": 16764,
+      "sha256": "57faf663b9136abdbee1f84b0331d953b1a2e1f0f402de73f51ff79df4737fbe",
+      "gzip_sha256": "29537ba92f5edf60861cbe4696630ff9305238d3f7100050bf64a4a58dd93c93"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/multimodal-mm-cut18.json",
+      "archive": "multimodal-mm-cut18.json.gz",
+      "bytes": 4270,
+      "sha256": "f4dfdda0469b97fc4f8531048f691fb7d29b29f01689fcce18ce3eae944fe865",
+      "gzip_sha256": "3883c11908e7f90415382b7e003fb57df66824bec7b14b917f31777c7c9accf5"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/multimodal-mm-cut18.log",
+      "archive": "multimodal-mm-cut18.log.gz",
+      "bytes": 66,
+      "sha256": "b0ea1ce0687665403a5b27330f16dcf4612949327a737df2154dca80a706df27",
+      "gzip_sha256": "2e4418232d6f51fcecab62b28689858515a64be90bc9ccfc3eb8ea25ada56340"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/multimodal-mm-v3.json",
+      "archive": "multimodal-mm-v3.json.gz",
+      "bytes": 4273,
+      "sha256": "31fa8cc288747756381f60bacca4898ab043d740d486319af88e3c320555cf96",
+      "gzip_sha256": "6bd593789081d8c77ce99c4c1e84a6252f464d26143ff0163eef933c18962cc4"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/multimodal-mm-v3.log",
+      "archive": "multimodal-mm-v3.log.gz",
+      "bytes": 66,
+      "sha256": "b0ea1ce0687665403a5b27330f16dcf4612949327a737df2154dca80a706df27",
+      "gzip_sha256": "2e4418232d6f51fcecab62b28689858515a64be90bc9ccfc3eb8ea25ada56340"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/placement-mm-cut18.json",
+      "archive": "placement-mm-cut18.json.gz",
+      "bytes": 31888,
+      "sha256": "6c6d932198301e0e3768a8bbe3503a449cd9b63ce6d47452794209e16241d54d",
+      "gzip_sha256": "f5fe3d32661778f79fd43fc83fa87abf4de879ba9d0776f41b1349882abf6e87"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/placement-mm-cut18.log",
+      "archive": "placement-mm-cut18.log.gz",
+      "bytes": 3893,
+      "sha256": "0e9513fa84414f99665bca9dab64869f866f566e8b617fead54ffb6c93cf842e",
+      "gzip_sha256": "61380559f8caa67c395c7d9fbb3a24b8df016a80148b3ce8fcb214f8ad6eb698"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/placement-mm-v3.json",
+      "archive": "placement-mm-v3.json.gz",
+      "bytes": 31885,
+      "sha256": "80238ab7d44acf5d446b9590d0999a8e475b3f21bdc6152b607391da5f18b0df",
+      "gzip_sha256": "76bf2264d0a816022855312224a41ceaeeb710b5b630be24c62504a653da58ee"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/placement-mm-v3.log",
+      "archive": "placement-mm-v3.log.gz",
+      "bytes": 3909,
+      "sha256": "5b9b9762f6e9276321ea986839c2cefc138b18262c1a80955329bc3972733cab",
+      "gzip_sha256": "8fa2352c839fc2897f53d71e001893c2422cb0c8acad3b9cd0e573f13d92fd57"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-mm-cut18.json",
+      "archive": "prefix-mm-cut18.json.gz",
+      "bytes": 2682,
+      "sha256": "38537b22be87242379453b5774ca70c96129a975bd08003b092ae0acb969e5a0",
+      "gzip_sha256": "05de4734d85532cb9fdc19f6d48da673b44a7701aa2e23fcaeff473830d64b1d"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-mm-cut18.log",
+      "archive": "prefix-mm-cut18.log.gz",
+      "bytes": 1211,
+      "sha256": "007dd7101ba6d2ce885381e999662fc72b2ee35dcde42ef23448052c42403d37",
+      "gzip_sha256": "35796de845f17126d0d57ffc71f196bb9f3363d5ca24f26f91a4ee5a86436fe8"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-mm-v3.json",
+      "archive": "prefix-mm-v3.json.gz",
+      "bytes": 2684,
+      "sha256": "b6c3913cc77c80a9066bbde6aa43423e31777415f410baed659312603b7cb2f8",
+      "gzip_sha256": "d96df29bbf86e41f3a3bb7e4fb272c570a42a35e536e8a0e5e6555776d01b575"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-mm-v3.log",
+      "archive": "prefix-mm-v3.log.gz",
+      "bytes": 1212,
+      "sha256": "0448f59027075dd756c14b7c8021578b026a21599e5a9cc9a5596e6745b741fe",
+      "gzip_sha256": "cc599199884ab4ba05de830e49f19a04b79d4326da3e8b4916bf8bcef4893438"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-mm-cut18.jsonl",
+      "archive": "reasoning-mm-cut18.jsonl.gz",
+      "bytes": 252194,
+      "sha256": "e90eba3f72a99f55c3f763c4c8721c29e40e4b480bb6e681a474e43f447c0d68",
+      "gzip_sha256": "e80eb21c73231ad975c280421de0cd53851e6e72c0564af01c3c961faa719a2a"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-mm-cut18.log",
+      "archive": "reasoning-mm-cut18.log.gz",
+      "bytes": 5735,
+      "sha256": "4cff7c29756075c25eaca6addd35db0fbadcb82073ed26c871244dc900183c96",
+      "gzip_sha256": "2dedacb0441be06f08c22a8b7489b4f664db9f2768dc10eb188eacb13a5d4548"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-mm-v3.jsonl",
+      "archive": "reasoning-mm-v3.jsonl.gz",
+      "bytes": 252192,
+      "sha256": "983209ae613c354ff70c532d78af67d5e4ea042009e95960ca1987922b81223e",
+      "gzip_sha256": "9b8780bd00aa3b44dce0e0d3e3f3afd22bedf6033fa4f98a85e178999ba7ff6b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-mm-v3.log",
+      "archive": "reasoning-mm-v3.log.gz",
+      "bytes": 5735,
+      "sha256": "4cff7c29756075c25eaca6addd35db0fbadcb82073ed26c871244dc900183c96",
+      "gzip_sha256": "2dedacb0441be06f08c22a8b7489b4f664db9f2768dc10eb188eacb13a5d4548"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-mm-cut18.json",
+      "archive": "ownership-mm-cut18.json.gz",
+      "bytes": 253514,
+      "sha256": "eb9ff6ff81a433444424f9a2252f5848d0ddf6658f0a38fdd9b878e894d4d717",
+      "gzip_sha256": "bcecf1599c1505bf4517a8800c31f2fdbb9c9f327513bd10aba9ef3349c68fb9"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-mm-v3.json",
+      "archive": "ownership-mm-v3.json.gz",
+      "bytes": 253515,
+      "sha256": "3a32346156943aaa6cce794167f8a66b09a7508382b07658a8e4fca10c0af73c",
+      "gzip_sha256": "02bf76d85c38c1fac2f7b47d2402bcdb66eeba4f1bbc5d8a31193e646bcb090a"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-mm-cut18-healthy.json",
+      "archive": "runtime-mm-cut18-healthy.json.gz",
+      "bytes": 286018,
+      "sha256": "70c30d205cd2fe4cd860bf548346ebc56f3b77efd315c45107b0b87742da065e",
+      "gzip_sha256": "da61fed97ea711ec6a4dece9c87b38ebab85a8e75887ac0359ba2df02e47c538"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-mm-cut18.json",
+      "archive": "runtime-mm-cut18.json.gz",
+      "bytes": 3297,
+      "sha256": "7bd66f613e62e71ea81a6d8163d3939fe478972b9080c2255c1c53414082f37a",
+      "gzip_sha256": "0a4c6a4588644a0c0d22ef85e4fc9ee195d49fce9b08f36c0dff5f6c8c6fdcb8"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-mm-v3-healthy.json",
+      "archive": "runtime-mm-v3-healthy.json.gz",
+      "bytes": 285935,
+      "sha256": "14e7d30d4c7ac265729251e1458197bb7cbf7baefa482f92c3791227a9f4db4a",
+      "gzip_sha256": "5976e2f5ccbfb18a6295edd39b4f58855396a2d9f49b45803281bba0d86b7866"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-mm-v3.json",
+      "archive": "runtime-mm-v3.json.gz",
+      "bytes": 3210,
+      "sha256": "a6b3abed702539814380afcd7aab6a160e0d0f45312871a993e47fd22e29ef6b",
+      "gzip_sha256": "563d5e15cf756be38f8bbdf6d9704a2387dc677be4efb110023c0b137996eea9"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-mm-cut18.log",
+      "archive": "start-mm-cut18.log.gz",
+      "bytes": 65,
+      "sha256": "3ac64ce78a48811d16695d179024df1b0b53c8fe76d11f59925f6b1e97d2a6c1",
+      "gzip_sha256": "b9d61eaaf3d20e2822f51c0bd96fa96ce400cf9e094ac49598f72d74fe1462a3"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-mm-v3.log",
+      "archive": "start-mm-v3.log.gz",
+      "bytes": 65,
+      "sha256": "d47fcb9b91d17e1504ec16e499625f16c1c530f3d0e7093698a5c24b61039a54",
+      "gzip_sha256": "6519ff7489c9f07db061aaec1549984204a29d65aaf11028aabb8190b4869474"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-mm-cut18.log",
+      "archive": "startup-mm-cut18.log.gz",
+      "bytes": 215219,
+      "sha256": "09af1d2c0878452324c353843e236674219802f718185eb41a5befd3374d69ff",
+      "gzip_sha256": "0e2ff27c7b87a1d004a99047809dca2ac984b7cab050d2c345ff47358483088d"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-mm-v3.log",
+      "archive": "startup-mm-v3.log.gz",
+      "bytes": 270965,
+      "sha256": "1629df75fa74622e02595a3529e893471c023e5a0320634361ce0ddbd3e57749",
+      "gzip_sha256": "0f6e24157e1b1c68f20c4dbcd8ded904db4773b19717d266b3a5d09d4d1a197a"
+    }
+  ]
+}
