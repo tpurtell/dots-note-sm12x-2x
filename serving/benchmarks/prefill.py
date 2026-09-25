@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import http.client
 import json
 import statistics
@@ -121,8 +122,17 @@ def time_to_first_token(base_url: str, model: str, prompt: str) -> dict:
     if first_token is None:
         raise RuntimeError("stream returned no token IDs")
     prompt_tokens = usage.get("prompt_tokens") if usage else None
+    if not isinstance(prompt_tokens, int) or prompt_tokens <= 0:
+        raise RuntimeError("stream returned no positive prompt-token usage")
+    details = usage.get("prompt_tokens_details") or {}
+    cached_tokens = details.get("cached_tokens")
+    if cached_tokens is not None and cached_tokens != 0:
+        raise RuntimeError(f"cold-prefill probe reused {cached_tokens} cached tokens")
     return {
         "prompt_tokens": prompt_tokens,
+        "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),
+        "usage": usage,
+        "cached_tokens": cached_tokens,
         "ttft_seconds": first_token - started,
         "effective_prompt_tokens_per_second": prompt_tokens / (first_token - started),
     }
