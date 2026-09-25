@@ -70,5 +70,19 @@ def patch(root):
     compile(source, str(path), 'exec')
     path.write_text(source)
 
+    path = root / 'v1/engine/core.py'
+    source = path.read_text()
+    anchor = '        self.model_executor.initialize_from_config(kv_cache_configs)'
+    if source.count(anchor) != 1:
+        raise RuntimeError('engine KV initialization source anchor changed')
+    source = source.replace(anchor, anchor + '\n'
+        '        import os as _hybrid_os\n'
+        '        _hybrid_receipt_path = _hybrid_os.environ.get("VLLM_HYBRID_ATTESTATION_PATH")\n'
+        '        if _hybrid_receipt_path:\n'
+        '            from hybrid_attestation import write_startup_receipt\n'
+        '            write_startup_receipt(self.model_executor, _hybrid_receipt_path)')
+    compile(source, str(path), 'exec')
+    path.write_text(source)
+
 
 if __name__ == '__main__': patch(Path(sys.argv[1]))

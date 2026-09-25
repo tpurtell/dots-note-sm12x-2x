@@ -47,3 +47,29 @@ layers[2].mlp.experts.routed_experts.dots3_b12x_experts.intermediate_size=768
 context['model.layers.2.attn']=NS(kv_cache=Tensor(200))
 assert any('nonowner registered cache' in x for x in attest_model(model,vconfig)['errors'])
 print('Hybrid attestation CPU checks: geometry failure, nonowner KV rejection, pool alias byte dedup passed')
+
+# Actual storage aliases count once; parameter and buffer logical bytes remain
+# separate, so this also detects accidental double-counting in MM reporting.
+from hybrid_attestation import _module_storage, write_startup_receipt
+mm = NS(parameters=lambda: iter([Tensor(1), Tensor(2)]), buffers=lambda: iter([Tensor(1)]))
+summary = _module_storage(mm)
+assert summary['parameter_bytes'] == 16 and summary['buffer_bytes'] == 8
+assert summary['unique_storage_bytes'] == 16
+
+import tempfile
+import json
+from pathlib import Path
+class Executor:
+    def __init__(self, passed): self.passed = passed
+    def collective_rpc(self, method):
+        assert method == 'hybrid_ownership_receipt'
+        return [{'rank':rank,'passed':self.passed,'errors':[] if self.passed else ['fixture']} for rank in range(2)]
+with tempfile.TemporaryDirectory() as tmp:
+    target=Path(tmp)/'receipt.json'
+    write_startup_receipt(Executor(True),target)
+    assert json.loads(target.read_text())['passed']
+    try: write_startup_receipt(Executor(False),target)
+    except RuntimeError: pass
+    else: raise AssertionError('failed ownership did not stop startup')
+    assert not json.loads(target.read_text())['passed']
+print('MM storage alias accounting and atomic startup RPC receipt/error gates passed')

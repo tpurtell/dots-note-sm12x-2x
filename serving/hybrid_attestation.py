@@ -19,6 +19,23 @@ def _parameter_bytes(module):
     return sum(p.numel() * p.element_size() for p in module.parameters())
 
 
+def _module_storage(module):
+    if module is None:
+        return {'present': False, 'parameter_bytes': 0, 'unique_storage_bytes': 0}
+    parameters = list(module.parameters())
+    buffers = list(module.buffers())
+    storages = {}
+    by_dtype = {}
+    for tensor in parameters + buffers:
+        detail = _tensor(tensor)
+        storages[(detail['device'], detail['storage_pointer'])] = detail['storage_bytes']
+        by_dtype[detail['dtype']] = by_dtype.get(detail['dtype'], 0) + tensor.numel() * tensor.element_size()
+    return {'present': True, 'parameter_count': sum(p.numel() for p in parameters),
+            'parameter_bytes': sum(p.numel()*p.element_size() for p in parameters),
+            'buffer_bytes': sum(p.numel()*p.element_size() for p in buffers),
+            'unique_storage_bytes': sum(storages.values()), 'logical_bytes_by_dtype': by_dtype}
+
+
 def attest_model(model, vllm_config, *, require_bound_cache=True):
     from vllm.distributed import get_tp_group
     language = getattr(model, 'language_model', model)
@@ -94,7 +111,10 @@ def attest_model(model, vllm_config, *, require_bound_cache=True):
             storages[(detail['device'], detail['storage_pointer'])] = detail['storage_bytes']
     if require_bound_cache and not caches: errors.append('no bound owner caches')
     receipt = {'schema':'hybrid-owner-attestation-v1','rank':group.rank_in_group,
-               'world_size':group.world_size,'layers':rows,'routed_experts':routed,
+               'world_size':group.world_size,
+               'multimodal_storage': {name: _module_storage(getattr(model, name, None))
+                                      for name in ('visual', 'audio_tower')},
+               'layers':rows,'routed_experts':routed,
                'caches':caches,'unique_kv_storage_bytes':sum(storages.values()),
                'passed':not errors,'errors':errors}
     return receipt
@@ -103,3 +123,21 @@ def attest_model(model, vllm_config, *, require_bound_cache=True):
 class HybridAttestationWorkerExtension:
     def hybrid_ownership_receipt(self):
         return attest_model(self.model_runner.model, self.vllm_config)
+
+
+def write_startup_receipt(executor, path):
+    """Engine-local, opt-in RPC after KV binding; no HTTP RPC surface needed."""
+    import json
+    import os
+    from pathlib import Path
+    receipts = executor.collective_rpc('hybrid_ownership_receipt')
+    passed = bool(receipts) and all(receipt.get('passed') for receipt in receipts)
+    result = {'schema': 'hybrid-owner-startup-attestation-v1', 'passed': passed,
+              'workers': receipts}
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    temporary = target.with_name(target.name + f'.{os.getpid()}.tmp')
+    temporary.write_text(json.dumps(result, indent=2) + '\n')
+    temporary.replace(target)
+    if not passed:
+        raise RuntimeError(f'hybrid loaded ownership attestation failed: {target}')

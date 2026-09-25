@@ -5,7 +5,7 @@ import tempfile
 from pathlib import Path
 from port_hybrid_parallel import patch
 source = Path('.cache/vllm-v0.30.0/vllm')
-files = ('model_executor/models/deepseek_v2.py', 'models/dots3_note/nvidia/model.py', 'models/dots3_note/nvidia/mtp.py', 'models/deepseek_v32/nvidia/mtp.py')
+files = ('model_executor/models/deepseek_v2.py', 'models/dots3_note/nvidia/model.py', 'models/dots3_note/nvidia/mtp.py', 'models/deepseek_v32/nvidia/mtp.py', 'v1/engine/core.py')
 with tempfile.TemporaryDirectory() as tmp:
     root = Path(tmp)
     for name in files:
