@@ -501,6 +501,21 @@
       "bytes": 321768,
       "sha256": "0898a886e5d4a2d31cba864370c6603155b1108c870cb0db2e5a4cbe960f56d2",
       "gzip_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a"
+    },
+    {
+      "source": ".cache/serving/spark/build-mm-v7-rhea.log",
+      "archive": "build-mm-v7-rhea.log.gz",
+      "bytes": 6603,
+      "sha256": "adfee951e3791993273ba5fdffc8886b4708c1ff7c8fa53ed784e6a23d80a344",
+      "gzip_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8"
+    },
+    {
+      "source": ".cache/serving/spark/build-mm-v7-moa.log",
+      "archive": "build-mm-v7-moa.log.gz",
+      "bytes": 6605,
+      "sha256": "04b9a600194d03643db21bd7ea7952a42bf30d9b89f53cf7975d0a7d4d7b4bb6",
+      "gzip_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77"
     }
-  ]
+  ],
+  "build_note": "Platform owner confirms independently built development images from same committed source snapshot; per-host build logs preserved. Final qualification still requires one published ARM digest pulled on both hosts."
 }
