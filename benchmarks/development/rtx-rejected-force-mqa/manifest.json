@@ -1,0 +1,409 @@
+{
+  "schema": 1,
+  "status": "rejected; sparse_mla_force_mqa remains false",
+  "image_id": "sha256:3a0861609fbb9a4d180b6dae9d27662a982d6b130583e43c737de3618f509e48",
+  "args": [
+    "serve",
+    "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+    "--served-model-name",
+    "dots3-note-exl3-k4",
+    "--tensor-parallel-size",
+    "2",
+    "--pipeline-parallel-size",
+    "1",
+    "--distributed-executor-backend",
+    "mp",
+    "--max-model-len",
+    "524288",
+    "--max-num-seqs",
+    "16",
+    "--max-num-batched-tokens",
+    "512",
+    "--gpu-memory-utilization",
+    ".95",
+    "--kv-cache-dtype",
+    "fp8",
+    "--enable-prefix-caching",
+    "--structured-outputs-config",
+    "{\"backend\":\"xgrammar\"}",
+    "--limit-mm-per-prompt",
+    "{\"image\":1,\"audio\":1,\"video\":0}",
+    "--enable-auto-tool-choice",
+    "--tool-call-parser",
+    "dots",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "8001",
+    "--reasoning-parser",
+    "dots3",
+    "--block-size",
+    "64",
+    "--speculative-config",
+    "{\"method\":\"mtp\",\"num_speculative_tokens\":3}",
+    "--worker-extension-cls",
+    "hybrid_attestation.HybridAttestationWorkerExtension",
+    "--attention-config",
+    "{\"sparse_mla_force_mqa\":true}"
+  ],
+  "selected_environment": [
+    "VLLM_HYBRID_LAYER_PARTITION=17,29",
+    "VLLM_HYBRID_FUSED_PACK=1",
+    "VLLM_HYBRID_BOUNDARY_OWNERS=",
+    "VLLM_HYBRID_ATTESTATION_PATH=/root/.cache/vllm-runtime/ownership-mqa-swaqb17-b512.json",
+    "DOTS3_B12X_EXACT_FP8_ROWS=4,8,16",
+    "VLLM_HYBRID_PACKED_ROUTING=1",
+    "DOTS3_B12X_EXACT_FP8=swa_q_b_proj",
+    "VLLM_PCIE_ALLREDUCE_BACKEND=b12x",
+    "B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile",
+    "OMP_NUM_THREADS=8",
+    "DOTS3_INDEXER_PREFILL_CONTEXTS=4",
+    "VLLM_HYBRID_OVERLAP_SHARED=1",
+    "VLLM_HYBRID_MM_OWNERS=0,1",
+    "VLLM_ENABLE_PCIE_ALLREDUCE=0",
+    "DOTS3_COMPACT_DSA_CACHE=1",
+    "VLLM_HYBRID_BALANCE_KV_GROUPS=1",
+    "DOTS3_B12X_VOCAB=0",
+    "CUTE_DSL_ARCH=sm_120a",
+    "VLLM_EXL3_TRELLIS_MIN_M=1",
+    "VLLM_EXL3_PREFILL_TRELLIS=1"
+  ],
+  "kv_capacity_tokens": 2004801,
+  "prefill": {
+    "schema": "dots3-prefill-depth.v1",
+    "nonce": "82455710f2354cc8a154a6deba504334",
+    "method": "C1 exact-length unique prompts; client request to first streamed token; server tokenization and one-token handoff included; no prefix reuse",
+    "model": "dots3-note-exl3-k4",
+    "quant_profile": "fp8-core-exl3-k4-routed",
+    "kv_cache_dtype": "fp8",
+    "runs_per_point": 3,
+    "points": [
+      {
+        "prompt_tokens": 8192,
+        "effective_prompt_tokens_per_second": {
+          "median": 3976.519240233326,
+          "min": 3961.235649670864,
+          "max": 3983.642165476963
+        },
+        "ttft_seconds": {
+          "median": 2.0600931380176917,
+          "min": 2.056409601995256,
+          "max": 2.0680415719980374
+        },
+        "runs": [
+          {
+            "prompt_tokens": 8192,
+            "prompt_sha256": "eb3d41cbf2727982009611dea5f9ca0aef9aa72713426d466e4d1b148b78b9f8",
+            "usage": {
+              "prompt_tokens": 8192,
+              "total_tokens": 8193,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 2.056409601995256,
+            "effective_prompt_tokens_per_second": 3983.642165476963
+          },
+          {
+            "prompt_tokens": 8192,
+            "prompt_sha256": "eb8caa5a7ca412262ce865d1966598f60a1e07aede422cb65422d0ee64830467",
+            "usage": {
+              "prompt_tokens": 8192,
+              "total_tokens": 8193,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 2.0600931380176917,
+            "effective_prompt_tokens_per_second": 3976.519240233326
+          },
+          {
+            "prompt_tokens": 8192,
+            "prompt_sha256": "01cce7ba53c491e198a6332b255c3623e79cb0da2802440ca2b0ec7793e19e45",
+            "usage": {
+              "prompt_tokens": 8192,
+              "total_tokens": 8193,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 2.0680415719980374,
+            "effective_prompt_tokens_per_second": 3961.235649670864
+          }
+        ]
+      },
+      {
+        "prompt_tokens": 32768,
+        "effective_prompt_tokens_per_second": {
+          "median": 3746.946911489456,
+          "min": 3716.3426699374263,
+          "max": 3776.657017150499
+        },
+        "ttft_seconds": {
+          "median": 8.745253342000069,
+          "min": 8.676456414017593,
+          "max": 8.81727087899344
+        },
+        "runs": [
+          {
+            "prompt_tokens": 32768,
+            "prompt_sha256": "a8b66cd04ea61cd426fe85ca65a21d2113bde713b1a973aa65efbfb311fcdbb7",
+            "usage": {
+              "prompt_tokens": 32768,
+              "total_tokens": 32769,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 8.676456414017593,
+            "effective_prompt_tokens_per_second": 3776.657017150499
+          },
+          {
+            "prompt_tokens": 32768,
+            "prompt_sha256": "ea6014580b7a03d16cde19c000b78b4c2f8c69938d0a8f9a651dd4d6053fc469",
+            "usage": {
+              "prompt_tokens": 32768,
+              "total_tokens": 32769,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 8.745253342000069,
+            "effective_prompt_tokens_per_second": 3746.946911489456
+          },
+          {
+            "prompt_tokens": 32768,
+            "prompt_sha256": "d1d58926a6f3b969c003da175192126963f1e2ed946fe5911d94f884b4e9bfd2",
+            "usage": {
+              "prompt_tokens": 32768,
+              "total_tokens": 32769,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 8.81727087899344,
+            "effective_prompt_tokens_per_second": 3716.3426699374263
+          }
+        ]
+      },
+      {
+        "prompt_tokens": 131072,
+        "effective_prompt_tokens_per_second": {
+          "median": 3210.669154874431,
+          "min": 3208.0764479837435,
+          "max": 3243.0785293679137
+        },
+        "ttft_seconds": {
+          "median": 40.82388862801599,
+          "min": 40.415919260995,
+          "max": 40.85688172499067
+        },
+        "runs": [
+          {
+            "prompt_tokens": 131072,
+            "prompt_sha256": "07a9ea16632b7bdd4b7eaa55201229970b29cf3734cf780d644681ed7edb61e7",
+            "usage": {
+              "prompt_tokens": 131072,
+              "total_tokens": 131073,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 40.415919260995,
+            "effective_prompt_tokens_per_second": 3243.0785293679137
+          },
+          {
+            "prompt_tokens": 131072,
+            "prompt_sha256": "e4274dc0e8ea0fc10684e10d15acf00b7d5e60426b158e5c060ef07594ff99ae",
+            "usage": {
+              "prompt_tokens": 131072,
+              "total_tokens": 131073,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 40.82388862801599,
+            "effective_prompt_tokens_per_second": 3210.669154874431
+          },
+          {
+            "prompt_tokens": 131072,
+            "prompt_sha256": "e1b9c23506a3cbcc1a2d17c3bbdaf3d672d9e6f9080c7386ae40b4f91b2a73b7",
+            "usage": {
+              "prompt_tokens": 131072,
+              "total_tokens": 131073,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 40.85688172499067,
+            "effective_prompt_tokens_per_second": 3208.0764479837435
+          }
+        ]
+      }
+    ]
+  },
+  "reasoning_summary": {
+    "record": "summary",
+    "passed": true,
+    "cases_passed": 40,
+    "cases_total": 40,
+    "failed_cases": [],
+    "evidence_issues": [],
+    "speculative_draft_token_delta": 1623.0,
+    "structured_boundary_chunks": [
+      {
+        "case": "json",
+        "repeat": 0,
+        "chunks": [
+          [
+            151722,
+            4913
+          ]
+        ]
+      },
+      {
+        "case": "tool_named",
+        "repeat": 0,
+        "chunks": [
+          [
+            151722,
+            90
+          ]
+        ]
+      },
+      {
+        "case": "tool_required",
+        "repeat": 0,
+        "chunks": [
+          [
+            151722,
+            58
+          ]
+        ]
+      }
+    ],
+    "speculative_metrics_after": {
+      "raw_lines": [
+        "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 557.0",
+        "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1623.0",
+        "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1314.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"0\"} 490.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"1\"} 447.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"2\"} 377.0"
+      ],
+      "totals": {
+        "vllm:spec_decode_num_drafts_total": 557.0,
+        "vllm:spec_decode_num_draft_tokens_total": 1623.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 1314.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1314.0
+      }
+    },
+    "boundary_evidence_scope": "An SSE token chunk crossing </think> shows an accepted output burst; it does not expose rejected drafts or prove their exact contents."
+  },
+  "interpretation": "SM120/121 already selects B12x MQA for long prefill; masked long-MHA requires family100. Force flag only disables dense-MHA prefix<=2048. No capacity or observed peak NVML benefit; measured prefill slower.",
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/prefill.log",
+      "archive": "mqa-swaqb17-b512-prefill.log.gz",
+      "bytes": 444,
+      "sha256": "fc5011ef9ab3c07f0ec10e9b3376893544a7e3b3173dfdab0ca19310e9b13a67",
+      "gzip_sha256": "82b942e286d1133dbe8d40fac824a788c87862ae33f2e1958ee9544c540f983a"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/api.jsonl",
+      "archive": "mqa-swaqb17-b512-api.jsonl.gz",
+      "bytes": 228806,
+      "sha256": "f710f0175ebbf6bf724b6682245545c04dea58beb9e3f59cec7b77ff33688a30",
+      "gzip_sha256": "f9a379d235b8a191241776dee53facaeabeeb5fd7f48134116d05e3e00b572f5"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/prefix.log",
+      "archive": "mqa-swaqb17-b512-prefix.log.gz",
+      "bytes": 1212,
+      "sha256": "cf93c499346607317020cadc4ed735d29b770257360637145c6e453f429edef2",
+      "gzip_sha256": "a088294a3ae70125e6dc91c19c42d763135e329f96885d69dffc5f2676b89f63"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/installed-sparse-mla-attention.py",
+      "archive": "mqa-swaqb17-b512-installed-sparse-mla-attention.py.gz",
+      "bytes": 41355,
+      "sha256": "ae0aa4fee580a5fcb22f912078d2df142dd7e576c790383211e5c06e484c0e27",
+      "gzip_sha256": "c2c1043817b75a8f3a150a8827c1c46246e4cf8a58e7dd931f4cd151afda44a1"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/memory.jsonl",
+      "archive": "mqa-swaqb17-b512-memory.jsonl.gz",
+      "bytes": 89259,
+      "sha256": "1b1ab5679dcfdf0e8f3b46871a5481518b8e06128d8a6f0445f5b0276e6666ce",
+      "gzip_sha256": "a5d64eae8fa0c8d009d62e611644282a3549218ce230dd9d2bfd3ba5998ddd7c"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/prefix.json",
+      "archive": "mqa-swaqb17-b512-prefix.json.gz",
+      "bytes": 2691,
+      "sha256": "fccbf4e37348790f484bada670624a3dbed5bbf8f61ab975194fe5a71d58bffc",
+      "gzip_sha256": "a3d2f31d13525f54d835932fe30f9a5d0457741448114ffa084c55e4d3be0dd6"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/prefill.json",
+      "archive": "mqa-swaqb17-b512-prefill.json.gz",
+      "bytes": 5386,
+      "sha256": "646c61bcb258d2ac895e8bd6744727ad149877a0ba7c5af81a642594d4f9ca54",
+      "gzip_sha256": "d20e3b90b74d4640ebeab07e47500953bc34d173a4c47223f126c0e43c3c1ebb"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/prefill-timing.json",
+      "archive": "mqa-swaqb17-b512-prefill-timing.json.gz",
+      "bytes": 348,
+      "sha256": "b84b2acef389b2ca3be8e2ddc5f3ea51c9367c7035caadcd7485bfb11e43261c",
+      "gzip_sha256": "87a80f14d935755eccc24c932f06ff451a53efb1890739d218f0ca0555040e07"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/api-timing.json",
+      "archive": "mqa-swaqb17-b512-api-timing.json.gz",
+      "bytes": 310,
+      "sha256": "87a3d36609889db522c799ee36141348f7af068937e64e72af42e09f4d26fd9b",
+      "gzip_sha256": "42f87520fca6859bfdf0bb06f373dad5bf64fa9bf2663be0de899d609383d1bf"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/installed-sparse-mla-attention.sha256",
+      "archive": "mqa-swaqb17-b512-installed-sparse-mla-attention.sha256.gz",
+      "bytes": 143,
+      "sha256": "15e5034388ebdaf81548502964811a2ea6d027a4883fc8bce134464a13a28927",
+      "gzip_sha256": "3f88bc529a9de57d6fbc065f8bb76f1a1b2a2d13faf9b22ca4776f1ac788e118"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/prefix-timing.json",
+      "archive": "mqa-swaqb17-b512-prefix-timing.json.gz",
+      "bytes": 264,
+      "sha256": "2c8815a273b6e86e3291fd07b715c837356070e45707bb076f12b9b7bc4ca862",
+      "gzip_sha256": "6df534f5053d7ce23a469f2c12483b2f25a1e1e486b3a4db5e43e468c76c4c6b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/mqa-swaqb17-b512/api.log",
+      "archive": "mqa-swaqb17-b512-api.log.gz",
+      "bytes": 5710,
+      "sha256": "ae36d7fb2041b739f6c63eb4200f25940a42a5828888c4ec139a7e079ebf0780",
+      "gzip_sha256": "c01b0b0f9e4c1ce630e0768f5636515e66c73b33b4ce98575fc276020eeb60ed"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-mqa-swaqb17-b512.json",
+      "archive": "runtime-mqa-swaqb17-b512.json.gz",
+      "bytes": 325840,
+      "sha256": "a6ed1d7f9f23f0aff1a284d5df61ee629cc56e2517619510efc8e3fafd8f420e",
+      "gzip_sha256": "19c049b73108432bc1105313be88994a4d82c5954217405394796faef7e2a725"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-mqa-swaqb17-b512.json",
+      "archive": "runtime-ownership-mqa-swaqb17-b512.json.gz",
+      "bytes": 289926,
+      "sha256": "a67042415f31e400d196ef3bd480ec7c71a8906c092fcf9df73d927affdefc97",
+      "gzip_sha256": "3135c3c9fb450dd287a2050392b8aaedce361a74c23500e3ca620106b43804ea"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-mqa-swaqb17-b512-complete.log",
+      "archive": "container-mqa-swaqb17-b512-complete.log.gz",
+      "bytes": 369451,
+      "sha256": "5b9c118b15448348bc91fc5f37d18557ed20e9aa4a84d3e374eeb0b9830e426d",
+      "gzip_sha256": "eec9cfd23c29fa07d614587a37e97dae66dcb890717e92bc880314f4abd9b959"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/launch-mqa-swaqb17-b512.json",
+      "archive": "launch-mqa-swaqb17-b512.json.gz",
+      "bytes": 1227,
+      "sha256": "e61c2227f10cdf7c59fcab4d2c38e3d773713cfbc572b5e3f0d97d0c22c1c9ec",
+      "gzip_sha256": "b308a107562e4131e938d8d15fd1ce1a7add4bd79f6c7873873ab12822ff4ecb"
+    }
+  ]
+}
