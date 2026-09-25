@@ -39,8 +39,11 @@ receipt hashes, and verify the same image/model/profile before executing the
 remaining 524K and retrieval stages. Do not silently bypass the startup-identity
 check or present the combined evidence as one uninterrupted run. No temperature,
 power, or cooling changes are planned.
-Public `run.sh` settings still select qualified v1; neither image can run on
-the failed driver until host recovery.
+The host has since rebooted; both original GPUs enumerate normally and the new
+boot log has no Xid errors. The same container/profile has restarted. The
+explicit continuation preserves all 14 completed stages and runs only the
+unfinished 524K and two retrieval stages. Public `run.sh` settings still select
+qualified v1 until the remaining evidence is accepted.
 
 Spark currently uses the 17/29 split with utilization **0.80** and exactly a
 **1 GiB** host reserve. Its batch-512 baseline accounts for **2,750,605 tokens**.
@@ -58,6 +61,12 @@ guards fired during prefill, before output. Both containers exited 137 with
 stable near 13.4 GiB, then declined to the guard threshold. Allocation telemetry
 and source diagnosis are required before retrying or selecting optional kernels.
 Utilization 0.80, reserve 1 GiB, and native context remain the required constraints.
+The bounded diagnostic subsequently attributed about 10 GiB of growth per host
+to freed, unsplit CUDA allocator segments: live tensors, inactive splits and CPU
+resident memory were approximately stable. It stopped deliberately before the
+1 GiB guards fired. [Telemetry and attribution](../benchmarks/development/spark-context-memory-growth/README.md)
+are archived. A native-allocator reclamation policy is the next targeted
+candidate; no successful full-boundary fix is claimed yet.
 Optional kernel weight copies must also fit the combined
 capacity floor of **2,550,605 tokens** and pass physical-memory qualification.
 [Batch evidence](../benchmarks/development/spark-prefill-batch-gates/manifest.json).
