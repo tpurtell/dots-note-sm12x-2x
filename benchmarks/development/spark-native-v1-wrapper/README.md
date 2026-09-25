@@ -1,12 +1,16 @@
 # Spark v1 native wrapper publication provenance
 
-**Published; final qualification and public visibility pending.** No final serving
-performance or anonymous-access claim is made by this archive.
+**Published publicly; final qualification pending.** No final serving
+performance claim is made by this archive.
 
 Tag `ghcr.io/tpurtell/dots3-note-exl3-k4-spark:20260925-v1` resolves to
 `sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad`.
-Push and authenticated digest pull on Rhea passed. Moa's active pull and final
-published-image startup/qualification are excluded from this snapshot.
+Push and authenticated digest pulls on both hosts passed. Anonymous exact-digest
+pull on Rhea also passed using a newly created empty Docker config with
+`DOCKER_AUTH_CONFIG` unset; directory listing and pull log are archived. Both
+hosts inspect the same wrapper image. The redundant direct transfer to Moa was
+cancelled after its successful registry pull, not because the image failed.
+Final published-image startup/qualification remains excluded from this snapshot.
 
 The native runtime parent is frozen recipe `8f0a580cb360e19ee757f1435d03e7bf7c6a52e4`.
 Wrapper packaging used recipe/tool snapshot `2a84f3a8395fe296224a3a09633e9a1ccfb7f583`,

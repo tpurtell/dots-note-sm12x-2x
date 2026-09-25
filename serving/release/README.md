@@ -179,10 +179,11 @@ not a mutable registry tag.
 The separate native ARM64 Spark wrapper has been published as
 `ghcr.io/tpurtell/dots3-note-exl3-k4-spark:20260925-v1`, digest
 `sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad`.
-Its final qualification and public visibility are pending; publication does not
-activate Spark settings. Until anonymous access is verified, Docker authentication
-with package access is required to pull it. Both Spark hosts must use this same
-ARM64 digest. The runner continues to refuse pending Spark settings.
+The package is **public**: authenticated pulls on both hosts and an anonymous
+exact-digest pull passed. See the [publication archive](../../benchmarks/development/spark-native-v1-wrapper/README.md).
+Final qualification remains pending; publication does not activate Spark
+settings. Both Spark hosts must use this same ARM64 digest. The runner continues
+to refuse pending Spark settings.
 
 ## Container fast path
 

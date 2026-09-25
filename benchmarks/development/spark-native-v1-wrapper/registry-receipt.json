@@ -14,12 +14,14 @@
   "registry": {
     "push": "passed",
     "authenticated_rhea_digest_pull": "passed",
-    "anonymous_pull": "not verified",
-    "visibility": "pending user action"
+    "anonymous_pull": "passed on Rhea using a newly created empty Docker config and DOCKER_AUTH_CONFIG unset",
+    "visibility": "public",
+    "authenticated_moa_digest_pull": "passed"
   },
   "seed_smoke": {
     "cache_seed_copied": 4014,
     "cache_seed_existing": 0
   },
-  "scope": "Build/cache-seed/publication provenance only. Moa pull and final startup/qualification are active and excluded."
+  "scope": "Finalized publication and seed provenance; final startup/qualification remains pending and excluded.",
+  "redundant_transport": "Direct wrapper transfer to Moa cancelled after successful authenticated registry pull; not an image failure."
 }

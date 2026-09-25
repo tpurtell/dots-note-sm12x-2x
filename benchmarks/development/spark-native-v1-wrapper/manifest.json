@@ -196,6 +196,48 @@
       "bytes": 518,
       "sha256": "1cf932e8510eee70ded0fdf38e2a17bb40a51dd157a17546812f92ca48b9ff61",
       "gzip_sha256": "964caa1276120733f8ee505f0fa1829bbb0daa836f24b417dbb9d051a18f9f24"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-pull-moa.log",
+      "archive": "wrapper-pull-moa.log.gz",
+      "bytes": 6557,
+      "sha256": "39434ad84428b1c44394a52d460f71156c0c89a0e7b00e5791b2ea4ab24bc1d5",
+      "gzip_sha256": "fc31a16744971c315ec8aa8e367d30db4e446fe3e722071bdf0324f07cb60ecb"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-image-moa.json",
+      "archive": "wrapper-image-moa.json.gz",
+      "bytes": 20376,
+      "sha256": "16b93d8f017c571622292636d946f0bf0b3917af97ea8040d2015e3002c154ff",
+      "gzip_sha256": "694f0a25b0dd1f7cf73f8e805c8297e12da28e3f10f8feeda41f79ea70ad18ec"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-transfer-moa-cancelled.json",
+      "archive": "wrapper-transfer-moa-cancelled.json.gz",
+      "bytes": 267,
+      "sha256": "5e7d29fa6cf1e17904f0070c7c24921ab4a8bd2fd856e20e033f7ea4aa963b29",
+      "gzip_sha256": "f093a40f6568778af973d210fa0fd65d6fe97d022f50bd12b7f8a455f8d58ba9"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-transfer-moa.log",
+      "archive": "wrapper-transfer-moa.log.gz",
+      "bytes": 50,
+      "sha256": "3bb3c5ff3803368748626bd084714715f9036f9c99823e53f8cbd6d412d0a930",
+      "gzip_sha256": "51564b1f960b579d3ffafcf873a723e9f89bceaf3666d2f9aa1fe91cab4ed944"
+    },
+    {
+      "source": ".cache/release/spark-v1-provenance/anonymous-pull-rhea.log",
+      "archive": "anonymous-pull-rhea.log.gz",
+      "bytes": 502,
+      "sha256": "83cdc5e89f64148a09b74d81497f98b2650d53c28e679cc7d78f9f0bcafd696d",
+      "gzip_sha256": "251e1aa31ddf83ddcfee8c9fcd19eddfe13ab1558a6a7cd68c33f32f671e9495"
+    },
+    {
+      "source": ".cache/release/spark-v1-provenance/anonymous-config-directory.txt",
+      "archive": "anonymous-config-directory.txt.gz",
+      "bytes": 89,
+      "sha256": "e4422a01112a0ec4e28390a93d69ae821e298daa3d38dcb672a6317fe4e3b1fc",
+      "gzip_sha256": "3949ee3e02220a906df6feda6aa47db7dd66ebcc3d9a85925172615da92dd816"
     }
   ]
 }
