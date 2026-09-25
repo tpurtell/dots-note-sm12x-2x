@@ -1,4 +1,4 @@
-"""Dots3 padded FP8 sparse MLA through B12x's planned strided-record path."""
+"""Dots3 FP8 sparse MLA through B12x's planned strided-record path."""
 import math
 
 import torch
@@ -38,8 +38,8 @@ class Dots3B12xSparseBackend(Dots3NotePaddedSparseBackend):
         config = get_current_vllm_config()
         if config.model_config.hf_text_config.model_type != 'dots3_note':
             return 'Dots3 model only'
-        if config.parallel_config.tensor_parallel_size != 2:
-            return 'Dots3 recipe requires TP2'
+        if config.parallel_config.tensor_parallel_size not in (1, 2):
+            return 'Dots3 attention requires TP1 owner or TP2 sharding'
         if config.parallel_config.decode_context_parallel_size != 1:
             return 'Dots3 B12x DCP integration is not implemented'
         return None
@@ -56,7 +56,7 @@ class Dots3B12xSparseImpl(Dots3NotePaddedSparseImpl):
         self.supports_quant_query_input = False
         config = get_current_vllm_config()
         self.capacity = config.scheduler_config.max_num_batched_tokens
-        if self.num_heads != 64 or not math.isclose(self.scale, strided.SM_SCALE):
+        if self.num_heads not in (64, 128) or not math.isclose(self.scale, strided.SM_SCALE):
             raise ValueError('Dots3 B12x attention geometry/softmax scale differs')
         if self.kv_cache_dtype not in ('fp8', 'fp8_e4m3'):
             raise ValueError('Dots3 B12x requires E4M3 cache')
@@ -69,19 +69,19 @@ class Dots3B12xSparseImpl(Dots3NotePaddedSparseImpl):
         if record_width not in (576, 1088) or cache.stride(0) % record_width:
             raise ValueError("Dots3 cache must have aligned576 or1088-byte records")
         physical_records = (cache.shape[0] - 1) * (cache.stride(0) // record_width) + 64
-        key = (cache.device, self.capacity, tuple(cache.shape), tuple(cache.stride()), physical_records)
+        key = (cache.device, self.num_heads, self.capacity, tuple(cache.shape), tuple(cache.stride()), physical_records)
         state = _STATES.get(key)
         if state is None:
             if torch.cuda.is_current_stream_capturing():
                 raise RuntimeError('Dots3 sparse attention must be prepared before capture')
             plan = strided.plan(strided.Caps(
-                device=cache.device, num_q_heads=64, tp_size=2,
+                device=cache.device, num_q_heads=self.num_heads, tp_size=128 // self.num_heads,
                 max_q_rows=self.capacity, num_cache_blocks=cache.shape[0],
                 max_physical_records=physical_records, use_cuda_graph=True,
                 physical_record_width=record_width,
             ))
-            query = torch.zeros((self.capacity, 64, 576), dtype=torch.bfloat16, device=cache.device)
-            output = torch.empty((self.capacity, 64, 512), dtype=torch.bfloat16, device=cache.device)
+            query = torch.zeros((self.capacity, self.num_heads, 576), dtype=torch.bfloat16, device=cache.device)
+            output = torch.empty((self.capacity, self.num_heads, 512), dtype=torch.bfloat16, device=cache.device)
             starts = torch.arange(self.capacity + 1, dtype=torch.int32, device=cache.device)
             q_scale = torch.ones((), dtype=torch.float32, device=cache.device)
             scratch = torch.empty(plan.scratch_specs()[0].shape, dtype=torch.uint8, device=cache.device)
@@ -98,7 +98,7 @@ class Dots3B12xSparseImpl(Dots3NotePaddedSparseImpl):
                 return PreparedCall(run=lambda: runtime.run(binding), owners=(binding,))
 
             session = PreparationSession(device=cache.device, autotune=False)
-            session.prepare((plan.request(name='dots3-sparse-tp2', prepare_call=prepare),))
+            session.prepare((plan.request(name=f'dots3-sparse-tp{128 // self.num_heads}', prepare_call=prepare),))
             state = (plan, scratch, query, output, starts, q_scale, session)
             _STATES[key] = state
         plan, scratch, query, output, starts, q_scale, _ = state

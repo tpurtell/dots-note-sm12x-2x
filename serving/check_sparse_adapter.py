@@ -8,12 +8,14 @@ from vllm.models.dots3_note.nvidia.b12x_attention import Dots3B12xSparseImpl
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--compact", action="store_true", help="576-wide DSA in actual compact mixed-page block stride")
+parser.add_argument('--heads', type=int, choices=[64,128], default=64)
 args = parser.parse_args()
 
 torch.manual_seed(42)
 device = torch.device('cuda')
 impl = object.__new__(Dots3B12xSparseImpl)
 impl.capacity = 4
+impl.num_heads = args.heads
 impl.topk_indices_buffer = torch.full((4, 2048), -1, dtype=torch.int32, device=device)
 impl.topk_indices_buffer[:, :64] = torch.arange(64, dtype=torch.int32, device=device)
 if args.compact:
@@ -32,7 +34,7 @@ layer = SimpleNamespace(_k_scale=torch.tensor(0.01, device=device))
 selected = torch.full((4, 2048), -1, dtype=torch.int32, device=device)
 selected[:, :64] = meta.block_table * 64 + torch.arange(64, device=device)
 counts = torch.full((4,), 64, dtype=torch.int32, device=device)
-q = (torch.randn(4, 64, 576, device=device) * 0.1).to(torch.bfloat16)
+q = (torch.randn(4, args.heads, 576, device=device) * 0.1).to(torch.bfloat16)
 
 def run():
     return impl.forward_mqa((q[..., :512], q[..., 512:]), cache, meta, layer)[0]

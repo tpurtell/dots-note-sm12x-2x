@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "scope": "Full 128-head TP1 sparse-MLA component qualification; not hybrid full-model qualification",
+  "kernel_revision": "bf5677c69197499433314d61aad70f79e89c47c9",
+  "source_sha256": {
+    "third_party/sparkinfer-glmrt/b12x/attention/sparse_mla/strided.py": "88443a125e33359a324f2bdfc7a94316ddfaca28f4354e7bf27bdd764fd8c233",
+    "third_party/sparkinfer-glmrt/tests/attention/test_sparse_mla_strided.py": "a4588d00520100e22094d76b334d00d458ddc222d08189806b17f995eca63c36",
+    "third_party/sparkinfer-glmrt/tests/attention/test_sparse_mla_strided_metadata.py": "e95b8cbd077a49acff5f075b9e335f194988b3e3d6a5b88eef85f2864095f919",
+    "serving/dots3_b12x_attention.py": "b607a8dd7594160829f7aba7244da3c5700e98a93857831324081a25c5374e8f",
+    "serving/check_sparse_adapter.py": "e4040c52a80dd7fd0063ff779c3711b46f54fd50a51893df09008658d3ba5963"
+  },
+  "image_id": "sha256:7d832b17bc58b06f3d73ecd1636d76aa7862e434abc3cebf16a28f147e688497",
+  "overlays": [
+    "host B12x read-only at /opt/b12x",
+    "host adapter read-only at /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/b12x_attention.py",
+    "project read-only at /recipe"
+  ],
+  "kernel_command": [
+    "python3",
+    "-m",
+    "pytest",
+    "-q",
+    "/opt/b12x/tests/attention/test_sparse_mla_strided.py",
+    "-k",
+    "1-576 or 1-1088"
+  ],
+  "corrected_adapter_command": [
+    "python3",
+    "/recipe/serving/check_sparse_adapter.py",
+    "--compact",
+    "--heads",
+    "128"
+  ],
+  "cpu_metadata": {
+    "passed": 8,
+    "seconds": 0.01,
+    "CUDA_VISIBLE_DEVICES": "",
+    "source": "in-memory current source; CPU tensors only"
+  },
+  "per_device": {
+    "0": {
+      "kernel_passed": 22,
+      "kernel_deselected": 45,
+      "seconds": 8.9,
+      "initial_combined_exit": 2,
+      "initial_exit_reason": "Kernel tests passed; following adapter command used invalid --heads128 option and did not execute adapter test.",
+      "corrected_adapter_exit": 0,
+      "corrected_adapter_passed": true
+    },
+    "1": {
+      "kernel_passed": 22,
+      "kernel_deselected": 45,
+      "seconds": 8.9,
+      "initial_combined_exit": 2,
+      "initial_exit_reason": "Kernel tests passed; following adapter command used invalid --heads128 option and did not execute adapter test.",
+      "corrected_adapter_exit": 0,
+      "corrected_adapter_passed": true
+    }
+  },
+  "coverage": [
+    "TP1 with 128 heads, both576/1088 record widths",
+    "Legacy,1102 stress and actual1023 pool strides, nonzero layer offsets",
+    "Changed-input CUDA graph and >2GiB address cases",
+    "Actual full-head adapter interleaved pages and changed-query graph replay"
+  ],
+  "files": [
+    {
+      "source": ".cache/serving/rtx/hybrid/fullhead-gpu0.log",
+      "archive": "kernel-gpu0.log.gz",
+      "raw_bytes": 248,
+      "raw_sha256": "cb23d1401404eb96653ec8ee90cb045b68db5bcca3d50357b433f2dac4c2c864",
+      "gzip_sha256": "81326ad2537f66692b79f45470dff56063fd1674603e90de13eb31f5b654e982"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/fullhead-gpu1.log",
+      "archive": "kernel-gpu1.log.gz",
+      "raw_bytes": 248,
+      "raw_sha256": "cb23d1401404eb96653ec8ee90cb045b68db5bcca3d50357b433f2dac4c2c864",
+      "gzip_sha256": "81326ad2537f66692b79f45470dff56063fd1674603e90de13eb31f5b654e982"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/fullhead-adapter-gpu0.log",
+      "archive": "adapter-gpu0.log.gz",
+      "raw_bytes": 83,
+      "raw_sha256": "0b6b274b1d8b70e8aac2342a144f9a7849b293707c0609c5fe5e343eb603ff8b",
+      "gzip_sha256": "e7cbe2cf252b1cfd37d3f8f6137fd4292e6eef550204c40c80c883a161ffbad2"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/fullhead-adapter-gpu1.log",
+      "archive": "adapter-gpu1.log.gz",
+      "raw_bytes": 83,
+      "raw_sha256": "0b6b274b1d8b70e8aac2342a144f9a7849b293707c0609c5fe5e343eb603ff8b",
+      "gzip_sha256": "e7cbe2cf252b1cfd37d3f8f6137fd4292e6eef550204c40c80c883a161ffbad2"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/fullhead-cpu.log",
+      "archive": "cpu-metadata.log.gz",
+      "raw_bytes": 98,
+      "raw_sha256": "71288863ec9567395a647dd0c8fbf0e2048bee72283202612ad6f90a7a526ef3",
+      "gzip_sha256": "71a347c98ae2347dbd5a77d54bde019916d41f9211c3d85afdf4615ba1a61e22"
+    }
+  ]
+}
