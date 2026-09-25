@@ -29,5 +29,7 @@ thinking/nonthinking stream/nonstream requests, JSON and all tool-choice modes,
 including a second assistant turn after a real tool response. Preserve reasoning
 as`reasoning_content` when returning assistant history to this checkpoint's
 template. The release should expose its reasoning parser while each request
-chooses thinking explicitly;`include_reasoning` controls response visibility,
-not the checkpoint template's thinking setting.
+chooses thinking explicitly. The live gate keeps`include_reasoning=true`: in
+vLLM0.30, false also changes initial structured-output gating and is not the
+same setting as the template's`enable_thinking=false`. See
+[the live gate procedure](../../../serving/benchmarks/reasoning_api.md).
