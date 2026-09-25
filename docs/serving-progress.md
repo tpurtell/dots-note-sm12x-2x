@@ -80,6 +80,8 @@ headroom was 3.955 GiB on Rhea and 5.334 GiB on Moa. This is one diagnostic
 image measurement, retained with its exact provenance rather than rerun.
 The policy uses an allocator ceiling of 0.90 and reclamation threshold of 0.90
 of that ceiling; vLLM utilization 0.80 and the 1 GiB guard remain unchanged.
+[Successful boundary evidence](../benchmarks/development/spark-context-memory-reclamation/README.md)
+preserves the diagnostic image, telemetry and production-source differences.
 The production ARM parent is built and is starting on both hosts. Final
 wrapper packaging and the previously unfinished workloads remain pending.
 Optional kernel weight copies must also fit the combined
