@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "scope": "Spark optimized native masked-prefill development baseline; force-MQA unselected",
+  "scope": "Spark optimized native prefill development baseline; force-MQA unselected",
   "image_ids": {
     "rhea": "sha256:174bee763fcb533573b31956e9510444a1be0b87504dca6afaa2929f9af0ab8d",
     "moa": "sha256:b2e57dd8c3a307313c35259d124de91fcd067290c0ee422f63e48386a23cac82"
@@ -517,5 +517,6 @@
       "gzip_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77"
     }
   ],
-  "build_note": "Platform owner confirms independently built development images from same committed source snapshot; per-host build logs preserved. Final qualification still requires one published ARM digest pulled on both hosts."
+  "build_note": "Platform owner confirms independently built development images from same committed source snapshot; per-host build logs preserved. Final qualification still requires one published ARM digest pulled on both hosts.",
+  "dispatch_correction": "SM121 long prefill already uses B12x MQA; masked long-MHA is restricted to family100. Force flag only removes dense-MHA prefix<=2048."
 }

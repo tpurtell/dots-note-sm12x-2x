@@ -1,4 +1,4 @@
-# Spark optimized native masked-prefill baseline
+# Spark optimized native prefill baseline
 
 Completed development baseline for a separate prospective force-MQA comparison. Force-MQA is not selected. Hybrid17/29, packed/fused routing, bounded shared overlap, batch512; exact settings are archived.
 
@@ -15,3 +15,5 @@ The observed native image IDs differ between hosts (rhea174bee76, moa b2e57dd8).
 | 131072 | 541.280 | 242.152 |
 
 The .jsonl prefill file contains one whole JSON object. Unique prompts avoid prefix reuse; client TTFT includes tokenization and first-token handoff. Both host logs/memory monitors, ownership receipt and128K-stage memory/GPU/smaps snapshots are losslessly archived with hashes. No final-release or force-MQA performance claim.
+
+Dispatch correction: SM121 already uses B12x MQA for long prefill because masked long-MHA is restricted to capability family100. The force-MQA flag only removes the dense-MHA prefix at at most2048 tokens. This baseline must not be interpreted as long masked-MHA.
