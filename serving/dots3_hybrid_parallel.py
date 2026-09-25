@@ -74,6 +74,13 @@ class Dots3HybridDecoderLayer(nn.Module):
         self.hidden_size = config.hidden_size
         self.capacity = vllm_config.scheduler_config.max_num_batched_tokens
         self.top_k = config.num_experts_per_tok
+        self.pack_owner = None
+        if os.environ.get('VLLM_HYBRID_FUSED_PACK', '0') == '1':
+            if os.environ.get('VLLM_HYBRID_PACKED_ROUTING', '0') != '1':
+                raise ValueError('fused routing pack requires packed routing')
+            from vllm.distributed.hybrid_pack_kernel import pack_routing
+            self.pack_owner = pack_routing
+        self.overlap_shared = os.environ.get('VLLM_HYBRID_OVERLAP_SHARED', '0') == '1' 
         self.use_sequence_parallel = False
         self.use_sequence_parallel_moe = False
         self.use_mha = False
@@ -153,16 +160,21 @@ class Dots3HybridDecoderLayer(nn.Module):
                 logits, _ = self.mlp.gate(hidden_states)
                 weights, ids = runner.router.select_experts(hidden_states, logits,
                     topk_indices_dtype=runner.routed_experts.quant_method.topk_indices_dtype)
-                shared = self.mlp.shared_experts(hidden_states)
+                if self.overlap_shared:
+                    from vllm.distributed.hybrid_shared_overlap import launch_shared
+                    shared = launch_shared(self.mlp.shared_experts, hidden_states)
+                else:
+                    shared = self.mlp.shared_experts(hidden_states)
                 return hidden_states, ids, weights
             def experts(x, ids, weights):
                 runner.routed_experts._ensure_moe_quant_config_init()
                 return runner.routed_experts.forward_modular(x, weights, ids)
             def finish(reduced):
-                return reduced + shared
+                return reduced + (shared.join() if self.overlap_shared else shared)
             output = execute_routed_layer(owner=self.owner, transport=self.transport,
                 buffers=arena.active(rows),
-                prepare_owner=prepare, execute_local_experts=experts, finish_owner=finish)
+                prepare_owner=prepare, execute_local_experts=experts, finish_owner=finish,
+                pack_owner=self.pack_owner)
         else:
             output = self.mlp(hidden_states) if owner else None
         if not owner:

@@ -67,3 +67,20 @@ for owner in (0, 1):
         assert calls == [('prepare', owner), ('finish', owner)]
         assert group.events[0] == group.events[1] == [('broadcast', owner)] * 3 + [('reduce_sum', owner)]
 print('Hybrid expert-TP protocol: both owner ranks, changed activations, identical collectives, single routing/shared contribution passed')
+
+# The optional pack callback runs once on the owner; transport order and expert
+# shard semantics remain the same. Native fused pack bit parity has a GPU probe.
+group=Group(); packed=[]
+def callback_case(rank):
+    buffers=RoutedLayerBuffers(*(Buffer([0]) for _ in range(4)))
+    def pack(out,x,ids,weights):
+        packed.append(rank)
+        out.activation.copy_(x);out.route_ids.copy_(ids);out.route_weights.copy_(weights)
+    return execute_routed_layer(owner=1,transport=group.rank(rank),buffers=buffers,
+        prepare_owner=lambda:(Buffer([3]),Buffer([7]),Buffer([.5])),
+        execute_local_experts=lambda x,i,w:Buffer([x.value[0]*(rank+1)]),
+        finish_owner=lambda result:result.value[0],pack_owner=pack)
+with ThreadPoolExecutor(2) as pool:results=list(pool.map(callback_case,(0,1)))
+assert results==[None,9] and packed==[1]
+assert group.events[0]==group.events[1]
+print('Owner pack callback: owner-only invocation, correct expert sum, unchanged collective sequence passed')

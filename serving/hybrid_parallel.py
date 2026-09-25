@@ -148,6 +148,7 @@ def execute_routed_layer(
     prepare_owner: Callable[[], tuple[Any, Any, Any]],
     execute_local_experts: Callable[[Any, Any, Any], Any],
     finish_owner: Callable[[Any], Any],
+    pack_owner: Callable[[RoutedLayerBuffers, Any, Any, Any], None] | None = None,
 ):
     """Route once, broadcast inputs/routes, run every TP shard, reduce to owner.
 
@@ -160,9 +161,12 @@ def execute_routed_layer(
         raise ValueError('invalid owner rank')
     if transport.rank == owner:
         activation, ids, weights = prepare_owner()
-        buffers.activation.copy_(activation)
-        buffers.route_ids.copy_(ids)
-        buffers.route_weights.copy_(weights)
+        if pack_owner is None:
+            buffers.activation.copy_(activation)
+            buffers.route_ids.copy_(ids)
+            buffers.route_weights.copy_(weights)
+        else:
+            pack_owner(buffers, activation, ids, weights)
     if buffers.packed_payload is not None:
         transport.broadcast(buffers.packed_payload, owner)
     else:
