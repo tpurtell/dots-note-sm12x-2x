@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Capture auditable two-Spark vLLM startup and memory evidence."""
+"""Capture auditable vLLM startup, hardware and memory evidence."""
 
 import argparse
 import json
@@ -13,11 +13,18 @@ ENVIRONMENT = {
     "VLLM_HOST_IP", "NCCL_SOCKET_IFNAME", "GLOO_SOCKET_IFNAME",
     "DOTS3_B12X_VOCAB", "CUTE_DSL_ARCH", "VLLM_EXL3_TRELLIS_MIN_M",
     "VLLM_EXL3_PREFILL_TRELLIS", "OMP_NUM_THREADS",
+    "VLLM_USE_V2_MODEL_RUNNER", "VLLM_USE_BREAKABLE_CUDAGRAPH",
+    "DOTS3_B12X_EXACT_FP8", "DOTS3_B12X_EXACT_FP8_ROWS",
+    "VLLM_ENABLE_PCIE_ALLREDUCE", "VLLM_PCIE_ALLREDUCE_BACKEND",
+    "DOTS3_B12X_ROCE", "DOTS3_B12X_ROCE_EAGER", "DOTS3_B12X_ROCE_ROWS",
+    "B12X_ROCE_HCA", "B12X_ROCE_GID_INDEX", "B12X_ROCE_SPIN_LIMIT",
+    "B12X_COMPILE_CACHE_DIR", "B12X_ROCE_CACHE_DIR",
 }
 LOG_MARKERS = (
     "Model loading took", "GPU KV cache size:", "Available KV cache memory:",
     "Graph capturing finished", "Captured CUDA graph", "Selected DeepGemm",
     "Selected DeepGEMM", "B12x", "prefix caching", "xgrammar",
+    "Using V2 Model Runner", "Using V1 Model Runner",
 )
 
 
