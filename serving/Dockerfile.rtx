@@ -19,6 +19,8 @@ COPY serving/port_vllm.py /tmp/port_vllm.py
 COPY serving/dots3_reasoning_parser.py /usr/local/lib/python3.12/dist-packages/vllm/reasoning/dots3_reasoning_parser.py
 COPY serving/port_reasoning.py /tmp/port_reasoning.py
 COPY serving/port_compact_cache.py /tmp/port_compact_cache.py
+COPY serving/hybrid_cache_groups.py /usr/local/lib/python3.12/dist-packages/vllm/v1/core/hybrid_cache_groups.py
+COPY serving/port_hybrid_cache_groups.py /tmp/port_hybrid_cache_groups.py
 COPY serving/hybrid_attestation.py /opt/dots3/hybrid_attestation.py
 COPY serving/hybrid_shared_overlap.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/hybrid_shared_overlap.py
 COPY serving/hybrid_pack_kernel.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/hybrid_pack_kernel.py
@@ -36,6 +38,7 @@ RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_compact_cache.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_pcie.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_hybrid_parallel.py /usr/local/lib/python3.12/dist-packages/vllm \
+ && python3 /tmp/port_hybrid_cache_groups.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_hybrid_multimodal.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_hybrid_boundary.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 -c 'from vllm.model_executor.layers.quantization import get_quantization_config; assert get_quantization_config("exl3").__name__ == "Dots3HybridExl3Config"'
@@ -44,6 +47,7 @@ COPY third_party/sparkinfer-glmrt /opt/b12x
 ENV PYTHONPATH=/opt/dots3:/opt/b12x \
     VLLM_HYBRID_LAYER_PARTITION="" \
     VLLM_HYBRID_PACKED_ROUTING=0 \
+    VLLM_HYBRID_BALANCE_KV_GROUPS=0 \
     VLLM_HYBRID_FUSED_PACK=0 \
     VLLM_HYBRID_OVERLAP_SHARED=0 \
     VLLM_HYBRID_BOUNDARY_OWNERS="" \

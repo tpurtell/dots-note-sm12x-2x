@@ -34,6 +34,7 @@ def settings(path, selected):
     config.setdefault('indexer_prefill_contexts', 40)
     config.setdefault('hybrid_layer_partition', [])
     config.setdefault('hybrid_packed_routing', False)
+    config.setdefault('hybrid_balance_kv_groups', False)
     config.setdefault('hybrid_mm_owners', [])
     config.setdefault('hybrid_fused_pack', False)
     config.setdefault('hybrid_overlap_shared', False)
@@ -78,6 +79,8 @@ def settings(path, selected):
             len(partition) != 2 or any(type(n) is not int or n <= 0 for n in partition)
             or sum(partition) != 46)):
         fail('hybrid_layer_partition must be empty or assign all 46 layers across two owners')
+    if type(config['hybrid_balance_kv_groups']) is not bool or (config['hybrid_balance_kv_groups'] and not partition):
+        fail('hybrid_balance_kv_groups requires a boolean and enabled hybrid partition')
     if type(config['hybrid_packed_routing']) is not bool or (config['hybrid_packed_routing'] and not partition):
         fail('hybrid_packed_routing requires a boolean and an enabled hybrid partition')
     if type(config['hybrid_fused_pack']) is not bool or (config['hybrid_fused_pack'] and not config['hybrid_packed_routing']):
@@ -169,6 +172,8 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
         env = dict(item.split('=', 1) for item in runtime_env)
         if env.get('VLLM_HYBRID_LAYER_PARTITION', '') != ','.join(map(str, config['hybrid_layer_partition'])):
             fail(f'Qualification hybrid layer ownership mismatch for {host}')
+        if env.get('VLLM_HYBRID_BALANCE_KV_GROUPS', '0') != str(int(config['hybrid_balance_kv_groups'])):
+            fail(f'Qualification owner KV grouping mismatch for {host}')
         if env.get('VLLM_HYBRID_PACKED_ROUTING', '0') != str(int(config['hybrid_packed_routing'])):
             fail(f'Qualification hybrid routing transport mismatch for {host}')
         if env.get('VLLM_HYBRID_MM_OWNERS', '') != ','.join(map(str, config['hybrid_mm_owners'])):
@@ -303,6 +308,7 @@ def main():
         DOTS3_INDEXER_PREFILL_CONTEXTS=str(config['indexer_prefill_contexts']),
         VLLM_HYBRID_LAYER_PARTITION=','.join(map(str, config['hybrid_layer_partition'])),
         VLLM_HYBRID_PACKED_ROUTING=str(int(config['hybrid_packed_routing'])),
+        VLLM_HYBRID_BALANCE_KV_GROUPS=str(int(config['hybrid_balance_kv_groups'])),
         VLLM_HYBRID_MM_OWNERS=','.join(map(str, config['hybrid_mm_owners'])),
         VLLM_HYBRID_FUSED_PACK=str(int(config['hybrid_fused_pack'])),
         VLLM_HYBRID_OVERLAP_SHARED=str(int(config['hybrid_overlap_shared'])),
