@@ -1,0 +1,590 @@
+{
+  "schema": 1,
+  "scope": "Idle RTX component gates and failed startup diagnosis; not whole-model speed proof",
+  "pack_fix_commit": "eab9696",
+  "failed_image": "sha256:fa3a8e74a440a5bc6c133beac22de2fbafa9cb738391608d0bcadce45d3e2d7c",
+  "diagnosis": "Initial packed kernel rejected native routing metadata dtype; fixed conversion supports int64 IDs and BF16/FP16 weights, with28 GPU cases passed. No successful full-model gate claimed for failed image.",
+  "owner_fp8_timings": [
+    {
+      "weight": "model.layers.0.self_attn.q_b_proj",
+      "shape": [
+        24576,
+        1024
+      ],
+      "rows": 1,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            20.525600016117096,
+            20.472800731658936,
+            20.497600734233856,
+            20.478400588035583,
+            20.507200062274933
+          ],
+          "native": [
+            14.380000531673431,
+            14.376799762248993,
+            14.360000193119049,
+            14.35920000076294,
+            14.360000193119049
+          ]
+        },
+        "median_us": {
+          "adapter": 20.497600734233856,
+          "native": 14.360000193119049
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 0.7005698071353221,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.0.self_attn.q_b_proj",
+      "shape": [
+        24576,
+        1024
+      ],
+      "rows": 4,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            12.438400089740753,
+            11.855199933052063,
+            11.903200298547745,
+            11.629600077867508,
+            12.087199836969376
+          ],
+          "native": [
+            18.484799563884735,
+            18.483200669288635,
+            18.450400233268738,
+            18.464800715446472,
+            18.459199368953705
+          ]
+        },
+        "median_us": {
+          "adapter": 11.903200298547745,
+          "native": 18.464800715446472
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 1.551246744768235,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.0.self_attn.q_b_proj",
+      "shape": [
+        24576,
+        1024
+      ],
+      "rows": 8,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            10.627199709415436,
+            10.264799743890762,
+            10.256800055503845,
+            10.24480015039444,
+            10.261599719524384
+          ],
+          "native": [
+            12.331999838352203,
+            12.310399860143661,
+            12.356799840927124,
+            12.304800003767014,
+            12.350399792194366
+          ]
+        },
+        "median_us": {
+          "adapter": 10.261599719524384,
+          "native": 12.331999838352203
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 1.2017619255688314,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.0.self_attn.q_b_proj",
+      "shape": [
+        24576,
+        1024
+      ],
+      "rows": 16,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            12.615199387073517,
+            12.31520026922226,
+            12.31279969215393,
+            12.316799908876419,
+            12.296000123023987
+          ],
+          "native": [
+            12.585599720478058,
+            12.353599816560745,
+            12.36879974603653,
+            12.321600317955017,
+            12.357600033283234
+          ]
+        },
+        "median_us": {
+          "adapter": 12.31520026922226,
+          "native": 12.357600033283234
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 1.003442880597479,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.0.self_attn.q_b_proj",
+      "shape": [
+        24576,
+        1024
+      ],
+      "rows": 2,
+      "path": "native",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            18.559199571609497,
+            18.457600474357605,
+            18.482400476932526,
+            18.490399420261383,
+            18.463200330734253
+          ],
+          "native": [
+            18.47520023584366,
+            18.466399610042572,
+            18.492799997329712,
+            18.460799753665924,
+            18.459999561309814
+          ]
+        },
+        "median_us": {
+          "adapter": 18.482400476932526,
+          "native": 18.466399610042572
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 0.9991342646800709,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.2.self_attn.q_b_proj",
+      "shape": [
+        16384,
+        1024
+      ],
+      "rows": 1,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            10.411199927330017,
+            10.232000052928925,
+            10.264799743890762,
+            10.2463997900486,
+            10.260800272226334
+          ],
+          "native": [
+            8.217599987983704,
+            8.221600204706192,
+            8.211199939250946,
+            8.223199844360352,
+            8.211199939250946
+          ]
+        },
+        "median_us": {
+          "adapter": 10.260800272226334,
+          "native": 8.217599987983704
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 0.8008732038403368,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.2.self_attn.q_b_proj",
+      "shape": [
+        16384,
+        1024
+      ],
+      "rows": 4,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            8.276800066232681,
+            8.214399963617325,
+            8.220800012350082,
+            8.222399652004242,
+            8.193600177764893
+          ],
+          "native": [
+            10.26879996061325,
+            10.300800204277039,
+            10.263200104236603,
+            10.264799743890762,
+            10.264799743890762
+          ]
+        },
+        "median_us": {
+          "adapter": 8.220800012350082,
+          "native": 10.264799743890762
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 1.2486375691502025,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.2.self_attn.q_b_proj",
+      "shape": [
+        16384,
+        1024
+      ],
+      "rows": 8,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            6.297600269317627,
+            6.244000047445297,
+            6.172800064086914,
+            6.247200071811676,
+            6.249599903821945
+          ],
+          "native": [
+            10.274399816989899,
+            10.257600247859955,
+            10.266400128602982,
+            10.265599936246872,
+            10.264000296592712
+          ]
+        },
+        "median_us": {
+          "adapter": 6.247200071811676,
+          "native": 10.265599936246872
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 1.6432321389172138,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.2.self_attn.q_b_proj",
+      "shape": [
+        16384,
+        1024
+      ],
+      "rows": 16,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            7.13760033249855,
+            7.072000205516815,
+            7.090400159358978,
+            6.830400228500366,
+            7.071200013160706
+          ],
+          "native": [
+            10.239200294017792,
+            10.275200009346008,
+            10.26960015296936,
+            10.834400355815887,
+            10.251999646425247
+          ]
+        },
+        "median_us": {
+          "adapter": 7.072000205516815,
+          "native": 10.26960015296936
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 1.4521493006968695,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.2.self_attn.q_b_proj",
+      "shape": [
+        16384,
+        1024
+      ],
+      "rows": 2,
+      "path": "native",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            12.423200160264969,
+            12.325599789619446,
+            12.31200024485588,
+            12.316799908876419,
+            12.319199740886688
+          ],
+          "native": [
+            12.319999933242798,
+            12.319199740886688,
+            12.310399860143661,
+            12.320800125598907,
+            12.330400198698044
+          ]
+        },
+        "median_us": {
+          "adapter": 12.319199740886688,
+          "native": 12.319999933242798
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 1.0000649548974723,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.0.self_attn.o_proj",
+      "shape": [
+        5120,
+        16384
+      ],
+      "rows": 1,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            31.47200047969818,
+            31.408798694610596,
+            30.739998817443848,
+            31.41840100288391,
+            30.694401264190674
+          ],
+          "native": [
+            27.435201406478882,
+            26.664799451828003,
+            27.421599626541138,
+            26.6728013753891,
+            27.40960121154785
+          ]
+        },
+        "median_us": {
+          "adapter": 31.408798694610596,
+          "native": 27.40960121154785
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 0.8726727016226519,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.0.self_attn.o_proj",
+      "shape": [
+        5120,
+        16384
+      ],
+      "rows": 4,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            31.589600443840027,
+            31.380799412727356,
+            30.752000212669373,
+            31.410399079322815,
+            30.743199586868286
+          ],
+          "native": [
+            27.99679934978485,
+            27.059200406074524,
+            27.622398734092712,
+            26.900801062583923,
+            27.722400426864624
+          ]
+        },
+        "median_us": {
+          "adapter": 31.380799412727356,
+          "native": 27.622398734092712
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 0.8802324749856334,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.0.self_attn.o_proj",
+      "shape": [
+        5120,
+        16384
+      ],
+      "rows": 8,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            43.65600049495697,
+            43.44080090522766,
+            43.0759996175766,
+            43.44800114631653,
+            43.034398555755615
+          ],
+          "native": [
+            25.536000728607178,
+            24.6071994304657,
+            25.472000241279602,
+            24.60159957408905,
+            25.464001297950745
+          ]
+        },
+        "median_us": {
+          "adapter": 43.44080090522766,
+          "native": 25.464001297950745
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 0.5861770678101473,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.0.self_attn.o_proj",
+      "shape": [
+        5120,
+        16384
+      ],
+      "rows": 16,
+      "path": "exact",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            37.76879906654358,
+            37.50480115413666,
+            36.88879907131195,
+            37.45599985122681,
+            36.89520061016083
+          ],
+          "native": [
+            23.5384002327919,
+            22.547200322151184,
+            23.502400517463684,
+            22.56080061197281,
+            23.51759970188141
+          ]
+        },
+        "median_us": {
+          "adapter": 37.45599985122681,
+          "native": 23.502400517463684
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 0.6274669107970403,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    },
+    {
+      "weight": "model.layers.0.self_attn.o_proj",
+      "shape": [
+        5120,
+        16384
+      ],
+      "rows": 2,
+      "path": "native",
+      "timing": {
+        "samples_us": {
+          "adapter": [
+            28.815200924873352,
+            28.676798939704895,
+            28.66480052471161,
+            28.696799278259277,
+            28.696000576019287
+          ],
+          "native": [
+            28.679201006889343,
+            28.672799468040466,
+            28.704801201820374,
+            28.666400909423828,
+            28.693601489067078
+          ]
+        },
+        "median_us": {
+          "adapter": 28.696000576019287,
+          "native": 28.679201006889343
+        },
+        "samples": 5,
+        "replays_per_sample": 40,
+        "native_over_adapter": 0.9994145675776163,
+        "scope": "Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback"
+      }
+    }
+  ],
+  "recommended_next_screen": {
+    "DOTS3_B12X_EXACT_FP8": "q_b_proj",
+    "DOTS3_B12X_EXACT_FP8_ROWS": "4,8,16",
+    "reason": "Both owner Q-B shapes benefit at useful multirow points; row1 loses and DSA output loses. Rows outside planned set retain native path. Requires matched whole-model C1/C2/C4 and memory/functional gates."
+  },
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/container-opt-group18.json",
+      "archive": "container-opt-group18.json.gz",
+      "sha256": "ab9489ffc5fa81fcd587ec56e33b6357643dd17e191290e8a105c4ea9f5acd5a",
+      "gzip_sha256": "35cfebc4bad55b5073e85f6722632ef7a68d88e35d62be06866130df439006bf",
+      "bytes": 16815
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-opt-group18.json",
+      "archive": "runtime-opt-group18.json.gz",
+      "sha256": "f2204a1a18747bce7e51a3dd516c80ada71e450c6c8973a165cc21231e38f711",
+      "gzip_sha256": "dc495c7fb492fa239e9107aeb4c27e6ad5006564d159d3155094333e29af3c97",
+      "bytes": 3386
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-opt-group18.log",
+      "archive": "start-opt-group18.log.gz",
+      "sha256": "625f8a2a747ef161e0fb41d3c801ad6faf6bac57c2a709cf04465cd1889f428c",
+      "gzip_sha256": "9760a86a0877361956a40d2825cf97d8b2c64689226e566e9e205d678efae8eb",
+      "bytes": 65
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-opt-group18.log",
+      "archive": "startup-opt-group18.log.gz",
+      "sha256": "45861dff04068e214e7d39110d02c3cfc100d283525734160ace707aa375dd7e",
+      "gzip_sha256": "6f3abdb7b8a1f538002e74f2cdd9e40bd7acc68914cb6f288fc328c4e0feb53f",
+      "bytes": 202996
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/fused-pack-mixed-gpu0.log",
+      "archive": "fused-pack-mixed-gpu0.log.gz",
+      "sha256": "0acba291ad0bdaf0e486bbee93d6985f3b98e733606239ed9318595e9cf7be1a",
+      "gzip_sha256": "183c8f2a5b1a5051fc09df5bb964b04842a1ccc8b9173932c81435c740c6b41f",
+      "bytes": 12661
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/owner-fp8-timing-gpu1.json",
+      "archive": "owner-fp8-timing-gpu1.json.gz",
+      "sha256": "7b94907980615c016340fbc221a4738b82ae69c141f7ac8e6ffcee263aeadb56",
+      "gzip_sha256": "c6f9d16e71cd01f338bc78e8cf8d30f36bef4ed1400eee0714fea31769030969",
+      "bytes": 22670
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/owner-fp8-timing-gpu1.log",
+      "archive": "owner-fp8-timing-gpu1.log.gz",
+      "sha256": "fe67eafaf74a9aeb37d0a57995f2501ab6ffb04310a509b2e3187c96c3e77cb1",
+      "gzip_sha256": "dd148ea366dae1b1b5eb1ae5933229685e71ae7538e63634930b069fddf470e3",
+      "bytes": 14609
+    }
+  ]
+}
