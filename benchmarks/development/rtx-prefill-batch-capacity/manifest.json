@@ -167,6 +167,21 @@
           ]
         }
       ]
+    },
+    "startup_allocation_diagnostics": {
+      "interpretation": "Recovered weight-postprocessing allocation pressure; not a thrown OOM or prefill error",
+      "timeline": "Checkpoint read ends09:42:24, allocation warnings09:42:33, model loading completes09:42:39/43; profiling occurs later",
+      "allocator_counters": {
+        "rank0": {
+          "num_alloc_retries": 0,
+          "num_ooms": 0
+        },
+        "rank1": {
+          "num_alloc_retries": 1,
+          "num_ooms": 0
+        }
+      },
+      "cause_limit": "First1,006,632,960-byte request matches a TP2 EXL3 slab geometry, but the exact caller is unproven; no causal attribution."
     }
   },
   "batch2048": {
@@ -185,7 +200,6 @@
   },
   "limitations": [
     "Client prompt tokens divided by TTFT includes tokenization and first-token handoff, not isolated kernel speed.",
-    "Raw startup logs contain allocator OOM diagnostics during startup;512 subsequently reached ready and completed all nine requests. No error-free startup claim.",
     "No fabricated performance values for rejected batches."
   ],
   "artifacts": [

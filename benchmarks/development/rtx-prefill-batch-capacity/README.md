@@ -16,4 +16,4 @@ Batch512 cold C1 prefill medians, three runs each:
 | 32768 | 3927.787 |
 | 131072 | 3305.417 |
 
-Unique exact-length prompts avoid prefix reuse. Rate includes tokenization and first-token handoff. Raw startup logs retain allocator OOM diagnostics;512 subsequently became ready and completed all requests. This does not claim error-free startup or final-release qualification. Exact raw samples, memory profiles, arguments and hashes are archived.
+Unique exact-length prompts avoid prefix reuse. Rate includes tokenization and first-token handoff. Startup warnings are recovered allocation pressure during weight postprocessing: checkpoint reading ended09:42:24, warnings began09:42:33, model loading completed09:42:39/43, and profiling followed. Captured allocator counters show rank0 retries0/OOMs0 and rank1 retries1/OOMs0. These were not thrown OOMs or prefill errors. The first1,006,632,960-byte request matches a TP2 EXL3 slab geometry, but its exact caller is unproven. This is not final-release qualification. Exact raw samples, memory profiles, arguments and hashes are archived.
