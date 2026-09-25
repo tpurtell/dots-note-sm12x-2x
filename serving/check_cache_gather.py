@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
 """Qualify Dots3's ragged FP8 gather, including high physical page offsets."""
+import argparse
 import torch
 from vllm.models.dots3_note.nvidia.cache_gather import gather_and_dequant_cache
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--compact", action="store_true")
+args = parser.parse_args()
 torch.manual_seed(42)
 device = 'cuda'
 width, page, layers = 1088, 64, 3
-high = 2**31 // (page * layers * width) + 2
-backing = torch.empty((high + 2, layers, page, width), device=device, dtype=torch.float8_e4m3fn)
-cache = backing[:, 1]
+block_stride = 634752 if args.compact else page * layers * width
+high = 2**31 // block_stride + 2
+if args.compact:
+    backing = torch.empty((high + 2) * block_stride, device=device, dtype=torch.float8_e4m3fn)
+    cache = backing.as_strided((high + 2, page, width), (block_stride, width, 1), page * width)
+else:
+    backing = torch.empty((high + 2, layers, page, width), device=device, dtype=torch.float8_e4m3fn)
+    cache = backing[:, 1]
 assert high * cache.stride(0) > 2**31
 for idx in (0, 2, high, high+1):
     cache[idx].copy_((torch.randn(page, width, device=device)*10).to(cache.dtype))
