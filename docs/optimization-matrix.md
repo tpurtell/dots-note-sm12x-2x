@@ -5,6 +5,31 @@ measurements on the named platform and qualification on its release image.
 References: [Brandon RTX recipe](https://github.com/tpurtell/glm-5.3-flash-ext3-4-bit-2x-rtx)
 and [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next).
 
+## FP8 kernel choices
+
+The checkpoint remains uniform EXL3 K4 for routed experts with its original
+FP8 core. Two separate kernel choices are under evaluation:
+
+- **Projection kernels:** `DOTS3_B12X_EXACT_FP8=swa_q_b_proj` selects B12x
+  execution for sliding-window attention's query projection. The current
+  hybrid screen restricts it to rows `4,8,16`, retaining native row-1 execution.
+  This differs from the older ordinary-TP screen below. Its copied weights
+  consume memory, so both coding throughput and KV capacity are measured.
+  The [hybrid screen](../benchmarks/development/rtx-owner-swa-qb-screen/manifest.json)
+  provisionally retains it: C1/C2/C4 rates 167.41/139.41/97.04 tokens/s and
+  2,004,801 accounted cache tokens. Final release qualification is pending.
+- **Sparse-attention prefill:** vLLM's
+  `--attention-config '{"sparse_mla_force_mqa":true}'` sends sparse prefills
+  through our compact-cache MQA adapter instead of the native masked-MHA path
+  that expands cached latent vectors into K/V tensors. It does not alter SWA
+  execution or expert quantization. The adapter's FP8-query numerical reference
+  is not proof of equivalence to native BF16-query prefill; long-context
+  retrieval, coding and memory tests are required before adoption.
+
+Neither option changes the published checkpoint. Results in the table below
+include earlier ordinary-TP controls; later hybrid sections identify the
+current layer-ownership experiments.
+
 | Area | Current implementation / evidence | Remaining decision |
 | --- | --- | --- |
 | Uniform K4 routed experts | B12x planned fused MoE; TP2 loads the full checkpoint. Shared preparation/runtime scratch recovered about 7.8 GiB per RTX GPU at 512-token capacity. | Shared primer storage also removes duplicate preparation buffers. EP2 top-8 placement and graph probes pass, but full-model EP2 loses 262K capacity and C1 performance; native TP2 remains preferred. |
