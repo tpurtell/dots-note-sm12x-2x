@@ -36,6 +36,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--owner-full', action='store_true', help='Full owner DSA/SWA QB and DSA output; no TP slicing')
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     # Real one-rank NCCL/model-parallel context. Checkpoint inputs below are
@@ -61,25 +62,31 @@ def run_checks(args):
     cfg.model_config = SimpleNamespace(dtype=torch.bfloat16, hf_text_config=SimpleNamespace(model_type='dots3_note'))
     index = json.loads((args.source/'model.safetensors.index.json').read_text())['weight_map']
     result = {'schema': 'dots3-exact-fp8-adapter-v1', 'cases': [],
-              'distributed_world_size': 1, 'checkpoint_partition_size': 2,
-              'loader_scope': 'explicit TP2 rank-zero tensor slices; distributed loader not tested'}
-    for layer_id in (0, 2):
-        name = f'model.layers.{layer_id}.self_attn.q_b_proj'
-        weight = load(args.source, name+'.weight', index).chunk(2, 0)[0].contiguous().cuda()
-        scale = load(args.source, name+'.weight_scale_inv', index).chunk(2, 0)[0].contiguous().cuda()
+              'distributed_world_size': 1, 'checkpoint_partition_size': 1 if args.owner_full else 2,
+              'loader_scope': 'explicit source tensors; distributed loader not tested'}
+    planned_rows = (1,4,8,16) if args.owner_full else (4,)
+    fallback_rows = 2 if args.owner_full else 1
+    projections = [(0,'q_b_proj'),(2,'q_b_proj')] + ([(0,'o_proj')] if args.owner_full else [])
+    for layer_id, projection in projections:
+        name = f'model.layers.{layer_id}.self_attn.{projection}'
+        weight = load(args.source, name+'.weight', index)
+        scale = load(args.source, name+'.weight_scale_inv', index)
+        if not args.owner_full:
+            weight, scale = weight.chunk(2,0)[0], scale.chunk(2,0)[0]
+        weight, scale = weight.contiguous().cuda(), scale.contiguous().cuda()
         n, k = weight.shape
         original_w, original_s = weight.clone(), scale.clone()
         layer = torch.nn.Module()
-        layer.tp_size = 2  # Validate the real shard geometry in create_weights.
+        layer.tp_size = 1 if args.owner_full else 2  # Validate the real shard geometry in create_weights.
         with set_current_vllm_config(cfg):
             method = Dots3ExactFp8Method(Fp8Config(is_checkpoint_fp8_serialized=True,
-                activation_scheme='dynamic', weight_block_size=[128, 128]), 'q_b_proj', (4,))
+                activation_scheme='dynamic', weight_block_size=[128, 128]), projection, planned_rows)
             assert method.input_dtype == method.out_dtype == torch.bfloat16
             assert type(method).__name__ in WEIGHT_LOADER_V2_SUPPORTED
             # Exercise inherited parameter creation and metadata, then install
             # actual rank-zero checkpoint slices through parameter copies.
             method.create_weights(layer, input_size_per_partition=k,
-                output_partition_sizes=[n], input_size=k, output_size=n*2,
+                output_partition_sizes=[n], input_size=k, output_size=n*layer.tp_size,
                 params_dtype=torch.bfloat16)
             layer.cuda()
             layer.weight.data.copy_(weight)
@@ -91,7 +98,7 @@ def run_checks(args):
         assert torch.equal(method.source_scale, original_s)
         reference_w = original_w.float()*original_s.repeat_interleave(128,0).repeat_interleave(128,1)
         cases = []
-        for rows in (4, 1):
+        for rows in (*planned_rows, fallback_rows):
             x = torch.randn((rows,k), device='cuda', dtype=torch.bfloat16)*.2
             for _ in range(4):
                 method.apply(layer,x)
@@ -113,7 +120,7 @@ def run_checks(args):
                 if previous is not None and torch.equal(previous,captured):
                     raise AssertionError('changed input produced stale graph output')
                 previous = captured.clone()
-                if rows == 4:
+                if rows in planned_rows:
                     av, asc = quantizer(x,None,None,use_triton=False)
                     expected = ((av.float()*asc.repeat_interleave(128,1))@reference_w.T).to(torch.bfloat16)
                     err = metrics(captured,expected)
@@ -122,10 +129,10 @@ def run_checks(args):
                 else:
                     expected = method.fp8_linear.apply_weights(layer,x)
                     if not torch.equal(captured,expected):
-                        raise AssertionError('M1 failed exact native fallback parity')
+                        raise AssertionError('unplanned rows failed exact native fallback parity')
                     err = metrics(captured,expected)
                 checks.append(err)
-            cases.append({'rows':rows,'path':'exact' if rows==4 else 'native',
+            cases.append({'rows':rows,'path':'exact' if rows in planned_rows else 'native',
                 'changed_input_checks':checks,'graph_eager_equal':True})
         assert torch.equal(method.source_weight.view(torch.uint8),original_w.view(torch.uint8))
         assert torch.equal(method.source_scale,original_s)

@@ -2,7 +2,7 @@
 
 CPU source audit, 2026-09-25. This is a candidate-selection note, not a GPU performance result. Native TP2 measurements do not establish the result with owner-local attention or multimodal towers. Keep partition, multimodal ownership, context, MTP depth, output budget, and memory utilization matched within each comparison.
 
-## Exact FP8 projection selectors need owner geometry qualification
+## Exact FP8 projection selectors: audit and correction
 
 The checkpoint has DSA 128 heads with QK width192 and V width128; SWA has64 heads with QK width256 and V width128. Both Q low-rank dimensions are1024. Owner construction disables dense TP splitting.
 
@@ -13,7 +13,7 @@ The checkpoint has DSA 128 heads with QK width192 and V width128; SWA has64 head
 | DSA output | 5120 ×8192 | 5120 ×16384 |
 | SWA output | 5120 ×4096 | 5120 ×8192 |
 
-Current [exact FP8 method](../serving/dots3_b12x_fp8.py) filters by loaded shape, not attention type:
+The pre-correction [exact FP8 method](../serving/dots3_b12x_fp8.py) filters by loaded shape, not attention type:
 
 - `DOTS3_B12X_EXACT_FP8=q_b_proj` selects all Q-B projections then rejects owner shapes outside its TP2 allowlist. Do not launch this flag on hybrid.
 - `swa_q_b_proj` only permits8192×1024, so owner SWA Q-B falls back to native preparation/apply. This is not an active hybrid candidate.
@@ -45,3 +45,7 @@ Packed routing itself is an exact, active candidate on both platforms (`VLLM_HYB
 ## Memory and existing B12x paths
 
 Hybrid retains TP2 routed experts on both ranks, so the existing EXL3 fused-MoE path remains applicable. Full-head sparse MLA is already enabled and qualified separately; compact DSA records and bounded indexer workspace should remain fixed in matched screens. Owner-local MM frees asymmetric per-rank memory; use actual attested tower/dense storage, per-worker KV budget, and bounded SWA/full-history DSA placement to choose a split. Do not raise Spark memory utilization to spend the savings: preserve the qualified host guard and .80 setting while establishing useful native-context capacity.
+
+## Selector correction prepared after this audit
+
+The adapter now resolves actual DSA/SWA layer identity from the vLLM HF text config, recognizes the single Dots MTP SWA block, and accepts owner Q-B24576/16384×1024 and DSA-output5120×16384 alongside TP2 geometries. Wrong-type layers remain native; unresolved identities fail clearly. The CPU selector check covers the SWA-owner/DSA-TP2 shape collision. `check_exact_fp8_adapter.py --owner-full` prepares rows1/4/8/16 and tests changed-input graphs, exact source preservation, numeric reference, and unplanned-row native fallback for both full Q-B matrices and full DSA output. GPU qualification and whole-model memory/performance evidence are still required before using the new owner shapes.

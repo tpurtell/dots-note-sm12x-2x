@@ -6,6 +6,7 @@ patch is installed by importing this module. This candidate retains original
 weights alongside the native layout; include that memory in admission profiling.
 """
 import os
+import re
 import threading
 
 import torch
@@ -18,14 +19,35 @@ from vllm.model_executor.layers.quantization.utils.quant_utils import GroupShape
 _PLANS = {}
 _LOCK = threading.Lock()
 _GEOMETRIES = {
-    'q_b_proj': {(12288, 1024), (8192, 1024)},
-    'o_proj': {(5120, 8192)},
+    'q_b_proj': {(12288, 1024), (8192, 1024), (24576, 1024), (16384, 1024)},
+    'o_proj': {(5120, 8192), (5120, 16384)},
 }
 _SELECTORS = {
     'q_b_proj': ('q_b_proj', None),
-    'swa_q_b_proj': ('q_b_proj', frozenset({(8192, 1024)})),
-    'dsa_o_proj': ('o_proj', frozenset({(5120, 8192)})),
+    'swa_q_b_proj': ('q_b_proj', 'sliding_attention'),
+    'dsa_o_proj': ('o_proj', 'deepseek_sparse_attention'),
 }
+
+
+def attention_type_for_prefix(prefix):
+    """Use model layer identity; O-projection shape alone aliases TP layouts."""
+    from vllm.config import get_current_vllm_config
+    model = get_current_vllm_config().model_config.hf_text_config
+    match = re.search(r'(?:^|\.)layers\.(\d+)\.', prefix)
+    if match is None:
+        raise ValueError(f'Cannot classify exact FP8 attention layer: {prefix}')
+    index = int(match.group(1))
+    types = model.layer_types
+    if index < len(types):
+        kind = types[index]
+    elif ('.mtp_block.self_attn.' in prefix and index == model.num_hidden_layers):
+        # Dots3 draft constructor appends one SWA block to the target config.
+        kind = 'sliding_attention'
+    else:
+        raise ValueError(f'Unknown exact FP8 attention layer index: {prefix}')
+    if kind not in ('sliding_attention', 'deepseek_sparse_attention'):
+        raise ValueError(f'Unsupported exact FP8 attention type: {kind}')
+    return kind
 
 
 def maybe_exact_fp8_method(config, prefix):
@@ -46,7 +68,9 @@ def maybe_exact_fp8_method(config, prefix):
     selections=[_SELECTORS[name][1] for name in names if _SELECTORS[name][0]==projection]
     if not selections or '.self_attn.' not in prefix:
         return None
-    geometry_filter=None if None in selections else frozenset().union(*selections)
+    if None not in selections and attention_type_for_prefix(prefix) not in selections:
+        return None
+    geometry_filter = None
     rows = tuple(sorted(set(int(v) for v in os.getenv(
         'DOTS3_B12X_EXACT_FP8_ROWS', '4,16,64,512').split(','))))
     if not rows or min(rows) <= 0:
@@ -86,7 +110,7 @@ class Dots3ExactFp8Method(Fp8LinearMethod):
                 or weight.dtype != torch.float8_e4m3fn or scale.dtype != torch.float32
                 or tuple(scale.shape) != (n // 128, k // 128)
                 or self.input_dtype != torch.bfloat16 or self.out_dtype != torch.bfloat16):
-            raise ValueError('exact Dots3 FP8 requires the qualified TP2 BF16 projection geometry')
+            raise ValueError('exact Dots3 FP8 requires the supported TP2 or owner-full BF16 projection geometry')
         # Native preparation may repack/requantize either operand. Own immutable
         # copies first, preserving checkpoint values and arbitrary FP32 scales.
         self.source_weight = weight.detach().clone().contiguous()
