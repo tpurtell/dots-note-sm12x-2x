@@ -35,6 +35,8 @@ def settings(path, selected):
     config.setdefault('hybrid_layer_partition', [])
     config.setdefault('hybrid_packed_routing', False)
     config.setdefault('hybrid_mm_owners', [])
+    config.setdefault('hybrid_fused_pack', False)
+    config.setdefault('hybrid_boundary_owners', [])
     if selected == 'rtx':
         # Older RTX profiles predate the Spark-only transport fields.
         config = dict(config)
@@ -77,6 +79,13 @@ def settings(path, selected):
         fail('hybrid_layer_partition must be empty or assign all 46 layers across two owners')
     if type(config['hybrid_packed_routing']) is not bool or (config['hybrid_packed_routing'] and not partition):
         fail('hybrid_packed_routing requires a boolean and an enabled hybrid partition')
+    if type(config['hybrid_fused_pack']) is not bool or (config['hybrid_fused_pack'] and not config['hybrid_packed_routing']):
+        fail('hybrid_fused_pack requires a boolean and packed routing')
+    boundary = config['hybrid_boundary_owners']
+    if not isinstance(boundary, list) or (boundary and (
+            not partition or len(boundary) != 2
+            or any(type(rank) is not int or rank not in (0, 1) for rank in boundary))):
+        fail('hybrid_boundary_owners must be empty or assign embedding and head to hybrid TP worker ranks')
     mm_owners = config['hybrid_mm_owners']
     if not isinstance(mm_owners, list) or (mm_owners and (
             not partition or len(mm_owners) != 2
@@ -161,6 +170,10 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
             fail(f'Qualification hybrid routing transport mismatch for {host}')
         if env.get('VLLM_HYBRID_MM_OWNERS', '') != ','.join(map(str, config['hybrid_mm_owners'])):
             fail(f'Qualification multimodal ownership mismatch for {host}')
+        if env.get('VLLM_HYBRID_FUSED_PACK', '0') != str(int(config['hybrid_fused_pack'])):
+            fail(f'Qualification fused routing pack mismatch for {host}')
+        if env.get('VLLM_HYBRID_BOUNDARY_OWNERS', '') != ','.join(map(str, config['hybrid_boundary_owners'])):
+            fail(f'Qualification embedding/head ownership mismatch for {host}')
         if env.get('DOTS3_INDEXER_PREFILL_CONTEXTS', '40') != str(config['indexer_prefill_contexts']):
             fail(f'Qualification indexer workspace mismatch for {host}')
         for variable, setting in [('DOTS3_B12X_VOCAB', 'b12x_vocab'),
@@ -286,6 +299,8 @@ def main():
         VLLM_HYBRID_LAYER_PARTITION=','.join(map(str, config['hybrid_layer_partition'])),
         VLLM_HYBRID_PACKED_ROUTING=str(int(config['hybrid_packed_routing'])),
         VLLM_HYBRID_MM_OWNERS=','.join(map(str, config['hybrid_mm_owners'])),
+        VLLM_HYBRID_FUSED_PACK=str(int(config['hybrid_fused_pack'])),
+        VLLM_HYBRID_BOUNDARY_OWNERS=','.join(map(str, config['hybrid_boundary_owners'])),
         DOTS3_B12X_VOCAB=str(int(config['b12x_vocab'])), DOTS3_B12X_PCIE=str(int(config['b12x_pcie'])),
         DOTS3_B12X_ROCE=str(int(config['b12x_roce'])),
         DOTS3_B12X_ROCE_EAGER=str(int(config['b12x_roce_eager'])),
