@@ -234,6 +234,14 @@ class HybridAttestationWorkerExtension:
         receipt['passed'] = not receipt['errors']
         budget = getattr(self, 'available_kv_cache_memory_bytes', None)
         receipt['available_kv_cache_memory_bytes'] = None if budget is None else int(budget)
+        receipt['memory_profile_bytes'] = {
+            name: (None if getattr(self, name, None) is None else int(getattr(self, name)))
+            for name in ('total_consumed', 'peak_activation_memory',
+                         'cudagraph_memory_estimate', 'requested_memory')
+        }
+        model_memory = getattr(self.model_runner, 'model_memory_usage', None)
+        receipt['memory_profile_bytes']['model_memory_usage'] = None if model_memory is None else int(model_memory)
+        receipt['memory_profile_note'] = 'peak_activation_memory includes applied CUDA graph estimate; do not add cudagraph_memory_estimate again'
         receipt['cache_admission_inputs'] = {
             'max_model_len': self.vllm_config.model_config.max_model_len,
             'max_in_flight_tokens': self.vllm_config.max_in_flight_tokens,
