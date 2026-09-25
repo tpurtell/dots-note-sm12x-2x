@@ -92,3 +92,7 @@ RTX monitor samples now append GPU temperature, SM/memory clocks and software/ha
 ## Explicit restart continuation
 
 For an interrupted RTX run, `continue_rtx.py` can preserve completed work only with an explicit interruption reason/evidence and matching immutable image, model, profile, and unchanged workload/validator sources. The original manifest/receipts remain untouched. The exporter verifies the immutable restart ledger and all preserved file hashes, attributes each stage to its actual pre/post-restart identity, archives both attempts, and discloses the interruption in `restart_continuation`. This is not an uninterrupted-run claim. A changed profile or workload requires separate qualification.
+
+## Prior-profile evidence lineage
+
+Spark can explicitly preserve completed checks through `qualify_spark.py --inherit-evidence`. An inherited stage is not attributed to the final runtime: its receipt has `identity: null`, an explicit target binding, and the original source profiles/images. `evidence_provenance` reports source kind, sample count, output budget, profile differences and coverage limits. The exporter checks hashes of both original and decompressed bytes, validates actual target runtime metadata, and keeps all raw evidence. One-token prefill sources have **null decode rates**; a one-sample context diagnostic stays one sample. API coverage reports the actual prior case count. Unfinished stages remain ordinary final-image measurements.

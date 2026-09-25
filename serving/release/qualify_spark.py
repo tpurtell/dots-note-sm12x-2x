@@ -20,6 +20,7 @@ import time
 import urllib.request
 
 import qualify_rtx as shared
+import evidence_lineage
 
 ROOT=shared.ROOT
 
@@ -83,10 +84,12 @@ def plan(args):
     for depth in (8192,args.max_model_len-2144):
         item=copy.deepcopy(retrieval);item['name']=f'retrieval-{depth}'
         item['options'][item['options'].index('--filler-tokens')+1]=str(depth);result.append(item)
-    return result
+    return evidence_lineage.apply_plan(result,getattr(args,'inherit_evidence',None))
 
 
 def validate(step,path,limit):
+    if step.get('evidence_mode')=='inherited':
+        return evidence_lineage.validate_inherited(step,path)
     if not step['name'].startswith('retrieval-'):
         result=shared.validate(step,path,limit)
     else:
@@ -193,6 +196,8 @@ def main():
     p.add_argument('--base-url',default='http://10.55.1.5:8000/v1')
     p.add_argument('--model',default='dots3-note-exl3-k4')
     p.add_argument('--output-dir',required=True,type=Path)
+    p.add_argument('--inherit-evidence',type=Path,
+                   help='Explicit hash-bound prior evidence; inherited stages send no new requests')
     p.add_argument('--execute',action='store_true')
     args=p.parse_args();args.base_url=args.base_url.rstrip('/').removesuffix('/v1')
     if args.min_host_available_gib<1:p.error('require physical headroom guard >=1 GiB')
@@ -203,6 +208,10 @@ def main():
     shared.preflight_tool_quality(steps,out)
     first=inspect_hosts(args)
     sources=sorted((ROOT/'serving/benchmarks').glob('*.py'))+[Path(__file__),Path(shared.__file__),ROOT/'serving/capture_runtime.py',ROOT/'serving/watch_spark_memory.py',ROOT/'serving/qualify_prefix_xgrammar.py',ROOT/'serving/benchmarks/code-agent-prompt.txt']
+    sources.append(Path(evidence_lineage.__file__))
+    if args.inherit_evidence:
+        assert args.inherit_evidence.resolve().is_relative_to(ROOT)
+        sources.append(args.inherit_evidence.resolve())
     binding={'schema':'dots3-spark-release-qualification-v2','identity':{h:d['identity'] for h,d in first.items()},
              'repo_digests':{h:d['image_repo_digests'] for h,d in first.items()},'plan':steps,
              'limits':{'max_model_len':args.max_model_len,'gpu_memory_utilization':args.gpu_memory_utilization,'min_host_available_gib':args.min_host_available_gib},
@@ -214,6 +223,7 @@ def main():
     watcher=threading.Thread(target=monitor,args=(args,attempt,stop,failed),daemon=True);watcher.start()
     try:
         snapshot(args,attempt,'before')
+        target_runtimes={h:json.loads((attempt/f'{h}-before.json').read_text())['runtime'] for h,_ in hosts(args)}
         for step in steps:
             current=inspect_hosts(args)
             assert {h:d['identity']for h,d in current.items()}==binding['identity'], 'container/guard changed'
@@ -222,8 +232,20 @@ def main():
             if receipt.exists():
                 saved=json.loads(receipt.read_text());artifact=stage/saved['artifact']
                 assert shared.digest(artifact)==saved['sha256'];validate(step,artifact,args.max_model_len)
+                if step.get('evidence_mode')=='inherited':
+                    evidence_lineage.validate_inherited(step,artifact,binding['identity'])
                 print(json.dumps({'stage':step['name'],'status':'validated-resume-skip'}),flush=True);continue
             run=stage/f'attempt-{time.time_ns()}';run.mkdir()
+            if step.get('evidence_mode')=='inherited':
+                artifact=evidence_lineage.materialize(step,run,binding['identity'],target_runtimes)
+                evidence=evidence_lineage.validate_inherited(step,artifact,binding['identity'])
+                shared.save(receipt,{'artifact':str(artifact.relative_to(stage)),'sha256':shared.digest(artifact),
+                                    'validated':evidence,'identity':None,'target_identity':binding['identity'],
+                                    'evidence_mode':'inherited','finished_unix':time.time()})
+                print(json.dumps({'stage':step['name'],'status':'inherited-no-requests',
+                                  'source_kind':step['inherited_evidence']['source_kind'],
+                                  'sample_count':step['inherited_evidence']['sample_count']}),flush=True)
+                continue
             artifact,command=shared.stage_command(step,run)
             shared.save(run/'command.json',command);print(json.dumps({'stage':step['name'],'command':command}),flush=True)
             with (run/'stdout.log').open('x') as log:
@@ -246,6 +268,8 @@ def main():
         snapshot(args,attempt,'after')
     assert not failed.is_set(), 'monitor failed'
     shared.save(attempt/'complete.json',{'completed':True,'requests_in_full_plan':sum(s['requests']for s in steps),
+                'inherited_stages':[s['name']for s in steps if s.get('evidence_mode')=='inherited'],
+                'executed_stages':[s['name']for s in steps if s.get('evidence_mode')!='inherited'],
                 'context_receipts':[str((out/s['name']/'receipt.json').relative_to(out))for s in steps if s['name'].startswith('context-')],
                 'prefill_method':'Exact unique prompt length / TTFT from context rows; includes first-token handoff.',
                 'quality_scope':'Seven/coding static misses remain measurements, not executed-code correctness.'})

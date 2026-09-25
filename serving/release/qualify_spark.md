@@ -94,3 +94,13 @@ A successful run writes `attempt-*/complete.json` only after ending snapshots
 and monitor checks succeed. It references context receipts for report generation.
 A complete marker means the defined gates completed; seven/coding quality misses
 must still be reported. It is not a universal zero-JIT or all-prompts-correct claim.
+
+## Preserve completed evidence without new requests
+
+`--inherit-evidence PATH.json` explicitly reuses hash-bound prior results for named stages. The file uses schema `dots3-prior-evidence-v1`; every entry binds the original compressed/raw artifact hashes, both source runtime receipts, actual sample count/output budget, coverage limits, and supporting component/build evidence. Only prefix, reasoning/API, multimodal, one-token prefill, and context sources are supported. Other stages retain the standard benchmark definitions.
+
+Inherited stages have `requests: 0` and issue no HTTP requests. The runner copies their original bytes into the final evidence directory and records the source images/profiles, target images/profiles, and every observed profile difference. A changed checkpoint is rejected. Inherited evidence is **not** a claim that the check ran on the final image. Existing API40/40 coverage remains40/40 rather than becoming80/80. Three prior one-token prefill measurements provide TTFT/effective-prefill rows with a null decode rate; one completed524K diagnostic remains one sample rather than being presented as three.
+
+The final report preserves `stage_results.NAME.evidence_provenance`, lists inherited versus executed stages in its completion receipt, and archives raw sources. The report verifier checks the actual final runtime against the target binding and rejects modified sources, changed identities, altered coverage counts, and fabricated decode measurements. No temperature/power/cooling changes are part of this mechanism.
+
+Use a reviewed inheritance manifest for the selected history before starting the final run; it becomes part of the runner's source/hash binding. Do not edit it while qualification is running.

@@ -346,6 +346,11 @@ def export(args):
     completion = read(complete_path)
     require(completion.get('completed') is True, 'Ending receipt is not complete')
     require(completion['requests_in_full_plan'] == sum(s['requests'] for s in manifest['plan']), 'Plan count mismatch')
+    inherited_names=[s['name'] for s in manifest['plan'] if s.get('evidence_mode')=='inherited']
+    if inherited_names:
+        require(completion.get('inherited_stages')==inherited_names and
+                completion.get('executed_stages')==[s['name'] for s in manifest['plan'] if s.get('evidence_mode')!='inherited'],
+                'Completion must disclose inherited versus executed stages')
     for relative, expected in manifest['source_sha256'].items():
         require(sha(contained(ROOT, relative)) == expected, f'Runner/validator source drift: {relative}; use exact recorded checkout')
     validator_name = f'qualify_{args.platform}'
@@ -407,16 +412,26 @@ def export(args):
         receipt_path = stage/'receipt.json'
         receipt = read(receipt_path)
         artifact = contained(stage, receipt['artifact'])
+        inherited = step.get('evidence_mode') == 'inherited'
+        if inherited:
+            require(args.platform == 'spark', 'Prior-profile inheritance currently supports Spark only')
+            import evidence_lineage
+            require(receipt.get('evidence_mode') == 'inherited' and receipt.get('identity') is None,
+                    'Inherited evidence must not claim final-runtime execution')
+            require(receipt.get('target_identity') == manifest['identity'], 'Inherited target profile mismatch')
+            target_runtimes={host:read(complete_path.parent/f'{host}-after.json')['runtime'] for host in manifest['identity']}
+            evidence_lineage.validate_inherited(step, artifact, manifest['identity'],target_runtimes=target_runtimes)
         if current_schema:
             expected_identity = restart_audit.stage_identity(restart, step['name']) if restart else manifest['identity']
-            require(receipt.get('identity')==expected_identity, 'Stage runtime image/profile identity mismatch')
+            require(inherited or receipt.get('identity')==expected_identity, 'Stage runtime image/profile identity mismatch')
         require(sha(artifact) == receipt['sha256'], f'Artifact hash mismatch: {step["name"]}')
         require(receipt['validated'].get('complete') is True, 'Unvalidated stage receipt')
         if args.platform == 'spark':
             validator.validate(step, artifact, manifest['limits']['max_model_len'])
         else:
             validator.validate(step, artifact, manifest.get('limits',{}).get('max_model_len',262144))
-        results[step['name']] = stage_metrics(step['name'], load_artifact(artifact, step['format']))
+        results[step['name']] = (evidence_lineage.metrics(step, artifact, stage_metrics) if inherited else
+                               stage_metrics(step['name'], load_artifact(artifact, step['format'])))
         artifacts.add(receipt_path)
         artifacts.update(p for p in artifact.parent.rglob('*') if p.is_file())
         if step['name']=='tool-quality':
