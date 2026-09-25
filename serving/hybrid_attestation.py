@@ -47,6 +47,24 @@ def _owner_dense_storage(layer):
     return _modules_storage(modules)
 
 
+def _parallel_module_evidence(module):
+    from vllm.model_executor.layers.linear import ReplicatedLinear
+    detail = {'tp_size': module.tp_size, 'tp_rank': getattr(module, 'tp_rank', None),
+              'class': type(module).__name__}
+    if isinstance(module, ReplicatedLinear):
+        # ReplicatedLinear retains global tp_size metadata by default, but its
+        # loader and forward use the entire weight and no TP collectives.
+        detail.update(replicated=True, input_size=module.input_size,
+                      output_size=module.output_size,
+                      output_partition_sizes=list(module.output_partition_sizes),
+                      loaded_weight=_tensor(module.weight))
+        valid = (sum(module.output_partition_sizes) == module.output_size and
+                 module.weight.numel() == module.input_size * module.output_size)
+    else:
+        valid = module.tp_size == 1
+    return detail, valid
+
+
 def attest_model(model, vllm_config, *, require_bound_cache=True):
     from vllm.distributed import get_tp_group
     language = getattr(model, 'language_model', model)
@@ -76,8 +94,8 @@ def attest_model(model, vllm_config, *, require_bound_cache=True):
             linears = {}
             for name, module in attn.named_modules():
                 if hasattr(module, 'tp_size'):
-                    linears[name] = {'tp_size': module.tp_size, 'tp_rank': getattr(module, 'tp_rank', None)}
-                    if module.tp_size != 1: errors.append(f'layer{layer.layer_idx}.{name}: dense TP must be1')
+                    linears[name], valid = _parallel_module_evidence(module)
+                    if not valid: errors.append(f'layer{layer.layer_idx}.{name}: dense projection must be full owner-local weight')
             row['attention_parallel_modules'] = linears
         elif any(row[k] for k in ('attention_parameter_bytes','input_norm_parameter_bytes','post_attention_norm_parameter_bytes')):
             errors.append(f'layer{layer.layer_idx}: nonowner dense parameters')

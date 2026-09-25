@@ -22,6 +22,10 @@ class Module:
     def buffers(self): return iter([])
     def named_modules(self): return iter([('projection',NS(tp_size=1,tp_rank=0))])
 
+class ReplicatedLinear: pass
+linear=ModuleType('vllm.model_executor.layers.linear');linear.ReplicatedLinear=ReplicatedLinear
+sys.modules['vllm.model_executor.layers.linear']=linear
+
 fake=ModuleType('vllm.distributed');fake.get_tp_group=lambda:NS(world_size=2,rank_in_group=0)
 sys.modules['vllm.distributed']=fake
 config=NS(first_k_dense_replace=1,num_hidden_layers=3,swa_num_attention_heads=64,num_attention_heads=128,
@@ -75,3 +79,14 @@ with tempfile.TemporaryDirectory() as tmp:
     else: raise AssertionError('failed ownership did not stop startup')
     assert not json.loads(target.read_text())['passed']
 print('MM storage alias accounting and atomic startup RPC receipt/error gates passed')
+
+from hybrid_attestation import _parallel_module_evidence
+replicated=ReplicatedLinear()
+replicated.tp_size=2; replicated.tp_rank=1
+replicated.input_size=2; replicated.output_size=4
+replicated.output_partition_sizes=[4]; replicated.weight=Tensor(300)
+assert _parallel_module_evidence(replicated)[1]
+replicated.output_partition_sizes=[2]
+assert not _parallel_module_evidence(replicated)[1]
+assert not _parallel_module_evidence(NS(tp_size=2,tp_rank=1))[1]
+print('Replicated indexer full-weight evidence passes; partial weight and nonreplicated TP2 still rejected')
