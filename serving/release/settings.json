@@ -5,24 +5,23 @@
   "platforms": {
     "rtx": {
       "architecture": "amd64",
-      "image": "ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6",
-      "qualification_report": "benchmarks/releases/rtx-20260925-v1/report.json",
-      "qualification_report_sha256": "e0e1fafb81063f93ec5e001f0521d197dbd7ffc21f1e218a9b84fcdc4efdce84",
+      "image": "ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e",
+      "qualification_report": "benchmarks/releases/rtx-20260925-v2/report.json",
+      "qualification_report_sha256": "bd29e1e31b8d0adf2a0b04654429118795bcfcd72815ace1d74516c4f8f6de50",
       "port": 8001,
       "gpu_memory_utilization": 0.95,
-      "max_model_len": 262144,
+      "max_model_len": 524288,
       "max_num_seqs": 16,
       "max_num_batched_tokens": 512,
       "kv_cache_dtype": "fp8",
       "mtp_tokens": 3,
       "b12x_vocab": false,
       "b12x_pcie": false,
-      "b12x_exact_fp8": "",
+      "b12x_exact_fp8": "swa_q_b_proj",
       "b12x_exact_fp8_rows": [
         4,
-        16,
-        64,
-        512
+        8,
+        16
       ],
       "b12x_roce": false,
       "b12x_roce_eager": false,
@@ -94,8 +93,21 @@
       ],
       "reasoning_parser": "dots3",
       "status": "qualified",
-      "compact_dsa_cache": false,
-      "indexer_prefill_contexts": 40
+      "compact_dsa_cache": true,
+      "indexer_prefill_contexts": 4,
+      "hybrid_layer_partition": [
+        17,
+        29
+      ],
+      "hybrid_packed_routing": true,
+      "hybrid_balance_kv_groups": true,
+      "hybrid_mm_owners": [
+        0,
+        1
+      ],
+      "hybrid_fused_pack": true,
+      "hybrid_overlap_shared": true,
+      "hybrid_boundary_owners": []
     },
     "spark": {
       "architecture": "arm64",
