@@ -33,13 +33,18 @@ def pack_routing(buffers, activation, route_ids, route_weights):
         raise ValueError('fused routing pack requires prepared packed storage')
     if activation.dtype not in (torch.bfloat16, torch.float16, torch.float32):
         raise ValueError('unsupported activation dtype')
-    if route_ids.dtype != torch.int32 or route_weights.dtype != torch.float32:
-        raise ValueError('routing pack requires native int32 IDs and FP32 weights')
+    if route_ids.dtype not in (torch.int32, torch.int64) or route_weights.dtype not in (
+            torch.float32, torch.float16, torch.bfloat16):
+        raise ValueError(f'unsupported router dtypes: {route_ids.dtype}, {route_weights.dtype}')
+    if buffers.route_ids.dtype != torch.int32 or buffers.route_weights.dtype != torch.float32:
+        raise ValueError('packed routing storage requires int32 IDs and FP32 weights')
     for source, target in zip(sources, targets):
-        if (source.ndim != 2 or source.shape != target.shape or source.dtype != target.dtype
+        if (source.ndim != 2 or source.shape != target.shape
                 or source.device != target.device or source.device.type != 'cuda'
                 or not target.is_contiguous()):
             raise ValueError('routing pack source/destination geometry mismatch')
+    if activation.dtype != buffers.activation.dtype:
+        raise ValueError('routing pack must preserve the activation dtype')
     rows, hidden = activation.shape
     if route_ids.shape != route_weights.shape or route_ids.shape[0] != rows:
         raise ValueError('routing pack route shape mismatch')

@@ -17,12 +17,16 @@ def main():
     device = torch.device('cuda', args.device)
     torch.manual_seed(712)
     records = []
-    for hidden, rows, strided in [(5120, r, s) for r in (1, 2, 4, 8, 16, 512)
-                                 for s in (False, True)] + [(3, 7, True)]:
+    geometries = [(5120, r, s) for r in (1, 2, 4, 8, 16, 512)
+                  for s in (False, True)] + [(3, 7, True)]
+    cases = [(h, r, s, torch.int32, torch.float32) for h, r, s in geometries]
+    cases += [(5120, r, True, torch.int64, dtype)
+              for r in (1, 4, 8, 16, 512) for dtype in (torch.float32, torch.bfloat16, torch.float16)]
+    for hidden, rows, strided, id_dtype, weight_dtype in cases:
         factor = 2 if strided else 1
         a = torch.randn(rows, hidden * factor, device=device, dtype=torch.bfloat16)[:, ::factor]
-        ids = torch.randint(0, 256, (rows, 8 * factor), device=device, dtype=torch.int32)[:, ::factor]
-        weights = torch.randn(rows, 8 * factor, device=device)[:, ::factor]
+        ids = torch.randint(0, 256, (rows, 8 * factor), device=device, dtype=id_dtype)[:, ::factor]
+        weights = torch.randn(rows, 8 * factor, device=device, dtype=weight_dtype)[:, ::factor]
         dst = allocate_packed_routing(capacity=512, hidden=hidden, topk=8,
                                      dtype=a.dtype, device=device).active(rows)
         def reference():
@@ -33,7 +37,7 @@ def main():
             pack_routing(dst, a, ids, weights)
         def verify():
             for got, wanted in zip((dst.activation, dst.route_ids, dst.route_weights), (a, ids, weights)):
-                assert torch.equal(got.contiguous().view(torch.uint8), wanted.contiguous().view(torch.uint8))
+                assert torch.equal(got.contiguous().view(torch.uint8), wanted.to(got.dtype).contiguous().view(torch.uint8))
         fused()
         verify()
         graphs = {}
@@ -65,7 +69,8 @@ def main():
                 end.synchronize()
                 samples.append(start.elapsed_time(end) * 10)
             timing[name] = {'samples_us': samples, 'median_us': statistics.median(samples)}
-        row = dict(rows=rows, hidden=hidden, strided=strided, passed=True, timings=timing)
+        row = dict(rows=rows, hidden=hidden, strided=strided, id_dtype=str(id_dtype),
+                   weight_dtype=str(weight_dtype), passed=True, timings=timing)
         records.append(row)
         print(json.dumps(row), flush=True)
     print(json.dumps({'schema': 'hybrid-fused-pack-component-v1', 'device': args.device,
