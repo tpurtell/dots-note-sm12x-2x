@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "scope": "Provisional narrow owner-SWA QB development candidate; final qualification pending",
+  "image_id": "sha256:3a0861609fbb9a4d180b6dae9d27662a982d6b130583e43c737de3618f509e48",
+  "launch_args": [
+    "serve",
+    "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+    "--served-model-name",
+    "dots3-note-exl3-k4",
+    "--tensor-parallel-size",
+    "2",
+    "--pipeline-parallel-size",
+    "1",
+    "--distributed-executor-backend",
+    "mp",
+    "--max-model-len",
+    "524288",
+    "--max-num-seqs",
+    "16",
+    "--max-num-batched-tokens",
+    "512",
+    "--gpu-memory-utilization",
+    ".95",
+    "--kv-cache-dtype",
+    "fp8",
+    "--enable-prefix-caching",
+    "--structured-outputs-config",
+    "{\"backend\":\"xgrammar\"}",
+    "--limit-mm-per-prompt",
+    "{\"image\":1,\"audio\":1,\"video\":0}",
+    "--enable-auto-tool-choice",
+    "--tool-call-parser",
+    "dots",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "8001",
+    "--reasoning-parser",
+    "dots3",
+    "--block-size",
+    "64",
+    "--speculative-config",
+    "{\"method\":\"mtp\",\"num_speculative_tokens\":3}",
+    "--worker-extension-cls",
+    "hybrid_attestation.HybridAttestationWorkerExtension"
+  ],
+  "selected_environment": [
+    "DOTS3_INDEXER_PREFILL_CONTEXTS=4",
+    "DOTS3_B12X_EXACT_FP8=swa_q_b_proj",
+    "DOTS3_B12X_EXACT_FP8_ROWS=4,8,16",
+    "DOTS3_COMPACT_DSA_CACHE=1",
+    "VLLM_HYBRID_LAYER_PARTITION=17,29",
+    "VLLM_HYBRID_PACKED_ROUTING=1",
+    "VLLM_HYBRID_ATTESTATION_PATH=/root/.cache/vllm-runtime/ownership-swaqb17-b512-v2.json",
+    "DOTS3_B12X_VOCAB=0",
+    "VLLM_PCIE_ALLREDUCE_BACKEND=b12x",
+    "VLLM_HYBRID_BALANCE_KV_GROUPS=1",
+    "VLLM_HYBRID_BOUNDARY_OWNERS=",
+    "VLLM_HYBRID_MM_OWNERS=0,1",
+    "VLLM_ENABLE_PCIE_ALLREDUCE=0",
+    "VLLM_HYBRID_OVERLAP_SHARED=1",
+    "VLLM_HYBRID_FUSED_PACK=1",
+    "B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile",
+    "OMP_NUM_THREADS=8",
+    "CUTE_DSL_ARCH=sm_120a",
+    "VLLM_EXL3_TRELLIS_MIN_M=1",
+    "VLLM_EXL3_PREFILL_TRELLIS=1"
+  ],
+  "coding_summary": {
+    "record": "summary",
+    "by_concurrency": {
+      "1": {
+        "requests": 4,
+        "completed": 3,
+        "truncated": 1,
+        "errors": 0,
+        "static_checks_passed": 3,
+        "median_ttft_seconds": 0.09529735398245975,
+        "median_completion_latency_seconds": 23.880219331986154,
+        "median_completed_latency_seconds": 23.848473408987047,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 167.4050950236954,
+        "wave_peak_overlap": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "aggregate_output_tps": 166.42954583041916
+      },
+      "2": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.13361526248627342,
+        "median_completion_latency_seconds": 29.73973033099901,
+        "median_completed_latency_seconds": 29.73973033099901,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 139.40612483844643,
+        "wave_peak_overlap": [
+          2,
+          2
+        ],
+        "aggregate_output_tps": 223.09597304830604
+      },
+      "4": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.27776743849972263,
+        "median_completion_latency_seconds": 41.16448922750715,
+        "median_completed_latency_seconds": 41.16448922750715,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 97.03812887609263,
+        "wave_peak_overlap": [
+          4
+        ],
+        "aggregate_output_tps": 308.3532385443698
+      }
+    }
+  },
+  "comparison": [
+    {
+      "concurrency": 1,
+      "native_warm512_tps": 164.1042189868335,
+      "swa_qb_tps": 167.4050950236954,
+      "change_percent": 2.011451050583135
+    },
+    {
+      "concurrency": 2,
+      "native_warm512_tps": 129.17221823957627,
+      "swa_qb_tps": 139.40612483844643,
+      "change_percent": 7.922683947324716
+    },
+    {
+      "concurrency": 4,
+      "native_warm512_tps": 98.83362156248218,
+      "swa_qb_tps": 97.03812887609263,
+      "change_percent": -1.8166820743834133
+    }
+  ],
+  "kv_capacity_tokens": 2004801,
+  "capacity_loss_vs_warm_native_tokens": 44315,
+  "startup_failure": "Initial soleMTP layer46 prefix omitted mtp_block; selector corrected f264e11 to recognize actual Dots prefix while rejecting non-Dots/unknown indices. Failed attempt is not a successful gate.",
+  "decision": "Provisionally carry SWA QB4/8/16 into separate boundary screen; no final release or causal quality claim",
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/start-swaqb17-b512.log",
+      "archive": "start-swaqb17-b512.log.gz",
+      "bytes": 65,
+      "sha256": "07458c40112815ea1d3511aa4576ab96f06ed4b5b2c5065c33a3a42f557c2559",
+      "gzip_sha256": "fecc8d0db46a3bdfd4e2440d43e649fa0efa2d3c14d3d84b789a2037766125f9"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/launch-swaqb17-b512.json",
+      "archive": "launch-swaqb17-b512.json.gz",
+      "bytes": 1154,
+      "sha256": "f6191a0d378d1911f29cdbfa0626e15f58b31a7033e92da26bc5c7a6fdfc89b9",
+      "gzip_sha256": "e41e857a84aab2bdd3a930febce4385e27b0b285061d57f72e42e1c99da3425b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-swaqb-mtp-fix-v1.log",
+      "archive": "build-swaqb-mtp-fix-v1.log.gz",
+      "bytes": 1628,
+      "sha256": "9f6a442852b9c39cb0e5307865cf1ce03d27ce7cff5ca2161858282977975a29",
+      "gzip_sha256": "fbe9df488e7659e68f84266bc094b644c0201461ecc8616a135e6838061479db"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-swaqb-mtp-fix-v1-provenance.json",
+      "archive": "build-swaqb-mtp-fix-v1-provenance.json.gz",
+      "bytes": 415,
+      "sha256": "26538b01b0d90e65c413a26a0d6f162368525467f5349754d0cc271f273b9e4d",
+      "gzip_sha256": "fc48fabef252d9235c98bf234afc451c84c051955842e1f2c1c91169d99ea17e"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-swaqb17-b512-v2.jsonl",
+      "archive": "coding-swaqb17-b512-v2.jsonl.gz",
+      "bytes": 13352827,
+      "sha256": "82047eb91724842ee5f93b2640a267681f3d4cbd24ff10e9e997bc570be089c8",
+      "gzip_sha256": "a508ec0ac358e4192f7c79d15561c808775b5fa2fc6210a2b15676ecbebf0fec"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-swaqb17-b512-v2.json",
+      "archive": "runtime-swaqb17-b512-v2.json.gz",
+      "bytes": 325217,
+      "sha256": "31314f8c4e9e3260040ca1fdb1c04d995d73e2a23b049c151460f0283c82bde5",
+      "gzip_sha256": "a1b1a27713b30649977b926456570da8d381acf0a2c9b3542f2ec7d6b647778f"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-swaqb17-b512-v2.log",
+      "archive": "coding-swaqb17-b512-v2.log.gz",
+      "bytes": 4368,
+      "sha256": "3b97bf6507fa18b967fb8943fbb78d21c30ac0a8aa2c338fb0697771f691b9e8",
+      "gzip_sha256": "be016f07d5599d5faf8f1b90f7afa51f0cfa46eceea3abd94746cde6aa33b05d"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-native512-vs-swaqb.json",
+      "archive": "coding-native512-vs-swaqb.json.gz",
+      "bytes": 57711,
+      "sha256": "f64da0df967f150b74cd4f62095fdd258c39f311e1fb91fc86f0e65ac3074d70",
+      "gzip_sha256": "572155eb81138b5467cf085f0a83c77dd47e2db541f0089b335fe4808cb9aa55"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-swaqb17-b512-v2.log",
+      "archive": "start-swaqb17-b512-v2.log.gz",
+      "bytes": 65,
+      "sha256": "82b382e5753e51cb185f4c2da54f43a3245d58b28d60c72567463f52c492f16f",
+      "gzip_sha256": "6293510198ee208f371a79a39679250e86451bdaae5ff0703f0f7b1579ae49da"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-swaqb17-b512-failed.log",
+      "archive": "container-swaqb17-b512-failed.log.gz",
+      "bytes": 349430,
+      "sha256": "0a6dc84cdb4ab3109f02aeac8be8bdc1fabeaa00ff15dfe07900dacc7c7b74ce",
+      "gzip_sha256": "5a0c75277a33711d74953f616da398ff0891d88e3286366c62493ee8f3818ae4"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-swaqb17-b512-v2-complete.log",
+      "archive": "container-swaqb17-b512-v2-complete.log.gz",
+      "bytes": 369448,
+      "sha256": "341771bfa6e8622cbb36b2c6a152286c76ffa887ebf52029a3494f6733026b15",
+      "gzip_sha256": "bcde068b4d010d14ff61d9deeed47ce68d3f47dac41fe84efa434fba38926916"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-swaqb17-b512-v2.log",
+      "archive": "container-swaqb17-b512-v2.log.gz",
+      "bytes": 352743,
+      "sha256": "5b0a315affa946d87b373df9b5b27931738e6344324b73a6c3d57da6d7158541",
+      "gzip_sha256": "e9024aaa663613626a4f03ec305172d6370029a472867b16c60c87f9bec53ded"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-swaqb17-b512-failed.json",
+      "archive": "container-swaqb17-b512-failed.json.gz",
+      "bytes": 16940,
+      "sha256": "7abe139bd6137b012a3301d107c1112e18a8fba319c3a9e2dfb0d6d11f3712cf",
+      "gzip_sha256": "e14fa5ac4676ffbd85a6ac71f7974399b53dd78cffad2ee57dfbf47807984117"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/launch-swaqb17-b512-v2.json",
+      "archive": "launch-swaqb17-b512-v2.json.gz",
+      "bytes": 1160,
+      "sha256": "a7e7d98a5411bd0e6c36274c1134d6e3d6f352ea5bc06c57a97f1ee59d544868",
+      "gzip_sha256": "6efbe697319f1c38330a3ccd0c6d408e5591ff6df635e16a5180c6928fa6ab17"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-swaqb17-b512-v2.json",
+      "archive": "runtime-ownership-swaqb17-b512-v2.json.gz",
+      "bytes": 289926,
+      "sha256": "1d25b5f37876f3d05d939ba12a29abd342771afde2bfc08155e1fd218af2d450",
+      "gzip_sha256": "42252e6534383aba58fc98dda79498a937947c284d9800801bcce13541fd2048"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/swaqb-mtp-fix-build/Dockerfile",
+      "archive": "swaqb-mtp-fix-build-Dockerfile.gz",
+      "bytes": 166,
+      "sha256": "f6cef41560c6fb6ca96c024d59cb2cd78f4bd8c57967b5196b0569956b791eff",
+      "gzip_sha256": "b2cfad5de4b9ebe09630529bd540baaee9a313d8367c4d01cf04da0628a693ac"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/swaqb-mtp-fix-build/dots3_b12x_fp8.py",
+      "archive": "swaqb-mtp-fix-build-dots3_b12x_fp8.py.gz",
+      "bytes": 8140,
+      "sha256": "12b34d67b36633558282d2f61271947e2451a5f66956281060efde6055084c8a",
+      "gzip_sha256": "8192736b000aeeb35aa09270d945b084ddd4ff7a726172d3f7903f7cf5af8f91"
+    }
+  ]
+}
