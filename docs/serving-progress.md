@@ -82,8 +82,14 @@ The policy uses an allocator ceiling of 0.90 and reclamation threshold of 0.90
 of that ceiling; vLLM utilization 0.80 and the 1 GiB guard remain unchanged.
 [Successful boundary evidence](../benchmarks/development/spark-context-memory-reclamation/README.md)
 preserves the diagnostic image, telemetry and production-source differences.
-The production ARM parent is built and is starting on both hosts. Final
-wrapper packaging and the previously unfinished workloads remain pending.
+The production ARM parent started successfully on both hosts with matching
+images and verified per-rank allocator receipts. The [final ARM wrapper](../benchmarks/development/spark-native-v1-wrapper/README.md)
+is published at digest `sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad`.
+It includes both hosts' compiled caches; an empty-cache seed check copied 4,014
+files successfully. Final startup and the unfinished workload measurements
+remain pending. The [seven-stage inheritance manifest](../benchmarks/development/spark-qualification-lineage/manifest.json)
+retains completed functional, prefill and boundary evidence with explicit
+source/profile differences; one-token prefill has no inferred decode rate.
 Optional kernel weight copies must also fit the combined
 capacity floor of **2,550,605 tokens** and pass physical-memory qualification.
 [Batch evidence](../benchmarks/development/spark-prefill-batch-gates/manifest.json).
