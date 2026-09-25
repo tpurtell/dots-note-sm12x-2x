@@ -1,0 +1,441 @@
+{
+  "schema": "dots3-public-lifecycle-archive-v1",
+  "recipe_commit": "c9a999d6ae5f927986988aa8a3d293f25cff7609",
+  "receipt": {
+    "schema": "dots3-spark-public-lifecycle-v1",
+    "passed": true,
+    "image": "ghcr.io/tpurtell/dots3-note-exl3-k4-spark@sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad",
+    "qualification_report": "benchmarks/releases/spark-20260925-v1/report.json",
+    "qualification_report_sha256": "907e0fa8ca5df24f0a265e354ee2ae48a2f0e953ec977cb934368f75c5b36d26",
+    "initial_runtime_empty": true,
+    "model_downloaded": false,
+    "benchmark_requests_sent": 0,
+    "temperature_power_cooling_changes": false,
+    "events": [
+      {
+        "host": "rhea",
+        "action": "stop",
+        "label": "qualification-stop",
+        "started": 1790354566.4818468,
+        "finished": 1790354569.8767521,
+        "passed": true
+      },
+      {
+        "host": "moa",
+        "action": "stop",
+        "label": "qualification-stop",
+        "started": 1790354569.8767762,
+        "finished": 1790354584.6230292,
+        "passed": true
+      },
+      {
+        "host": "rhea",
+        "action": "remove",
+        "label": null,
+        "started": 1790354584.6230454,
+        "finished": 1790354585.464782,
+        "passed": true
+      },
+      {
+        "host": "moa",
+        "action": "remove",
+        "label": null,
+        "started": 1790354585.4647977,
+        "finished": 1790354586.251004,
+        "passed": true
+      },
+      {
+        "host": "moa",
+        "action": "pull",
+        "label": null,
+        "started": 1790354586.251021,
+        "finished": 1790354587.2234023,
+        "passed": true
+      },
+      {
+        "host": "moa",
+        "action": "start",
+        "label": null,
+        "started": 1790354587.223419,
+        "finished": 1790354588.457688,
+        "passed": true
+      },
+      {
+        "host": "rhea",
+        "action": "pull",
+        "label": null,
+        "started": 1790354588.4577057,
+        "finished": 1790354589.388571,
+        "passed": true
+      },
+      {
+        "host": "rhea",
+        "action": "start",
+        "label": null,
+        "started": 1790354589.3885925,
+        "finished": 1790354590.5729818,
+        "passed": true
+      },
+      {
+        "host": "rhea",
+        "action": "health",
+        "label": "first-health",
+        "started": 1790355035.909839,
+        "finished": 1790355036.5493348,
+        "passed": true
+      },
+      {
+        "host": "rhea",
+        "action": "status",
+        "label": null,
+        "started": 1790355044.3164878,
+        "finished": 1790355044.8674273,
+        "passed": true
+      },
+      {
+        "host": "rhea",
+        "action": "logs",
+        "passed": true,
+        "follower_terminated_after_seconds": 2
+      },
+      {
+        "host": "moa",
+        "action": "status",
+        "label": null,
+        "started": 1790355047.393725,
+        "finished": 1790355048.012708,
+        "passed": true
+      },
+      {
+        "host": "moa",
+        "action": "logs",
+        "passed": true,
+        "follower_terminated_after_seconds": 2
+      },
+      {
+        "host": "rhea",
+        "action": "stop",
+        "label": null,
+        "started": 1790355050.5203693,
+        "finished": 1790355053.5960698,
+        "passed": true
+      },
+      {
+        "host": "moa",
+        "action": "stop",
+        "label": null,
+        "started": 1790355053.5960824,
+        "finished": 1790355067.7718103,
+        "passed": true
+      },
+      {
+        "host": "moa",
+        "action": "restart",
+        "label": null,
+        "started": 1790355067.7718277,
+        "finished": 1790355068.907334,
+        "passed": true
+      },
+      {
+        "host": "rhea",
+        "action": "restart",
+        "label": null,
+        "started": 1790355068.907351,
+        "finished": 1790355070.1238341,
+        "passed": true
+      },
+      {
+        "host": "rhea",
+        "action": "health",
+        "label": "restarted-health",
+        "started": 1790355482.1598125,
+        "finished": 1790355482.8528807,
+        "passed": true
+      }
+    ],
+    "ended_running": true,
+    "allocator_policy_validated_on_both_hosts_after_each_start": true
+  },
+  "files": [
+    {
+      "source": ".cache/release/spark-v1-fastpath/previous-guards-after-restart.json",
+      "archive": "previous-guards-after-restart.json.gz",
+      "uncompressed_sha256": "b3bb5c2109f8993ad9f57f874ed2f0d86e5cbd42064c474fad8ce30b52c06224",
+      "uncompressed_bytes": 190,
+      "archive_sha256": "30983975c4210821d69a63a87120f5ec811eb9937a93f8a2b35ed22b79a48468"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/pull-moa.log",
+      "archive": "pull-moa.log.gz",
+      "uncompressed_sha256": "83cdc5e89f64148a09b74d81497f98b2650d53c28e679cc7d78f9f0bcafd696d",
+      "uncompressed_bytes": 502,
+      "archive_sha256": "251e1aa31ddf83ddcfee8c9fcd19eddfe13ab1558a6a7cd68c33f32f671e9495"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/receipt.json",
+      "archive": "receipt.json.gz",
+      "uncompressed_sha256": "5d2347f0cc5ec551268f40003a79693b64441aca4277dd8f5346ebc30b533e6e",
+      "uncompressed_bytes": 3753,
+      "archive_sha256": "cbff93b47554a4411f22492cc9534d1ec9a844657e062de64930ae981a252063"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/remove-moa.log",
+      "archive": "remove-moa.log.gz",
+      "uncompressed_sha256": "1dc7bd96c34ef726664b34f09f4aa3cd711bd24b26302a60e6e217e15bfbd96c",
+      "uncompressed_bytes": 18,
+      "archive_sha256": "a52dd151bb99909c7ed97b753611be7ddbdda7b1d7670ad8019cedbc3c9e8803"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/logs-moa.log",
+      "archive": "logs-moa.log.gz",
+      "uncompressed_sha256": "d77d5285673e6e206e486b1c54fffe00fadf7d65297176d0ccd0c3996ee1fc2b",
+      "uncompressed_bytes": 13003,
+      "archive_sha256": "c68156dd5dc7952f975e19eda66570b2dbf78f59ff258d0a446104b869f6aab7"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/restarted-runtime-rhea.json",
+      "archive": "restarted-runtime-rhea.json.gz",
+      "uncompressed_sha256": "ba83a54e5b222b0d9171d508cf6ee02264d912a59b58eba4cc6ec2f97a60d07c",
+      "uncompressed_bytes": 334279,
+      "archive_sha256": "6b5f8e356cb4ed47799cfba379a9ea5773d53658cc16f69229ba93e1dc170d54"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/first-inspect-rhea.json",
+      "archive": "first-inspect-rhea.json.gz",
+      "uncompressed_sha256": "280598c611d237560607df1ecff46c349af34a81a7a3f91a5a0885d137bd5da5",
+      "uncompressed_bytes": 20348,
+      "archive_sha256": "2e6ce1be67706843e236afb77659bbf303d5330015946425bec2915fb30283b5"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/first-runtime-rhea.json",
+      "archive": "first-runtime-rhea.json.gz",
+      "uncompressed_sha256": "363bf84f0eebcc99237efbe3303d34132cb53965ed5c52c2b04138518a76de1b",
+      "uncompressed_bytes": 327966,
+      "archive_sha256": "3fd62a28fed8aedd1df7b50062ff2d51f8bd5b4adb6929e7664f6bf5d26e34ae"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/restarted-inspect-rhea.json",
+      "archive": "restarted-inspect-rhea.json.gz",
+      "uncompressed_sha256": "678c2935f30de6a7719892c18f6373653cd6470d4657a6e25af38c7be102fdaa",
+      "uncompressed_bytes": 20357,
+      "archive_sha256": "bbfc84658a6d792a37c845c88e7503cfd2243d346f96fc7a52d65f4c28f76672"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/start-rhea.log",
+      "archive": "start-rhea.log.gz",
+      "uncompressed_sha256": "eec8dd26da0cc9069c91572ca6e4712f0ee7dbf3f79d3f7da3bd93ec17a8cab2",
+      "uncompressed_bytes": 192,
+      "archive_sha256": "45482547b2149775db87c66b61f5d1db93f96d8e63eb528bf4fcd5e546a33606"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/pull-rhea.log",
+      "archive": "pull-rhea.log.gz",
+      "uncompressed_sha256": "83cdc5e89f64148a09b74d81497f98b2650d53c28e679cc7d78f9f0bcafd696d",
+      "uncompressed_bytes": 502,
+      "archive_sha256": "251e1aa31ddf83ddcfee8c9fcd19eddfe13ab1558a6a7cd68c33f32f671e9495"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/status-rhea.log",
+      "archive": "status-rhea.log.gz",
+      "uncompressed_sha256": "804a61d124023ec58e6616fefeccac2b9897e637500e5c0b1a1e942b820b7595",
+      "uncompressed_bytes": 220,
+      "archive_sha256": "bf6f642874c75b8b6431c81dcb052843df56a87e83a62b556549298a9149097b"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/container-final-moa.log",
+      "archive": "container-final-moa.log.gz",
+      "uncompressed_sha256": "119dace94cbe688e34395fee5568f467718fc9368df1c5a0800275d0ef0a3e5a",
+      "uncompressed_bytes": 105820,
+      "archive_sha256": "f9b727dfe52b0df6c615fdb5fad6752abc0d69c908413eb112fb964baeb41d80"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/remove-rhea.log",
+      "archive": "remove-rhea.log.gz",
+      "uncompressed_sha256": "30fd5440a3c18d3a86c0b00de755040567c6307b6c8ec7bc4cf0ee566b6c8c51",
+      "uncompressed_bytes": 16,
+      "archive_sha256": "e4c05ad45c02beaf996afdc7d18c150138b175422f6ef42ecd7a3ddb75f0b916"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/restarted-guard-rhea.json",
+      "archive": "restarted-guard-rhea.json.gz",
+      "uncompressed_sha256": "cc769674c3c9be4c8beb29c262449e63b3c161d6b17baa09f33e00e4f714991c",
+      "uncompressed_bytes": 290,
+      "archive_sha256": "dbbad0d0ddfd392bcf0f593aa58d84f043283fe57940bab965e1de6ed1d569cd"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/restart-rhea.log",
+      "archive": "restart-rhea.log.gz",
+      "uncompressed_sha256": "63d4764b38b8cf750dc233cb59692f6a586782c266a09baa7cfa5363e8260969",
+      "uncompressed_bytes": 198,
+      "archive_sha256": "f4c327e149e6b027952d515fb26c064939a6ad3d90293a885336fdd06221ea4a"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/container-final-rhea.log",
+      "archive": "container-final-rhea.log.gz",
+      "uncompressed_sha256": "06a5abe65e0b8492992679a2e8ad658c72967c07691d33129e2fe03bb83acd99",
+      "uncompressed_bytes": 151701,
+      "archive_sha256": "b2e70c36fc22331b6dc4ecfcfefe08371f8dc59529d6d5f8d613095b8db92c1f"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/logs-rhea.log",
+      "archive": "logs-rhea.log.gz",
+      "uncompressed_sha256": "7811094d5c09697635e82ba3e73f99c8aff4870adf8830d99dd3d50fde824a76",
+      "uncompressed_bytes": 23554,
+      "archive_sha256": "69fc458d652a8e2451bf7c32179c0372377c742bd2af099dda6f4a8d688fa0fa"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/stop-moa.log",
+      "archive": "stop-moa.log.gz",
+      "uncompressed_sha256": "b541817d3b91825cf718f201c787e408dfc95bc7b685013b52deb273c78134ae",
+      "uncompressed_bytes": 73,
+      "archive_sha256": "2c05277c7277f9f09f21c646b982aa9c3dfdbb59f1375f8daa1c94b6dbde2384"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/first-inspect-moa.json",
+      "archive": "first-inspect-moa.json.gz",
+      "uncompressed_sha256": "716281c7caf5d71f5d3052bbbb51caff1ebeb92c2ed4d2bfd9109426140ee857",
+      "uncompressed_bytes": 21634,
+      "archive_sha256": "658adccad7458d67dfe32b5c42b8190019007db692d819cab63be258276234f6"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/status-moa.log",
+      "archive": "status-moa.log.gz",
+      "uncompressed_sha256": "77a6a23339ce839880063a723fc247e5b88ef9fca9bb10a939e97f21ec911693",
+      "uncompressed_bytes": 220,
+      "archive_sha256": "c2547c2b85645d674f98f57bd8bfc70f682da544ca3577a5b4970cbefa8a8d81"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/first-guard-rhea.json",
+      "archive": "first-guard-rhea.json.gz",
+      "uncompressed_sha256": "a1828109133a0fb0584574267f8ff1e45aeb70468633edac4f8ab53a0cd8a7bf",
+      "uncompressed_bytes": 240,
+      "archive_sha256": "6a9824a46f102a398bc7a90c0d83d38b082d985bab24ad69606d0149e93983eb"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/start-moa.log",
+      "archive": "start-moa.log.gz",
+      "uncompressed_sha256": "4b8e6063b229f918f4342047f14e3d2369344f9b951f40295d2d8d4ec33c8706",
+      "uncompressed_bytes": 192,
+      "archive_sha256": "af527b511ffd501be7522d6bbab55a287c072bea1371cfa5cb164b6e3d01b2c6"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/first-guard-moa.json",
+      "archive": "first-guard-moa.json.gz",
+      "uncompressed_sha256": "b2550e7db314fb9577d340a63407279c82eaac255a6026e7b280ee2692f2bd37",
+      "uncompressed_bytes": 242,
+      "archive_sha256": "68ca629366429260accde82bd0167c0846f9c17700d7b1fa6af4b69f7f801a79"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/restarted-health-rhea.log",
+      "archive": "restarted-health-rhea.log.gz",
+      "uncompressed_sha256": "d40e144f86a17a7ad29dbcd8b5ebce60aebb5384798df7adee9f063b2b37d3df",
+      "uncompressed_bytes": 62,
+      "archive_sha256": "4ceba094e998e3c6a83aad751d56c441c0826699bf56c535b69d3562622a6e82"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/guard-final-rhea.log",
+      "archive": "guard-final-rhea.log.gz",
+      "uncompressed_sha256": "bca71cccb5b899947cb5d52573f83fa6c2f7656f4987c871e799b62712c5e85d",
+      "uncompressed_bytes": 88248,
+      "archive_sha256": "c99c1fed22349c66183d1d75d1185ab3c825841147ffe53af36d22b381fba445"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/qualification-stop-moa.log",
+      "archive": "qualification-stop-moa.log.gz",
+      "uncompressed_sha256": "b541817d3b91825cf718f201c787e408dfc95bc7b685013b52deb273c78134ae",
+      "uncompressed_bytes": 73,
+      "archive_sha256": "2c05277c7277f9f09f21c646b982aa9c3dfdbb59f1375f8daa1c94b6dbde2384"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/qualification-stop-rhea.log",
+      "archive": "qualification-stop-rhea.log.gz",
+      "uncompressed_sha256": "222b5558e34064fb3f35babd0caad2fa525a72644d7ad7cf71922fcf9e310387",
+      "uncompressed_bytes": 71,
+      "archive_sha256": "4a627d52369c9b7ddf6f889c941fbf963a21dccf5e5d808b37a4bf01d01bc78d"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/guard-final-moa.log",
+      "archive": "guard-final-moa.log.gz",
+      "uncompressed_sha256": "b3ab3e6299e6bccd749c88b249bf374ae27ddb0656a11f9daf429b35034c2634",
+      "uncompressed_bytes": 90177,
+      "archive_sha256": "17d3f6e8cc7571e2dbf0b87cab03c8c5e6e3ad2be40545f913224c473429649a"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/restarted-runtime-moa.json",
+      "archive": "restarted-runtime-moa.json.gz",
+      "uncompressed_sha256": "f42e2f71e231bf4ea3795d0b5ab64e9a2b671afc264cd62033de7ced5f9dbddb",
+      "uncompressed_bytes": 8139,
+      "archive_sha256": "c9d6c8489dc0c09a291d67fe482185165c78ff913daa34c6903c1f477c105c78"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/first-runtime-moa.json",
+      "archive": "first-runtime-moa.json.gz",
+      "uncompressed_sha256": "e36c79618939384801512501ea392d8038f9499c707747f4b2ff382bc05ed37b",
+      "uncompressed_bytes": 7144,
+      "archive_sha256": "80dfb267c39e944c4d19591e3f061438dac286084e669d2bd721d806846c24bd"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/first-health-rhea.log",
+      "archive": "first-health-rhea.log.gz",
+      "uncompressed_sha256": "d40e144f86a17a7ad29dbcd8b5ebce60aebb5384798df7adee9f063b2b37d3df",
+      "uncompressed_bytes": 62,
+      "archive_sha256": "4ceba094e998e3c6a83aad751d56c441c0826699bf56c535b69d3562622a6e82"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/stop-rhea.log",
+      "archive": "stop-rhea.log.gz",
+      "uncompressed_sha256": "222b5558e34064fb3f35babd0caad2fa525a72644d7ad7cf71922fcf9e310387",
+      "uncompressed_bytes": 71,
+      "archive_sha256": "4a627d52369c9b7ddf6f889c941fbf963a21dccf5e5d808b37a4bf01d01bc78d"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/restarted-inspect-moa.json",
+      "archive": "restarted-inspect-moa.json.gz",
+      "uncompressed_sha256": "0701429730ed6d5ba60f46ff6db2d8fdee1c173889e591e2b5d4556159926b95",
+      "uncompressed_bytes": 21644,
+      "archive_sha256": "79c7d54290a3a442798e27aa0c70922a00a1a20fa232ce06b1cd519a586e67fb"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/restart-moa.log",
+      "archive": "restart-moa.log.gz",
+      "uncompressed_sha256": "fda6e2faf6b32fe3f424319dff95ebb833d378fb7387eeb1202c76f2c535459b",
+      "uncompressed_bytes": 200,
+      "archive_sha256": "665bd4c9b0dfd2ad54ad7d2a81ee02ffaab4be7826dda92dc73b2d1936f127c7"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath/restarted-guard-moa.json",
+      "archive": "restarted-guard-moa.json.gz",
+      "uncompressed_sha256": "73d66b23625fd86fba9909f10fc24300e624c978d7e316867f3a1cce58bde6b2",
+      "uncompressed_bytes": 292,
+      "archive_sha256": "f7dc4e452e1916bd6dc2a65c7ddb816ee1c9969d94a78335158c913ffa1e8e74"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath-preparation/lifecycle.py",
+      "archive": "lifecycle.py.gz",
+      "uncompressed_sha256": "427e3ad02a4468a1d517a09ad1d83469c21b39b4248f342ef6aa4520173afe95",
+      "uncompressed_bytes": 5597,
+      "archive_sha256": "572f76848b1d9e4d6be4d35c05ce054c1a460b3741a85c4f92f38b9fdf68ba7a"
+    },
+    {
+      "source": ".cache/release/spark-v1-fastpath-preparation/controller.log",
+      "archive": "controller.log.gz",
+      "uncompressed_sha256": "61d2f4e08fc1878578dd7527ae70e2cc2b2c02e5ebe293b13ed144e2945bc8d2",
+      "uncompressed_bytes": 304,
+      "archive_sha256": "474c44eb0af53d125e12266151688b2329b902e40e92b4b69f40932c5fd698ab"
+    },
+    {
+      "source": "serving/release/run.py",
+      "archive": "run.py.gz",
+      "uncompressed_sha256": "a9d7e8f234c5bba3e391eaeb32fd263176717a256c2a33d1f1f7acf8fa572b8a",
+      "uncompressed_bytes": 27748,
+      "archive_sha256": "5e86a79e9874fb657458fdbf534380a541d58755260813f0db50d4889b1b5979"
+    },
+    {
+      "source": "serving/release/settings.json",
+      "archive": "settings.json.gz",
+      "uncompressed_sha256": "28a700d8869a2e86b46bbe4071c4e8fed556e0bed36b2dfe56c800befd3fa8cf",
+      "uncompressed_bytes": 4355,
+      "archive_sha256": "968a0c980744ade53da718c4e239980cdd8abeebf6593afd777818f5a4f4d3e1"
+    }
+  ]
+}
