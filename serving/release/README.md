@@ -40,7 +40,7 @@ reasoning in the old image.
 ## Compact-cache candidate versus published v1
 
 The current native Dockerfiles include the compact-cache port and B12x
-`c963d8f7c98792a026eaf81a96a72d01b4aa0047`, with
+`bf5677c69197499433314d61aad70f79e89c47c9`, with
 `DOTS3_COMPACT_DSA_CACHE=0` and `DOTS3_INDEXER_PREFILL_CONTEXTS=0` by default.
 Both leave the optional memory optimizations disabled. RTX `20260925-v1` remains immutable and
 uses B12x `c5e23d830c3d1e76be56a5df290d13e30bc66702` and its qualified padded
@@ -302,3 +302,22 @@ with the qualified values. Optional networking, host cache paths and CPU thread
 settings use the existing launcher conventions. Separate settings files can be
 selected with `--settings PATH`; qualification report paths remain relative to
 the recipe repository. Custom profiles require their own qualification evidence.
+
+## New final qualification and source coverage
+
+New RTX/Spark qualification runners use schema v2 and require the pinned
+69 Basic +19 Hard tool-quality stage. Final reports validate all88 scenarios,
+partial-credit totals, raw Markdown/SQLite hashes and runtime identity; endpoint
+exclusions prevent completion. [Tool-quality reproduction](../benchmarks/tool_quality.md)
+uses the same pinned suite for both platforms. Historical RTX v1 reports retain
+their original schema and do not imply these newly required measurements.
+
+Native Dockerfiles install all hybrid model/cache/MM/boundary ports before the
+CPU quantization import check. Optional flags remain off until selected in a
+qualified profile. The cache bundle fingerprints the complete installed vLLM
+and B12x source trees plus `/opt/dots3/hybrid_attestation.py`, so changed fused
+pack kernels, cache-group hooks, boundary factories or profiling helpers require
+a new warmed-parent export. Their Triton artifacts use the existing exported
+Triton cache. The exact parent image ID remains bound through wrapper build and
+qualification; development thin-image tags and source checkout updates do not
+modify the published v1 container.

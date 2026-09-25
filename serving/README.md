@@ -36,7 +36,7 @@ git submodule status
 ```
 
 The current pins are GPTQModel `b903382057e4903b5629fcd49838ffc3ccce5f14`
-for quantization and B12x `c963d8f7c98792a026eaf81a96a72d01b4aa0047` for new
+for quantization and B12x `bf5677c69197499433314d61aad70f79e89c47c9` for new
 native builds on both serving platforms. Published RTX `20260925-v1` retains
 its original B12x `c5e23d830c3d1e76be56a5df290d13e30bc66702`; use that image
 digest and recorded source revision to reproduce v1. GPTQModel is not copied into the serving image. The model is
@@ -68,6 +68,15 @@ bounds the sliding-window cache pool; enabling it requires its own native
 context, prefix, retrieval and memory qualification. The published v1 image
 does not acquire these changes from a source checkout update. RTX additionally applies
 `port_pcie.py`; Spark applies `port_roce.py` and builds its native verbs proxy.
+After those ports, both builds apply `port_hybrid_parallel.py`,
+`port_hybrid_cache_groups.py`, `port_hybrid_multimodal.py`, and
+`port_hybrid_boundary.py`, in that order. They copy the owner transport,
+full-head attention, corrected mixed-dtype fused pack, shared-overlap helper,
+owner-aware cache grouping, MM/boundary modules and the worker attestation.
+The profiling hook is part of the hybrid port; the boundary port uses lazy
+factories to avoid the native model import cycle. A quantization import smoke
+runs after all ports. Optional hybrid flags default disabled, and shared-overlap
+execution is limited to at most16 active rows when enabled.
 Optional integrations are enabled only by the selected runtime profile.
 Both builds install hash-pinned SoundFile 0.13.1 with dependencies left intact.
 The shared EXL3 format adapter is vendored at `serving/vendor/exl3.py`.

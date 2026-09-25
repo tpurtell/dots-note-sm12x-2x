@@ -1,0 +1,326 @@
+{
+  "schema": 1,
+  "scope": "Completed development screen; not final release qualification",
+  "image_id": "sha256:4a236d42f1cdc2e346dacb877f6622fe5bc15233ab15375a9ec0b954e0afb09c",
+  "launch_args": [
+    "serve",
+    "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+    "--served-model-name",
+    "dots3-note-exl3-k4",
+    "--tensor-parallel-size",
+    "2",
+    "--pipeline-parallel-size",
+    "1",
+    "--distributed-executor-backend",
+    "mp",
+    "--max-model-len",
+    "524288",
+    "--max-num-seqs",
+    "16",
+    "--max-num-batched-tokens",
+    "512",
+    "--gpu-memory-utilization",
+    ".95",
+    "--kv-cache-dtype",
+    "fp8",
+    "--enable-prefix-caching",
+    "--structured-outputs-config",
+    "{\"backend\":\"xgrammar\"}",
+    "--limit-mm-per-prompt",
+    "{\"image\":1,\"audio\":1,\"video\":0}",
+    "--enable-auto-tool-choice",
+    "--tool-call-parser",
+    "dots",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "8001",
+    "--reasoning-parser",
+    "dots3",
+    "--block-size",
+    "64",
+    "--speculative-config",
+    "{\"method\":\"mtp\",\"num_speculative_tokens\":3}",
+    "--worker-extension-cls",
+    "hybrid_attestation.HybridAttestationWorkerExtension"
+  ],
+  "environment": [
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "DOTS3_INDEXER_PREFILL_CONTEXTS=4",
+    "VLLM_HYBRID_BALANCE_KV_GROUPS=1",
+    "VLLM_HYBRID_OVERLAP_SHARED=1",
+    "VLLM_HYBRID_ATTESTATION_PATH=/root/.cache/vllm-runtime/ownership-opt-group18-v2.json",
+    "VLLM_PCIE_ALLREDUCE_BACKEND=b12x",
+    "CUDA_CACHE_PATH=/root/.cache/vllm-runtime/cuda",
+    "DOTS3_COMPACT_DSA_CACHE=1",
+    "VLLM_HYBRID_FUSED_PACK=1",
+    "DOTS3_B12X_VOCAB=0",
+    "VLLM_ENABLE_PCIE_ALLREDUCE=0",
+    "VLLM_CACHE_ROOT=/root/.cache/vllm-runtime/vllm",
+    "NCCL_DEBUG=INFO",
+    "OMP_NUM_THREADS=8",
+    "VLLM_LOGGING_LEVEL=INFO",
+    "VLLM_HYBRID_BOUNDARY_OWNERS=",
+    "DOTS3_B12X_EXACT_FP8=",
+    "DOTS3_B12X_EXACT_FP8_ROWS=4,16,64,512",
+    "VLLM_HYBRID_LAYER_PARTITION=18,28",
+    "VLLM_HYBRID_PACKED_ROUTING=1",
+    "VLLM_HYBRID_MM_OWNERS=0,1",
+    "B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile",
+    "TRITON_CACHE_DIR=/root/.cache/vllm-runtime/triton",
+    "PATH=/usr/local/cuda/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "NVARCH=x86_64",
+    "NVIDIA_REQUIRE_CUDA=cuda>=13.0 brand=unknown,driver>=535,driver<536 brand=grid,driver>=535,driver<536 brand=tesla,driver>=535,driver<536 brand=nvidia,driver>=535,driver<536 brand=quadro,driver>=535,driver<536 brand=quadrortx,driver>=535,driver<536 brand=nvidiartx,driver>=535,driver<536 brand=vapps,driver>=535,driver<536 brand=vpc,driver>=535,driver<536 brand=vcs,driver>=535,driver<536 brand=vws,driver>=535,driver<536 brand=cloudgaming,driver>=535,driver<536 brand=unknown,driver>=550,driver<551 brand=grid,driver>=550,driver<551 brand=tesla,driver>=550,driver<551 brand=nvidia,driver>=550,driver<551 brand=quadro,driver>=550,driver<551 brand=quadrortx,driver>=550,driver<551 brand=nvidiartx,driver>=550,driver<551 brand=vapps,driver>=550,driver<551 brand=vpc,driver>=550,driver<551 brand=vcs,driver>=550,driver<551 brand=vws,driver>=550,driver<551 brand=cloudgaming,driver>=550,driver<551 brand=unknown,driver>=565,driver<566 brand=grid,driver>=565,driver<566 brand=tesla,driver>=565,driver<566 brand=nvidia,driver>=565,driver<566 brand=quadro,driver>=565,driver<566 brand=quadrortx,driver>=565,driver<566 brand=nvidiartx,driver>=565,driver<566 brand=vapps,driver>=565,driver<566 brand=vpc,driver>=565,driver<566 brand=vcs,driver>=565,driver<566 brand=vws,driver>=565,driver<566 brand=cloudgaming,driver>=565,driver<566 brand=unknown,driver>=570,driver<571 brand=grid,driver>=570,driver<571 brand=tesla,driver>=570,driver<571 brand=nvidia,driver>=570,driver<571 brand=quadro,driver>=570,driver<571 brand=quadrortx,driver>=570,driver<571 brand=nvidiartx,driver>=570,driver<571 brand=vapps,driver>=570,driver<571 brand=vpc,driver>=570,driver<571 brand=vcs,driver>=570,driver<571 brand=vws,driver>=570,driver<571 brand=cloudgaming,driver>=570,driver<571 brand=unknown,driver>=575,driver<576 brand=grid,driver>=575,driver<576 brand=tesla,driver>=575,driver<576 brand=nvidia,driver>=575,driver<576 brand=quadro,driver>=575,driver<576 brand=quadrortx,driver>=575,driver<576 brand=nvidiartx,driver>=575,driver<576 brand=vapps,driver>=575,driver<576 brand=vpc,driver>=575,driver<576 brand=vcs,driver>=575,driver<576 brand=vws,driver>=575,driver<576 brand=cloudgaming,driver>=575,driver<576",
+    "NV_CUDA_CUDART_VERSION=13.0.96-1",
+    "CUDA_VERSION=13.0.2",
+    "LD_LIBRARY_PATH=/usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64",
+    "NVIDIA_VISIBLE_DEVICES=all",
+    "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
+    "DEBIAN_FRONTEND=noninteractive",
+    "CUDA_HOME=/usr/local/cuda",
+    "UV_HTTP_TIMEOUT=500",
+    "UV_INDEX_STRATEGY=unsafe-best-match",
+    "UV_LINK_MODE=copy",
+    "UV_PYTHON_INSTALL_DIR=/opt/uv/python",
+    "UV_CACHE_DIR=/opt/uv/cache",
+    "UV_OVERRIDE=/etc/uv-overrides.txt",
+    "VLLM_ENABLE_CUDA_COMPATIBILITY=0",
+    "TORCH_CUDA_ARCH_LIST=7.5 8.0 8.6 8.9 9.0 10.0 12.0",
+    "VLLM_USAGE_SOURCE=production-docker-image",
+    "VLLM_BUILD_COMMIT=ced6857afa0ea7b2e3f0846a62e1394e90f15607",
+    "VLLM_BUILD_PIPELINE=019d130e-464e-4ff7-b84b-492992c0c06b",
+    "VLLM_BUILD_URL=https://buildkite.com/vllm/release-v2/builds/7022",
+    "VLLM_IMAGE_TAG=vllm/vllm-openai:v0.30.0",
+    "PYTHONPATH=/opt/dots3:/opt/b12x",
+    "CUTE_DSL_ARCH=sm_120a",
+    "VLLM_EXL3_TRELLIS_MIN_M=1",
+    "VLLM_EXL3_PREFILL_TRELLIS=1"
+  ],
+  "coding_summary": {
+    "record": "summary",
+    "by_concurrency": {
+      "1": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.11687076499219984,
+        "median_completion_latency_seconds": 29.958428809492034,
+        "median_completed_latency_seconds": 29.958428809492034,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 166.992808163515,
+        "wave_peak_overlap": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "aggregate_output_tps": 164.17139407850118
+      },
+      "2": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.14029270398896188,
+        "median_completion_latency_seconds": 29.9730311389867,
+        "median_completed_latency_seconds": 29.9730311389867,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 138.90388639853202,
+        "wave_peak_overlap": [
+          2,
+          2
+        ],
+        "aggregate_output_tps": 208.02566171063873
+      },
+      "4": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.26846377649053466,
+        "median_completion_latency_seconds": 53.04716885101516,
+        "median_completed_latency_seconds": 53.04716885101516,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 97.90826541124505,
+        "wave_peak_overlap": [
+          4
+        ],
+        "aggregate_output_tps": 313.19108929529494
+      }
+    }
+  },
+  "reasoning_summary": {
+    "record": "summary",
+    "passed": true,
+    "cases_passed": 40,
+    "cases_total": 40,
+    "failed_cases": [],
+    "evidence_issues": [],
+    "speculative_draft_token_delta": 2044.0,
+    "structured_boundary_chunks": [
+      {
+        "case": "json",
+        "repeat": 0,
+        "chunks": [
+          [
+            532,
+            151722,
+            4913
+          ]
+        ]
+      },
+      {
+        "case": "tool_named",
+        "repeat": 0,
+        "chunks": [
+          [
+            729,
+            624,
+            151722,
+            90
+          ]
+        ]
+      },
+      {
+        "case": "tool_required",
+        "repeat": 0,
+        "chunks": [
+          [
+            729,
+            624,
+            151722,
+            58
+          ]
+        ]
+      }
+    ],
+    "speculative_metrics_after": {
+      "raw_lines": [
+        "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 725.0",
+        "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 2134.0",
+        "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1663.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"0\"} 630.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"1\"} 560.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"2\"} 473.0"
+      ],
+      "totals": {
+        "vllm:spec_decode_num_drafts_total": 725.0,
+        "vllm:spec_decode_num_draft_tokens_total": 2134.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 1663.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1663.0
+      }
+    },
+    "boundary_evidence_scope": "An SSE token chunk crossing </think> shows an accepted output burst; it does not expose rejected drafts or prove their exact contents."
+  },
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-opt-group18-v2.log",
+      "archive": "prefix-opt-group18-v2.log.gz",
+      "sha256": "aa5c6897a07628a1172fa4b8ceb6127e0cd349cc3a9c206b137409aa38f3f36f",
+      "gzip_sha256": "95abf149b4026ce29f7c3ce13d89d73d0a31a2989486e70c2938b490704494ba",
+      "bytes": 1212
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-opt-group18-v2.json",
+      "archive": "runtime-opt-group18-v2.json.gz",
+      "sha256": "76db9c307dac1e3bcc993ff7ac5649e0bbd009a581c25e0a58ece98343a9e2e8",
+      "gzip_sha256": "f4af347fa79c20d532aa4fa1eaede2ab9e329bdd15d96a8814d5de54c5405ecc",
+      "bytes": 3398
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-opt-group18-v2-healthy.json",
+      "archive": "runtime-opt-group18-v2-healthy.json.gz",
+      "sha256": "bbe758cf7ecab5d97624d88b8dc24de6bd3220ed9e21f0a4c75885aa44db86cd",
+      "gzip_sha256": "fb0b09a6d78203f5d4db49db6a24fc47205840390bc5de3330581a28adf0a2c6",
+      "bytes": 304955
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-opt-group18-v2.jsonl",
+      "archive": "reasoning-opt-group18-v2.jsonl.gz",
+      "sha256": "be39961b0e46db783226c7779a17368be5700112c7b17793fc57f6271a98d376",
+      "gzip_sha256": "ea3fc1e7418124c6f1db29a2dcb95665da0c75a12cc5d0f26dd1cf072f777bdb",
+      "bytes": 252198
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/multimodal-opt-group18-v2.log",
+      "archive": "multimodal-opt-group18-v2.log.gz",
+      "sha256": "b0ea1ce0687665403a5b27330f16dcf4612949327a737df2154dca80a706df27",
+      "gzip_sha256": "2e4418232d6f51fcecab62b28689858515a64be90bc9ccfc3eb8ea25ada56340",
+      "bytes": 66
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-opt-group18-v2.log",
+      "archive": "coding-opt-group18-v2.log.gz",
+      "sha256": "15b312fe1dd2b030a8e1e0fac1250ed4b69862efa81b90815903064f7d056a7c",
+      "gzip_sha256": "c8770aa4ceb22c3eaa61f3e7ea497882ecf8a3a7e11e31136d4dd2aad93ba2a9",
+      "bytes": 4363
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-opt-group18-v2.log",
+      "archive": "reasoning-opt-group18-v2.log.gz",
+      "sha256": "4cff7c29756075c25eaca6addd35db0fbadcb82073ed26c871244dc900183c96",
+      "gzip_sha256": "2dedacb0441be06f08c22a8b7489b4f664db9f2768dc10eb188eacb13a5d4548",
+      "bytes": 5735
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-opt-group18-v2.jsonl",
+      "archive": "coding-opt-group18-v2.jsonl.gz",
+      "sha256": "74ad4115ecd027a0eee02df76cc4939e509c77cf17f2980debe067a018ab13dc",
+      "gzip_sha256": "7ae1f0d814f4bf7b10a4c7c099dc34c9ffaf83623c98774d620cf7adb5aa5743",
+      "bytes": 14179135
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-opt-group18-v2.json",
+      "archive": "prefix-opt-group18-v2.json.gz",
+      "sha256": "43dd7393c84ad6fffa4b3b02474136198859a033e78a51e351c7d29335f91d81",
+      "gzip_sha256": "b0253363c49a4708d58836e921f2451236e9dc14e770149d7c8226a06afed8ed",
+      "bytes": 2680
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-opt-group18-v2-complete.log",
+      "archive": "container-opt-group18-v2-complete.log.gz",
+      "sha256": "d12641e3c90d3d181026082a0bf82fb7c3bb9c20b5142959a8192135379b1c84",
+      "gzip_sha256": "ee07f8a43552717891ee482f80a99cd5e7c21d51794441b21011792bb0f9bf22",
+      "bytes": 215272
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/multimodal-opt-group18-v2.json",
+      "archive": "multimodal-opt-group18-v2.json.gz",
+      "sha256": "587bd39a9f31dc46688333a2a1ddc3d9e7f868c4d8db8c90bbf3e707a39e0f20",
+      "gzip_sha256": "aaecaf479dcc87e120a964165dfac5e012218be845c03060653c87a36caddd5a",
+      "bytes": 4273
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-opt-group18-v2-complete.json",
+      "archive": "container-opt-group18-v2-complete.json.gz",
+      "sha256": "6392ac19febf02fba98b14f87ccc3012353861abd02d23cf11f9e31538e0a5db",
+      "gzip_sha256": "d0d793b064f39734ef6dc6ca3cd1536bf8ca0e36828946ad60119d745796adb6",
+      "bytes": 17034
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-opt-group18-v2.log",
+      "archive": "start-opt-group18-v2.log.gz",
+      "sha256": "c6d81241d903a526455da278b3d525e042104a099679e2fdfc7969e53f5e5438",
+      "gzip_sha256": "866ac52089f2ac6a86d63e23e91eef385bfc982aa17f14b0b122a350210dca35",
+      "bytes": 65
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-opt-group18-v2.json",
+      "archive": "ownership-opt-group18-v2.json.gz",
+      "sha256": "35262fd39c74ca7246beab5b425f952f9c5287053abd137d342018c19f3e3b84",
+      "gzip_sha256": "9aa7721a77d490c64dedcaba2fe9094246972b4ab30c65de8859488ecf08a2ce",
+      "bytes": 271048
+    }
+  ]
+}
