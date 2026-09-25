@@ -23,6 +23,18 @@ and [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-nex
 | XGrammar / tools | Named/required JSON parsing repaired while auto retains Dots XML parsing. Eight RTX API cases pass. | Spark native MTP1/2/3 prefix, JSON, eight tool modes and both modalities pass. Final release-image qualification remains. |
 
 Selected RTX development receipts are preserved in [the evidence manifest](../benchmarks/development/rtx-optimization/manifest.json), with lossless gzip payloads and hashes. Additional in-progress evidence lives under `.cache/serving/{rtx,spark}`.
+
+The subsequent matched reasoning/coding comparison favors RTX MTP3 over MTP2
+at the user's priority concurrency levels: median per-request decode rates are
+181.33 versus 166.76 tokens/s at C1, 141.38 versus 130.56 at C2, and 102.53
+versus 96.43 at C4. Each candidate completed all 36 measured requests naturally;
+each passed 35 static response checks. Those checks do not execute generated
+code. Output lengths differ, so completed-answer latency is reported alongside
+output token counts instead of being treated as an isolated speed ranking.
+The [matched coding evidence](../benchmarks/development/rtx-coding/manifest.json)
+preserves the payloads, responses and runtime identities. MTP4 extension and
+Spark selection are still in progress; these are development measurements.
+
 The final benchmark report must preserve accepted evidence with exact source,
 model, image, hardware and launch settings. Current results are not GHCR release
 qualification.
