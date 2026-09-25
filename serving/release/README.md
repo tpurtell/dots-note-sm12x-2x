@@ -279,6 +279,9 @@ platform stores its own:
   measured report. Start/restart bind this setting to the captured
   `DOTS3_COMPACT_DSA_CACHE` environment. Older profiles default to `false`.
 - Required `reasoning_parser: "dots3"`, verified against the image label.
+- `indexer_prefill_contexts`: indexer gather workspace budget in full contexts
+  (1–40). Older profiles use 40. A smaller budget requires a supporting image
+  and qualification with the same captured `DOTS3_INDEXER_PREFILL_CONTEXTS` value.
 - For Spark, `memory_guard: true` and `min_host_available_gib` of at least 8.
 - Boolean B12x vocab and RTX PCIe settings.
 - Spark RoCE enable/eager booleans and explicit admitted row counts (disabled by default).

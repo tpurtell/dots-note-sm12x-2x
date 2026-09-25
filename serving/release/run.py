@@ -31,6 +31,7 @@ def settings(path, selected):
         fail('Unexpected checkpoint revision')
     config = dict(doc['platforms'][selected])
     config.setdefault('compact_dsa_cache', False)
+    config.setdefault('indexer_prefill_contexts', 40)
     if selected == 'rtx':
         # Older RTX profiles predate the Spark-only transport fields.
         config = dict(config)
@@ -64,6 +65,8 @@ def settings(path, selected):
             fail(f'Invalid qualified {name}')
     if config['port'] > 65535 or config.get('kv_cache_dtype') != 'fp8':
         fail('Invalid release port or FP8 KV setting')
+    if type(config['indexer_prefill_contexts']) is not int or not 1 <= config['indexer_prefill_contexts'] <= 40:
+        fail('indexer_prefill_contexts must be an integer within 1..40')
     if type(config.get('mtp_tokens')) is not int or config['mtp_tokens'] < 0:
         fail('mtp_tokens must be 0 (disabled) or a positive integer')
     for name in ['b12x_vocab', 'b12x_pcie', 'b12x_roce', 'b12x_roce_eager', 'compact_dsa_cache']:
@@ -135,6 +138,8 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
         if runtime_env is None:
             runtime_env = report.get('hardware', {}).get(host, {}).get('runtime', {}).get('selected_environment', [])
         env = dict(item.split('=', 1) for item in runtime_env)
+        if env.get('DOTS3_INDEXER_PREFILL_CONTEXTS', '40') != str(config['indexer_prefill_contexts']):
+            fail(f'Qualification indexer workspace mismatch for {host}')
         for variable, setting in [('DOTS3_B12X_VOCAB', 'b12x_vocab'),
                 ('VLLM_ENABLE_PCIE_ALLREDUCE', 'b12x_pcie'), ('DOTS3_B12X_ROCE', 'b12x_roce'),
                 ('DOTS3_COMPACT_DSA_CACHE', 'compact_dsa_cache')]:
@@ -254,6 +259,7 @@ def main():
         MAX_MODEL_LEN=str(config['max_model_len']), MAX_NUM_SEQS=str(config['max_num_seqs']),
         MAX_BATCHED_TOKENS=str(config['max_num_batched_tokens']), KV_CACHE_DTYPE=config['kv_cache_dtype'],
         DOTS3_COMPACT_DSA_CACHE=str(int(config['compact_dsa_cache'])),
+        DOTS3_INDEXER_PREFILL_CONTEXTS=str(config['indexer_prefill_contexts']),
         DOTS3_B12X_VOCAB=str(int(config['b12x_vocab'])), DOTS3_B12X_PCIE=str(int(config['b12x_pcie'])),
         DOTS3_B12X_ROCE=str(int(config['b12x_roce'])),
         DOTS3_B12X_ROCE_EAGER=str(int(config['b12x_roce_eager'])),

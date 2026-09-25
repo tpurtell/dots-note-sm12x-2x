@@ -26,6 +26,7 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
   --cap-add=IPC_LOCK --ulimit memlock=-1 \
   -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
   -e DOTS3_COMPACT_DSA_CACHE="${DOTS3_COMPACT_DSA_CACHE:-0}" \
+  -e DOTS3_INDEXER_PREFILL_CONTEXTS="${DOTS3_INDEXER_PREFILL_CONTEXTS:-40}" \
   -e DOTS3_B12X_EXACT_FP8="${DOTS3_B12X_EXACT_FP8:-}" \
   -e DOTS3_B12X_EXACT_FP8_ROWS="${DOTS3_B12X_EXACT_FP8_ROWS:-4,16,64,512}" \
   -e DOTS3_B12X_VOCAB="${DOTS3_B12X_VOCAB:-0}" \
