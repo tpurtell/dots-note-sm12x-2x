@@ -42,6 +42,9 @@ def capture_hybrid_attestation(container, info):
         return {"status": "disabled"}
     if not path:
         return {"status": "not-configured"}
+    if "--headless" in info.get("Args", []):
+        return {"status": "headless-worker", "path": path,
+                "scope": "Aggregate two-rank receipt is written by EngineCore head"}
     script = """import hashlib,json,sys
 from pathlib import Path
 p=Path(sys.argv[1])

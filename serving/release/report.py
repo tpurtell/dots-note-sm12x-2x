@@ -75,6 +75,37 @@ def hybrid_attestation(runtime):
     return {'path':proof['path'], 'sha256':proof['sha256'], 'receipt':receipt}
 
 
+def spark_hybrid_attestations(runtimes):
+    """EngineCore head owns the aggregate receipt; headless worker references it."""
+    environments={host:dict(item.split('=',1) for item in runtime.get('selected_environment',[]) if '=' in item)
+                  for host,runtime in runtimes.items()}
+    enabled={host for host,env in environments.items() if env.get('VLLM_HYBRID_LAYER_PARTITION')}
+    if not enabled:
+        return {host:None for host in runtimes}
+    require(enabled==set(runtimes) and len(runtimes)==2, 'Both Spark runtimes must enable hybrid ownership')
+    require(len({runtime.get('image_id') for runtime in runtimes.values()})==1
+            and all(runtime.get('image_id') for runtime in runtimes.values()), 'Spark ownership images differ')
+    keys=['VLLM_HYBRID_LAYER_PARTITION','VLLM_HYBRID_PACKED_ROUTING','VLLM_HYBRID_FUSED_PACK',
+          'VLLM_HYBRID_OVERLAP_SHARED','VLLM_HYBRID_MM_OWNERS','VLLM_HYBRID_BOUNDARY_OWNERS',
+          'VLLM_HYBRID_BALANCE_KV_GROUPS','DOTS3_COMPACT_DSA_CACHE','DOTS3_INDEXER_PREFILL_CONTEXTS']
+    for key in keys:
+        require(len({env.get(key,'') for env in environments.values()})==1, f'Spark ownership profile mismatch: {key}')
+    for key in ['--max-model-len','--max-num-seqs','--max-num-batched-tokens','--gpu-memory-utilization','--kv-cache-dtype','--tensor-parallel-size']:
+        require(len({flag(runtime.get('args',[]),key) for runtime in runtimes.values()})==1, f'Spark runtime profile mismatch: {key}')
+    heads=[host for host,runtime in runtimes.items() if runtime.get('hybrid_attestation',{}).get('status')=='captured']
+    require(len(heads)==1, 'Require exactly one captured EngineCore aggregate ownership receipt')
+    head=heads[0]
+    require('--headless' not in runtimes[head].get('args',[]), 'Aggregate receipt must belong to EngineCore head')
+    proof=hybrid_attestation(runtimes[head])
+    result={head:proof}
+    for host in runtimes:
+        if host==head:continue
+        require('--headless' in runtimes[host].get('args',[]), 'Non-head receipt reference requires headless worker')
+        result[host]={'status':'aggregate-head-reference','head_host':head,'sha256':proof['sha256'],
+                      'scope':'Both rank proofs are in the head EngineCore receipt; worker has no local aggregate file'}
+    return result
+
+
 def memory_summary(source, platform):
     """Observed sample extrema, not exact instantaneous allocation peaks."""
     hosts={};errors=[];files=[]
@@ -286,12 +317,17 @@ def export(args):
         hardware['rtx']['startup_memory_evidence']=startup_memory(runtime)
         hardware['rtx']['hybrid_attestation']=hybrid_attestation(runtime)
     else:
+        spark_runtimes={}
         for host in identities:
             snapshot = read(complete_path.parent/f'{host}-after.json')
             require(snapshot['identity'] == identities[host], 'Final host identity changed')
             hardware[host] = {k: v for k, v in snapshot.items() if k not in ('container_log', 'guard_log', 'identity')}
             hardware[host]['startup_memory_evidence']=startup_memory(snapshot.get('runtime',{}))
-            hardware[host]['hybrid_attestation']=hybrid_attestation(snapshot.get('runtime',{}))
+            spark_runtimes[host]=snapshot.get('runtime',{})
+            require(spark_runtimes[host].get('image_id') in image_ids, 'Spark final runtime image mismatch')
+        proofs=spark_hybrid_attestations(spark_runtimes)
+        for host,proof in proofs.items():
+            hardware[host]['hybrid_attestation']=proof
     report = {'schema': 'dots3-release-report-v1', 'status': 'runner-completed; release-profile approval separate',
         'qualification_schema':manifest['schema'], 'tool_quality_required':current_schema,
         'platform': args.platform, 'image': args.image, 'image_id': next(iter(image_ids)),
