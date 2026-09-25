@@ -48,7 +48,7 @@ def render(reports,paths):
       '## Headline measurements']
     def stage(platform,name):return reports[platform]['stage_results'].get(name,{}) if reports[platform] else {}
     table(['Metric','2× Spark','2× RTX'],
-      [(f'C{c} reasoning/coding per-request decode tokens/s',*[number(stage(p,'coding').get('by_concurrency',{}).get(c,{}).get('median_per_request_decode_tps')) for p in ('spark','rtx')]) for c in ('1','2','4')]+
+      [(f'C{c} reasoning/coding aggregate output tokens/s',*[number(stage(p,'coding').get('by_concurrency',{}).get(c,{}).get('aggregate_output_tps')) for p in ('spark','rtx')]) for c in ('1','2','4')]+
       [(label,*[number(stage(p,'seven').get(key)) for p in ('spark','rtx')]) for label,key in [('C1 seven-workload weighted decode tokens/s','weighted_decode_tps')]]+
       [('Seven content contracts',*[f"{stage(p,'seven')['contracts_passed']}/{stage(p,'seven')['contracts_total']}" if stage(p,'seven') else 'Pending' for p in ('spark','rtx')])])
     for label,name,selector in [
@@ -64,9 +64,9 @@ def render(reports,paths):
         for c in ('1','2','4'):
             row=coding.get('by_concurrency',{}).get(c,{})
             lengths=coding.get('distributions_by_concurrency',{}).get(c,{}).get('all_terminal',{}).get('output_tokens',{})
-            rows.append([p,c,number(row.get('median_per_request_decode_tps')),number(row.get('median_completed_latency_seconds')),f"{row.get('completed','—')}/{row.get('requests','—')}",f"{row.get('static_checks_passed','—')}/{row.get('requests','—')}",row.get('truncated','—'),f"{number(lengths.get('median'))} ({lengths.get('min','—')}–{lengths.get('max','—')})"])
-    table(['Platform','C','Decode tokens/s','Completed latency s','Natural','Static checks','Truncated','Output tokens median (range)'],rows)
-    lines+=['','Decode includes reasoning. Completed latency excludes truncated answers. The benchmark output budget 8192 includes reasoning and is not the server output limit; clients may request more within context. Static checks are not execution-based code correctness. Variable output lengths affect latency.']
+            rows.append([p,c,number(row.get('aggregate_output_tps')),number(row.get('median_completed_latency_seconds')),f"{row.get('completed','—')}/{row.get('requests','—')}",f"{row.get('static_checks_passed','—')}/{row.get('requests','—')}",row.get('truncated','—'),f"{number(lengths.get('median'))} ({lengths.get('min','—')}–{lengths.get('max','—')})"])
+    table(['Platform','C','Aggregate output tokens/s','Completed latency s','Natural','Static checks','Truncated','Output tokens median (range)'],rows)
+    lines+=['','Coding aggregate throughput is total streamed output tokens divided by summed concurrent-wave wall time, including reasoning and prefill. It is measured directly, not concurrency times a per-stream median. Completed latency excludes truncated answers. The benchmark output budget 8192 includes reasoning and is not the server output limit; clients may request more within context. Static checks are not execution-based code correctness. Variable output lengths affect latency.']
     lines+=['','## Seven content workloads']
     table(['Case','Spark median tokens/s','RTX median tokens/s'],[(case,*[number(stage(p,'seven').get('median_tps_by_case',{}).get(case)) for p in ('spark','rtx')]) for case in ['code','math','fable','hello','topic','structured-json','multilingual']])
     for p in ('spark','rtx'):

@@ -49,9 +49,9 @@ The [Brandon-derived GLM RTX recipe](https://github.com/tpurtell/glm-5.3-flash-e
 
 | Metric | 2× Spark | 2× RTX |
 |---|---|---|
-| C1 reasoning/coding per-request decode tokens/s | — | 163.02 |
-| C2 reasoning/coding per-request decode tokens/s | — | 129.26 |
-| C4 reasoning/coding per-request decode tokens/s | — | 98.80 |
+| C1 reasoning/coding aggregate output tokens/s | — | 161.30 |
+| C2 reasoning/coding aggregate output tokens/s | — | 229.07 |
+| C4 reasoning/coding aggregate output tokens/s | — | 327.47 |
 | C1 seven-workload weighted decode tokens/s | — | 165.60 |
 | Seven content contracts | Pending | 18/21 |
 | Exact context boundary, input + output | — | 524,032 + 256 = 524,288 |
@@ -61,16 +61,16 @@ The [Brandon-derived GLM RTX recipe](https://github.com/tpurtell/glm-5.3-flash-e
 
 ## Reasoning-enabled coding: C1–C4
 
-| Platform | C | Decode tokens/s | Completed latency s | Natural | Static checks | Truncated | Output tokens median (range) |
+| Platform | C | Aggregate output tokens/s | Completed latency s | Natural | Static checks | Truncated | Output tokens median (range) |
 |---|---|---|---|---|---|---|---|
 | spark | 1 | — | — | —/— | —/— | — | — (—–—) |
 | spark | 2 | — | — | —/— | —/— | — | — (—–—) |
 | spark | 4 | — | — | —/— | —/— | — | — (—–—) |
-| rtx | 1 | 163.02 | 23.28 | 12/12 | 12/12 | 0 | 3,783.50 (2336–7282) |
-| rtx | 2 | 129.26 | 34.76 | 12/12 | 12/12 | 0 | 4,343.00 (2754–6266) |
-| rtx | 4 | 98.80 | 39.02 | 12/12 | 12/12 | 0 | 3,844.00 (2557–5994) |
+| rtx | 1 | 161.30 | 23.28 | 12/12 | 12/12 | 0 | 3,783.50 (2336–7282) |
+| rtx | 2 | 229.07 | 34.76 | 12/12 | 12/12 | 0 | 4,343.00 (2754–6266) |
+| rtx | 4 | 327.47 | 39.02 | 12/12 | 12/12 | 0 | 3,844.00 (2557–5994) |
 
-Decode includes reasoning. Completed latency excludes truncated answers. The benchmark output budget 8192 includes reasoning and is not the server output limit; clients may request more within context. Static checks are not execution-based code correctness. Variable output lengths affect latency.
+Coding aggregate throughput is total streamed output tokens divided by summed concurrent-wave wall time, including reasoning and prefill. It is measured directly, not concurrency times a per-stream median. Completed latency excludes truncated answers. The benchmark output budget 8192 includes reasoning and is not the server output limit; clients may request more within context. Static checks are not execution-based code correctness. Variable output lengths affect latency.
 
 ## Seven content workloads: C1
 
