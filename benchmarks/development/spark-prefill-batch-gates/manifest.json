@@ -1,5 +1,5 @@
 {
-  "scope": "Spark matchedv7 optimized17/29 .80 guard1 maxcontext524288 capacityfirstprefillbatchselection. Baseline5122,750,605tokens; userpermitsmax200Kloss, sofloor2,550,605. Batch2048admits1,648,961, loss1,101,644 rejectedwithoutperformancebenchmark.",
+  "scope": "Spark matchedv7 optimized17/29 .80 guard1 maxcontext524288 capacityfirstprefillbatchselection. Baseline5122,750,605tokens; userpermitsmax200Kloss, sofloor2,550,605. Batch2048admits1,648,961, loss1,101,644 rejectedwithoutperformancebenchmark. Batch4096admits1,212,943,loss1,537,662alsofails; noperfbench.",
   "artifacts": [
     {
       "source": ".cache/serving/spark/opt-v7-17-b2048-moa-memory.log",
@@ -48,6 +48,54 @@
       "artifact": "opt-v7-17-b2048-rhea-startup.log.gz",
       "source_sha256": "a623e3d875368acba89272d5243f0afb413643f30ce4b1ab7086ad78e5f23530",
       "artifact_sha256": "0e556790d1147de652b07445afe19866964562fefacb8c6a4abd3097284a795f"
+    },
+    {
+      "source": ".cache/serving/spark/opt-v7-17-b4096-rhea-memory.log",
+      "artifact": "opt-v7-17-b4096-rhea-memory.log.gz",
+      "source_sha256": "86684deed107701704a7e0b169bfa6172fb625c8f3636801abb12b1773dc87e7",
+      "artifact_sha256": "e7dc0c083e890ba570e50a9db21d1755589de71b096af6a2e4de97e30f239237"
+    },
+    {
+      "source": ".cache/serving/spark/opt-v7-17-b4096-moa-memory.log",
+      "artifact": "opt-v7-17-b4096-moa-memory.log.gz",
+      "source_sha256": "d7ca148dbda9a4926a3699f970f8f933e28f14f4d56d97949c3fdc472b22b093",
+      "artifact_sha256": "abd1e8150a5510cdef6273ebf8efb84d31d32a4e76922a6c9981d26db6a0b677"
+    },
+    {
+      "source": ".cache/serving/spark/opt-v7-17-b4096-rhea-startup.log",
+      "artifact": "opt-v7-17-b4096-rhea-startup.log.gz",
+      "source_sha256": "397c668072968fe14908e355d268c08b17a96792feba40885014149aac7d679d",
+      "artifact_sha256": "7b16ddab63bfe0c3a32f5ba53df2841f12598db5fceb4258231bce3f01e875d7"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-moa-opt-v7-17-b4096.json",
+      "artifact": "runtime-moa-opt-v7-17-b4096.json.gz",
+      "source_sha256": "4d27dd57039d357f4330959334e091911dde9dcc615a5d5e2c28dc2bd4b47445",
+      "artifact_sha256": "0cace79a74d93b9687669c9e4b77e1b3b2de71a2f5ef45ba2d68ee3a93089435"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-opt-v7-17-b4096.json",
+      "artifact": "runtime-rhea-opt-v7-17-b4096.json.gz",
+      "source_sha256": "cfff8e9c4914916957a7485fe92d21972273735d7ae2be36832568077ab0de94",
+      "artifact_sha256": "196fa0af974363291f9ade264b3acc54d0f1ce075a4b41b5d36a1d315e265919"
+    },
+    {
+      "source": ".cache/serving/spark/opt-v7-17-b4096-moa.log",
+      "artifact": "opt-v7-17-b4096-moa.log.gz",
+      "source_sha256": "c4bfea9a22f6d6c2cd4bf61ea76e1d3231d1b6039f4d7c1d07ac525eaeeb6386",
+      "artifact_sha256": "6521fff96344eeb3a84d58d242631c379c5ce1458c960e20aa99b9c19b0c3ce3"
+    },
+    {
+      "source": ".cache/serving/spark/opt-v7-17-b4096-attestation.json",
+      "artifact": "opt-v7-17-b4096-attestation.json.gz",
+      "source_sha256": "0c51833cf8cf7f719dd5b92b534380228b452c4770fb6911e8ae1d1c200003d9",
+      "artifact_sha256": "f34b7c5aedeaa1521ab761ce9a4bbd8fc344a01bdede8d1a8deadb1dc9fa2026"
+    },
+    {
+      "source": ".cache/serving/spark/opt-v7-17-b4096-rhea.log",
+      "artifact": "opt-v7-17-b4096-rhea.log.gz",
+      "source_sha256": "397c668072968fe14908e355d268c08b17a96792feba40885014149aac7d679d",
+      "artifact_sha256": "7b16ddab63bfe0c3a32f5ba53df2841f12598db5fceb4258231bce3f01e875d7"
     }
   ]
 }
