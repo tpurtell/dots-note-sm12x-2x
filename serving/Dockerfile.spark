@@ -16,15 +16,20 @@ COPY serving/dots3_b12x_attention.py /usr/local/lib/python3.12/dist-packages/vll
 COPY serving/source_multimodal_config.json /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/common/source_multimodal_config.json
 COPY serving/dots3_cache_gather.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/cache_gather.py
 COPY serving/port_vllm.py /tmp/port_vllm.py
+COPY serving/b12x_roce_all_reduce.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/device_communicators/b12x_roce_all_reduce.py
+COPY serving/port_roce.py /tmp/port_roce.py
 RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
+ && python3 /tmp/port_roce.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 -c 'from vllm.model_executor.layers.quantization import get_quantization_config; assert get_quantization_config("exl3").__name__ == "Dots3HybridExl3Config"'
 
 COPY third_party/sparkinfer-glmrt /opt/b12x
 ENV PYTHONPATH=/opt/b12x \
     CUTE_DSL_ARCH=sm_121a \
+    B12X_ROCE_CACHE_DIR=/opt/dots3/native-roce \
     VLLM_EXL3_TRELLIS_MIN_M=1 \
     VLLM_EXL3_PREFILL_TRELLIS=1
-RUN python3 -c 'import b12x; from b12x.moe import fused_moe; assert fused_moe.is_supported'
+RUN python3 -c 'import b12x; from b12x.moe import fused_moe; assert fused_moe.is_supported' \
+ && python3 -c 'from b12x.comm.roce._proxy import load; load()'
 
 LABEL org.opencontainers.image.source="https://github.com/tpurtell/dots-note-sm12x-2x" \
       io.tpurtell.vllm.version="0.30.0" \

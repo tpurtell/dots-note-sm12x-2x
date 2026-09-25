@@ -21,7 +21,7 @@ from pathlib import Path
 result = {'packages': {d.metadata['Name']: d.version for d in metadata.distributions()}, 'sources': {}}
 for root in ['/opt/b12x/b12x', '/usr/local/lib/python3.12/dist-packages/vllm']:
     digest = hashlib.sha256()
-    paths = sorted(Path(root).rglob('*.py'))
+    paths = sorted(path for path in Path(root).rglob('*') if path.is_file() and path.suffix in {'.py', '.c', '.h', '.cu', '.cuh', '.cpp'})
     if not paths:
         raise RuntimeError('Missing runtime source tree: ' + root)
     for path in paths:
@@ -71,6 +71,12 @@ def export(args):
             raise SystemExit('Triton cache must use the release absolute path')
         sources = dict(CACHES)
         sources['b12x/compile'] = env.get('B12X_COMPILE_CACHE_DIR', sources['b12x/compile'])
+        proxy_source = env.get('B12X_ROCE_CACHE_DIR', str(ROOT / 'b12x/roce'))
+        if subprocess.run(['docker', 'exec', args.container, 'test', '-d', proxy_source],
+                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0:
+            sources['b12x/roce'] = proxy_source
+        elif env.get('DOTS3_B12X_ROCE', '0').lower() not in {'', '0', 'false', 'no', 'off'}:
+            raise SystemExit('Enabled RoCE runtime has no compiled proxy cache to export')
         for relative, source in sources.items():
             target = payload / relative
             target.mkdir(parents=True)
@@ -89,6 +95,8 @@ def export(args):
             raise SystemExit('No compiled B12x objects found')
         if not any(p.startswith('triton/') and p.endswith('.cubin') for p in files):
             raise SystemExit('No compiled Triton cubins found')
+        if 'b12x/roce' in sources and not any(p.startswith('b12x/roce/roce_proxy-') and p.endswith('.so') for p in files):
+            raise SystemExit('RoCE proxy cache exists but contains no native proxy executable')
         uuids = set()
         for path in (payload / 'b12x/compile').rglob('*.json'):
             doc = json.loads(path.read_text())
@@ -105,7 +113,7 @@ def export(args):
             'qualification_evidence': args.evidence,
             'model_revision': 'd8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da',
             'b12x_device_identities': sorted(uuids),
-            'runtime': runtime, 'files': files,
+            'runtime': runtime, 'files': files, 'roce_proxy_bundled': 'b12x/roce' in sources,
             'limitations': ['B12x executable cache identities contain physical GPU UUIDs.',
                 'Unseen GPUs, shapes, toolchains and configurations may compile at runtime.',
                 'Triton and vLLM caches retain their original absolute paths.',
@@ -178,6 +186,8 @@ def seed(args):
     runtime = json.loads(run('python3', '-c', PROBE))
     if runtime != doc['runtime']:
         raise SystemExit('Cache runtime source/dependency fingerprint mismatch')
+    if doc.get('roce_proxy_bundled') and os.environ.get('B12X_ROCE_CACHE_DIR') != str(ROOT / 'b12x/roce'):
+        raise SystemExit('Release requires its seeded B12X_ROCE_CACHE_DIR')
     copied = existing = 0
     # Verify the complete trusted image payload before making any runtime changes.
     for name, entry in doc['files'].items():

@@ -7,7 +7,8 @@ ARG RECIPE_REVISION
 ARG PLATFORM
 COPY cache-seed /opt/dots3/cache-seed
 COPY cache_bundle.py entrypoint.sh /opt/dots3/
-ENV B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile \
+ENV B12X_ROCE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/roce \
+    B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile \
     TRITON_CACHE_DIR=/root/.cache/vllm-runtime/triton \
     VLLM_CACHE_ROOT=/root/.cache/vllm-runtime/vllm \
     CUDA_CACHE_PATH=/root/.cache/vllm-runtime/cuda

@@ -88,6 +88,12 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
   -e DOTS3_B12X_EXACT_FP8="${DOTS3_B12X_EXACT_FP8:-}" \
   -e DOTS3_B12X_EXACT_FP8_ROWS="${DOTS3_B12X_EXACT_FP8_ROWS:-4,16,64,512}" \
   -e DOTS3_B12X_VOCAB="${DOTS3_B12X_VOCAB:-1}" \
+  -e DOTS3_B12X_ROCE="${DOTS3_B12X_ROCE:-0}" \
+  -e DOTS3_B12X_ROCE_ROWS="${DOTS3_B12X_ROCE_ROWS:-1-64}" \
+  -e DOTS3_B12X_ROCE_EAGER="${DOTS3_B12X_ROCE_EAGER:-0}" \
+  -e B12X_ROCE_HCA="${B12X_ROCE_HCA:-}" \
+  -e B12X_ROCE_GID_INDEX="${B12X_ROCE_GID_INDEX:-3}" \
+  -e B12X_ROCE_SPIN_LIMIT="${B12X_ROCE_SPIN_LIMIT:-20000000}" \
   -e B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile \
   -e VLLM_CACHE_ROOT=/root/.cache/vllm-runtime/vllm \
   -e TRITON_CACHE_DIR=/root/.cache/vllm-runtime/triton \

@@ -159,6 +159,7 @@ published digest has been pulled and verified. Each platform stores its own:
 - GPU memory utilization, context limit, sequence limit and prefill chunk size.
 - FP8 KV format and MTP token count (`0` explicitly disables MTP).
 - Boolean B12x vocab and RTX PCIe settings.
+- Spark RoCE enable/eager booleans and explicit admitted row counts (disabled by default).
 - Explicit exact-FP8 projection selector string (empty disables) and row counts.
 
 The runner validates these fields without an additional JSON-schema dependency.

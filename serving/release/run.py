@@ -27,6 +27,12 @@ def settings(path, selected):
     if doc.get('model_revision') != MODEL_REVISION:
         fail('Unexpected checkpoint revision')
     config = doc['platforms'][selected]
+    if selected == 'rtx':
+        # Older RTX profiles predate the Spark-only transport fields.
+        config = dict(config)
+        config.setdefault('b12x_roce', False)
+        config.setdefault('b12x_roce_eager', False)
+        config.setdefault('b12x_roce_rows', list(range(1, 65)))
     expected = {'rtx': 'amd64', 'spark': 'arm64'}[selected]
     if config.get('architecture') != expected:
         fail('Release platform architecture mismatch')
@@ -50,11 +56,18 @@ def settings(path, selected):
         fail('Invalid release port or FP8 KV setting')
     if type(config.get('mtp_tokens')) is not int or config['mtp_tokens'] < 0:
         fail('mtp_tokens must be 0 (disabled) or a positive integer')
-    for name in ['b12x_vocab', 'b12x_pcie']:
+    for name in ['b12x_vocab', 'b12x_pcie', 'b12x_roce', 'b12x_roce_eager']:
         if type(config.get(name)) is not bool:
             fail(f'{name} must be a qualified boolean')
     if selected == 'spark' and config['b12x_pcie']:
         fail('The RTX PCIe collective is not supported by the Spark launcher')
+    if selected == 'rtx' and config['b12x_roce']:
+        fail('B12x RoCE is supported only by the Spark image')
+    roce_rows = config.get('b12x_roce_rows')
+    if not isinstance(roce_rows, list) or not roce_rows or any(type(n) is not int or not 1 <= n <= 64 for n in roce_rows):
+        fail('b12x_roce_rows must explicitly select positive row counts within 1..64')
+    if len(set(roce_rows)) != len(roce_rows):
+        fail('b12x_roce_rows must not contain duplicate row counts')
     if not isinstance(config.get('b12x_exact_fp8'), str):
         fail('b12x_exact_fp8 must be an explicit string; empty disables it')
     rows = config.get('b12x_exact_fp8_rows')
@@ -93,6 +106,9 @@ def main():
         MAX_MODEL_LEN=str(config['max_model_len']), MAX_NUM_SEQS=str(config['max_num_seqs']),
         MAX_BATCHED_TOKENS=str(config['max_num_batched_tokens']), KV_CACHE_DTYPE=config['kv_cache_dtype'],
         DOTS3_B12X_VOCAB=str(int(config['b12x_vocab'])), DOTS3_B12X_PCIE=str(int(config['b12x_pcie'])),
+        DOTS3_B12X_ROCE=str(int(config['b12x_roce'])),
+        DOTS3_B12X_ROCE_EAGER=str(int(config['b12x_roce_eager'])),
+        DOTS3_B12X_ROCE_ROWS=','.join(map(str, config['b12x_roce_rows'])),
         DOTS3_B12X_EXACT_FP8=config['b12x_exact_fp8'],
         DOTS3_B12X_EXACT_FP8_ROWS=','.join(map(str, config['b12x_exact_fp8_rows'])))
     if args.action == 'start':
