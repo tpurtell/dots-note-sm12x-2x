@@ -19,16 +19,21 @@ COPY serving/port_vllm.py /tmp/port_vllm.py
 COPY serving/dots3_reasoning_parser.py /usr/local/lib/python3.12/dist-packages/vllm/reasoning/dots3_reasoning_parser.py
 COPY serving/port_reasoning.py /tmp/port_reasoning.py
 COPY serving/port_compact_cache.py /tmp/port_compact_cache.py
+COPY serving/hybrid_parallel.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/hybrid_parallel.py
+COPY serving/dots3_hybrid_parallel.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/hybrid_parallel.py
+COPY serving/port_hybrid_parallel.py /tmp/port_hybrid_parallel.py
 COPY serving/b12x_roce_all_reduce.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/device_communicators/b12x_roce_all_reduce.py
 COPY serving/port_roce.py /tmp/port_roce.py
 RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_reasoning.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_compact_cache.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_roce.py /usr/local/lib/python3.12/dist-packages/vllm \
+ && python3 /tmp/port_hybrid_parallel.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 -c 'from vllm.model_executor.layers.quantization import get_quantization_config; assert get_quantization_config("exl3").__name__ == "Dots3HybridExl3Config"'
 
 COPY third_party/sparkinfer-glmrt /opt/b12x
 ENV PYTHONPATH=/opt/b12x \
+    VLLM_HYBRID_LAYER_PARTITION="" \
     DOTS3_COMPACT_DSA_CACHE=0 \
     DOTS3_INDEXER_PREFILL_CONTEXTS=0 \
     CUTE_DSL_ARCH=sm_121a \
@@ -40,4 +45,4 @@ RUN python3 -c 'import b12x; from b12x.moe import fused_moe; assert fused_moe.is
 
 LABEL org.opencontainers.image.source="https://github.com/tpurtell/dots-note-sm12x-2x" \
       io.tpurtell.vllm.version="0.30.0" \
-      io.tpurtell.b12x.commit="c963d8f7c98792a026eaf81a96a72d01b4aa0047"
+      io.tpurtell.b12x.commit="bf5677c69197499433314d61aad70f79e89c47c9"
