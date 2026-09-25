@@ -22,6 +22,7 @@ ENVIRONMENT = {
     "DOTS3_B12X_ROCE", "DOTS3_B12X_ROCE_EAGER", "DOTS3_B12X_ROCE_ROWS",
     "B12X_ROCE_HCA", "B12X_ROCE_GID_INDEX", "B12X_ROCE_SPIN_LIMIT",
     "B12X_COMPILE_CACHE_DIR", "B12X_ROCE_CACHE_DIR",
+    "DOTS3_ALLOCATOR_FRACTION", "PYTORCH_ALLOC_CONF", "PYTORCH_CUDA_ALLOC_CONF",
 }
 LOG_MARKERS = (
     "Model loading took", "GPU KV cache size:", "Available KV cache memory:",
@@ -60,6 +61,28 @@ else:
         return {"status": "unavailable", "path": path, "error": str(exc)}
 
 
+def capture_allocator_policy(container, info):
+    env = dict(item.split('=', 1) for item in info['Config']['Env'] if '=' in item)
+    if not env.get('DOTS3_ALLOCATOR_FRACTION'):
+        return {'status': 'disabled'}
+    rank = 1 if '--headless' in info.get('Args', []) else 0
+    parent = Path(env.get('VLLM_HYBRID_ATTESTATION_PATH') or '/root/.cache/vllm-runtime/ownership.json').parent
+    path = str(parent / f'allocator-policy-rank{rank}.json')
+    script = """import hashlib,json,sys
+from pathlib import Path
+p=Path(sys.argv[1])
+if p.is_file():
+ b=p.read_bytes()
+ print(json.dumps({'status':'captured','path':str(p),'sha256':hashlib.sha256(b).hexdigest(),'raw_json':b.decode()}))
+else:
+ print(json.dumps({'status':'pending','path':str(p)}))
+"""
+    try:
+        return json.loads(command('docker', 'exec', container, 'python3', '-c', script, path))
+    except (subprocess.CalledProcessError, json.JSONDecodeError) as exc:
+        return {'status': 'unavailable', 'path': path, 'error': str(exc)}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("container")
@@ -86,6 +109,7 @@ def main() -> None:
         "image_id": info["Image"],
         "args": info["Args"],
         "hybrid_attestation": capture_hybrid_attestation(args.container, info),
+        "allocator_policy": capture_allocator_policy(args.container, info),
         "started_at": info["State"]["StartedAt"],
         "status": info["State"]["Status"],
         "device_requests": info["HostConfig"]["DeviceRequests"],

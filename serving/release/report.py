@@ -6,6 +6,7 @@ release profiles qualified or establish anonymous registry access.
 """
 import argparse
 import csv
+from datetime import datetime
 import math
 import gzip
 import hashlib
@@ -102,6 +103,51 @@ def hybrid_attestation(runtime):
         if 'max_num_batched_tokens' in admission:
             require(admission['max_num_batched_tokens']==int(flag(runtime_args,'--max-num-batched-tokens')), 'Receipt batch admission differs from runtime')
     return {'path':proof['path'], 'sha256':proof['sha256'], 'receipt':receipt}
+
+
+def spark_allocator_policies(runtimes):
+    """Bind post-warm per-rank allocator state; historical disabled profiles stay valid."""
+    envs = {host: dict(x.split('=', 1) for x in runtime.get('selected_environment', []) if '=' in x)
+            for host, runtime in runtimes.items()}
+    enabled = {host for host, env in envs.items() if env.get('DOTS3_ALLOCATOR_FRACTION')}
+    if not enabled:
+        return {host: None for host in runtimes}
+    require(enabled == set(runtimes) and len(runtimes) == 2, 'Allocator policy must be enabled on both Sparks')
+    require(len({r.get('image_id') for r in runtimes.values()}) == 1 and
+            all(r.get('image_id') for r in runtimes.values()), 'Allocator policy images differ')
+    for key in ('DOTS3_ALLOCATOR_FRACTION', 'PYTORCH_ALLOC_CONF', 'PYTORCH_CUDA_ALLOC_CONF'):
+        require(len({e.get(key, '') for e in envs.values()}) == 1, f'Allocator environment mismatch: {key}')
+    result = {}; ranks = set(); active = []
+    for host, runtime in runtimes.items():
+        env = envs[host]; fraction = float(env['DOTS3_ALLOCATOR_FRACTION'])
+        require(0 < fraction < 1 and not env.get('PYTORCH_CUDA_ALLOC_CONF'), 'Ambiguous allocator policy')
+        gc_values = re.findall(r'(?:^|,)garbage_collection_threshold:([^,]+)', env.get('PYTORCH_ALLOC_CONF', ''))
+        require(len(gc_values) == 1 and 0 < float(gc_values[0]) < 1, 'Invalid requested GC threshold')
+        gc = float(gc_values[0]); proof = runtime.get('allocator_policy', {})
+        require(proof.get('status') == 'captured', 'Missing post-warm allocator receipt')
+        rank = 1 if '--headless' in runtime.get('args', []) else 0
+        parent = Path(env.get('VLLM_HYBRID_ATTESTATION_PATH') or '/root/.cache/vllm-runtime/ownership.json').parent
+        require(proof.get('path') == str(parent / f'allocator-policy-rank{rank}.json'), 'Allocator receipt path mismatch')
+        raw = proof.get('raw_json', '')
+        require(hashlib.sha256(raw.encode()).hexdigest() == proof.get('sha256'), 'Allocator receipt hash mismatch')
+        receipt = json.loads(raw); ranks.add(receipt.get('rank'))
+        require(receipt.get('rank') == rank and receipt.get('world_size') == 2 and receipt.get('allocator_backend') == 'native', 'Allocator rank/backend mismatch')
+        require(receipt.get('phase') == 'after_compile_and_warmup_before_requests', 'Allocator receipt predates warmup')
+        start = datetime.fromisoformat(runtime['started_at'].replace('Z', '+00:00')).timestamp()
+        require(start <= receipt.get('created_at_unix', 0) <= runtime['captured_unix_seconds'], 'Stale or future allocator receipt')
+        actual = receipt.get('per_process_fraction', 0)
+        require(abs(actual-fraction) < 1e-8, 'Allocator fraction differs from requested policy')
+        before = receipt['previous_settings']; after = receipt['settings']
+        require(after.get('garbage_collection_threshold') == gc, 'Actual allocator GC mismatch')
+        untouched = set(before) - {'PYTORCH_CUDA_ALLOC_CONF', 'garbage_collection_threshold'}
+        require(set(before) == set(after) and all(before[k] == after[k] for k in untouched), 'Unrequested allocator settings changed')
+        total = receipt.get('total_device_bytes', 0)
+        require(total > 0 and receipt.get('allocator_ceiling_bytes') == int(total*actual) and
+                receipt.get('reclamation_threshold_bytes') == int(total*actual*gc), 'Allocator byte thresholds mismatch')
+        active.append((before, after))
+        result[host] = {'path': proof['path'], 'sha256': proof['sha256'], 'receipt': receipt}
+    require(ranks == {0, 1} and active[0] == active[1], 'Spark effective allocator states differ')
+    return result
 
 
 def spark_hybrid_attestations(runtimes):
@@ -400,6 +446,10 @@ def export(args):
             hardware[host]['startup_memory_evidence']=startup_memory(snapshot.get('runtime',{}))
             spark_runtimes[host]=snapshot.get('runtime',{})
             require(spark_runtimes[host].get('image_id') in image_ids, 'Spark final runtime image mismatch')
+        policies=spark_allocator_policies(spark_runtimes)
+        for host,policy in policies.items():
+            if policy is not None:
+                hardware[host]['allocator_policy']=policy
         proofs=spark_hybrid_attestations(spark_runtimes)
         for host,proof in proofs.items():
             hardware[host]['hybrid_attestation']=proof
