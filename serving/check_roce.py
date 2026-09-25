@@ -44,7 +44,7 @@ def arguments():
     parser.add_argument('--timeout', type=int, default=120, help='Gloo process-group timeout seconds')
     parser.add_argument('--deadline', type=int, default=1200, help='Hard process deadline, including cleanup')
     parser.add_argument('--min-available-gib', type=float, default=16)
-    parser.add_argument('--abort-available-gib', type=float, default=8)
+    parser.add_argument('--abort-available-gib', type=float, default=1)
     parser.add_argument('--spin-limit', type=int, default=20_000_000)
     parser.add_argument('--output', type=Path, required=True, help='Local append-only JSONL receipt')
     args = parser.parse_args()

@@ -31,11 +31,11 @@ Defaults:
 | Containers | `dots3-vllm-head` / `dots3-vllm-worker` |
 | Remote recipe | `/home/tj/dots-note-work/recipe` |
 | Expected vLLM memory utilization | `0.80` |
-| Minimum physical host `MemAvailable` | `8 GiB` |
+| Minimum physical host `MemAvailable` | `1 GiB` |
 
 Explicit flags can override those host/container/project names, API URL,
 `--gpu-memory-utilization`, and `--min-host-available-gib`. The guard threshold
-cannot be below8 GiB. Both containers must already use TP2, the selected fixed
+cannot be below1 GiB. Both containers must already use TP2, the selected fixed
 MTP depth/context, Dots reasoning/tool parsers, xgrammar, automatic tool choice
 and prefix caching. The host guard must be alive, started after the current
 container, bound by its command line to that container name, and reporting fresh

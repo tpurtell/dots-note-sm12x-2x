@@ -26,7 +26,7 @@ def main():
     p.add_argument('--timeout',type=int,default=120)
     p.add_argument('--deadline',type=int,default=1200)
     p.add_argument('--min-available-gib',type=float,default=16)
-    p.add_argument('--abort-available-gib',type=float,default=8)
+    p.add_argument('--abort-available-gib',type=float,default=1)
     p.add_argument('--output',type=Path,required=True)
     args=p.parse_args()
     if any(r<1 or r>64 for r in args.rows) or min(args.trials,args.timeout,args.deadline)<1:

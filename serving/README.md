@@ -10,7 +10,7 @@ progress; pending settings intentionally refuse launch.
 RTX selects **MTP3**, native vocabulary projection, native collectives, and
 0.95 GPU memory utilization for the C1–C4 reasoning/coding balance. Spark
 selection is independent; current Spark candidates use **0.80** utilization
-with the host-memory guard enabled and an 8 GiB minimum physical headroom.
+with the host-memory guard enabled and a 1 GiB minimum physical headroom.
 Both final profiles require `REASONING_PARSER=dots3`, prefix caching, xgrammar,
 and the separate `dots` tool-call parser. See the [qualification ledger](../docs/serving-progress.md)
 and [optimization decisions](../docs/optimization-matrix.md) for measured

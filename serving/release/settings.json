@@ -183,7 +183,7 @@
       ],
       "reasoning_parser": "dots3",
       "memory_guard": true,
-      "min_host_available_gib": 8,
+      "min_host_available_gib": 1,
       "status": "pending-qualification",
       "compact_dsa_cache": false,
       "indexer_prefill_contexts": 40

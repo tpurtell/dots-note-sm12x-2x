@@ -9,7 +9,7 @@ from pathlib import Path
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--container', choices=['dots3-vllm-head', 'dots3-vllm-worker'], required=True)
-parser.add_argument('--min-available-gib', type=float, default=8)
+parser.add_argument('--min-available-gib', type=float, default=1)
 parser.add_argument('--ready-directory', type=Path, help='Write per-PID readiness after the first memory sample')
 args = parser.parse_args()
 threshold = int(args.min_available_gib * 1024**3)

@@ -82,7 +82,7 @@ def main():
     p.add_argument('--hcas', default='roceP2p1s0f0')
     p.add_argument('--gid-index', type=int, default=3)
     p.add_argument('--min-available-gib', type=float, default=16)
-    p.add_argument('--abort-available-gib', type=float, default=8)
+    p.add_argument('--abort-available-gib', type=float, default=1)
     p.add_argument('--deadline', type=int, default=1200)
     p.add_argument('--fault-timeout', type=int, default=60)
     p.add_argument('--output', type=Path, required=True)

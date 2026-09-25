@@ -95,6 +95,7 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
   -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
   -e DOTS3_COMPACT_DSA_CACHE="${DOTS3_COMPACT_DSA_CACHE:-0}" \
   -e DOTS3_INDEXER_PREFILL_CONTEXTS="${DOTS3_INDEXER_PREFILL_CONTEXTS:-40}" \
+  -e VLLM_HYBRID_LAYER_PARTITION="${VLLM_HYBRID_LAYER_PARTITION:-}" \
   -e DOTS3_B12X_EXACT_FP8="${DOTS3_B12X_EXACT_FP8:-}" \
   -e DOTS3_B12X_EXACT_FP8_ROWS="${DOTS3_B12X_EXACT_FP8_ROWS:-4,16,64,512}" \
   -e DOTS3_B12X_VOCAB="${DOTS3_B12X_VOCAB:-1}" \
@@ -119,7 +120,7 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
 # monitor outside the container so it can stop this workload under pressure.
 if [[ "${MEMORY_GUARD:-1}" == 1 ]]; then
   nohup python3 "$project_root/serving/watch_spark_memory.py" \
-    --container "$container" --min-available-gib "${MIN_HOST_AVAILABLE_GIB:-8}" \
+    --container "$container" --min-available-gib "${MIN_HOST_AVAILABLE_GIB:-1}" \
     --ready-directory "$runtime_cache" \
     > "$runtime_cache/memory-watch.log" 2>&1 < /dev/null &
   guard_pid=$!

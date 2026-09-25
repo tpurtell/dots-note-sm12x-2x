@@ -6,7 +6,7 @@ not download model weights, publish images, or choose serving defaults.
 
 ## Spark host memory guard
 
-The release profile pins `memory_guard: true` and at least 8 GiB host memory
+The release profile pins `memory_guard: true` and at least 1 GiB host memory
 headroom. Release start/restart ignore inherited disabling settings and refuse
 when current physical memory is below that threshold. The launcher starts
 `watch_spark_memory.py` on each host and requires a successful initial memory
@@ -282,7 +282,7 @@ platform stores its own:
 - `indexer_prefill_contexts`: indexer gather workspace budget in full contexts
   (1–40). Older profiles use 40. A smaller budget requires a supporting image
   and qualification with the same captured `DOTS3_INDEXER_PREFILL_CONTEXTS` value.
-- For Spark, `memory_guard: true` and `min_host_available_gib` of at least 8.
+- For Spark, `memory_guard: true` and `min_host_available_gib` of at least 1.
 - Boolean B12x vocab and RTX PCIe settings.
 - Spark RoCE enable/eager booleans and explicit admitted row counts (disabled by default).
 - Explicit exact-FP8 projection selector string (empty disables) and row counts.

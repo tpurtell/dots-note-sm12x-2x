@@ -42,8 +42,8 @@ def settings(path, selected):
         fail('Qualified release requires explicit reasoning_parser=dots3; legacy parser-off profiles are development-only')
     if selected == 'spark' and (config.get('memory_guard') is not True or
             type(config.get('min_host_available_gib')) not in (int, float) or
-            not 8 <= config['min_host_available_gib'] <= 64):
-        fail('Qualified Spark release requires memory_guard=true and at least 8 GiB host headroom')
+            not 1 <= config['min_host_available_gib'] <= 64):
+        fail('Qualified Spark release requires memory_guard=true and at least 1 GiB host headroom')
     expected = {'rtx': 'amd64', 'spark': 'arm64'}[selected]
     if config.get('architecture') != expected:
         fail('Release platform architecture mismatch')

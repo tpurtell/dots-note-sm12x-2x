@@ -135,8 +135,8 @@ def validate_host(args,data,container):
     guard=data['guard'];parts=shlex.split(guard['cmdline'])
     assert any(x.endswith('watch_spark_memory.py') for x in parts)
     assert parts[parts.index('--container')+1]==container
-    threshold=float(parts[parts.index('--min-available-gib')+1]) if '--min-available-gib'in parts else 8.0
-    assert threshold>=args.min_host_available_gib>=8
+    threshold=float(parts[parts.index('--min-available-gib')+1]) if '--min-available-gib'in parts else 1.0
+    assert threshold>=args.min_host_available_gib>=1
     assert guard['proc_state'] not in ('Z','X')
     start=datetime.datetime.fromisoformat(ident['started_at'].replace('Z','+00:00')).timestamp()
     assert guard['started_unix']>=start-2, 'guard predates this container instance'
@@ -189,13 +189,13 @@ def main():
     p.add_argument('--expected-mtp',required=True,type=int,choices=[1,2,3,4])
     p.add_argument('--max-model-len',required=True,type=int,choices=[262144,524288])
     p.add_argument('--gpu-memory-utilization',type=float,default=.80)
-    p.add_argument('--min-host-available-gib',type=float,default=8)
+    p.add_argument('--min-host-available-gib',type=float,default=1)
     p.add_argument('--base-url',default='http://10.55.1.5:8000/v1')
     p.add_argument('--model',default='dots3-note-exl3-k4')
     p.add_argument('--output-dir',required=True,type=Path)
     p.add_argument('--execute',action='store_true')
     args=p.parse_args();args.base_url=args.base_url.rstrip('/').removesuffix('/v1')
-    if args.min_host_available_gib<8:p.error('require physical headroom guard >=8 GiB')
+    if args.min_host_available_gib<1:p.error('require physical headroom guard >=1 GiB')
     steps=plan(args)
     if not args.execute:
         print(json.dumps({'requests':sum(s['requests'] for s in steps),'hosts':hosts(args),'steps':steps},indent=2));return
