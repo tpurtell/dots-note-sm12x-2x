@@ -27,8 +27,15 @@ server omitted cached-token usage, so cold-prompt evidence is the unique first
 block nonce and prompt hash, not an explicit zero counter.
 [Parent evidence](../benchmarks/development/rtx-native-v2-parent-warm/manifest.json)
 and [public wrapper evidence](../benchmarks/development/rtx-native-v2-wrapper/manifest.json)
-are preliminary gates. Full published-image qualification is running; public
-`run.sh` settings still select the qualified v1 until v2 completes.
+are preliminary gates. Full published-image qualification reached the 524K
+warmup after completing the smaller context stages, then failed on 2026-09-25
+at 11:30:41 UTC: GPU 1 reported **Xid 79 (fallen off the bus)**, and the driver
+required a node reboot for both GPUs. The poisoned container was stopped and
+the qualification process exited 1. Completed stage receipts are retained, but
+this run does not qualify v2. After host recovery, run a fresh full qualification:
+the existing provenance checks correctly bind container startup identity.
+Public `run.sh` settings still select qualified v1; neither image can run on
+the failed driver until host recovery.
 
 Spark currently uses the 17/29 split with utilization **0.80** and exactly a
 **1 GiB** host reserve. Its batch-512 baseline accounts for **2,750,605 tokens**.
@@ -38,8 +45,15 @@ limit and were rejected before performance traffic. Batch 1024 accounts for
 its 128K warmup drove Rhea below the 1 GiB physical-memory threshold for three
 samples, and the guard killed the container. Both hosts remained responsive;
 the partial 8K/32K measurements showed about 10% faster prefill but cannot
-qualify this configuration. Batch 512 is retained pending its actual native
-524K boundary check. Optional kernel weight copies must also fit the combined
+qualify this configuration. A subsequent identical native ARM image on both
+hosts accounted for **2,790,003 tokens**, but its actual batch-512
+**524,032-input + 256-output** check also failed: both 1 GiB physical-memory
+guards fired during prefill, before output. Both containers exited 137 with
+`OOMKilled=false`; both hosts remained responsive. Available memory was initially
+stable near 13.4 GiB, then declined to the guard threshold. Allocation telemetry
+and source diagnosis are required before retrying or selecting optional kernels.
+Utilization 0.80, reserve 1 GiB, and native context remain the required constraints.
+Optional kernel weight copies must also fit the combined
 capacity floor of **2,550,605 tokens** and pass physical-memory qualification.
 [Batch evidence](../benchmarks/development/spark-prefill-batch-gates/manifest.json).
 Final Spark kernel selection, the common ARM image on both hosts, publication,
