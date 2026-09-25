@@ -2,6 +2,8 @@
 """Exercise the opt-in Q-B method with real TP2 source shards on an idle GPU."""
 import argparse
 import json
+import hashlib
+import statistics
 from pathlib import Path
 from types import SimpleNamespace
 import tempfile
@@ -37,6 +39,7 @@ def main():
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--owner-full', action='store_true', help='Full owner DSA/SWA QB and DSA output; no TP slicing')
+    parser.add_argument('--timing', action='store_true', help='Time exact adapter versus native processed kernel: five samples of forty graph replays')
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     # Real one-rank NCCL/model-parallel context. Checkpoint inputs below are
@@ -63,7 +66,10 @@ def run_checks(args):
     index = json.loads((args.source/'model.safetensors.index.json').read_text())['weight_map']
     result = {'schema': 'dots3-exact-fp8-adapter-v1', 'cases': [],
               'distributed_world_size': 1, 'checkpoint_partition_size': 1 if args.owner_full else 2,
-              'loader_scope': 'explicit source tensors; distributed loader not tested'}
+              'loader_scope': 'explicit source tensors; distributed loader not tested',
+              'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              'adapter_sha256':hashlib.sha256(Path(__file__).with_name('dots3_b12x_fp8.py').read_bytes()).hexdigest(),
+              'gpu':str(torch.cuda.get_device_properties(0)), 'timing_enabled':args.timing}
     planned_rows = (1,4,8,16) if args.owner_full else (4,)
     fallback_rows = 2 if args.owner_full else 1
     projections = [(0,'q_b_proj'),(2,'q_b_proj')] + ([(0,'o_proj')] if args.owner_full else [])
@@ -106,6 +112,14 @@ def run_checks(args):
             graph = torch.cuda.CUDAGraph()
             with torch.cuda.graph(graph):
                 captured = method.apply(layer,x)
+            native_graph = None
+            if args.timing:
+                for _ in range(4):
+                    method.fp8_linear.apply_weights(layer,x)
+                torch.cuda.synchronize()
+                native_graph=torch.cuda.CUDAGraph()
+                with torch.cuda.graph(native_graph):
+                    native_captured=method.fp8_linear.apply_weights(layer,x)
             previous = None
             checks = []
             for change in range(3):
@@ -131,9 +145,31 @@ def run_checks(args):
                     if not torch.equal(captured,expected):
                         raise AssertionError('unplanned rows failed exact native fallback parity')
                     err = metrics(captured,expected)
+                if native_graph is not None:
+                    native_eager=method.fp8_linear.apply_weights(layer,x).clone()
+                    native_graph.replay()
+                    torch.cuda.synchronize()
+                    if not torch.equal(native_captured,native_eager):
+                        raise AssertionError('native timing graph/eager mismatch')
                 checks.append(err)
-            cases.append({'rows':rows,'path':'exact' if rows in planned_rows else 'native',
-                'changed_input_checks':checks,'graph_eager_equal':True})
+            case={'rows':rows,'path':'exact' if rows in planned_rows else 'native',
+                'changed_input_checks':checks,'graph_eager_equal':True}
+            if args.timing:
+                timings={'adapter':[],'native':[]}
+                graphs={'adapter':graph,'native':native_graph}
+                for sample in range(5):
+                    order=('adapter','native') if sample%2==0 else ('native','adapter')
+                    for label in order:
+                        start,end=torch.cuda.Event(enable_timing=True),torch.cuda.Event(enable_timing=True)
+                        start.record()
+                        for _ in range(40):graphs[label].replay()
+                        end.record();end.synchronize()
+                        timings[label].append(start.elapsed_time(end)*1000/40)
+                medians={key:statistics.median(values) for key,values in timings.items()}
+                case['timing']={'samples_us':timings,'median_us':medians,'samples':5,'replays_per_sample':40,
+                    'native_over_adapter':medians['native']/medians['adapter'],
+                    'scope':'Full apply path including activation quantization; CUDA graph replay device time; unplanned rows use native fallback'}
+            cases.append(case)
         assert torch.equal(method.source_weight.view(torch.uint8),original_w.view(torch.uint8))
         assert torch.equal(method.source_scale,original_s)
         result['cases'].append({'weight':name,'shape':[n,k],
