@@ -1,0 +1,511 @@
+{
+  "schema": "dots3-completed-stages-archive-v1",
+  "release_qualification": false,
+  "files": [
+    {
+      "source_path": ".cache/release/spark-v1-qualification/attempt-1790341928392973236/metrics-before.txt",
+      "archive_path": "raw/attempt-1790341928392973236/metrics-before.txt.gz",
+      "sha256": "99588d6374470e95bc981eeab35bba8036fed6e114a9a17ff5a2419c94bcfc1f",
+      "archive_sha256": "3fbb53c4fb73c5a0e360bd23aeb2de781ed13eb29a711dd8a90a31f10889840f",
+      "bytes": 60986
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/attempt-1790341928392973236/moa-before.json",
+      "archive_path": "raw/attempt-1790341928392973236/moa-before.json.gz",
+      "sha256": "ae672971ff7b3a7c7d5fe4707bf7b53a4c47745025f2efd5e9571bebe0e33182",
+      "archive_sha256": "a0878eb7a6fa133788b5842281033b651b74aabccabd8a9ea556aef0f188b559",
+      "bytes": 136077
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/attempt-1790341928392973236/rhea-before.json",
+      "archive_path": "raw/attempt-1790341928392973236/rhea-before.json.gz",
+      "sha256": "72038e1a54bc4bbff6c317c23c40209c8be9d7819d15fc2a6226b29076deae23",
+      "archive_sha256": "58be7e1e26558828912652366c12a2a13f2586581a85d9a40da2ad25b28b5bfd",
+      "bytes": 503748
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/clients/attempt-1790342222841002091/command.json",
+      "archive_path": "raw/clients/attempt-1790342222841002091/command.json.gz",
+      "sha256": "a1b5da0c7e364bf4dabb809f20c8d50a2d71cf2c3570bd5f6e7d49d6161d3eb9",
+      "archive_sha256": "a19d068c280dc023343caad730b7acf28c21f57951cfa852d2cd4837e4e58209",
+      "bytes": 543
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/clients/attempt-1790342222841002091/result.json",
+      "archive_path": "raw/clients/attempt-1790342222841002091/result.json.gz",
+      "sha256": "ef25dc3e4b1386f99f75b7ad8dc34ad13175f0ab4c14da6ea6ccd4ea52d00433",
+      "archive_sha256": "ac095e09c8955ac9285ee2f04969194df5a2dd95c71486eefe0cc907519b4a83",
+      "bytes": 10390516
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/clients/attempt-1790342222841002091/stdout.log",
+      "archive_path": "raw/clients/attempt-1790342222841002091/stdout.log.gz",
+      "sha256": "33d0f5af970d6afce0c67d87fd6917452617d3bcb6ba800672f85abdc3c70523",
+      "archive_sha256": "0667fefca80646f3e2aeac5d2b0800d2ac101cf3d9e573bfaebc27c51f9fbf8a",
+      "bytes": 456
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/clients/receipt.json",
+      "archive_path": "raw/clients/receipt.json.gz",
+      "sha256": "749818ee859000c9d62cf941b7641e565fc1717003c0c305a0577b1901f346c7",
+      "archive_sha256": "be50daae9c576705dbadf294ea47e5678179d857072468a60a0f5c14f4049782",
+      "bytes": 4451
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/code-agent/attempt-1790342081651045876/command.json",
+      "archive_path": "raw/code-agent/attempt-1790342081651045876/command.json.gz",
+      "sha256": "24e546d563a2a0a2a21ea605aa64009e8edb9d8a9e210e7461f91162ec112972",
+      "archive_sha256": "73e97ef1dc7555a738d4112e4bc897c9e1da5686b68a34582e76e6f706bee762",
+      "bytes": 482
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/code-agent/attempt-1790342081651045876/result.jsonl",
+      "archive_path": "raw/code-agent/attempt-1790342081651045876/result.jsonl.gz",
+      "sha256": "0a3724c2c0b41152e7207105b378d7e4f770fc6eb57934145c439d4214937844",
+      "archive_sha256": "3cb1bb6b25b6686664845fea2048f704b8db74a776cbddc6fbad9bce1387145d",
+      "bytes": 82949
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/code-agent/attempt-1790342081651045876/stdout.log",
+      "archive_path": "raw/code-agent/attempt-1790342081651045876/stdout.log.gz",
+      "sha256": "fc3d62b279871e024fc27ad5b6ba336cb5519bce22c9720ccbccfaa8633f0d91",
+      "archive_sha256": "cdaee1875a014aeb9b07dddf85b3f547a2389e896a6acea179fe4be6303db9c7",
+      "bytes": 1645
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/code-agent/receipt.json",
+      "archive_path": "raw/code-agent/receipt.json.gz",
+      "sha256": "fe9da0fcecb024a0e26496755858a96abc12ef5018c1ed19cecd024bf00971be",
+      "archive_sha256": "de9fe0f811c0268a76d23c2b3610a25bfb048a1bd4dd1e8373e6f687f3894fdb",
+      "bytes": 4452
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/manifest.json",
+      "archive_path": "raw/manifest.json.gz",
+      "sha256": "f8eed1af80800d9e0b8dc0a347752d2cd8ada25510f9cef69c89b9f8c89f8e10",
+      "archive_sha256": "5639e36785b4bdf9d67f9846348ebfcef4a4263fb182aeda28ed97695c5fb800",
+      "bytes": 34021
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/inherited-evidence.json",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/inherited-evidence.json.gz",
+      "sha256": "4796d06181a17349b10c6ff58ee06ebcdfe361e68c08e49da5352cbe3e1ab10e",
+      "archive_sha256": "dfcf133f999f8e6610be02dd6af331632d7614bfbfcf5e5598c3170570cb7f9f",
+      "bytes": 43005
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-000.original",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-000.original.gz",
+      "sha256": "d7c1b3f6a251ccecedbbc775a71d62f70472e6f465c91cc8eb32d1a3d19d76bc",
+      "archive_sha256": "a1ba088eb72c236b72917e4f0e07ac9cbb46a805e7af47b8b9eef68a446f961a",
+      "bytes": 939
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-000.raw",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-000.raw.gz",
+      "sha256": "ff207774dddff5ffb3ea954dd183c7ea62bbcb736ce9b55243bbacf71ede757a",
+      "archive_sha256": "d7c1b3f6a251ccecedbbc775a71d62f70472e6f465c91cc8eb32d1a3d19d76bc",
+      "bytes": 4061
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-001.original",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-001.original.gz",
+      "sha256": "b10cc468abf1368b8f367a6b0beee91abccdd78e6225e5f961bc9cc78a551fda",
+      "archive_sha256": "0ac2ea62671fcd9fc08a7a380c3f92da28a0fd5d8ec5152a619742aaef4fa7b9",
+      "bytes": 13314
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-001.raw",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-001.raw.gz",
+      "sha256": "6f6d0a6f327e949152a87ea656274d10b6faaf3ee405463c72871b385ba036ae",
+      "archive_sha256": "b10cc468abf1368b8f367a6b0beee91abccdd78e6225e5f961bc9cc78a551fda",
+      "bytes": 305178
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-002.original",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-002.original.gz",
+      "sha256": "7cd4d78add5ce7e5dea3a0718b39e78749603157a3c5f79f3904665ef8c30104",
+      "archive_sha256": "bf7660c334c3b6e65bf75aba5cff947373540cf72ee76bf941ea7addad018da9",
+      "bytes": 2044
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-002.raw",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-002.raw.gz",
+      "sha256": "83c49e69dcaf4757735e3bb2ba6c948b2eb60b00d7c2474af24573d5f1133582",
+      "archive_sha256": "7cd4d78add5ce7e5dea3a0718b39e78749603157a3c5f79f3904665ef8c30104",
+      "bytes": 4463
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-003.original",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-003.original.gz",
+      "sha256": "5fe3c9fdf42e24ce2ecbfc4cce66072895a5022c3d2929e60e458d7448db178a",
+      "archive_sha256": "96e968120e273d8fda76bc91918d8490cb3353d3477540e6f033321d2bd642d2",
+      "bytes": 10865
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-003.raw",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-003.raw.gz",
+      "sha256": "5fe3c9fdf42e24ce2ecbfc4cce66072895a5022c3d2929e60e458d7448db178a",
+      "archive_sha256": "96e968120e273d8fda76bc91918d8490cb3353d3477540e6f033321d2bd642d2",
+      "bytes": 10865
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-004.original",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-004.original.gz",
+      "sha256": "02f72a48700639ce4c10155324b01fee804b60850c96ea58046963350c25ad04",
+      "archive_sha256": "2ec220cc00c61aa29e27ce6d25d524f81b2fc963616649a33a46269dc3f004e6",
+      "bytes": 2544
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-004.raw",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-004.raw.gz",
+      "sha256": "02f72a48700639ce4c10155324b01fee804b60850c96ea58046963350c25ad04",
+      "archive_sha256": "2ec220cc00c61aa29e27ce6d25d524f81b2fc963616649a33a46269dc3f004e6",
+      "bytes": 2544
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-005.original",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-005.original.gz",
+      "sha256": "1477eec33dbd730ec0c44811c8154523f9811e7f34b411a4b437882741a584c5",
+      "archive_sha256": "d26666bea6238178109f3cfff950c47d1d49867b961284d4f293599c19d22713",
+      "bytes": 4248
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-005.raw",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-005.raw.gz",
+      "sha256": "1477eec33dbd730ec0c44811c8154523f9811e7f34b411a4b437882741a584c5",
+      "archive_sha256": "d26666bea6238178109f3cfff950c47d1d49867b961284d4f293599c19d22713",
+      "bytes": 4248
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-006.original",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-006.original.gz",
+      "sha256": "92be54dfab5c05a25266d944981feed45ba3507c452dd2652a3f57cc238528fc",
+      "archive_sha256": "2982eddcf7c0c4d5dd1ea2edf3c8830a04e83610baf5b19a961212f54c28e88f",
+      "bytes": 1274
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-006.raw",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-006.raw.gz",
+      "sha256": "92be54dfab5c05a25266d944981feed45ba3507c452dd2652a3f57cc238528fc",
+      "archive_sha256": "2982eddcf7c0c4d5dd1ea2edf3c8830a04e83610baf5b19a961212f54c28e88f",
+      "bytes": 1274
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-007.original",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-007.original.gz",
+      "sha256": "1047750257c1e24418c6e49ffe18d2ac0c91c6586e1b9f6bb1035efb46f92ed4",
+      "archive_sha256": "d68970c3ec83307cc40c7a4ae9ad18bd2ee840708cb8e1c827e614cf92fc9333",
+      "bytes": 842
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-007.raw",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-007.raw.gz",
+      "sha256": "1047750257c1e24418c6e49ffe18d2ac0c91c6586e1b9f6bb1035efb46f92ed4",
+      "archive_sha256": "d68970c3ec83307cc40c7a4ae9ad18bd2ee840708cb8e1c827e614cf92fc9333",
+      "bytes": 842
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-008.original",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-008.original.gz",
+      "sha256": "45a6be2f9b79068542779b8ec3573a60b89fb90ebe0cea2e0fb9c419fa37de7b",
+      "archive_sha256": "7e52290de7012991cb9f02cce312ea13d891bd1a7918e6714514348f8c6ce1f8",
+      "bytes": 1363
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/attempt-1790341931941231939/source-008.raw",
+      "archive_path": "raw/multimodal/attempt-1790341931941231939/source-008.raw.gz",
+      "sha256": "45a6be2f9b79068542779b8ec3573a60b89fb90ebe0cea2e0fb9c419fa37de7b",
+      "archive_sha256": "7e52290de7012991cb9f02cce312ea13d891bd1a7918e6714514348f8c6ce1f8",
+      "bytes": 1363
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/multimodal/receipt.json",
+      "archive_path": "raw/multimodal/receipt.json.gz",
+      "sha256": "721aaeceee36bd0682596c87a99ce6c51c854ee1d71167faefb52b0f4ddda1e6",
+      "archive_sha256": "d8acefc048c2d0d1058c7a530426cf20622f540d4d2c86a0a9ba2bf975938918",
+      "bytes": 4579
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/inherited-evidence.json",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/inherited-evidence.json.gz",
+      "sha256": "dfdabaea7464aeda0abf034869cff7d474bc71a8184c70a3eac38724881008a3",
+      "archive_sha256": "be4d315ed93844684eb16bf85183f5ae00d12eea2fa604eb3b7b71794f3d2a96",
+      "bytes": 42533
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-000.original",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-000.original.gz",
+      "sha256": "e8147d0bca898ab9155ed2149d861928f884ea5753a939ee66b95747879f6130",
+      "archive_sha256": "ee7a85a47ff9f695dc95ae0afdbae62fedf6a8f55b7bda29bc2edea3599dc3b2",
+      "bytes": 782
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-000.raw",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-000.raw.gz",
+      "sha256": "6ce83375b7c93b9888eb2a11bf9135ed5298946f757957f5831f1ecf94ff7923",
+      "archive_sha256": "e8147d0bca898ab9155ed2149d861928f884ea5753a939ee66b95747879f6130",
+      "bytes": 2675
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-001.original",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-001.original.gz",
+      "sha256": "cc037de7199ce9b7168e6d322833da7ec55e3cf814824520cb6fb585532c53d4",
+      "archive_sha256": "a287657d9771d2a7a3045fdc7706924af44a4340f881601ae4b5d969ec9dfbde",
+      "bytes": 16365
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-001.raw",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-001.raw.gz",
+      "sha256": "d9b27b291bfa3d20de8edfb234e452e58f48e10ce3cf51f278cf4de3dba7b767",
+      "archive_sha256": "cc037de7199ce9b7168e6d322833da7ec55e3cf814824520cb6fb585532c53d4",
+      "bytes": 321756
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-002.original",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-002.original.gz",
+      "sha256": "d4bfb26572fae9d3726f190090ad732c4e667807830402d0ab64e7a4219726a7",
+      "archive_sha256": "13c27ed99e0e7024566451a16dd52f4dcd6daf67212f4a01b4ddf055c06b511a",
+      "bytes": 2098
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-002.raw",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-002.raw.gz",
+      "sha256": "e33307d4ebe246b70d9349ffada4354c45dd3da42741e128b31020e5261edf99",
+      "archive_sha256": "d4bfb26572fae9d3726f190090ad732c4e667807830402d0ab64e7a4219726a7",
+      "bytes": 4583
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-003.original",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-003.original.gz",
+      "sha256": "5fe3c9fdf42e24ce2ecbfc4cce66072895a5022c3d2929e60e458d7448db178a",
+      "archive_sha256": "96e968120e273d8fda76bc91918d8490cb3353d3477540e6f033321d2bd642d2",
+      "bytes": 10865
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-003.raw",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-003.raw.gz",
+      "sha256": "5fe3c9fdf42e24ce2ecbfc4cce66072895a5022c3d2929e60e458d7448db178a",
+      "archive_sha256": "96e968120e273d8fda76bc91918d8490cb3353d3477540e6f033321d2bd642d2",
+      "bytes": 10865
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-004.original",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-004.original.gz",
+      "sha256": "02f72a48700639ce4c10155324b01fee804b60850c96ea58046963350c25ad04",
+      "archive_sha256": "2ec220cc00c61aa29e27ce6d25d524f81b2fc963616649a33a46269dc3f004e6",
+      "bytes": 2544
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-004.raw",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-004.raw.gz",
+      "sha256": "02f72a48700639ce4c10155324b01fee804b60850c96ea58046963350c25ad04",
+      "archive_sha256": "2ec220cc00c61aa29e27ce6d25d524f81b2fc963616649a33a46269dc3f004e6",
+      "bytes": 2544
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-005.original",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-005.original.gz",
+      "sha256": "1477eec33dbd730ec0c44811c8154523f9811e7f34b411a4b437882741a584c5",
+      "archive_sha256": "d26666bea6238178109f3cfff950c47d1d49867b961284d4f293599c19d22713",
+      "bytes": 4248
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-005.raw",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-005.raw.gz",
+      "sha256": "1477eec33dbd730ec0c44811c8154523f9811e7f34b411a4b437882741a584c5",
+      "archive_sha256": "d26666bea6238178109f3cfff950c47d1d49867b961284d4f293599c19d22713",
+      "bytes": 4248
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-006.original",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-006.original.gz",
+      "sha256": "92be54dfab5c05a25266d944981feed45ba3507c452dd2652a3f57cc238528fc",
+      "archive_sha256": "2982eddcf7c0c4d5dd1ea2edf3c8830a04e83610baf5b19a961212f54c28e88f",
+      "bytes": 1274
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-006.raw",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-006.raw.gz",
+      "sha256": "92be54dfab5c05a25266d944981feed45ba3507c452dd2652a3f57cc238528fc",
+      "archive_sha256": "2982eddcf7c0c4d5dd1ea2edf3c8830a04e83610baf5b19a961212f54c28e88f",
+      "bytes": 1274
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-007.original",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-007.original.gz",
+      "sha256": "1047750257c1e24418c6e49ffe18d2ac0c91c6586e1b9f6bb1035efb46f92ed4",
+      "archive_sha256": "d68970c3ec83307cc40c7a4ae9ad18bd2ee840708cb8e1c827e614cf92fc9333",
+      "bytes": 842
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-007.raw",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-007.raw.gz",
+      "sha256": "1047750257c1e24418c6e49ffe18d2ac0c91c6586e1b9f6bb1035efb46f92ed4",
+      "archive_sha256": "d68970c3ec83307cc40c7a4ae9ad18bd2ee840708cb8e1c827e614cf92fc9333",
+      "bytes": 842
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-008.original",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-008.original.gz",
+      "sha256": "45a6be2f9b79068542779b8ec3573a60b89fb90ebe0cea2e0fb9c419fa37de7b",
+      "archive_sha256": "7e52290de7012991cb9f02cce312ea13d891bd1a7918e6714514348f8c6ce1f8",
+      "bytes": 1363
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/attempt-1790341930801637469/source-008.raw",
+      "archive_path": "raw/prefix/attempt-1790341930801637469/source-008.raw.gz",
+      "sha256": "45a6be2f9b79068542779b8ec3573a60b89fb90ebe0cea2e0fb9c419fa37de7b",
+      "archive_sha256": "7e52290de7012991cb9f02cce312ea13d891bd1a7918e6714514348f8c6ce1f8",
+      "bytes": 1363
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/prefix/receipt.json",
+      "archive_path": "raw/prefix/receipt.json.gz",
+      "sha256": "b0e48e16ef43c0676b6ad11d4e391e6c44d6bb2f7177d27b64005375b074c9d3",
+      "archive_sha256": "bc91ae955f43d17b71d606a969de7e51b6b815771b84caa8653524535f55dd95",
+      "bytes": 4579
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/inherited-evidence.json",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/inherited-evidence.json.gz",
+      "sha256": "3ffd0766d34f1bdc5d93116370b8124229ee5d8eaca3b27d7459e3f38a8f0e35",
+      "archive_sha256": "12ce3671c15ae1dfbe0facadd978adb4ae7d71673f78a5670a52d77e10a990c4",
+      "bytes": 41022
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-000.original",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-000.original.gz",
+      "sha256": "98d3e4753ab0a2f0c5dba8e9f6987f0fea0a2832a47787605955f9a1139ceeb0",
+      "archive_sha256": "496355050ca6a8431b17ac1a04c138686290ae5379c96d8ac66b0642a22b619d",
+      "bytes": 14580
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-000.raw",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-000.raw.gz",
+      "sha256": "0f2d664f60944409ae7738e3037e8bf3caf6858bdc12ab874d9b0182b224ce98",
+      "archive_sha256": "98d3e4753ab0a2f0c5dba8e9f6987f0fea0a2832a47787605955f9a1139ceeb0",
+      "bytes": 228254
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-001.original",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-001.original.gz",
+      "sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a",
+      "archive_sha256": "060091f63f0c0489648539e959e9d0e438891298762f18595476a626f7ef4a09",
+      "bytes": 16357
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-001.raw",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-001.raw.gz",
+      "sha256": "0898a886e5d4a2d31cba864370c6603155b1108c870cb0db2e5a4cbe960f56d2",
+      "archive_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a",
+      "bytes": 321768
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-002.original",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-002.original.gz",
+      "sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393",
+      "archive_sha256": "a20bcfc0763726c0eb67acb68b143e1700e7f658088be94d8686851fa5018210",
+      "bytes": 2101
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-002.raw",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-002.raw.gz",
+      "sha256": "b3c02eb5cee22b9e3f61e81aab0c3a521a9ea67543af71cc232bdc096ce0a80b",
+      "archive_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393",
+      "bytes": 4593
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-003.original",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-003.original.gz",
+      "sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "archive_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a",
+      "bytes": 19594
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-003.raw",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-003.raw.gz",
+      "sha256": "7b33538651c693530f62d11c9b557372ea65f2254cffa69da3923274fe97394c",
+      "archive_sha256": "b72b3054e617654ed18e30f08576b8fcfca6442d0073c4b355a3ed008d8d840a",
+      "bytes": 19594
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-004.original",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-004.original.gz",
+      "sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36",
+      "archive_sha256": "3717542e57d7ea361a053e510ede67c042f84ebc9785e45b58b5d67c4f1c6afc",
+      "bytes": 696
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-004.raw",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-004.raw.gz",
+      "sha256": "8a316745acb3e1b8b8864d2f3d6c8c238dafca8a0112766dce36d842cfb87b29",
+      "archive_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36",
+      "bytes": 1134
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-005.original",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-005.original.gz",
+      "sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8",
+      "archive_sha256": "4762dbe80167657342af63e5c2505267a84e7cf0c132efe3dd01b6472af251d7",
+      "bytes": 2024
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-005.raw",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-005.raw.gz",
+      "sha256": "adfee951e3791993273ba5fdffc8886b4708c1ff7c8fa53ed784e6a23d80a344",
+      "archive_sha256": "49b35eff93ef4e698d1a4be0ec3161983ee5b0e928d5497cb1e40b1de9ca5da8",
+      "bytes": 6603
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-006.original",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-006.original.gz",
+      "sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77",
+      "archive_sha256": "d2edd2c59c4fab3bb8697dbbd87bebf5e86f54742535bb3516375f6e8cfcfba9",
+      "bytes": 2019
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/attempt-1790341931366422384/source-006.raw",
+      "archive_path": "raw/reasoning-api/attempt-1790341931366422384/source-006.raw.gz",
+      "sha256": "04b9a600194d03643db21bd7ea7952a42bf30d9b89f53cf7975d0a7d4d7b4bb6",
+      "archive_sha256": "8727b7eaa2c6a83b67623da8d017c752f909a7b2f5f4b451fbe6f17a07ae6b77",
+      "bytes": 6605
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/reasoning-api/receipt.json",
+      "archive_path": "raw/reasoning-api/receipt.json.gz",
+      "sha256": "9c7a84bf6bd2eabc00402370cffa1e31ef1076c96dc51e487008396cdfc286d3",
+      "archive_sha256": "108e0775a21fa24a077e28a8878a3a4cfd98a1e71d62fb2d2820afee58c2d615",
+      "bytes": 4580
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/seven/attempt-1790341932505013257/command.json",
+      "archive_path": "raw/seven/attempt-1790341932505013257/command.json.gz",
+      "sha256": "c3ce4e6528e521899b309d81c62dc90123392245859882852e14a1753996a167",
+      "archive_sha256": "32b7e3b1beb85def9dbe86dc7161ade341dea36af8350551d5e635028cb8444e",
+      "bytes": 428
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/seven/attempt-1790341932505013257/result.jsonl",
+      "archive_path": "raw/seven/attempt-1790341932505013257/result.jsonl.gz",
+      "sha256": "b0345b7527f5ace97dcfdd18299fa64ef769413352978eb7dc0d81fcbdd11cf2",
+      "archive_sha256": "0e01f8554e81202153f441f5257bbce65448e4eedee7c6ce009e26721a113e47",
+      "bytes": 131422
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/seven/attempt-1790341932505013257/stdout.log",
+      "archive_path": "raw/seven/attempt-1790341932505013257/stdout.log.gz",
+      "sha256": "8526cd01e896851c733284cf557e29e8ed63009152fce09f76db3a047bc5b2d3",
+      "archive_sha256": "5d5c1b0f953d91700cbc7403bb817c952590194de451c711672174cb8c978eef",
+      "bytes": 5177
+    },
+    {
+      "source_path": ".cache/release/spark-v1-qualification/seven/receipt.json",
+      "archive_path": "raw/seven/receipt.json.gz",
+      "sha256": "af23787007d94db98be6422a4ceea200de6e9c54086e9f36e844fdc47c1c451a",
+      "archive_sha256": "20d2a22975b3fd669ddfddf622dc0198a70984e54300f833c3f1c87f9dae9c7c",
+      "bytes": 6047
+    }
+  ],
+  "summary_sha256": "e2bac863551602273818383bcd9d853cc8eb9b22a598775d81415156d411ba44"
+}
