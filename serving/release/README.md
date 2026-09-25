@@ -150,52 +150,49 @@ validated library feature with compatibility checks and new-device numerical
 qualification. Caches from a later source or dependency build must be exported
 again; the release wrapper rejects dependency or source drift.
 
-## Registry access: qualified RTX v1 and published v2
+## Registry access: qualified RTX v2
 
-RTX version `20260925-v1` has been pushed as:
-
-```text
-ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6
-```
-
-The RTX package is **public**. An anonymous pull of this digest passed using a
-Docker configuration with no authentication settings. Its fresh launch and
-restart through `run.sh` passed health, prefix reuse, constrained JSON and tool
-checks; the reasoning API example below also passed. See the
-[release benchmark report](../../benchmarks/releases/rtx-20260925-v1/report.json)
-and [deployment evidence](../../benchmarks/releases/rtx-20260925-v1/fastpath/report.json).
+RTX `20260925-v2` is **public**, with authenticated and anonymous digest pulls
+verified. The active RTX settings pin this immutable native amd64 image:
 
 ```bash
 docker pull --platform linux/amd64 \
-  ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6
+  ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e
 ```
 
-Initial publication was private; the earlier authenticated success and anonymous
-`unauthorized` result remain in the [publication receipt](../../benchmarks/development/rtx-release-wrapper/README.md).
-The package owner subsequently made it public, and the deployment evidence
-records the successful anonymous check. No Spark digest is supplied before its
-native publication.
+The [completed v2 report](../../benchmarks/releases/rtx-20260925-v2/report.json)
+records functional, performance and hard-mode tool-quality results, including
+quality misses and the documented restart continuation. The public runner's
+pull, fresh-cache start, health, status, logs, stop and restart all passed;
+see the [lifecycle receipt](../../benchmarks/releases/rtx-20260925-v2/fastpath/receipt.json.gz)
+and [artifact hashes](../../benchmarks/releases/rtx-20260925-v2/fastpath/manifest.json).
+The lifecycle check reused local model weights and sent no additional benchmark
+requests. [Publication evidence](../../benchmarks/development/rtx-native-v2-wrapper/README.md)
+preserves the registry checks and prepublication wrapper gates.
 
-RTX `20260925-v2` is also public at
-`ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e`.
-Authenticated and anonymous digest pulls passed; its full published-image
-qualification is still running. See the [v2 publication evidence](../../benchmarks/development/rtx-native-v2-wrapper/README.md).
-Publication alone does not activate v2 in `settings.json`; the commands below
-continue to select the qualified settings, not the newest registry tag.
+RTX v1 remains an immutable historical 262,144-context recipe; its
+[report](../../benchmarks/releases/rtx-20260925-v1/report.json) and
+[deployment evidence](../../benchmarks/releases/rtx-20260925-v1/fastpath/report.json)
+remain available. The current commands select v2 through qualified settings,
+not a mutable registry tag. Spark remains pending its separate ARM64 release.
 
 ## Container fast path
 
-RTX settings contain the published digest, qualified profile and completed
+RTX settings contain the v2 published digest, qualified profile and completed
 report hash. Spark remains `pending-qualification` until its native image and
 report are ready. `run.sh` refuses incomplete platform settings.
 No development image tag is a release fallback. Keep this recipe checkout,
 including its qualification reports and `serving/start_*.sh` launchers.
 
-RTX currently selects MTP3, native vocabulary and 0.95 GPU memory utilization.
+RTX v2 selects 524,288 context, 512 batched tokens, 16 sequence slots, MTP3,
+FP8 KV and 0.95 GPU memory utilization. Its 17/29 layer ownership keeps routed
+experts at TP2; vision/audio towers use owners 0/1. It enables compact DSA,
+owner-aware KV grouping, packed/fused routing, bounded shared-expert overlap,
+and exact SWA Q-B for rows 4/8/16. Vocabulary projection and boundary tables
+retain their native implementations. The report and settings bind every choice.
 Spark's selection is independent; its current candidates use 0.80 utilization
-with the host guard. These decisions must be reflected in the final settings
-after the corresponding release images pass qualification. Bare development
-launcher defaults do not reproduce these profiles.
+with the host guard. Spark settings activate only after its own release approval.
+Bare development launcher defaults do not reproduce these profiles.
 
 Run from the same recipe checkout revision on both Spark hosts, or from the
 RTX checkout root. Each host needs Docker with NVIDIA GPU support, Bash,
@@ -310,9 +307,8 @@ platform stores its own:
 - Repository-relative qualification report path and SHA256 of its exact bytes.
 - GPU memory utilization, context limit, sequence limit and prefill chunk size.
 - FP8 KV format and platform-specific MTP token count (`0` explicitly disables MTP).
-- `compact_dsa_cache`: opt-in compact sparse-attention cache layout. The current
-  RTX release uses `false`; enabling it requires a supporting image and its own
-  measured report. Start/restart bind this setting to the captured
+- `compact_dsa_cache`: opt-in compact sparse-attention cache layout. RTX v2
+  uses `true` with its measured report; historical v1 uses `false`. Start/restart bind this setting to the captured
   `DOTS3_COMPACT_DSA_CACHE` environment. Older profiles default to `false`.
 - Required `reasoning_parser: "dots3"`, verified against the image label.
 - `hybrid_layer_partition`: empty for ordinary TP2, or two positive decoder
