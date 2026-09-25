@@ -59,4 +59,16 @@ def patch(root):
     path.write_text(source)
 
 
+    path = root / 'models/deepseek_v32/nvidia/mtp.py'
+    source = path.read_text()
+    anchor = '            if layer_idx not in loaded_layers and is_mtp_completeness_check_enabled():'
+    if source.count(anchor) != 1:
+        raise RuntimeError('MTP completeness source anchor changed')
+    source = source.replace(anchor,
+        '            owns_parameters = getattr(self.model.layers[str(layer_idx)].mtp_block, "has_checkpoint_decoder_parameters", True)\n'
+        '            if owns_parameters and layer_idx not in loaded_layers and is_mtp_completeness_check_enabled():')
+    compile(source, str(path), 'exec')
+    path.write_text(source)
+
+
 if __name__ == '__main__': patch(Path(sys.argv[1]))

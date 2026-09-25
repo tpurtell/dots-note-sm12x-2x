@@ -5,7 +5,7 @@ import tempfile
 from pathlib import Path
 from port_hybrid_parallel import patch
 source = Path('.cache/vllm-v0.30.0/vllm')
-files = ('model_executor/models/deepseek_v2.py', 'models/dots3_note/nvidia/model.py', 'models/dots3_note/nvidia/mtp.py')
+files = ('model_executor/models/deepseek_v2.py', 'models/dots3_note/nvidia/model.py', 'models/dots3_note/nvidia/mtp.py', 'models/deepseek_v32/nvidia/mtp.py')
 with tempfile.TemporaryDirectory() as tmp:
     root = Path(tmp)
     for name in files:
@@ -28,3 +28,9 @@ with tempfile.TemporaryDirectory() as tmp:
             assert not any(isinstance(x,ast.Global) for x in ast.walk(init))
     assert len(found)==3
 print('Hybrid source port: explicit dense context in DSA/SWA constructors and linear sharding; syntax passed')
+
+# Ownership only exempts a parameter-free peer; native and owner layers retain
+# the existing mandatory checkpoint-layer completeness validation.
+from types import SimpleNamespace as NS
+for block, expected in ((NS(),True),(NS(has_checkpoint_decoder_parameters=True),True),(NS(has_checkpoint_decoder_parameters=False),False)):
+    assert getattr(block, 'has_checkpoint_decoder_parameters', True) is expected

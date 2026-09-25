@@ -79,6 +79,7 @@ class Dots3HybridDecoderLayer(nn.Module):
         self.is_moe = (not self.is_draft and config.n_routed_experts is not None
             and self.layer_idx >= config.first_k_dense_replace
             and self.layer_idx % getattr(config, 'moe_layer_freq', 1) == 0)
+        self.has_checkpoint_decoder_parameters = self.context.owns_parameters or self.is_moe
         quant = vllm_config.quant_config
         if self.context.owns_parameters:
             attention = native['Dots3NoteSlidingAttention'] if config.layer_types[self.layer_idx] == 'sliding_attention' else native['Dots3NoteFullAttention']
