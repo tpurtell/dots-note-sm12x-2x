@@ -33,6 +33,7 @@ def settings(path, selected):
     config.setdefault('compact_dsa_cache', False)
     config.setdefault('indexer_prefill_contexts', 40)
     config.setdefault('hybrid_layer_partition', [])
+    config.setdefault('hybrid_packed_routing', False)
     if selected == 'rtx':
         # Older RTX profiles predate the Spark-only transport fields.
         config = dict(config)
@@ -73,6 +74,8 @@ def settings(path, selected):
             len(partition) != 2 or any(type(n) is not int or n <= 0 for n in partition)
             or sum(partition) != 46)):
         fail('hybrid_layer_partition must be empty or assign all 46 layers across two owners')
+    if type(config['hybrid_packed_routing']) is not bool or (config['hybrid_packed_routing'] and not partition):
+        fail('hybrid_packed_routing requires a boolean and an enabled hybrid partition')
     if type(config.get('mtp_tokens')) is not int or config['mtp_tokens'] < 0:
         fail('mtp_tokens must be 0 (disabled) or a positive integer')
     for name in ['b12x_vocab', 'b12x_pcie', 'b12x_roce', 'b12x_roce_eager', 'compact_dsa_cache']:
@@ -148,6 +151,8 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
         env = dict(item.split('=', 1) for item in runtime_env)
         if env.get('VLLM_HYBRID_LAYER_PARTITION', '') != ','.join(map(str, config['hybrid_layer_partition'])):
             fail(f'Qualification hybrid layer ownership mismatch for {host}')
+        if env.get('VLLM_HYBRID_PACKED_ROUTING', '0') != str(int(config['hybrid_packed_routing'])):
+            fail(f'Qualification hybrid routing transport mismatch for {host}')
         if env.get('DOTS3_INDEXER_PREFILL_CONTEXTS', '40') != str(config['indexer_prefill_contexts']):
             fail(f'Qualification indexer workspace mismatch for {host}')
         for variable, setting in [('DOTS3_B12X_VOCAB', 'b12x_vocab'),
@@ -271,6 +276,7 @@ def main():
         DOTS3_COMPACT_DSA_CACHE=str(int(config['compact_dsa_cache'])),
         DOTS3_INDEXER_PREFILL_CONTEXTS=str(config['indexer_prefill_contexts']),
         VLLM_HYBRID_LAYER_PARTITION=','.join(map(str, config['hybrid_layer_partition'])),
+        VLLM_HYBRID_PACKED_ROUTING=str(int(config['hybrid_packed_routing'])),
         DOTS3_B12X_VOCAB=str(int(config['b12x_vocab'])), DOTS3_B12X_PCIE=str(int(config['b12x_pcie'])),
         DOTS3_B12X_ROCE=str(int(config['b12x_roce'])),
         DOTS3_B12X_ROCE_EAGER=str(int(config['b12x_roce_eager'])),

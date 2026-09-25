@@ -283,6 +283,9 @@ platform stores its own:
   layer counts totaling 46 for hybrid non-expert ownership with expert TP2.
   This is bound to the qualification report and explicitly set on launch;
   an inherited shell setting cannot change a qualified profile.
+- `hybrid_packed_routing`: whether the hybrid owner broadcasts activation and
+  routing metadata as one byte-preserving payload. Defaults to `false` and
+  requires hybrid ownership; qualification must use the same transport setting.
 - `indexer_prefill_contexts`: indexer gather workspace budget in full contexts
   (1–40). Older profiles use 40. A smaller budget requires a supporting image
   and qualification with the same captured `DOTS3_INDEXER_PREFILL_CONTEXTS` value.
