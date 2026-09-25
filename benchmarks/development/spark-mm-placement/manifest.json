@@ -1,5 +1,5 @@
 {
-  "scope": "Spark hybrid packed MM owners0,1 23/23 native524K .80 guard1; ownership attestation +API40 +MMpass; measured KV budgets inform predicted20/26 nextcut, notyetadmitted.",
+  "scope": "Spark hybrid packed MM owners0,1 23/23 native524K .80 guard1; ownership attestation +API40 +MMpass; measured KV budgets inform predicted20/26 nextcut, notyetadmitted. Cut20/26 actualadmission2,416,692equivtokens/4.61x; budgets9.7070/12.9466GiB, prefix/toolJSONpassed; nofullcoding.",
   "artifacts": [
     {
       "source": ".cache/serving/spark/mm-v6-23-moa.log",
@@ -72,6 +72,66 @@
       "artifact": "runtime-moa-mm-v6-23.json.gz",
       "source_sha256": "83c49e69dcaf4757735e3bb2ba6c948b2eb60b00d7c2474af24573d5f1133582",
       "artifact_sha256": "7cd4d78add5ce7e5dea3a0718b39e78749603157a3c5f79f3904665ef8c30104"
+    },
+    {
+      "source": ".cache/serving/spark/prefix-mm-v6-20.log",
+      "artifact": "prefix-mm-v6-20.log.gz",
+      "source_sha256": "5aef514f0de19f8c7f3fa3a718d92c2e2a574279e20eec880f6dd9ec385a2cfe",
+      "artifact_sha256": "37ab2f354473a30566709bb3e913774ae86df633101fb860bc2ce8299b142460"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-mm-v6-20.json",
+      "artifact": "runtime-rhea-mm-v6-20.json.gz",
+      "source_sha256": "e9bb8572fcbef7c5b4d89f236393757ae1ee741b6e02dc53a9c27b02e37d9939",
+      "artifact_sha256": "452d655188ce31b60c7c9810a889d961034ec6b1719b58130efda9d9289f29c5"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-20-rhea.log",
+      "artifact": "mm-v6-20-rhea.log.gz",
+      "source_sha256": "a0fb0f9e3b5199ffe0846d5775a13c2ff2e519abeeae1664b3711427e806a044",
+      "artifact_sha256": "05f2652bba6d55bfc545ac5ab32d8168704626b8ff135a582c7c6f895417ab4d"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-20-moa.log",
+      "artifact": "mm-v6-20-moa.log.gz",
+      "source_sha256": "adf29a4275e64eb4b3babc5121749451e879c34de2c6680034e29d49a99710bb",
+      "artifact_sha256": "aa1e7bca14430fb345cbd77b4cdc8f38669eb2760aafa6333ad1d51d9a331baa"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-moa-mm-v6-20.json",
+      "artifact": "runtime-moa-mm-v6-20.json.gz",
+      "source_sha256": "73c9cb1c87e3c2f7c966f7746aa08d71d55fdd77c9a9e2259f700fe797a5b8a3",
+      "artifact_sha256": "787c239a06b84fa33b6a9184ab6a5f63c979424465a49f233977de9ecfd68315"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-20-rhea-startup.log",
+      "artifact": "mm-v6-20-rhea-startup.log.gz",
+      "source_sha256": "3c54a9f2bca2e7456021facdc27d59616d2ad9739474b154eb1326121b4cc1bd",
+      "artifact_sha256": "9597cd29a90017b0fc51fd37b77f82b2b55e568d097f4ea9e8dcbf1ec245c148"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-20-rhea-memory.log",
+      "artifact": "mm-v6-20-rhea-memory.log.gz",
+      "source_sha256": "1045e5f0170c113e8835dc12546faf4dd6720d32ef6683db3b888957649f686c",
+      "artifact_sha256": "a5d4635812b7d6195ec703536f875bf90198ec5547af4f3b2cb5df5bb803b139"
+    },
+    {
+      "source": ".cache/serving/spark/prefix-mm-v6-20.json",
+      "artifact": "prefix-mm-v6-20.json.gz",
+      "source_sha256": "3a5937bb46ee07bf9192b7f6284313617095fd8ee2f7c0e71ca40a7bcd8f96b1",
+      "artifact_sha256": "217d3931ae245c20d3dfaa0d6b70c6d94d409daccbf3a689372c13b81135444a"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-20-moa-memory.log",
+      "artifact": "mm-v6-20-moa-memory.log.gz",
+      "source_sha256": "659f5a4a5246210e3bb37d71606390db3d2e1384a29d36f6ca56d3532ba5557f",
+      "artifact_sha256": "b84ee276a2dafc0b0a322e67b0a7b70d8fbbc217b95f9af54325b1a3ef7a9477"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-20-attestation.json",
+      "artifact": "mm-v6-20-attestation.json.gz",
+      "source_sha256": "198b997757d29077043defa8beae01a59399a9717487281132bbb92647f728c7",
+      "artifact_sha256": "f3a1f46e0da924f27a2e23ac0dbe4b738030567a94cbd696838622a06fbb32df"
     }
   ]
 }

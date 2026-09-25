@@ -1,0 +1,17 @@
+{
+  "scope": "BothGB10 fused routing copy,28cases including actualint64 routerIDs andBF16weights conversion, changedinputgraphs andbitwisebyteparity. Candidate-v6 withsourceoverlayeab9696. Componenttimings only.",
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/fused-pack-rhea.jsonl",
+      "artifact": "fused-pack-rhea.jsonl.gz",
+      "source_sha256": "b973ebe68989bb1116c973def12ffe61ffc736e0dea3c98ad41bffa161fa0424",
+      "artifact_sha256": "a179202fbb451415bc4f39ac5402152e4a14d96d3e9def7ffb0b2469bb6a9196"
+    },
+    {
+      "source": ".cache/serving/spark/fused-pack-moa.jsonl",
+      "artifact": "fused-pack-moa.jsonl.gz",
+      "source_sha256": "09afdebb233260cd640dc6433a220965ba6c7bf4b790128fe79daf772fec0886",
+      "artifact_sha256": "71fcd8f5811c0e74740e1dc767694bff767b596e72469a1396f7e279e52dc133"
+    }
+  ]
+}
