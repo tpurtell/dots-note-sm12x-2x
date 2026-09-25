@@ -1,0 +1,31 @@
+{
+  "scope": "ActualDots3B12xSparseImpl512row128headprefillgeometry GPUgate, compact576, variable512..2048selected; Rhea1request/stride226944,Moa4requests/stride362880. Twochangedinputgraphs,cacheimmutability. FP8queryreference, notnativeBF16prefillequivalence orfullmodelqualification.",
+  "script_commit": "5e46bb4",
+  "image": "dots3-vllm-spark:candidate-v7",
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/mqa512-adapter-moa.log",
+      "artifact": "mqa512-adapter-moa.log.gz",
+      "source_sha256": "3f4a6c4939e026e1828f77f4d7cb95129403dd81dcf53050d590ab0acd60f25a",
+      "artifact_sha256": "b9db9f10e6f867ef4407e115b6adda299ca29467d68945bba2279f9cc4f4bebc"
+    },
+    {
+      "source": ".cache/serving/spark/mqa512-adapter-rhea.json",
+      "artifact": "mqa512-adapter-rhea.json.gz",
+      "source_sha256": "8a83d3370d27baaa6e9851233967d5d2a7d855cf9d8b77f254c240a0c71101f3",
+      "artifact_sha256": "5f547289652c7f974a20d862588234784c4160cb0f3acd9944221ad09328e2e1"
+    },
+    {
+      "source": ".cache/serving/spark/mqa512-adapter-rhea.log",
+      "artifact": "mqa512-adapter-rhea.log.gz",
+      "source_sha256": "07d5d641425a2d41f419cf64812c4e09e5d55b361d94518a7d500633a1422442",
+      "artifact_sha256": "e4b14c22f9dfec3cbf3ee7d47bc126f6dc82dd9d4817c9cfccb2dc0570736a44"
+    },
+    {
+      "source": ".cache/serving/spark/mqa512-adapter-moa.json",
+      "artifact": "mqa512-adapter-moa.json.gz",
+      "source_sha256": "80424b3703c21507bae416baecb8b6f8ccd0bcee46d3a82c121381990e0c2778",
+      "artifact_sha256": "2fcc6b231b3c578ae81d102f39bd2b086713f6a9b9590e546ca51e24266488f1"
+    }
+  ]
+}
