@@ -36,6 +36,7 @@ def settings(path, selected):
     config.setdefault('hybrid_packed_routing', False)
     config.setdefault('hybrid_mm_owners', [])
     config.setdefault('hybrid_fused_pack', False)
+    config.setdefault('hybrid_overlap_shared', False)
     config.setdefault('hybrid_boundary_owners', [])
     if selected == 'rtx':
         # Older RTX profiles predate the Spark-only transport fields.
@@ -81,6 +82,8 @@ def settings(path, selected):
         fail('hybrid_packed_routing requires a boolean and an enabled hybrid partition')
     if type(config['hybrid_fused_pack']) is not bool or (config['hybrid_fused_pack'] and not config['hybrid_packed_routing']):
         fail('hybrid_fused_pack requires a boolean and packed routing')
+    if type(config['hybrid_overlap_shared']) is not bool or (config['hybrid_overlap_shared'] and not partition):
+        fail('hybrid_overlap_shared requires a boolean and enabled hybrid partition')
     boundary = config['hybrid_boundary_owners']
     if not isinstance(boundary, list) or (boundary and (
             not partition or len(boundary) != 2
@@ -170,6 +173,8 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
             fail(f'Qualification hybrid routing transport mismatch for {host}')
         if env.get('VLLM_HYBRID_MM_OWNERS', '') != ','.join(map(str, config['hybrid_mm_owners'])):
             fail(f'Qualification multimodal ownership mismatch for {host}')
+        if env.get('VLLM_HYBRID_OVERLAP_SHARED', '0') != str(int(config['hybrid_overlap_shared'])):
+            fail(f'Qualification shared expert overlap mismatch for {host}')
         if env.get('VLLM_HYBRID_FUSED_PACK', '0') != str(int(config['hybrid_fused_pack'])):
             fail(f'Qualification fused routing pack mismatch for {host}')
         if env.get('VLLM_HYBRID_BOUNDARY_OWNERS', '') != ','.join(map(str, config['hybrid_boundary_owners'])):
@@ -300,6 +305,7 @@ def main():
         VLLM_HYBRID_PACKED_ROUTING=str(int(config['hybrid_packed_routing'])),
         VLLM_HYBRID_MM_OWNERS=','.join(map(str, config['hybrid_mm_owners'])),
         VLLM_HYBRID_FUSED_PACK=str(int(config['hybrid_fused_pack'])),
+        VLLM_HYBRID_OVERLAP_SHARED=str(int(config['hybrid_overlap_shared'])),
         VLLM_HYBRID_BOUNDARY_OWNERS=','.join(map(str, config['hybrid_boundary_owners'])),
         DOTS3_B12X_VOCAB=str(int(config['b12x_vocab'])), DOTS3_B12X_PCIE=str(int(config['b12x_pcie'])),
         DOTS3_B12X_ROCE=str(int(config['b12x_roce'])),

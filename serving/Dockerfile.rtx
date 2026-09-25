@@ -20,6 +20,7 @@ COPY serving/dots3_reasoning_parser.py /usr/local/lib/python3.12/dist-packages/v
 COPY serving/port_reasoning.py /tmp/port_reasoning.py
 COPY serving/port_compact_cache.py /tmp/port_compact_cache.py
 COPY serving/hybrid_attestation.py /opt/dots3/hybrid_attestation.py
+COPY serving/hybrid_shared_overlap.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/hybrid_shared_overlap.py
 COPY serving/hybrid_pack_kernel.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/hybrid_pack_kernel.py
 COPY serving/hybrid_parallel.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/hybrid_parallel.py
 COPY serving/dots3_hybrid_parallel.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/hybrid_parallel.py
@@ -44,6 +45,7 @@ ENV PYTHONPATH=/opt/dots3:/opt/b12x \
     VLLM_HYBRID_LAYER_PARTITION="" \
     VLLM_HYBRID_PACKED_ROUTING=0 \
     VLLM_HYBRID_FUSED_PACK=0 \
+    VLLM_HYBRID_OVERLAP_SHARED=0 \
     VLLM_HYBRID_BOUNDARY_OWNERS="" \
     VLLM_HYBRID_MM_OWNERS="" \
     DOTS3_COMPACT_DSA_CACHE=0 \
