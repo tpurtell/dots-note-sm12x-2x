@@ -1,0 +1,77 @@
+{
+  "scope": "Spark hybrid packed MM owners0,1 23/23 native524K .80 guard1; ownership attestation +API40 +MMpass; measured KV budgets inform predicted20/26 nextcut, notyetadmitted.",
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/mm-v6-23-moa.log",
+      "artifact": "mm-v6-23-moa.log.gz",
+      "source_sha256": "39c2f3f4c66fa1d5ec894c70b832ed138bf3bc65339a1d74cd120f2a05befe3f",
+      "artifact_sha256": "133155b7c3fde28ffc66293bfc31f893aca045c70101eb52a3d62d981fca25c2"
+    },
+    {
+      "source": ".cache/serving/spark/placement-mm-v6-23.json",
+      "artifact": "placement-mm-v6-23.json.gz",
+      "source_sha256": "6360b8b15296c436d7cbda31fb16361b7ab93887896e0eab0f98507d4203f62d",
+      "artifact_sha256": "2ed3e443497f9a24f04ffaf66e6be3637c27c149fb9b1a181c54b57e46cdf928"
+    },
+    {
+      "source": ".cache/serving/spark/reasoning-api-mm-v6-23.log",
+      "artifact": "reasoning-api-mm-v6-23.log.gz",
+      "source_sha256": "fe63de6be7b960bc664588c83bdad4af8f961e49760a54cea100a02c7b4121c1",
+      "artifact_sha256": "7df9e452f3412f4567e46a6f68c11f713fc7940a9434154e7e80d0c51198f45d"
+    },
+    {
+      "source": ".cache/serving/spark/multimodal-mm-v6-23.log",
+      "artifact": "multimodal-mm-v6-23.log.gz",
+      "source_sha256": "b0ea1ce0687665403a5b27330f16dcf4612949327a737df2154dca80a706df27",
+      "artifact_sha256": "2e4418232d6f51fcecab62b28689858515a64be90bc9ccfc3eb8ea25ada56340"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-23-rhea-memory.log",
+      "artifact": "mm-v6-23-rhea-memory.log.gz",
+      "source_sha256": "a2c1a51e3f1ce5dc10cd1846658f9951d68540ce57d6b920ccf1551d5528c0a0",
+      "artifact_sha256": "2196678fa151efecd102a64e9ac40fa7383a3756410e4d77ea70a0177df320fc"
+    },
+    {
+      "source": ".cache/serving/spark/reasoning-api-mm-v6-23.jsonl",
+      "artifact": "reasoning-api-mm-v6-23.jsonl.gz",
+      "source_sha256": "e0e5a7c3b1ca38fce5c29880441efdef730e1fe46674c36044f47cc3fed026a0",
+      "artifact_sha256": "5ead19a361e1f659bf590c947e651e926a10a73ae14ccea0016a8c4cc53d3756"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-23-attestation.json",
+      "artifact": "mm-v6-23-attestation.json.gz",
+      "source_sha256": "a595e41ab97914f149084cbf94bf00ff3d7aa5c1d7f338de3a5addd161b8bc91",
+      "artifact_sha256": "d8b0aefe3e674ae7256e275b0aeafc89ed4b826ed65ffe50c8801977cfca1915"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-23-rhea.log",
+      "artifact": "mm-v6-23-rhea.log.gz",
+      "source_sha256": "1975f17535d0785ed654283b9c5fe6431f90bb9a44c58f4b36c057301d37d811",
+      "artifact_sha256": "7ba92438695113a2cf9e3aaa3fe09266bad02c9cd9f18eed9b2746700b6d3526"
+    },
+    {
+      "source": ".cache/serving/spark/multimodal-mm-v6-23.json",
+      "artifact": "multimodal-mm-v6-23.json.gz",
+      "source_sha256": "ff207774dddff5ffb3ea954dd183c7ea62bbcb736ce9b55243bbacf71ede757a",
+      "artifact_sha256": "d7c1b3f6a251ccecedbbc775a71d62f70472e6f465c91cc8eb32d1a3d19d76bc"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-mm-v6-23.json",
+      "artifact": "runtime-rhea-mm-v6-23.json.gz",
+      "source_sha256": "6f6d0a6f327e949152a87ea656274d10b6faaf3ee405463c72871b385ba036ae",
+      "artifact_sha256": "b10cc468abf1368b8f367a6b0beee91abccdd78e6225e5f961bc9cc78a551fda"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v6-23-moa-memory.log",
+      "artifact": "mm-v6-23-moa-memory.log.gz",
+      "source_sha256": "fd96049f5b64f841d7b093771fa8def277abbaa05534a30ca0b8c740489afa9b",
+      "artifact_sha256": "bcd4369f51de47e4a954655934acda55a6d4d92639f13c53829e6931207f646b"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-moa-mm-v6-23.json",
+      "artifact": "runtime-moa-mm-v6-23.json.gz",
+      "source_sha256": "83c49e69dcaf4757735e3bb2ba6c948b2eb60b00d7c2474af24573d5f1133582",
+      "artifact_sha256": "7cd4d78add5ce7e5dea3a0718b39e78749603157a3c5f79f3904665ef8c30104"
+    }
+  ]
+}
