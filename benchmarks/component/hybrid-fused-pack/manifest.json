@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "scope": "Component only: fused native-dtype routing copies, not model performance",
+  "execution_image": "sha256:8ff161f33665db9c38df6f2c7e175be3e718c3d67337bdf3482ce2078692417c",
+  "source_commit": "6767a9e",
+  "passed": true,
+  "cases_per_gpu": 13,
+  "checks": [
+    "bitwise eager and changed-input graph parity",
+    "contiguous and strided sources",
+    "odd hidden width alignment",
+    "signed zero, infinity and NaN FP32 route weights"
+  ],
+  "files": [
+    {
+      "source": ".cache/serving/rtx/hybrid/fused-pack-gpu0.log",
+      "archive": "fused-pack-gpu0.log.gz",
+      "sha256": "1c7022c5cd0f7c076717241c8c7212cd5541fb4f53ca36a9db2af3cddc7d5f39"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/fused-pack-gpu1.log",
+      "archive": "fused-pack-gpu1.log.gz",
+      "sha256": "c5ab8e1948a83cfdcff333aa380266683faca77d514e8472f9fa801278472e96"
+    },
+    {
+      "source": "serving/hybrid_pack_kernel.py",
+      "archive": "hybrid_pack_kernel.py.gz",
+      "sha256": "8f40c304197d83df6f068dc921fb7c65359e14ea35d7d1e9ffefa1d2e662168e"
+    },
+    {
+      "source": "serving/check_hybrid_pack_kernel.py",
+      "archive": "check_hybrid_pack_kernel.py.gz",
+      "sha256": "d356798532d41a6529e420cf97a0f0526d6f6315dce8958492ff18c7ab671f39"
+    }
+  ]
+}
