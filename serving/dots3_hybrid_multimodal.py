@@ -46,17 +46,24 @@ def broadcast_embeddings(*, transport, owner, item_count, device, encode):
     dtypes = (torch.bfloat16, torch.float16, torch.float32)
     result = None
     metadata = torch.empty(item_count + 2, device=device, dtype=torch.int64)
+    owner_error = None
     if transport.rank == owner:
-        outputs = tuple(encode())
-        if len(outputs) != item_count or any(x.ndim != 2 for x in outputs):
-            raise ValueError('native encoder output count/shape mismatch')
-        dtype, hidden = outputs[0].dtype, outputs[0].shape[1]
-        if dtype not in dtypes or any(x.dtype != dtype or x.shape[1] != hidden for x in outputs):
-            raise ValueError('inconsistent native encoder output dtype/width')
-        metadata.copy_(torch.tensor([hidden, dtypes.index(dtype)] + [x.shape[0] for x in outputs],
-                                    dtype=torch.int64, device=device))
-        result = torch.cat(outputs, dim=0)
+        try:
+            outputs = tuple(encode())
+            if len(outputs) != item_count or any(x.ndim != 2 for x in outputs):
+                raise ValueError('native encoder output count/shape mismatch')
+            dtype, hidden = outputs[0].dtype, outputs[0].shape[1]
+            if dtype not in dtypes or any(x.dtype != dtype or x.shape[1] != hidden for x in outputs):
+                raise ValueError('inconsistent native encoder output dtype/width')
+            metadata.copy_(torch.tensor([hidden, dtypes.index(dtype)] + [x.shape[0] for x in outputs],
+                                        dtype=torch.int64, device=device))
+            result = torch.cat(outputs, dim=0)
+        except Exception as error:
+            owner_error = error
+            metadata.fill_(-1)
     transport.broadcast(metadata, owner)
+    if owner_error is not None:
+        raise RuntimeError('owner MM encoder failed') from owner_error
     hidden, dtype_code, *lengths = metadata.tolist()
     if hidden <= 0 or dtype_code not in range(len(dtypes)) or any(x < 0 for x in lengths):
         raise ValueError('invalid encoder output metadata')
