@@ -74,7 +74,7 @@ def checks(args):
     session.prepare((plan.request(name='hybrid-shared-overlap',prepare_call=prepare),))
     prepared_stream(device)
     records=[]
-    for rows in (1,4,16,512):
+    for rows in (1,4,8,16,512):
         x=primer[:rows]
         binding=fused_moe.bind(plan,scratch=tuple(scratch),a=x,experts=experts,
             topk_ids=ids[:rows],topk_weights=route_weights[:rows],output=output[:rows])
@@ -121,7 +121,7 @@ def main():
         torch.cuda.set_device(0)
         try:
             init_distributed_environment(world_size=1,rank=0,local_rank=0,distributed_init_method=(Path(tmp)/'store').resolve().as_uri(),backend='nccl')
-            cfg=VllmConfig();cfg.model_config=NS(dtype=torch.bfloat16,hf_text_config=NS(model_type='dots3_note'),head_dtype=None)
+            cfg=VllmConfig();cfg.model_config=NS(dtype=torch.bfloat16,hf_text_config=NS(model_type='dots3_note'),head_dtype=None,is_moe=True)
             with set_current_vllm_config(cfg):
                 initialize_model_parallel(tensor_model_parallel_size=1,backend='nccl')
                 result=checks(args)

@@ -8,6 +8,12 @@ that join; no tensors from a completed layer remain live on the side stream.
 import torch
 
 _STREAMS={}
+MAX_OVERLAP_ROWS=16
+
+
+def eligible_rows(rows):
+    return 0 < rows <= MAX_OVERLAP_ROWS
+
 
 
 def prepared_stream(device):

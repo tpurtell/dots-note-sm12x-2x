@@ -133,6 +133,10 @@ class Dots3HybridDecoderLayer(nn.Module):
 
     def forward(self, positions, hidden_states, residual, attn_in=None):
         rows = positions.shape[0]
+        overlap_shared = False
+        if self.overlap_shared:
+            from vllm.distributed.hybrid_shared_overlap import eligible_rows
+            overlap_shared = eligible_rows(rows)
         if rows > self.capacity:
             raise ValueError('hybrid active rows exceed prepared capacity')
         arena = _arena(hidden_states.device, hidden_states.dtype, self.capacity, self.hidden_size, self.top_k)
@@ -160,7 +164,7 @@ class Dots3HybridDecoderLayer(nn.Module):
                 logits, _ = self.mlp.gate(hidden_states)
                 weights, ids = runner.router.select_experts(hidden_states, logits,
                     topk_indices_dtype=runner.routed_experts.quant_method.topk_indices_dtype)
-                if self.overlap_shared:
+                if overlap_shared:
                     from vllm.distributed.hybrid_shared_overlap import launch_shared
                     shared = launch_shared(self.mlp.shared_experts, hidden_states)
                 else:
@@ -170,7 +174,7 @@ class Dots3HybridDecoderLayer(nn.Module):
                 runner.routed_experts._ensure_moe_quant_config_init()
                 return runner.routed_experts.forward_modular(x, weights, ids)
             def finish(reduced):
-                return reduced + (shared.join() if self.overlap_shared else shared)
+                return reduced + (shared.join() if overlap_shared else shared)
             output = execute_routed_layer(owner=self.owner, transport=self.transport,
                 buffers=arena.active(rows),
                 prepare_owner=prepare, execute_local_experts=experts, finish_owner=finish,
