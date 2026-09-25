@@ -4,12 +4,24 @@ import ast
 import sys
 from pathlib import Path
 
-IMPORTS='''
-from vllm.models.dots3_note.nvidia.hybrid_boundary import (
-    embedding as _hybrid_embedding, head as _hybrid_head,
-    logits_processor as _hybrid_logits_processor, shared_head as _hybrid_shared_head,
-)
-'''
+IMPORTS = """
+def _hybrid_embedding(*args, **kwargs):
+    from vllm.models.dots3_note.nvidia.hybrid_boundary import embedding
+    return embedding(*args, **kwargs)
+
+def _hybrid_head(*args, **kwargs):
+    from vllm.models.dots3_note.nvidia.hybrid_boundary import head
+    return head(*args, **kwargs)
+
+def _hybrid_logits_processor(*args, **kwargs):
+    from vllm.models.dots3_note.nvidia.hybrid_boundary import logits_processor
+    return logits_processor(*args, **kwargs)
+
+def _hybrid_shared_head(*args, **kwargs):
+    from vllm.models.dots3_note.nvidia.hybrid_boundary import shared_head
+    return shared_head(*args, **kwargs)
+"""
+
 
 class Calls(ast.NodeTransformer):
     def __init__(self,mapping):self.mapping=mapping;self.current=None;self.counts={}
