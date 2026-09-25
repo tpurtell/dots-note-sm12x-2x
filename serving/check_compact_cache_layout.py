@@ -44,7 +44,7 @@ class Group:
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--source',type=Path,default=Path('.cache/vllm-v0.30.0/vllm')); args=ap.parse_args()
-    files=['models/dots3_note/nvidia/model.py','v1/core/kv_cache_utils.py']
+    files=['models/dots3_note/nvidia/model.py','v1/core/kv_cache_utils.py','v1/attention/backends/mla/indexer.py']
     with tempfile.TemporaryDirectory() as tmp:
         root=Path(tmp)
         for f in files:

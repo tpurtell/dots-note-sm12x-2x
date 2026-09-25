@@ -50,5 +50,20 @@ def patch(root):
     path.write_text(source)
 
 
+    path = root / 'v1/attention/backends/mla/indexer.py'
+    source = path.read_text()
+    source = replace_once(source, '    return max_model_len * 40',
+        '    # Both allocation and request chunk planning call this helper.\n'
+        '    # Zero preserves the upstream40-context default.\n'
+        '    contexts = int(__import__("os").environ.get("DOTS3_INDEXER_PREFILL_CONTEXTS", "0"))\n'
+        '    if contexts < 0 or contexts > 40:\n'
+        '        raise ValueError("DOTS3_INDEXER_PREFILL_CONTEXTS must be0..40")\n'
+        '    if contexts and vllm_config.model_config.hf_text_config.model_type in ("dots3_note", "dots3_note_mtp"):\n'
+        '        return max_model_len * contexts\n'
+        '    return max_model_len * 40')
+    compile(source, str(path), 'exec')
+    path.write_text(source)
+
+
 if __name__ == '__main__':
     patch(Path(sys.argv[1]))
