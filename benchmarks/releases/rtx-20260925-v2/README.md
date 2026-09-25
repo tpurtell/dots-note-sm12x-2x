@@ -13,3 +13,7 @@ The run was interrupted by GPU bus loss and explicitly continued after a user-co
 - Official tool score147/176,83.52%; Basic84.06%, Hard81.58%. [Diagnostic grader caveats](../../development/rtx-tool-quality-audit/README.md) do not change the official score.
 
 [Interruption evidence and audited recovery](../../development/rtx-native-v2-qualification-interrupted/README.md). The raw gzip artifacts are lossless and individually hashed in [archive-manifest.json](archive-manifest.json). Public launcher lifecycle checks are recorded separately; they do not repeat the benchmark suite.
+
+## Public launcher lifecycle
+
+[Lifecycle evidence](fastpath/manifest.json): public pull, start with an initially empty runtime cache, health, status, logs, stop, and restart all passed. Zero benchmark requests were sent. The verified container `dots3-vllm-rtx-v2-fastpath` remains running on port8001; use `CONTAINER_NAME=dots3-vllm-rtx-v2-fastpath ./serving/release/run.sh rtx status` to inspect it.

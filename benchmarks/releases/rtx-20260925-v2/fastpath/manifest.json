@@ -1,0 +1,163 @@
+{
+  "schema": "dots3-public-lifecycle-archive-v1",
+  "receipt": {
+    "schema": "dots3-rtx-public-lifecycle-v2",
+    "passed": true,
+    "container": "dots3-vllm-rtx-v2-fastpath",
+    "image": "ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e",
+    "qualification_report": "benchmarks/releases/rtx-20260925-v2/report.json",
+    "qualification_report_sha256": "bd29e1e31b8d0adf2a0b04654429118795bcfcd72815ace1d74516c4f8f6de50",
+    "initial_runtime_empty": true,
+    "model_downloaded": false,
+    "benchmark_requests_sent": 0,
+    "temperature_power_cooling_changes": false,
+    "events": [
+      {
+        "action": "pull",
+        "passed": true,
+        "started": 1790339384.9616458,
+        "finished": 1790339387.041041
+      },
+      {
+        "action": "start",
+        "passed": true,
+        "started": 1790339387.041082,
+        "finished": 1790339387.3802018
+      },
+      {
+        "action": "first-health",
+        "passed": true,
+        "time": 1790339478.762929
+      },
+      {
+        "action": "status",
+        "passed": true,
+        "started": 1790339478.7629478,
+        "finished": 1790339478.820713
+      },
+      {
+        "action": "logs",
+        "passed": true,
+        "follower_terminated_after_seconds": 2
+      },
+      {
+        "action": "stop",
+        "passed": true,
+        "started": 1790339480.8247159,
+        "finished": 1790339481.4152443
+      },
+      {
+        "action": "restart",
+        "passed": true,
+        "started": 1790339481.4243786,
+        "finished": 1790339481.682863
+      },
+      {
+        "action": "restarted-health",
+        "passed": true,
+        "time": 1790339548.031903
+      }
+    ],
+    "ended_running": true
+  },
+  "files": [
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/container-final.log",
+      "archive": "container-final.log.gz",
+      "uncompressed_sha256": "de040ae3fa94d0c3146991d16a27fd46fd4dd7858a01773dc8e2fcf19cdaaba6",
+      "uncompressed_bytes": 701449,
+      "archive_sha256": "ad113a4ae7f600f6562b9ef89dcdc4f9e43ea71561d4155a89573d566dc6d836"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/first-health.log",
+      "archive": "first-health.log.gz",
+      "uncompressed_sha256": "d40e144f86a17a7ad29dbcd8b5ebce60aebb5384798df7adee9f063b2b37d3df",
+      "uncompressed_bytes": 62,
+      "archive_sha256": "4ceba094e998e3c6a83aad751d56c441c0826699bf56c535b69d3562622a6e82"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/first-inspect.json",
+      "archive": "first-inspect.json.gz",
+      "uncompressed_sha256": "6b9e597fb614d5b19daca0debc5ec54a51ac8841f75b1ba5547467aeb254428e",
+      "uncompressed_bytes": 14578,
+      "archive_sha256": "bbcabb5531a0227f97ffd40ed41c7edca6e97bed41bd3c16fbe67c526fdb23b9"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/first-runtime.json",
+      "archive": "first-runtime.json.gz",
+      "uncompressed_sha256": "cb28700c0f097062ce8911c5fda44ac85b898476814ed27adf2cfe2a4f02db75",
+      "uncompressed_bytes": 325329,
+      "archive_sha256": "dac791cb7c52ab6e48ce5823890f9968efa428f54fa6f5d3c1778dd68f8d4ede"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/logs.log",
+      "archive": "logs.log.gz",
+      "uncompressed_sha256": "92dbda00e89b513df82d89129ad441d70cd0a6b043bb52eeb3fbc497b2e81cc1",
+      "uncompressed_bytes": 20689,
+      "archive_sha256": "eedb7976047ee723a74ddc7b3e5a80a5c575d76999d78f21d2bdf19a39fc86f5"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/pull.log",
+      "archive": "pull.log.gz",
+      "uncompressed_sha256": "976f512e604400d2cd43f3b17e321b653c0d7c0e1ce9647b58843711a4d077da",
+      "uncompressed_bytes": 494,
+      "archive_sha256": "63ed439243099f8d349e813d41a1ddf072db2bf598d35017326b22b02f4f0540"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/receipt.json",
+      "archive": "receipt.json.gz",
+      "uncompressed_sha256": "fd6c2b13d9e47241c46076fb96bc872ae7fbd5aab1b677fc8a1a14e8dd2a38c9",
+      "uncompressed_bytes": 1571,
+      "archive_sha256": "6d3a0b8c9b9dfa00d6e49815307d25b486ae8ee443ef45b414403e441e320e86"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/restart.log",
+      "archive": "restart.log.gz",
+      "uncompressed_sha256": "30dd3e9c71f6dccb0516de39691fb6964497b1e524134af57515815b83e53635",
+      "uncompressed_bytes": 82,
+      "archive_sha256": "36aef0e4a7e8fedc3ade8b96675a743c3c38c794ce233734585dd96564c937d9"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/restarted-health.log",
+      "archive": "restarted-health.log.gz",
+      "uncompressed_sha256": "d40e144f86a17a7ad29dbcd8b5ebce60aebb5384798df7adee9f063b2b37d3df",
+      "uncompressed_bytes": 62,
+      "archive_sha256": "4ceba094e998e3c6a83aad751d56c441c0826699bf56c535b69d3562622a6e82"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/restarted-inspect.json",
+      "archive": "restarted-inspect.json.gz",
+      "uncompressed_sha256": "c2137c3b91dba2fe7d705a857d768540778e81ccb306a6c10f195adc07825773",
+      "uncompressed_bytes": 14588,
+      "archive_sha256": "16d5b3e8be97d99a8bd796583528d352b8b2a57c3aa5a6ab708fdbe93c70f7ba"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/restarted-runtime.json",
+      "archive": "restarted-runtime.json.gz",
+      "uncompressed_sha256": "cb4ed52b6de67047a469e5c42995ec7f9aad86c66dbce696178f9582ef16c2ed",
+      "uncompressed_bytes": 331684,
+      "archive_sha256": "1787a9dd43a2f2fcac3b9a2d9b9b5ca43b87c5917d11b8fd960b3a8368685b10"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/start.log",
+      "archive": "start.log.gz",
+      "uncompressed_sha256": "9783c170ad49c84dc506aba8713749cc616f85650dbb9190e46015cb731f8b30",
+      "uncompressed_bytes": 65,
+      "archive_sha256": "e949ba29a4a8b4cc534990696596ed926becca2e16f0adbd3a277d8619eabde5"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/status.log",
+      "archive": "status.log.gz",
+      "uncompressed_sha256": "e23f6b451cc59b762b56a6074000a224c80d1beb3062fd9f114bb87c8cdb68bd",
+      "uncompressed_bytes": 219,
+      "archive_sha256": "67943514c440f23ef6aab07fcd4356942213eaffbb3f5d66d47dea8ca26025f2"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/fastpath/stop.log",
+      "archive": "stop.log.gz",
+      "uncompressed_sha256": "30dd3e9c71f6dccb0516de39691fb6964497b1e524134af57515815b83e53635",
+      "uncompressed_bytes": 82,
+      "archive_sha256": "36aef0e4a7e8fedc3ade8b96675a743c3c38c794ce233734585dd96564c937d9"
+    }
+  ]
+}
