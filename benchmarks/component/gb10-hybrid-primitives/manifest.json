@@ -21,7 +21,11 @@
     "hca": "roceP2p1s0f0",
     "gid": 3,
     "network": "IB",
-    "preliminary_socket_run": "Preserved separately; /dev/infiniband was omitted from its probecontainer; corrected RDMA run is qualification"
+    "preliminary_socket_run": "Preserved separately; /dev/infiniband was omitted from its probecontainer; corrected RDMA run is qualification",
+    "reduction_dtypes": [
+      "float32",
+      "bfloat16"
+    ]
   },
   "artifacts": [
     {
@@ -71,6 +75,18 @@
       "artifact": "hybrid-transport-moa.log.gz",
       "source_sha256": "38dc0d090967a7dd9370a16823ac4c466b7be947ea5e0f1201ed17c2e59eecf3",
       "artifact_sha256": "aea0c11ceff0f6a73f8aed5c48e891ca36f095c3fa7da447cfbdf6162c61f10f"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid-transport-rdma-bf16-moa.log",
+      "artifact": "hybrid-transport-rdma-bf16-moa.log.gz",
+      "source_sha256": "e5a202fa9a8d6ab224099f691be62c106d79461d902a95785c211c3c8eeb79b5",
+      "artifact_sha256": "dc37b5e0e736471d8a13b5a6d7f49a9dee0356935b2730a1583a960f7ff29440"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid-transport-rdma-bf16-rhea.log",
+      "artifact": "hybrid-transport-rdma-bf16-rhea.log.gz",
+      "source_sha256": "e4f503894f4d00f6055a66e3bf777bfaae2cee0404855d6ebe8d9fc9c3ffd687",
+      "artifact_sha256": "1bff56ca8016de71151640bfdd388bc563a1d7573ec1b50b2bbd2335066ef63e"
     }
   ]
 }
