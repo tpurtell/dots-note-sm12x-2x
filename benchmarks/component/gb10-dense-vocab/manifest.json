@@ -1,0 +1,43 @@
+{
+  "scope": "GB10 TP2 shard component probes on accepted hybrid checkpoint, no model throughput claim",
+  "b12x": "c5e23d830c3d1e76be56a5df290d13e30bc66702",
+  "adapter_fix_commit": "102bd2a",
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/components/fp8-o-layer0-rank0.json",
+      "artifact": "fp8-o-layer0-rank0.json.gz",
+      "source_sha256": "3447f4f3acf97a02b625934aaf3a47460d1c39c73fc895845c10c5d95094dbf3",
+      "artifact_sha256": "fcd606c51134a87b953601f0fb57a8336f8f4a9cf9e4139ae676387a46459f2e"
+    },
+    {
+      "source": ".cache/serving/spark/components/fp8-o-layer2-rank1.json",
+      "artifact": "fp8-o-layer2-rank1.json.gz",
+      "source_sha256": "0eb4c993a39d807fe2ca38073f157d9175805adc54327ff008902b4794b5762f",
+      "artifact_sha256": "280ad0466d53660ebe3744bb24cc4839bcd1f8d03fe2049e6f637e017ecc456d"
+    },
+    {
+      "source": ".cache/serving/spark/components/fp8-qb-layer0-rank0.json",
+      "artifact": "fp8-qb-layer0-rank0.json.gz",
+      "source_sha256": "69cb030191a9ddb3457ce1994bffb59b21107acb1a7b28db3f7b0c6bbe4930fa",
+      "artifact_sha256": "587ddf924db937dfaa21105bfd7f445f97dc7617a9353197b28addea0342f5a0"
+    },
+    {
+      "source": ".cache/serving/spark/components/fp8-qb-layer2-rank1.json",
+      "artifact": "fp8-qb-layer2-rank1.json.gz",
+      "source_sha256": "78f9e7c5784b89e587b6ca01d807a7c1223fb981bfbc4d16c84648391f72f08a",
+      "artifact_sha256": "42b8fc9d86646e592370546f5bf9a509aab087d78ff11fa86f036f597b9dbaf9"
+    },
+    {
+      "source": ".cache/serving/spark/components/vocab-reuse-rank0.json",
+      "artifact": "vocab-reuse-rank0.json.gz",
+      "source_sha256": "2ee2c8663e1abbeffff69a980dbe74716da6b5682e98466843f118d5da9efbaa",
+      "artifact_sha256": "d9674803c6b4a8763879c18076bd3e623b913142db35c10b461d41e14030e446"
+    },
+    {
+      "source": ".cache/serving/spark/components/vocab-reuse-rank1.json",
+      "artifact": "vocab-reuse-rank1.json.gz",
+      "source_sha256": "0761ee25693ed42c5d5a133d53426ef8b5e9b38ecbb9dbea3985f2c9d6e0b179",
+      "artifact_sha256": "85be180191b19894de6004bada4806e495dd95a1473397eecf1d6c3cea731e92"
+    }
+  ]
+}
