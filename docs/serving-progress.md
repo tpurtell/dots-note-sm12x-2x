@@ -618,3 +618,21 @@ differ, so these completion and latency observations do not establish causal
 quality or speed changes. The MTP3 truncation also confirms that this output
 budget can truncate other samples; the earlier MTP4 observations do not identify
 an intrinsic MTP4 defect. Final release measurements remain pending.
+
+## RTX wrapper publication and initial registry verification
+
+The native RTX wrapper `ghcr.io/tpurtell/dots3-note-exl3-k4-rtx:20260925-v1`
+was pushed at digest
+`sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6`.
+Authenticated digest pull passed. At the initial publication check, its package
+was private and anonymous pull returned `unauthorized`; public access needs
+its own successful verification after visibility is changed.
+
+The prepublication wrapper started with an empty runtime cache and passed
+prefix/xgrammar, image/audio, and 80/80 reasoning API cases. Its single-run
+seven-workload screen passed 6/7 contracts (fable word count failed). Lossless
+raw receipts, registry logs and exact image/source/cache provenance are in the
+[wrapper archive](../benchmarks/development/rtx-release-wrapper/manifest.json).
+Full qualification is now running separately against the published digest
+with another fresh runtime cache. Release settings and final performance
+tables remain pending.

@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "status": "published-private; full published-digest qualification pending",
+  "platform": "rtx",
+  "image_tag": "ghcr.io/tpurtell/dots3-note-exl3-k4-rtx:20260925-v1",
+  "registry_digest": "sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6",
+  "wrapper_image_id": "sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6",
+  "parent_image_id": "sha256:5ecf76bc12da2141373d461adea41bf7ba92fcc74bcead92dddcbec7f2d87c45",
+  "recipe_revision": "48fa6cc91917471b9eda94020ee2077131b05980",
+  "model_revision": "d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+  "cache_files": 3464,
+  "registry": {
+    "push": "passed",
+    "authenticated_digest_pull": "passed",
+    "anonymous_digest_pull": "failed: unauthorized",
+    "visibility": "private",
+    "visibility_source": "Parent agent actual package metadata observation at publication; anonymous failure preserved separately"
+  },
+  "prepublication_wrapper_gates": {
+    "reasoning_cases_passed": 80,
+    "reasoning_cases_total": 80,
+    "reasoning_evidence_issues": [],
+    "speculative_draft_token_delta": 3126.0,
+    "warm_prefix_hits": 3520.0,
+    "warm_prefix_queries": 3612.0,
+    "multimodal": "image and audio accepted; raw responses preserved",
+    "seven_workloads": {
+      "record": "summary",
+      "weighted_decode_tps": 187.32352312665748,
+      "median_tps_by_case": {
+        "code": 234.67074228362816,
+        "math": 212.45750584416555,
+        "fable": 145.61078982555637,
+        "hello": 189.2132709833942,
+        "topic": 160.4101805609941,
+        "structured-json": 234.93093062853663,
+        "multilingual": 161.38282085332463
+      },
+      "contracts_passed": 6,
+      "contracts_total": 7,
+      "failed_contracts": [
+        {
+          "run": 0,
+          "case": "fable",
+          "contract": {
+            "quality_contract_passed": false,
+            "quality_contract_issues": [
+              "fable has 133 words, outside 140..170"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "These are prepublication wrapper smoke gates using an initially empty runtime cache.",
+    "The published digest is separately being qualified with a new runtime cache; no final release qualification or performance claim follows from this archive.",
+    "Seven-workload screen has one measured run and a failed fable word-count contract.",
+    "Anonymous pull failed at this observation; later visibility changes require new receipts."
+  ],
+  "files": [
+    {
+      "source": ".cache/release/rtx-final-wrapper/container.log",
+      "archive": "container.log.gz",
+      "uncompressed_bytes": 305817,
+      "uncompressed_sha256": "3820b525ebd4f881539eb82504861634808baa4c3f542a9dd4e2a89d796a128f",
+      "archive_bytes": 24435,
+      "archive_sha256": "14f9735953c365fdfab59ce3a2c787530798a2318bea0ad578ca227c00af26d0"
+    },
+    {
+      "source": ".cache/release/rtx-final-wrapper/multimodal.json",
+      "archive": "multimodal.json.gz",
+      "uncompressed_bytes": 4305,
+      "uncompressed_sha256": "1227f40ecce76262c71e4c1782ab501905b05adca01edb519e28f5c425d26b51",
+      "archive_bytes": 1010,
+      "archive_sha256": "963857bf63588f29f9a5e163c7e581af0841abbe2356b38231bbb1707027b4bc"
+    },
+    {
+      "source": ".cache/release/rtx-final-wrapper/multimodal.log",
+      "archive": "multimodal.log.gz",
+      "uncompressed_bytes": 66,
+      "uncompressed_sha256": "b0ea1ce0687665403a5b27330f16dcf4612949327a737df2154dca80a706df27",
+      "archive_bytes": 82,
+      "archive_sha256": "2e4418232d6f51fcecab62b28689858515a64be90bc9ccfc3eb8ea25ada56340"
+    },
+    {
+      "source": ".cache/release/rtx-final-wrapper/prefix.json",
+      "archive": "prefix.json.gz",
+      "uncompressed_bytes": 2678,
+      "uncompressed_sha256": "28a53e88555122378ad38686fe659a82b0288ec93eaa459f5736dd39c3eb4097",
+      "archive_bytes": 783,
+      "archive_sha256": "0147b0035d7378a2735cd2a1836e8b9564d016c5c8f4ba55ea629aa35df54d88"
+    },
+    {
+      "source": ".cache/release/rtx-final-wrapper/prefix.log",
+      "archive": "prefix.log.gz",
+      "uncompressed_bytes": 1212,
+      "uncompressed_sha256": "8db62ec9430d948400043ec30f73392157f077f8a1d9afe1de4c227ada1007a3",
+      "archive_bytes": 600,
+      "archive_sha256": "5188b547934526b6c03eede4f1db772931dfb841b0e39db921447777b14a76bc"
+    },
+    {
+      "source": ".cache/release/rtx-final-wrapper/reasoning.jsonl",
+      "archive": "reasoning.jsonl.gz",
+      "uncompressed_bytes": 446878,
+      "uncompressed_sha256": "a1f58b8ff26e736fbf119bc418337d8750992df4fcde66be0b80d03d2cfd3aa1",
+      "archive_bytes": 26901,
+      "archive_sha256": "310cb86f377e26a28531a29c3e48f7f57389761097bf18f731b46b6a9182cb69"
+    },
+    {
+      "source": ".cache/release/rtx-final-wrapper/reasoning.log",
+      "archive": "reasoning.log.gz",
+      "uncompressed_bytes": 10158,
+      "uncompressed_sha256": "6a95c3aadf0bdb834b6cc8f6dd5bf04491b5dddfd0e89e0c501d7d78b9445210",
+      "archive_bytes": 866,
+      "archive_sha256": "b8318a54802b0abfe5560bf202cb09c1719291517b37369067461ba4745fe13b"
+    },
+    {
+      "source": ".cache/release/rtx-final-wrapper/runtime.json",
+      "archive": "runtime.json.gz",
+      "uncompressed_bytes": 8889,
+      "uncompressed_sha256": "19bea374c6a5317e4e8d3fe6c1772d57ff8702fc437aa9911741afa431108131",
+      "archive_bytes": 3331,
+      "archive_sha256": "0282970dd70cbb55351ef78d04cb864cd74a85d616995ecdf59808904c4b70fc"
+    },
+    {
+      "source": ".cache/release/rtx-final-wrapper/seven.jsonl",
+      "archive": "seven.jsonl.gz",
+      "uncompressed_bytes": 32031,
+      "uncompressed_sha256": "ab8d8e110c3c7854febb150831ae0f8ddcbd4783ebe173120395eed58ae2b814",
+      "archive_bytes": 10326,
+      "archive_sha256": "5a327b186eb2e741903fb0b5879d0c25b9e7d97d65a9a02ef051ed6b5c9022a3"
+    },
+    {
+      "source": ".cache/release/rtx-final-wrapper/seven.log",
+      "archive": "seven.log.gz",
+      "uncompressed_bytes": 1552,
+      "uncompressed_sha256": "bb5bbe3a46405019a4c06da814e4062e19ac34b163be7b6cc59c840a5f82e6eb",
+      "archive_bytes": 407,
+      "archive_sha256": "c3ca0abf7a00b965e33f2bcaf6918d6bec8b3ec2e06033bbf3b7d73211ee8047"
+    },
+    {
+      "source": ".cache/release/push-rtx-final.log",
+      "archive": "push-rtx-final.log.gz",
+      "uncompressed_bytes": 18800,
+      "uncompressed_sha256": "4c4afd086af90fe600ddad07bd8ffa216acf87b14386c069d30386fa37e6f3c4",
+      "archive_bytes": 1144,
+      "archive_sha256": "1670e9de378e049c672d64321e1e8f5153caca0b2387032a59959e14ef6f3c57"
+    },
+    {
+      "source": ".cache/release/pull-rtx-authenticated.log",
+      "archive": "pull-rtx-authenticated.log.gz",
+      "uncompressed_bytes": 494,
+      "uncompressed_sha256": "a517152ab117a44ea179226c29817a1e066be9b432d6d36c8ade90dd833e1f39",
+      "archive_bytes": 179,
+      "archive_sha256": "bbd0fa6299e3aa19ce91e6296dcaf89a946192d6bbbaf58df46ab8a755500aaa"
+    },
+    {
+      "source": ".cache/release/pull-rtx-anonymous.log",
+      "archive": "pull-rtx-anonymous.log.gz",
+      "uncompressed_bytes": 75,
+      "uncompressed_sha256": "168ec14035c3554bd5c40c1d51390f5a3fe4bdb5a38a4a6b390f2d557fa93d41",
+      "archive_bytes": 77,
+      "archive_sha256": "107ab45f57e3e389215cc8e6d0e043b5d813434e368b37e384ac7627d808ebf3"
+    },
+    {
+      "source": ".cache/release/build-rtx-final-wrapper.log",
+      "archive": "build-rtx-final-wrapper.log.gz",
+      "uncompressed_bytes": 2654,
+      "uncompressed_sha256": "da6ec1a3240b6bbd4ed8c24d0873e0f2e951b3c4791969cf79a7eba92b7aabc7",
+      "archive_bytes": 1036,
+      "archive_sha256": "1270e12d42f676ad30198e39dacad3efdb34e8e06b436d29385cc7ca782db40b"
+    },
+    {
+      "source": ".cache/release/rtx-final-seed/manifest.json",
+      "archive": "cache-seed-manifest.json.gz",
+      "uncompressed_bytes": 766681,
+      "uncompressed_sha256": "1d5cf5388266cbfaed9eb275a052d4cb17567bb78f410feb88204e05a922bb3b",
+      "archive_bytes": 191854,
+      "archive_sha256": "e1f79b1168baf6bb370aabd8441eebf0d0907d9f0b43e8588eaa12b89b17bcdd"
+    }
+  ]
+}
