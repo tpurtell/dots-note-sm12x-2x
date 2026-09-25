@@ -127,6 +127,17 @@ The RTX maximum-context row uses 261,888 prompt tokens plus 256 output tokens. C
 
 Raw responses, timing samples, exact image and source revisions, GPU mode, memory snapshots, and quantization error evidence accompany each accepted table entry.
 
+### Tool-use quality: Basic / Hard / Total
+
+Final RTX and Spark recipes will run the pinned `tool-eval-bench` public suite with Hard Mode enabled: **69 Basic + 19 Hard = 88 scenarios**. Scores include partial credit (0/1/2 points per scenario); they are distinct from parser/API compatibility checks. Infrastructure exclusions prevent qualification and remain visible in raw evidence.
+
+| Platform | Basic (69) | Hard (19) | Total (88) |
+|---|---:|---:|---:|
+| 2× RTX | Pending final-profile run | Pending | Pending |
+| 2× Spark | Pending final-profile run | Pending | Pending |
+
+[Reproduction and raw evidence format](serving/benchmarks/tool_quality.md). No tool-quality score is inferred from the existing coding or tool-parser checks.
+
 ## Third-party sources
 
 The quantization and kernel sources are pinned as Git submodules:
