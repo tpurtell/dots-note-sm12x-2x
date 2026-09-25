@@ -72,6 +72,35 @@ def hybrid_attestation(runtime):
     workers = receipt.get('workers', [])
     require(len(workers) == 2 and {w.get('rank') for w in workers} == {0,1}, 'Hybrid ownership must attest both ranks')
     require(all(w.get('passed') is True and not w.get('errors') and w.get('world_size') == 2 for w in workers), 'Hybrid worker ownership failure')
+    partition=tuple(int(x) for x in env['VLLM_HYBRID_LAYER_PARTITION'].split(','))
+    require(len(partition)==2 and min(partition)>0 and sum(partition)==46, 'Invalid hybrid runtime partition')
+    expected_owners=[0]*partition[0]+[1]*partition[1]
+    mm_text=env.get('VLLM_HYBRID_MM_OWNERS','')
+    mm_plan=None
+    if mm_text:
+        owners=tuple(int(x) for x in mm_text.split(','))
+        require(len(owners)==2 and all(x in (0,1) for x in owners), 'Invalid runtime MM owner plan')
+        mm_plan=dict(zip(('visual','audio_tower'),owners))
+    runtime_args=runtime.get('args',[])
+    for worker in workers:
+        layers=worker.get('layers',[])
+        require(len(layers)==46 and {row.get('layer') for row in layers}==set(range(46)), 'Ownership receipt must include all46 unique layers')
+        for row in layers:
+            owner=expected_owners[row['layer']]
+            require(row.get('owner_rank')==owner and row.get('local_owner') is (owner==worker['rank']), 'Receipt layer ownership differs from runtime partition')
+        if mm_plan is not None:
+            require(worker.get('multimodal_owner_plan')==mm_plan, 'Receipt MM owner plan differs from runtime')
+        else:
+            require(not worker.get('multimodal_owner_plan'), 'Receipt unexpectedly enables MM ownership')
+        admission=worker.get('cache_admission_inputs',{})
+        require(admission.get('max_model_len')==int(flag(runtime_args,'--max-model-len')), 'Receipt context admission differs from runtime')
+        if '--block-size' in runtime_args or any(x.startswith('--block-size=') for x in runtime_args):
+            require(admission.get('block_size')==int(flag(runtime_args,'--block-size')), 'Receipt block size differs from runtime')
+        # Older receipts record async in-flight tokens, not the batch-token cap.
+        # Compare the latter only when explicitly recorded; do not infer a
+        # universal multiplier from the scheduler implementation.
+        if 'max_num_batched_tokens' in admission:
+            require(admission['max_num_batched_tokens']==int(flag(runtime_args,'--max-num-batched-tokens')), 'Receipt batch admission differs from runtime')
     return {'path':proof['path'], 'sha256':proof['sha256'], 'receipt':receipt}
 
 
