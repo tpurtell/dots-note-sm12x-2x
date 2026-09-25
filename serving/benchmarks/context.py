@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Measure C1 decode scaling after exact-length, uncached synthetic prompts."""
 import argparse
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -76,8 +77,13 @@ def main():
                 result = measure(args.base_url, args.model, prompt, args.output_tokens)
                 if result["usage"]["prompt_tokens"] != depth:
                     raise RuntimeError("Server prompt-token count differs from requested depth")
+                cached_tokens = (result["usage"].get("prompt_tokens_details") or {}).get("cached_tokens")
+                if cached_tokens is not None and cached_tokens != 0:
+                    raise RuntimeError(f"Cold context probe reused {cached_tokens} cached tokens")
                 row = {"record": "measurement", "depth": depth, "run": run,
-                       "timed": run >= 0, "nonce": nonce, **result}
+                       "timed": run >= 0, "nonce": nonce,
+                       "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),
+                       "cached_tokens": cached_tokens, **result}
                 output.write(json.dumps(row, ensure_ascii=False) + "\n")
                 output.flush()
                 print(json.dumps({k: row[k] for k in ("depth", "run", "ttft_seconds", "decode_tps")}), flush=True)
