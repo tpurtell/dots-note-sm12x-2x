@@ -55,6 +55,8 @@ def plan(args):
                  '--output-tokens','256','--nonce-prefix','dots3-final-release-v1'],155,'json'),
            step('coding','serving/benchmarks/coding_clients.py',
                 ['--concurrency','1','2','4','--runs','3','--warmup-runs','1','--output-tokens','8192'],48)]
+    steps.append(step('tool-quality','serving/benchmarks/tool_quality.py',[],88,'json'))
+    steps[-1]['count_unit']='scenarios; each can issue multiple chat requests'
     for depth in context_depths(limit):
         steps.append(step(f'context-{depth}','serving/benchmarks/context.py',
                           ['--depths',str(depth),'--runs','3','--warmups','1','--output-tokens','256'],4))
@@ -62,6 +64,16 @@ def plan(args):
         steps.append(step(f'retrieval-{depth}','serving/benchmarks/retrieval.py',
                           ['--filler-tokens',str(depth),'--positions','0.05','0.5','0.95'],3))
     return steps
+
+
+def stage_command(step, run_dir):
+    if step['name']=='tool-quality':
+        destination=run_dir/'tool-quality'
+        artifact=destination/'tools.json'
+    else:
+        artifact=run_dir/('result.'+step['format'])
+        destination=artifact
+    return artifact, [sys.executable,str(ROOT/step['script'])]+step['options']+['--output',str(destination)]
 
 
 def option(step,name,default=None):
@@ -79,6 +91,23 @@ def validate(step,path,limit=262144):
     output_tokens=int(option(step,'--output-tokens',['128'])[0])
     if step['format']=='json':
         data=json.loads(text)
+        if name=='tool-quality':
+            sys.path.insert(0,str(ROOT/'serving/benchmarks'))
+            from tool_quality import validate as validate_tools, PIN
+            summary=validate_tools(data)
+            assert summary['complete'], 'tool suite infrastructure exclusions'
+            raw_receipt=json.loads((path.parent/'receipt.json').read_text())
+            assert raw_receipt['complete'] and raw_receipt['benchmark_commit']==PIN
+            assert raw_receipt['sha256']==digest(path)
+            assert {'tools.json','tools.md','data/benchmarks.sqlite','manifest.json','exit.json'} <= set(raw_receipt['raw_artifacts']), 'missing tool raw persistence'
+            run_manifest=json.loads((path.parent/'manifest.json').read_text())
+            assert run_manifest['benchmark_commit']==PIN and '--hardmode' in run_manifest['command']
+            assert json.loads((path.parent/'exit.json').read_text())['returncode']==0
+            for relative,expected in raw_receipt['raw_artifacts'].items():
+                target=(path.parent/relative).resolve()
+                assert target.is_relative_to(path.parent.resolve()) and target.is_file()
+                assert digest(target)==expected, 'tool raw artifact modified'
+            return {'complete':True,'summary':summary}
         if name=='prefix':
             assert data['warm_prefix_hits']>0 and data['warm_prefix_queries']>0
             assert data['xgrammar_json']=={'answer':42}
@@ -196,7 +225,7 @@ def main():
         print(json.dumps({'requests':sum(s['requests'] for s in steps),'steps':steps},indent=2));return
     out=args.output_dir.resolve();out.mkdir(parents=True,exist_ok=True)
     source_paths=sorted((ROOT/'serving/benchmarks').glob('*.py'))+[Path(__file__),ROOT/'serving/qualify_prefix_xgrammar.py',ROOT/'serving/capture_runtime.py',ROOT/'serving/benchmarks/code-agent-prompt.txt']
-    binding={'schema':'dots3-rtx-release-qualification-v1','identity':identity(args),
+    binding={'schema':'dots3-rtx-release-qualification-v2','identity':identity(args),
              'base_url':args.base_url,'model':args.model,'plan':steps,
              'limits':{'max_model_len':args.max_model_len},
              'source_sha256':{str(p.relative_to(ROOT)):digest(p) for p in source_paths}}
@@ -217,8 +246,7 @@ def main():
                 validate(step,artifact,args.max_model_len)
                 print(json.dumps({'stage':step['name'],'status':'validated-resume-skip'}),flush=True);continue
             run_dir=stage/f'attempt-{time.time_ns()}';run_dir.mkdir()
-            artifact=run_dir/('result.'+step['format'])
-            command=[sys.executable,str(ROOT/step['script'])]+step['options']+['--output',str(artifact)]
+            artifact,command=stage_command(step,run_dir)
             save(run_dir/'command.json',command)
             print(json.dumps({'stage':step['name'],'status':'running','command':command}),flush=True)
             with (run_dir/'stdout.log').open('x') as log:
@@ -226,7 +254,7 @@ def main():
             evidence=validate(step,artifact,args.max_model_len)
             assert identity(args)==binding['identity'], 'container changed during stage'
             save(receipt,{'artifact':str(artifact.relative_to(stage)),'sha256':digest(artifact),
-                          'validated':evidence,'finished_unix':time.time()})
+                          'validated':evidence,'identity':binding['identity'],'finished_unix':time.time()})
         curves=[]
         for depth in context_depths(args.max_model_len):
             stage=out/f'context-{depth}';receipt=json.loads((stage/'receipt.json').read_text())

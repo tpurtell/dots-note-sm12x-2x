@@ -202,7 +202,7 @@ def main():
     out=args.output_dir.resolve();out.mkdir(parents=True,exist_ok=True)
     first=inspect_hosts(args)
     sources=sorted((ROOT/'serving/benchmarks').glob('*.py'))+[Path(__file__),Path(shared.__file__),ROOT/'serving/capture_runtime.py',ROOT/'serving/watch_spark_memory.py',ROOT/'serving/qualify_prefix_xgrammar.py',ROOT/'serving/benchmarks/code-agent-prompt.txt']
-    binding={'schema':'dots3-spark-release-qualification-v1','identity':{h:d['identity'] for h,d in first.items()},
+    binding={'schema':'dots3-spark-release-qualification-v2','identity':{h:d['identity'] for h,d in first.items()},
              'repo_digests':{h:d['image_repo_digests'] for h,d in first.items()},'plan':steps,
              'limits':{'max_model_len':args.max_model_len,'gpu_memory_utilization':args.gpu_memory_utilization,'min_host_available_gib':args.min_host_available_gib},
              'source_sha256':{str(path.relative_to(ROOT)):shared.digest(path) for path in sources}}
@@ -222,8 +222,8 @@ def main():
                 saved=json.loads(receipt.read_text());artifact=stage/saved['artifact']
                 assert shared.digest(artifact)==saved['sha256'];validate(step,artifact,args.max_model_len)
                 print(json.dumps({'stage':step['name'],'status':'validated-resume-skip'}),flush=True);continue
-            run=stage/f'attempt-{time.time_ns()}';run.mkdir();artifact=run/('result.'+step['format'])
-            command=[sys.executable,str(ROOT/step['script'])]+step['options']+['--output',str(artifact)]
+            run=stage/f'attempt-{time.time_ns()}';run.mkdir()
+            artifact,command=shared.stage_command(step,run)
             shared.save(run/'command.json',command);print(json.dumps({'stage':step['name'],'command':command}),flush=True)
             with (run/'stdout.log').open('x') as log:
                 child=subprocess.Popen(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT)
@@ -239,7 +239,7 @@ def main():
             evidence=validate(step,artifact,args.max_model_len)
             current=inspect_hosts(args)
             assert {h:d['identity']for h,d in current.items()}==binding['identity'], 'container/guard changed'
-            shared.save(receipt,{'artifact':str(artifact.relative_to(stage)),'sha256':shared.digest(artifact),'validated':evidence,'finished_unix':time.time()})
+            shared.save(receipt,{'artifact':str(artifact.relative_to(stage)),'sha256':shared.digest(artifact),'validated':evidence,'identity':binding['identity'],'finished_unix':time.time()})
     finally:
         stop.set();watcher.join(timeout=110)
         snapshot(args,attempt,'after')

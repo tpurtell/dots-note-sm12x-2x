@@ -82,3 +82,7 @@ loading GiB, available KV GiB, KV-cache token capacity, and graph-capture GiB wh
 present. Per-rank and repeated graph phases remain separate; summing them would
 misrepresent simultaneous allocation. Original snapshots and monitoring logs are
 still archived losslessly.
+
+## Final tool-use qualification
+
+New RTX/Spark runners emit qualification schema v2 and include the mandatory pinned 88-scenario tool-quality stage. Reports require its completed Basic/Hard/Total scoring, all raw trace/SQLite hashes, and stage identity matching the run image/profile. The archive includes nested tool artifacts. Infrastructure exclusions reject completion; model quality misses and partial credit remain measurements. Historical v1 reports remain accepted without retroactively inventing tool-quality results; reconstructing them still requires their recorded source checkout. Plan counts treat this stage as88 scenarios, not88 HTTP requests.

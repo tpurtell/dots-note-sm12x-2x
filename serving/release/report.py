@@ -15,6 +15,7 @@ import os
 from pathlib import Path
 import re
 import statistics
+import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -143,6 +144,10 @@ def startup_memory(runtime):
 
 
 def stage_metrics(name, data):
+    if name == 'tool-quality':
+        sys.path.insert(0,str(ROOT/'serving/benchmarks'))
+        from tool_quality import validate as validate_tools
+        return validate_tools(data)
     if name == 'prefix':
         return {key: data[key] for key in ['warm_prefix_hits', 'warm_prefix_queries', 'xgrammar_json', 'cold', 'warm', 'forced_tool']}
     if name == 'multimodal':
@@ -208,7 +213,10 @@ def export(args):
     require(not target.is_relative_to('/mnt/scratch'), 'Use native project storage, not /mnt/scratch')
     require(not target.exists(), 'Output must be a new directory')
     manifest = read(source/'manifest.json')
-    require(manifest['schema'] == f'dots3-{args.platform}-release-qualification-v1', 'Wrong runner schema/platform')
+    require(manifest['schema'] in {f'dots3-{args.platform}-release-qualification-v1',f'dots3-{args.platform}-release-qualification-v2'}, 'Wrong runner schema/platform')
+    current_schema=manifest['schema'].endswith('-v2')
+    if current_schema:
+        require(sum(s['name']=='tool-quality' for s in manifest['plan'])==1, 'New release requires full hard-mode tool-quality stage')
     completions = sorted(source.glob('attempt-*/complete.json'))
     require(bool(completions), 'No ending complete.json: qualification is incomplete; no report written')
     complete_path = completions[-1]
@@ -252,6 +260,8 @@ def export(args):
         receipt_path = stage/'receipt.json'
         receipt = read(receipt_path)
         artifact = contained(stage, receipt['artifact'])
+        if current_schema:
+            require(receipt.get('identity')==manifest['identity'], 'Stage runtime image/profile identity mismatch')
         require(sha(artifact) == receipt['sha256'], f'Artifact hash mismatch: {step["name"]}')
         require(receipt['validated'].get('complete') is True, 'Unvalidated stage receipt')
         if args.platform == 'spark':
@@ -260,7 +270,9 @@ def export(args):
             validator.validate(step, artifact, manifest.get('limits',{}).get('max_model_len',262144))
         results[step['name']] = stage_metrics(step['name'], load_artifact(artifact, step['format']))
         artifacts.add(receipt_path)
-        artifacts.update(p for p in artifact.parent.iterdir() if p.is_file())
+        artifacts.update(p for p in artifact.parent.rglob('*') if p.is_file())
+        if step['name']=='tool-quality':
+            artifacts.update(p for p in artifact.parent.parent.iterdir() if p.is_file())
     # Keep monitoring and before/after snapshots from all attempts, including
     # earlier resume attempts; stage artifacts include only accepted attempts.
     for attempt in source.glob('attempt-*'):
@@ -281,6 +293,7 @@ def export(args):
             hardware[host]['startup_memory_evidence']=startup_memory(snapshot.get('runtime',{}))
             hardware[host]['hybrid_attestation']=hybrid_attestation(snapshot.get('runtime',{}))
     report = {'schema': 'dots3-release-report-v1', 'status': 'runner-completed; release-profile approval separate',
+        'qualification_schema':manifest['schema'], 'tool_quality_required':current_schema,
         'platform': args.platform, 'image': args.image, 'image_id': next(iter(image_ids)),
         'model_revision': cache['model_revision'], 'recipe_revision': cache['recipe_revision'],
         'parent_image_id': cache['source_image_id'], 'source_sha256': manifest['source_sha256'],
