@@ -15,7 +15,7 @@ RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
 
 COPY third_party/sparkinfer-glmrt /opt/b12x
 ENV PYTHONPATH=/opt/b12x \
-    CUTE_DSL_ARCH=sm_121a \
+    CUTE_DSL_ARCH=sm_120a \
     VLLM_EXL3_TRELLIS_MIN_M=1 \
     VLLM_EXL3_PREFILL_TRELLIS=1
 RUN python3 -c 'import b12x; from b12x.moe import fused_moe; assert fused_moe.is_supported'

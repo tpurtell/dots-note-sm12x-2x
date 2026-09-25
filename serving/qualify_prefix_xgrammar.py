@@ -115,6 +115,8 @@ def forced_tool(base: str, model: str) -> dict:
     with urlopen(request, timeout=900) as response:
         body = json.load(response)
     choice = body["choices"][0]
+    # Preserve the raw response even when qualification rejects it.
+    print(json.dumps({"event": "forced-tool-response", "response": body}), flush=True)
     calls = choice["message"].get("tool_calls") or []
     if len(calls) != 1 or calls[0].get("type") != "function":
         raise AssertionError(f"forced Dots tool call was not returned: {calls}")

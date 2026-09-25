@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import re
 from pathlib import Path
 import time
 from urllib.request import Request, urlopen
@@ -11,7 +12,7 @@ from urllib.request import Request, urlopen
 CASES = {
     "image": {
         "url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/cats.png",
-        "question": "How many cats are in this image?",
+        "question": "How many cats are in this image? Answer in one short sentence.",
     },
     "audio": {
         "url": "https://huggingface.co/datasets/hf-internal-testing/dummy-audio-samples/resolve/main/mary_had_lamb.mp3",
@@ -29,7 +30,7 @@ def request(base: str, model: str, kind: str, url: str, question: str) -> dict:
         "model": model,
         "messages": [{"role": "user", "content": content}],
         "temperature": 0,
-        "max_tokens": 128,
+        "max_tokens": 256,
         "chat_template_kwargs": {"enable_thinking": False},
     }
     started = time.perf_counter()
@@ -45,6 +46,14 @@ def request(base: str, model: str, kind: str, url: str, question: str) -> dict:
     answer = message.get("content") or ""
     if not answer.strip() or not body.get("usage"):
         raise AssertionError(f"empty {kind} multimodal result")
+    normalized = re.sub(r"[^a-z0-9 ]", "", answer.lower())
+    contract = (
+        bool(re.search(r"\b(?:2|two) cats\b", normalized))
+        if kind == "image" else
+        all(fragment in normalized for fragment in (
+            "mary had a little lamb", "white as snow", "lamb was sure to go",
+        ))
+    )
     return {
         "kind": kind,
         "asset_url": url,
@@ -53,6 +62,8 @@ def request(base: str, model: str, kind: str, url: str, question: str) -> dict:
         "answer": answer,
         "usage": body["usage"],
         "finish_reason": body["choices"][0].get("finish_reason"),
+        "contract_passed": contract and body["choices"][0].get("finish_reason") == "stop",
+        "raw_response": body,
     }
 
 
@@ -78,6 +89,8 @@ def main() -> None:
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
+    if not all(result["contract_passed"] for result in results):
+        raise AssertionError("multimodal content or completion contract failed; see report")
     print(json.dumps({"event": "multimodal-api-complete", "cases": [x["kind"] for x in results]}), flush=True)
 
 

@@ -18,6 +18,7 @@ from vllm.model_executor.layers.vocab_parallel_embedding import (
     ParallelLMHead,
     UnquantizedEmbeddingMethod,
 )
+from vllm.transformers_utils.repo_utils import get_hf_file_to_dict
 
 
 _SCRATCH_LOCK = threading.Lock()
@@ -187,10 +188,11 @@ class Dots3B12xExl3MoEMethod(Exl3MoEMethod):
         weights = torch.full((tokens, top_k), 1 / top_k, dtype=torch.float32, device=device)
 
         def prepare(state):
-            scratch = tuple(
-                torch.empty(spec.shape, dtype=spec.dtype, device=device)
-                for spec in state.scratch.scratch_specs()
-            )
+            # PreparedCall owners survive preparation. Allocating here would
+            # retain a full workspace for every routed layer. Preparation and
+            # execution are serial on the rank's stream, so use the same
+            # capacity-planned arena as live execution.
+            scratch = Dots3B12xExl3MoEMethod._scratch(state.scratch, device)
             output = torch.empty((tokens, hidden), dtype=torch.float32, device=device)
             binding = state.bind(
                 scratch=scratch,
@@ -275,6 +277,21 @@ class Dots3HybridExl3Config(Exl3Config):
         hf_config: PretrainedConfig | None = None,
         revision: str | None = None,
     ) -> None:
+        if getattr(hf_config, "model_type", None) == "dots3_note" and not self.tensor_storage:
+            # GPTQModel writes its full EXL3 map under quantize_config.json;
+            # config.json deliberately contains only the summary.
+            payload = get_hf_file_to_dict(
+                "quantize_config.json", model_name, revision=revision,
+            )
+            if not payload or payload.get("bits") != 4 or payload.get("codebook") != "mcg":
+                raise ValueError("Dots3 requires GPTQModel uniform MCG K4 metadata")
+            storage = payload.get("tensor_storage", {})
+            if len(storage) != 34560 or any(
+                entry.get("quant_format") != "exl3" or entry.get("bits_per_weight") != 4
+                for entry in storage.values()
+            ):
+                raise ValueError("Dots3 requires 34,560 uniform K4 projection records")
+            self.tensor_storage = storage
         super().maybe_update_config(model_name, hf_config, revision)
         if getattr(hf_config, "model_type", None) != "dots3_note":
             return
