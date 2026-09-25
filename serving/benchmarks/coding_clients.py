@@ -83,7 +83,17 @@ def content_check(task, content, finish):
             json_answers.append(json.loads(block))
         except json.JSONDecodeError:
             pass
-    if expected and not any(isinstance(a,dict) and all(a.get(k)==v for k,v in expected.items()) for a in json_answers):
+    def matches(answer):
+        if not isinstance(answer,dict):
+            return False
+        if name == 'reservation_race':
+            successes=answer.get('successful_reservations')
+            valid_successes=(type(successes) is int and successes==1) or (
+                isinstance(successes,list) and len(successes)==1
+                and isinstance(successes[0],str) and bool(successes[0].strip()))
+            return valid_successes and answer.get('final_stock')==1
+        return all(answer.get(k)==v for k,v in expected.items())
+    if expected and not any(matches(a) for a in json_answers):
         issues.append('final JSON reference answer missing or incorrect')
     if function and not re.search(r'\b(test|assert|pytest|unittest)\b',final,re.I):
         issues.append('no test evidence in final answer')

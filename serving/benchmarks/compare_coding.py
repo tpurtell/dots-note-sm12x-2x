@@ -9,12 +9,14 @@ from __future__ import annotations
 import argparse
 from collections import defaultdict
 import hashlib
+import inspect
 import json
 from pathlib import Path
 import statistics
 import sys
 
-from coding_clients import reasoning_status
+from coding_clients import reasoning_status, content_check, TASKS
+import coding_clients
 
 
 def median(values):
@@ -40,6 +42,8 @@ def load_candidate(name,path):
     if len(metas)!=1:
         raise ValueError(f'{name}: expected exactly one metadata record')
     meta=metas[0];args=meta.get('args',{});rows={};duplicates=[];waves=[]
+    tasks_by_name={task[0]:task for task in TASKS}
+    validation_audit=[]
     for record in records:
         if record.get('record')!='wave' or record.get('run',-1)<0 or not record.get('timed',True):
             continue
@@ -48,6 +52,13 @@ def load_candidate(name,path):
             key=key_for(record,row)
             if key in rows:
                 duplicates.append(list(key))
+            original=row.get('content_result')
+            if row['task'] not in tasks_by_name:
+                raise ValueError(f"{name}: no current static validator for task {row['task']!r}")
+            recalculated=content_check(tasks_by_name[row['task']],row.get('content',''),row.get('finish_reason'))
+            row=dict(row, original_content_result=original, content_result=recalculated)
+            validation_audit.append({'key':list(key),'original_reported':original,
+                                     'recomputed':recalculated,'changed':original!=recalculated})
             rows[key]=row
     # Four tasks are part of v1's declared suite. Recover their identifiers from
     # any wave (including warmup) rather than importing today's prompt texts.
@@ -59,7 +70,7 @@ def load_candidate(name,path):
     complete=bool(terminal and expected_count>0 and len(tasks)==4 and len(rows)==expected_count
                   and not missing and not unexpected and not duplicates and not parse_issues)
     return {'name':name,'path':str(path),'sha256':hashlib.sha256(data).hexdigest(),
-        'meta':meta,'rows':rows,'waves':waves,'complete':complete,
+        'meta':meta,'rows':rows,'waves':waves,'complete':complete,'static_validation_audit':validation_audit,
         'completeness':{'terminal_summary':terminal,'expected_requests':expected_count,
             'observed_requests':len(rows),'observed_task_ids':tasks,'missing_keys':[list(k) for k in missing],
             'unexpected_keys':[list(k) for k in unexpected],'duplicate_keys':duplicates,'parse_issues':parse_issues}}
@@ -109,7 +120,7 @@ def summarize(candidate):
             summary['aggregate_output_tps']=summary['aggregate_decode_tps']=None
         summary['by_task']={task:row_summary(values) for (cc,task),values in sorted(task_groups.items()) if cc==c}
         by_c[str(c)]=summary
-    return {k:candidate[k] for k in ('name','path','sha256','complete','completeness')}|{'by_concurrency':by_c}
+    return {k:candidate[k] for k in ('name','path','sha256','complete','completeness','static_validation_audit')}|{'by_concurrency':by_c}
 
 
 def compare(base,other):
@@ -184,7 +195,12 @@ def main():
         seen.add(name);candidates.append(load_candidate(name,Path(path)))
     result={'schema':'dots3-coding-comparison-v1','candidates':[summarize(c) for c in candidates],
             'comparisons':[compare(candidates[0],c) for c in candidates[1:]],
-            'baseline':candidates[0]['name'],'ranking':None}
+             'baseline':candidates[0]['name'],'ranking':None,
+            'static_validator':{'policy':'recompute all measured content checks; retain original results in per-request audit',
+                'function_sha256':hashlib.sha256(inspect.getsource(content_check).encode()).hexdigest(),
+                'module_sha256':hashlib.sha256(Path(coding_clients.__file__).read_bytes()).hexdigest(),
+                'comparison_script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                'scope':'Static response checks only, not behavioral code validation'}}
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(result,indent=2)+'\n')
     print(human(result))
