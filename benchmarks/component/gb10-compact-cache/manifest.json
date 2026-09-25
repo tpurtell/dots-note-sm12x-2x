@@ -1,0 +1,52 @@
+{
+  "scope": "GB10 TP2 actual1023 strided compact576/legacy1088, real compact vLLM sparse adapter and SWA gather; per-host GPU execution.",
+  "b12x_commit": "c963d8f7c98792a026eaf81a96a72d01b4aa0047",
+  "images": {
+    "rhea": "sha256:6b4825d657653e2bda5288579c4a2996d65d639734e02f9cbce1c5c261e7913a",
+    "moa": "sha256:0b2c722e1bdecb4cc5efe16d6db0a2d1f3d064f6d2fd56723ebb324c756d79b2"
+  },
+  "pytest_selection": "2-576-actual or 2-1088-actual",
+  "tests_per_host": 6,
+  "adapter_commands": [
+    "python3 /probe/serving/check_sparse_adapter.py --compact",
+    "python3 /probe/serving/check_cache_gather.py --compact"
+  ],
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/compact-v4-moa-actual1023.log",
+      "artifact": "compact-v4-moa-actual1023.log.gz",
+      "source_sha256": "dd2d8db49c10401526109cd8f10bb002b1a269966a97eb7e95d4c38f43dbfd49",
+      "artifact_sha256": "06ebb938a83c96493ee46bde31209584e997a587588f8ed677fb3f2566305d8d"
+    },
+    {
+      "source": ".cache/serving/spark/compact-v4-rhea-adapters.log",
+      "artifact": "compact-v4-rhea-adapters.log.gz",
+      "source_sha256": "987f5a1a9a6389b403a8a006bdcd758a3958a1769a4faa1fd2cb1e62b20b2451",
+      "artifact_sha256": "f4c577b8f8bd5017c719b1842ead7f14f3423532f19edc68102260a4e471f9f3"
+    },
+    {
+      "source": ".cache/serving/spark/compact-v4-rhea-actual1023.log",
+      "artifact": "compact-v4-rhea-actual1023.log.gz",
+      "source_sha256": "e354815313b97d7d83128045544fdc09a1752e510cc6b725713f15abe7fa72a4",
+      "artifact_sha256": "da0db0fcd7f7fb4dadd5afda3daeb12ab7e9a511efcfd19482c2deaa59ccdb20"
+    },
+    {
+      "source": ".cache/serving/spark/compact-v4-moa-adapters.log",
+      "artifact": "compact-v4-moa-adapters.log.gz",
+      "source_sha256": "987f5a1a9a6389b403a8a006bdcd758a3958a1769a4faa1fd2cb1e62b20b2451",
+      "artifact_sha256": "f4c577b8f8bd5017c719b1842ead7f14f3423532f19edc68102260a4e471f9f3"
+    },
+    {
+      "source": ".cache/serving/spark/build-compact-v4-moa.log",
+      "artifact": "build-compact-v4-moa.log.gz",
+      "source_sha256": "626f44b9c761cb2d6fa803f276419e304f20ab68e53594d7877824c013408e58",
+      "artifact_sha256": "72bd157b65fd48af3fd3eaae02591fec19c827e3ed9343e448471cfce21d03ea"
+    },
+    {
+      "source": ".cache/serving/spark/build-compact-v4-rhea.log",
+      "artifact": "build-compact-v4-rhea.log.gz",
+      "source_sha256": "daf3d2d23c212912b32dcb3aeb06c068c89a27ff63477573c8875efdbd600203",
+      "artifact_sha256": "7ae04883495ad2b36170861512f208b4fdbd6a92020ec3e78ebf550eb5268b8e"
+    }
+  ]
+}
