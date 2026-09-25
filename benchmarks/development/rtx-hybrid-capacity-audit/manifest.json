@@ -1,0 +1,365 @@
+{
+  "schema": 1,
+  "scope": "Matched capacity diagnostic and earlier cut17 functional gate; not final release qualification",
+  "capacity_image_id": "sha256:0d2c3c4d7373b6c07d2ddd2a8b0a9856428560c2ef2c700ff6650867e5c89b81",
+  "execution_parent_image_id": "sha256:202de1649c0627b65ef25ae86993671ef7e55891a2db2636fc0c350ae18b4ae8",
+  "capacity_helper_commit": "e526b59",
+  "profiles": {
+    "17": [
+      {
+        "rank": 0,
+        "available_kv_cache_memory_bytes": 7421124199,
+        "unique_kv_storage_bytes": 7421068800,
+        "memory_profile_bytes": {
+          "total_consumed": 84263567360,
+          "peak_activation_memory": 5190125568,
+          "cudagraph_memory_estimate": 830472192,
+          "requested_memory": 96874817127,
+          "model_memory_usage": 82088990208
+        }
+      },
+      {
+        "rank": 1,
+        "available_kv_cache_memory_bytes": 11969905869,
+        "unique_kv_storage_bytes": 11866176000,
+        "memory_profile_bytes": {
+          "total_consumed": 79570141184,
+          "peak_activation_memory": 5331781632,
+          "cudagraph_memory_estimate": 966787072,
+          "requested_memory": 96871828685,
+          "model_memory_usage": 78140383744
+        }
+      }
+    ],
+    "18": [
+      {
+        "rank": 0,
+        "available_kv_cache_memory_bytes": 7167368807,
+        "unique_kv_storage_bytes": 7167361536,
+        "memory_profile_bytes": {
+          "total_consumed": 84506836992,
+          "peak_activation_memory": 5200611328,
+          "cudagraph_memory_estimate": 840957952,
+          "requested_memory": 96874817127,
+          "model_memory_usage": 82301285376
+        }
+      },
+      {
+        "rank": 1,
+        "available_kv_cache_memory_bytes": 9761604813,
+        "unique_kv_storage_bytes": 9186978240,
+        "memory_profile_bytes": {
+          "total_consumed": 81744887808,
+          "peak_activation_memory": 5365336064,
+          "cudagraph_memory_estimate": 1000341504,
+          "requested_memory": 96871828685,
+          "model_memory_usage": 77914661888
+        }
+      }
+    ]
+  },
+  "earlier_cut17_reasoning": {
+    "record": "summary",
+    "passed": true,
+    "cases_passed": 40,
+    "cases_total": 40,
+    "failed_cases": [],
+    "evidence_issues": [],
+    "speculative_draft_token_delta": 2044.0,
+    "structured_boundary_chunks": [
+      {
+        "case": "json",
+        "repeat": 0,
+        "chunks": [
+          [
+            532,
+            151722,
+            4913
+          ]
+        ]
+      },
+      {
+        "case": "tool_named",
+        "repeat": 0,
+        "chunks": [
+          [
+            729,
+            624,
+            151722,
+            90
+          ]
+        ]
+      },
+      {
+        "case": "tool_required",
+        "repeat": 0,
+        "chunks": [
+          [
+            729,
+            624,
+            151722,
+            58
+          ]
+        ]
+      }
+    ],
+    "speculative_metrics_after": {
+      "raw_lines": [
+        "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 725.0",
+        "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 2134.0",
+        "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1663.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"0\"} 630.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"1\"} 560.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"2\"} 473.0"
+      ],
+      "totals": {
+        "vllm:spec_decode_num_drafts_total": 725.0,
+        "vllm:spec_decode_num_draft_tokens_total": 2134.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 1663.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1663.0
+      }
+    },
+    "boundary_evidence_scope": "An SSE token chunk crossing </think> shows an accepted output burst; it does not expose rejected drafts or prove their exact contents."
+  },
+  "diagnostic_limit": "Rank1 cut18 has larger total_consumed than cut17; peak activation differs only slightly. Causality under investigation. Graph estimate is already included in peak_activation_memory, do not add again.",
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/Dockerfile.capacity-audit-v1",
+      "archive": "Dockerfile.capacity-audit-v1.gz",
+      "bytes": 172,
+      "sha256": "11e4a2dc45b410df9ec141c62cfec29f956ad0e4f21470f5701d255d7314d33d",
+      "gzip_sha256": "b6f056d13e76dd35ab53af8e2f59db1039fe7856dcedff428711e8b2ddd18353"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-capacity-audit-v1-provenance.json",
+      "archive": "build-capacity-audit-v1-provenance.json.gz",
+      "bytes": 628,
+      "sha256": "c1e497e1dd6bd566287a039e371ba4c40d9a5759fe8109420491d9a68989887e",
+      "gzip_sha256": "de8d415fa371147b0ca1c7cb0583c3730ffffba40e863adcc400f071d0641ae3"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-capacity-audit-v1.log",
+      "archive": "build-capacity-audit-v1.log.gz",
+      "bytes": 1518,
+      "sha256": "b18aea60cb43f764b20f9b49e3d39fd2ae9b220f7847d969dfc84997cfd67fb3",
+      "gzip_sha256": "44aee6f1f4a3967184830634430f3d91370c068a047a02cc0577facc27ec3bb6"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/capacity-audit.log",
+      "archive": "capacity-audit.log.gz",
+      "bytes": 1050,
+      "sha256": "3e09ecf737a30a7ad04dd25bdd80f5cd7b064f3cd94601a0ba83c81bd63f6733",
+      "gzip_sha256": "9b4da7bb2aa8a376175136390bc2da90bceb39bd4f632285f6e7b81740c350e1"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-capacity-audit-17.json",
+      "archive": "container-capacity-audit-17.json.gz",
+      "bytes": 17040,
+      "sha256": "720d25f69d23614b77bec7b24c84ef20a471a5d5ff3d6b37c3407a095f9e14ac",
+      "gzip_sha256": "0cc1944a16e4abf63a7320e3014ddc52fa49525e6d0cee1146c275beea4af372"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-capacity-audit-18.json",
+      "archive": "container-capacity-audit-18.json.gz",
+      "bytes": 16988,
+      "sha256": "0dc152da2c35b58cb876b175329e60dac16940bd3d33806e610d19214117245b",
+      "gzip_sha256": "c1f5df91296b72b1965ae1c56e7c421070ca81da76d11092947520922746cecf"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-mm-cut17.json",
+      "archive": "container-mm-cut17.json.gz",
+      "bytes": 16909,
+      "sha256": "98bb67f6e922b80235552bc909c0e8400d43fb911ae4d65f82a586c73c0202bd",
+      "gzip_sha256": "972d864789ccd157ac1b935cf90de2a5537346848583b2802e35bfd498fa9495"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/multimodal-mm-cut17.json",
+      "archive": "multimodal-mm-cut17.json.gz",
+      "bytes": 4273,
+      "sha256": "c962939893b2833caaaffdb4b4a63810b15b88f253ce604407a667611a07556c",
+      "gzip_sha256": "75be67994ba935d5d8d6fd3b4df99c72341d96ac1bb18527698f51f8ab1c5382"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/multimodal-mm-cut17.log",
+      "archive": "multimodal-mm-cut17.log.gz",
+      "bytes": 66,
+      "sha256": "b0ea1ce0687665403a5b27330f16dcf4612949327a737df2154dca80a706df27",
+      "gzip_sha256": "2e4418232d6f51fcecab62b28689858515a64be90bc9ccfc3eb8ea25ada56340"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/placement-mm-cut17-v2.log",
+      "archive": "placement-mm-cut17-v2.log.gz",
+      "bytes": 9083,
+      "sha256": "882275d6149d245adfbd7bb84f73389fba90688033a70e5dabad4d54540ec688",
+      "gzip_sha256": "317a2b6e23aa1f7c13b211fd51016deaa7de65663c1992c6fef01af9a1baf477"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/placement-mm-cut17.json",
+      "archive": "placement-mm-cut17.json.gz",
+      "bytes": 78553,
+      "sha256": "a75d68cc78725d606cf94e7a95c08cc5ecef632105524fd6aa90e46e8f1ecddf",
+      "gzip_sha256": "fbe45cd8065251e14a35cfb36f2b4673bf98e48b26a4b36021adac935af072c0"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/placement-mm-cut17.log",
+      "archive": "placement-mm-cut17.log.gz",
+      "bytes": 604,
+      "sha256": "3ea43a914d0b642b966e6be28139f42be629f68907382ea1d5d28d640fdc13a2",
+      "gzip_sha256": "616a0d353771c91fe1153f18fc905c27f37096d784a95749d63dc126d60963c0"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-capacity-audit-17.json",
+      "archive": "prefix-capacity-audit-17.json.gz",
+      "bytes": 2679,
+      "sha256": "fc2d56a2ab3cf477e7842b086816506697439fba40a28ff98341d74a8cfb0fa3",
+      "gzip_sha256": "dabb63e2ac277dbf4376d590db112f3eeb258d63a056cd671f7b6a5c1f69ec2c"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-capacity-audit-17.log",
+      "archive": "prefix-capacity-audit-17.log.gz",
+      "bytes": 1212,
+      "sha256": "c5201c98ba615b70e95cfd910935a574c4ae929e26085cfa863fa07aec586f9a",
+      "gzip_sha256": "4aaf11a7d459c9f33b0cf596b8147d8dc3e63e087580ffa5216b74e1abd67dc7"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-capacity-audit-18.json",
+      "archive": "prefix-capacity-audit-18.json.gz",
+      "bytes": 2678,
+      "sha256": "42e178162f21ac8d3e4d285c0be0282e2cd0cd9892ac1f2d431b2daf53784159",
+      "gzip_sha256": "63de1663439ec21e0a411276c6f94c319ee64de17807cab9113bdd96bc841fee"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-capacity-audit-18.log",
+      "archive": "prefix-capacity-audit-18.log.gz",
+      "bytes": 1212,
+      "sha256": "25290a321d93517d9ef455fee7444bb693042947c8c5b164a02858638e226682",
+      "gzip_sha256": "34d04004dd8dde99a2b8606f9c92997afb362527b7039f020850132ae71d1f52"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-mm-cut17.json",
+      "archive": "prefix-mm-cut17.json.gz",
+      "bytes": 2680,
+      "sha256": "e84ef34203e21a211f71046f4bca5cf674c639d3061a092b8f7a128cf332a7c0",
+      "gzip_sha256": "6fed5404654c0b4e680e7fed7f1262755d46a757090546dbfa8263f061cb91fc"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-mm-cut17.log",
+      "archive": "prefix-mm-cut17.log.gz",
+      "bytes": 1211,
+      "sha256": "dbb3755077041e12deb9ad71be322b97e66e266dc6d83b9a434ce62a335e06f7",
+      "gzip_sha256": "87caecec0e2a8191eb64ae94aa724c9a5f060197eda595ba054e69de28ce2f3d"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-mm-cut17.jsonl",
+      "archive": "reasoning-mm-cut17.jsonl.gz",
+      "bytes": 252186,
+      "sha256": "76677860278f8ed6612a2dfd298c8090c3a2e79a6635a9b51cc8a3230fc56a21",
+      "gzip_sha256": "3c40a0e70d984c1bce06d028250a68f0d66a3a36499330afcf76f50e72ede1d5"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-mm-cut17.log",
+      "archive": "reasoning-mm-cut17.log.gz",
+      "bytes": 5735,
+      "sha256": "4cff7c29756075c25eaca6addd35db0fbadcb82073ed26c871244dc900183c96",
+      "gzip_sha256": "2dedacb0441be06f08c22a8b7489b4f664db9f2768dc10eb188eacb13a5d4548"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/run-capacity-audit.py",
+      "archive": "run-capacity-audit.py.gz",
+      "bytes": 3086,
+      "sha256": "db05d877e68831178bb5cf3c4d587162e230fb54dbf6735b16a80afe19a3582f",
+      "gzip_sha256": "f27caa9cb5660767be1ea3c472c171cc525392c665e6979df08418eb479bb43b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-capacity-audit-17.json",
+      "archive": "ownership-capacity-audit-17.json.gz",
+      "bytes": 271094,
+      "sha256": "13dfd14711ca6e3eaaefb6bd6da9599f16fc5f70623b7df0ed87e13844f34552",
+      "gzip_sha256": "e6c4787c933bd3ccc5e71578a888a5cb1eca5af64d835712a0a732811e00d843"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-capacity-audit-18.json",
+      "archive": "ownership-capacity-audit-18.json.gz",
+      "bytes": 271054,
+      "sha256": "cb32a11d076d4160bc52f1a6f93d289ee8caa2cb1480e85b366a69c36461300e",
+      "gzip_sha256": "970140acf49e455d1e5a5e4a4a072ded8e2cf7cd9636b15a1521fc4a1f25a21f"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-mm-cut17.json",
+      "archive": "ownership-mm-cut17.json.gz",
+      "bytes": 270030,
+      "sha256": "1002bb28f7806effc9e904499e36a67204397cfeec4a9dc110fc09d34d3695f9",
+      "gzip_sha256": "932c4d39582e4fbbe27fcef49cce23b639fcc5d02fbe88efd813f18c7bd352c3"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-capacity-audit-17.json",
+      "archive": "runtime-capacity-audit-17.json.gz",
+      "bytes": 304996,
+      "sha256": "359c453eea4c5506f20e1722e7168f54221a1cc5e81820efd98e00934a39da66",
+      "gzip_sha256": "afca222d4f49fffed13fed6a42aa36302dfe4258373a708b9423c4aee60f2dd4"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-capacity-audit-18.json",
+      "archive": "runtime-capacity-audit-18.json.gz",
+      "bytes": 304916,
+      "sha256": "88d8d664a9f1ce1c5b7535ffb93f9f5baa519cbb088b9a25b0b6c1be5608cfab",
+      "gzip_sha256": "a75307cbb7aace29cca241110e8341a6b9e5789e2f94a906949c4e45926fedd0"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-mm-cut17-healthy.json",
+      "archive": "runtime-mm-cut17-healthy.json.gz",
+      "bytes": 303792,
+      "sha256": "c73d3e8d0d8b036b15019e07441551b0ba87ff2fc7546d607be5d6c9b2543b6f",
+      "gzip_sha256": "eafb4a29d8cd000428131e6553cbaacb9eec8e8be4b0114e7eea880057090d20"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-mm-cut17.json",
+      "archive": "runtime-mm-cut17.json.gz",
+      "bytes": 3328,
+      "sha256": "09c6c0be8e916cea141516618b80f6995bc0824a4654a1b645603b3bba1c98c2",
+      "gzip_sha256": "1940fae9346a528d4fa07da29ef2d31b2f19152b1f99c27d4865cad297578b2a"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-capacity-audit-17.log",
+      "archive": "start-capacity-audit-17.log.gz",
+      "bytes": 65,
+      "sha256": "48c83b52c9f3986d2373535b6298755c6bde7ea9788df43576292ec7a790f3a3",
+      "gzip_sha256": "6d158e269a42ab7aeac8d1a2e319c73af16578bfa3fb0109108b20c4ed1f6de8"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-capacity-audit-18.log",
+      "archive": "start-capacity-audit-18.log.gz",
+      "bytes": 65,
+      "sha256": "750de8c7ee2fdf953490507dc7a1fca44be36c10b15ae7159ec1478a6aff02ff",
+      "gzip_sha256": "b64a4af048f398d641706efabfa30dc7623edf97ec80862fba18de0a53d643ab"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-mm-cut17.log",
+      "archive": "start-mm-cut17.log.gz",
+      "bytes": 65,
+      "sha256": "e02f34286a0df49e8fdf18b25bc1b68fe582139a07a3d5f80b5490787df54315",
+      "gzip_sha256": "07869efcb46ccdcdf2964593fede4b89035fbb616d88760eadaab11ea63f1450"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-capacity-audit-17.log",
+      "archive": "startup-capacity-audit-17.log.gz",
+      "bytes": 305418,
+      "sha256": "1dc1d1638ca7859fda531883879b9535d122a4c5bb6571dbca320112336e2046",
+      "gzip_sha256": "4545d94acf04e6a40e1671ca9444d0d9652cb9bc8f2cc2844635c8eae0297da1"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-capacity-audit-18.log",
+      "archive": "startup-capacity-audit-18.log.gz",
+      "bytes": 309538,
+      "sha256": "443174bf1019757958b89361bc68dc9926482f28c76d4176d0df16fd3757cb0f",
+      "gzip_sha256": "0ff8752c11b1cc5e1d1ea201fe54a836547f74156abc27e36a6ea202d2a90bf6"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-mm-cut17.log",
+      "archive": "startup-mm-cut17.log.gz",
+      "bytes": 311089,
+      "sha256": "e3c4e2f58ca8980b19b26b787569467d690d1ff6f5c51f8701de0d14b3048785",
+      "gzip_sha256": "0d61d2fb78dec73ad4b173e66a8737a7880e002ccbeb23f17040cd811b7320f6"
+    }
+  ]
+}
