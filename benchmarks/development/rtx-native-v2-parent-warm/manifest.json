@@ -1,0 +1,201 @@
+{
+  "schema": "lossless-development-archive-v1",
+  "files": [
+    {
+      "source": ".cache/release/rtx-native-v2/provenance/image.json",
+      "archive": "provenance--image.json.gz",
+      "bytes": 12470,
+      "sha256": "2ff850c0c1c7fdc4751cc19bbe8bd50be8e755722a9aa2c1a3bf50a054e4270c",
+      "gzip_sha256": "0079199a836e789ee6219c9b812b8eef396788b4112264d3b70b30df579a753b"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/provenance/source.json",
+      "archive": "provenance--source.json.gz",
+      "bytes": 180522,
+      "sha256": "bb046f08f20cc299db8546f9e23ba4a846b590abfe4666573e743ed2716e9387",
+      "gzip_sha256": "2e4295ec6566bccea6c639fc449acfdf9e67bdf2109ae2540e307164e5f249ae"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/provenance/wrapper-image.json",
+      "archive": "provenance--wrapper-image.json.gz",
+      "bytes": 13273,
+      "sha256": "c2c5c7f0df962f3809a0596479ea06fc5891a46b5e500860ea34ddba0d1462c5",
+      "gzip_sha256": "0e5d48e561ed9885f98c0ab14753d793a53a3a9ee610e17db4b65a1b43b11e12"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/api-timing.json",
+      "archive": "warm--api-timing.json.gz",
+      "bytes": 301,
+      "sha256": "d0efcef9c8a2812c572db5323daf577b331b29bf62241b17e9b56d53b861dc35",
+      "gzip_sha256": "dbc7494eb43b5148189d4785bb6ce877a3d6e386acb7c8386663370e2c77b6c3"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/api.jsonl",
+      "archive": "warm--api.jsonl.gz",
+      "bytes": 228786,
+      "sha256": "d704eba7492478796cbb5fd0352a228dd084414b97bff55650961cc8e4912116",
+      "gzip_sha256": "06e5169d6e973df8bb7ec997a58ee7a9e8c645d7eb8904fe47fbac5fb876cf87"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/api.log",
+      "archive": "warm--api.log.gz",
+      "bytes": 5710,
+      "sha256": "ae36d7fb2041b739f6c63eb4200f25940a42a5828888c4ec139a7e079ebf0780",
+      "gzip_sha256": "c01b0b0f9e4c1ce630e0768f5636515e66c73b33b4ce98575fc276020eeb60ed"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/boundary-timing.json",
+      "archive": "warm--boundary-timing.json.gz",
+      "bytes": 365,
+      "sha256": "c78f9ed04bcd5e6b0789bea75ed33899217a7f5cc77930039e491a46bcd2d9bc",
+      "gzip_sha256": "233844210a9800c268b7c8e471876c8e92d3a2b7b4dcf958a267cc4f156ef0e6"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/boundary.json",
+      "archive": "warm--boundary.json.gz",
+      "bytes": 6814,
+      "sha256": "7727928ac9d4e79558255e2c46ba8cae5eafe26feca09587fc98a876c04c26a9",
+      "gzip_sha256": "0656c491340d8ad4c7ba4e543066cb0e5c6d852678b163bc94b56887317deac3"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/boundary.log",
+      "archive": "warm--boundary.log.gz",
+      "bytes": 97,
+      "sha256": "2e8049abaaca3e60ac7a3242c4092a9abd2f1657522b75476c62ed17a06a9a88",
+      "gzip_sha256": "1ddbbc76deacf04b641384fb968204acce810459b6c3f6608ac739d65b5ff0bb"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/clients-timing.json",
+      "archive": "warm--clients-timing.json.gz",
+      "bytes": 347,
+      "sha256": "74540b17476c0ab52803a62b788932a1c9e42cbe7cdf53d403ab15daa250b3c4",
+      "gzip_sha256": "4d2c74fe9448814d26f8ca552f0ce208f709ad40e0d7caaae377bd616ab3e8b3"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/clients.json",
+      "archive": "warm--clients.json.gz",
+      "bytes": 1405059,
+      "sha256": "8fa9ab0805ab829bef775b7d4792089ccbb18d9249016dcbc04c6a48ed7c168e",
+      "gzip_sha256": "1920a86833c47b69f656c3bde3dc932b13018509e2f25080ee8d5859e2c6ad8f"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/clients.log",
+      "archive": "warm--clients.log.gz",
+      "bytes": 63,
+      "sha256": "0f94e3e4d091d542aab69c1c53f92434aa221e9aa1d5622a01c191f9a65c2afc",
+      "gzip_sha256": "c03d9415494d3cdeb116d2d9604001af2cefbe6f10d73b91e976818b78043cf6"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/container-complete.json",
+      "archive": "warm--container-complete.json.gz",
+      "bytes": 16909,
+      "sha256": "844ddda01bb7adc356ade0de168f78db7b9ff09822ac6202e7b74f4173a003b8",
+      "gzip_sha256": "31d1ac66f46110947b2e6a1ae0c01e2709a7bf021a440e16f8066c89178492ff"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/container-complete.log",
+      "archive": "warm--container-complete.log.gz",
+      "bytes": 372656,
+      "sha256": "134fcf2c63c505d1b091d533e697457606ca848637ad6efb72291f008f9e7425",
+      "gzip_sha256": "1a3377ca74ec8732c68f09d3c37eee9e52337a8a9a9beacef8e7bcc0eb9800e3"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/container-launch.json",
+      "archive": "warm--container-launch.json.gz",
+      "bytes": 16909,
+      "sha256": "844ddda01bb7adc356ade0de168f78db7b9ff09822ac6202e7b74f4173a003b8",
+      "gzip_sha256": "31d1ac66f46110947b2e6a1ae0c01e2709a7bf021a440e16f8066c89178492ff"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/memory.jsonl",
+      "archive": "warm--memory.jsonl.gz",
+      "bytes": 109526,
+      "sha256": "9088a2768d7edf2a147203df5b339264ea4ad670d82521a5f667c2be6f53e8e6",
+      "gzip_sha256": "1be7ceb8554ceb37830d2f35ad8c5b8f3e65fee8e308346e7d3604129622d8c0"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/multimodal-timing.json",
+      "archive": "warm--multimodal-timing.json.gz",
+      "bytes": 257,
+      "sha256": "63fec5f57381846c09d143b501cddc6ad871e78cdb1dd2968df18d9b7c4ffff3",
+      "gzip_sha256": "7e2b89eb93568c485cc1fa440f27557cf038af8cfa79a460eb1db0fd1059dde1"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/multimodal.json",
+      "archive": "warm--multimodal.json.gz",
+      "bytes": 4302,
+      "sha256": "4d1cd9308795302d52222838ee0f3f3cfafe8b15d1d7257f047287d0703c3a16",
+      "gzip_sha256": "d213c50a6620201250564db2a2d9022e184f3bc8d111baf94e574ed9b26ddb3d"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/multimodal.log",
+      "archive": "warm--multimodal.log.gz",
+      "bytes": 66,
+      "sha256": "b0ea1ce0687665403a5b27330f16dcf4612949327a737df2154dca80a706df27",
+      "gzip_sha256": "2e4418232d6f51fcecab62b28689858515a64be90bc9ccfc3eb8ea25ada56340"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/prefix-timing.json",
+      "archive": "warm--prefix-timing.json.gz",
+      "bytes": 255,
+      "sha256": "18c0d4a98a2799b2cb0c359041327cfb24ebf81d72d73c16caf6102411018894",
+      "gzip_sha256": "2568847a15edbb34579dcfbd3e3a7196a1a2c50d4b63894911b7ecf6683ca3b3"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/prefix.json",
+      "archive": "warm--prefix.json.gz",
+      "bytes": 2689,
+      "sha256": "2952b156d4dbb7f4373c77fb03fa3101c1fd083bda5d96729e0fc632ae4b30d6",
+      "gzip_sha256": "58a2d015dbb04c6e342399dd634329248271e909a894d58fc84a109413da9fe8"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/prefix.log",
+      "archive": "warm--prefix.log.gz",
+      "bytes": 1211,
+      "sha256": "95a9baf4eb332314bb1e21f4b290eba378e378f3a050470d0e18f5f0455c1a01",
+      "gzip_sha256": "cc4f1f2695e0e4eddd33aaa927ecce0627ef0a88d5aa25f6da560fa69521ad9d"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/runtime-end.json",
+      "archive": "warm--runtime-end.json.gz",
+      "bytes": 325183,
+      "sha256": "61d8932b7e1e36a857c30428aa93f3010363d2ce00fa0c1a67bd882069d015a9",
+      "gzip_sha256": "d199dabf4294b0ee13a17eb98ac426a711e31c8305c796e7e0060d023301f3cd"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/runtime-start.json",
+      "archive": "warm--runtime-start.json.gz",
+      "bytes": 325184,
+      "sha256": "4219c109944021277a289d3c8d64499d977361e559d77146105ee9b0f27e9b95",
+      "gzip_sha256": "7c4272dda8344ee2b86ca00eb33eb082b3122280079983d8f23a8de036928a53"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/seven-timing.json",
+      "archive": "warm--seven-timing.json.gz",
+      "bytes": 328,
+      "sha256": "fc3528e76c3631e97c0b2261069d40669e7c60a8aae9b6226e6c33a6207addb9",
+      "gzip_sha256": "894f364e6be318c20a8ce3eef9f25f417e112a6260a204dbb9983d83e454b934"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/seven.json",
+      "archive": "warm--seven.json.gz",
+      "bytes": 34771,
+      "sha256": "803340640dd375f8b45b3074b4b544b6f48d1713d2f9709d396814118878e683",
+      "gzip_sha256": "4e6198bcce28f00e773e15f1497496bb2d572e1c6ab1a35dc9f4090c2c58f53b"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/seven.log",
+      "archive": "warm--seven.log.gz",
+      "bytes": 1369,
+      "sha256": "898cb68449b3d1c313b63c27fe4d181f6c4c7611213140f067838bdf805e7470",
+      "gzip_sha256": "0a366a7df36a4b37010827a2489b62e339c21390f530cca249db8b2c460cf493"
+    },
+    {
+      "source": ".cache/release/rtx-native-v2/warm/start.log",
+      "archive": "warm--start.log.gz",
+      "bytes": 65,
+      "sha256": "2bef5ee1d396f02e6089a9a7cbd3d7e52da807df676481d8ee6d521a4f34b431",
+      "gzip_sha256": "d9afac36c22f8a9befdbeaaa7c4f8ac3630703593e000bb5c7bf5e5f45191e07"
+    }
+  ]
+}
