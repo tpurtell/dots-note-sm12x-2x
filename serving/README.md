@@ -1,9 +1,9 @@
 # RTX and two-Spark serving development
 
-For published containers, use the [release fast path](release/README.md#public-fast-path-enabled-after-final-qualification).
+For published containers, use the [release fast path](release/README.md#container-fast-path).
 It pins separate native amd64/RTX and arm64/Spark image digests and each
-platform's qualified settings. Publication and final qualification are still in
-progress; pending settings intentionally refuse launch.
+platform's qualified settings. RTX v2 is accepted at native 524,288 context;
+Spark qualification is in progress. Pending settings intentionally refuse launch.
 
 ## Current platform decisions
 
@@ -20,6 +20,25 @@ The [Brandon-derived GLM RTX recipe](https://github.com/tpurtell/glm-5.3-flash-e
 informs RTX B12x optimization; the [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next)
 informs Spark integration and measurement layout. Each B12x path must qualify
 on Dots3 before becoming a platform default.
+
+## Spark allocator reclamation candidate
+
+Long-prefill telemetry found growing reserved CUDA memory while live tensors
+remained stable: the allocator retained freed, unsplit segments. The candidate
+policy uses `DOTS3_ALLOCATOR_FRACTION=0.90` and
+`PYTORCH_ALLOC_CONF=garbage_collection_threshold:0.90` with the native allocator.
+These are separate from **vLLM utilization 0.80** and the **1 GiB host guard**;
+neither serving setting changes. Reclamation starts around 81% of physical
+GPU memory (90% of the 90% allocator ceiling).
+
+`allocator_policy.py` applies the policy after compilation and graph warmup,
+before requests. This timing matters because vLLM's scoped loading settings
+reset the allocator configuration. The helper preserves other actual allocator
+settings and writes an atomic receipt per rank. Runtime capture and final
+report validation check both receipts against the current container start,
+requested policy and image. Setting environment variables alone is not proof
+that reclamation is active. The helper defaults disabled, and full-context
+physical-memory qualification is required before selecting it for release.
 
 ## Native development builds
 
@@ -189,10 +208,11 @@ Keep the host guard active throughout qualification. Use the same capture
 script with `dots3-vllm-rtx` on the RTX host.
 
 Full-model development loading, text/image/audio, prefix-cache hits, xgrammar
-and tool checks have passed on both platforms. Final container qualification
-must repeat them with the selected parser, MTP, context and memory settings.
-Component checks below preserve earlier investigation results and do not
-replace those release gates. Exact installed dependencies and source hashes
+and tool checks have passed on both platforms. Completed checks are retained
+with their exact source, image and profile provenance. Release reports must
+explicitly distinguish inherited evidence from measurements on the final
+container, document every relevant profile difference, and run only missing
+checks. Component results alone do not establish full-model qualification. Exact installed dependencies and source hashes
 are recorded by the release cache export rather than inferred from package
 metadata requirements.
 
