@@ -93,7 +93,8 @@
         64
       ],
       "reasoning_parser": "dots3",
-      "status": "qualified"
+      "status": "qualified",
+      "compact_dsa_cache": false
     },
     "spark": {
       "architecture": "arm64",
@@ -182,7 +183,8 @@
       "reasoning_parser": "dots3",
       "memory_guard": true,
       "min_host_available_gib": 8,
-      "status": "pending-qualification"
+      "status": "pending-qualification",
+      "compact_dsa_cache": false
     }
   }
 }

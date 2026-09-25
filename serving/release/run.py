@@ -29,7 +29,8 @@ def settings(path, selected):
         fail(f'{selected} release is not finalized. Record its completed evidence and qualified settings after release-image verification.')
     if doc.get('model_revision') != MODEL_REVISION:
         fail('Unexpected checkpoint revision')
-    config = doc['platforms'][selected]
+    config = dict(doc['platforms'][selected])
+    config.setdefault('compact_dsa_cache', False)
     if selected == 'rtx':
         # Older RTX profiles predate the Spark-only transport fields.
         config = dict(config)
@@ -65,7 +66,7 @@ def settings(path, selected):
         fail('Invalid release port or FP8 KV setting')
     if type(config.get('mtp_tokens')) is not int or config['mtp_tokens'] < 0:
         fail('mtp_tokens must be 0 (disabled) or a positive integer')
-    for name in ['b12x_vocab', 'b12x_pcie', 'b12x_roce', 'b12x_roce_eager']:
+    for name in ['b12x_vocab', 'b12x_pcie', 'b12x_roce', 'b12x_roce_eager', 'compact_dsa_cache']:
         if type(config.get(name)) is not bool:
             fail(f'{name} must be a qualified boolean')
     if selected == 'spark' and config['b12x_pcie']:
@@ -135,7 +136,8 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
             runtime_env = report.get('hardware', {}).get(host, {}).get('runtime', {}).get('selected_environment', [])
         env = dict(item.split('=', 1) for item in runtime_env)
         for variable, setting in [('DOTS3_B12X_VOCAB', 'b12x_vocab'),
-                ('VLLM_ENABLE_PCIE_ALLREDUCE', 'b12x_pcie'), ('DOTS3_B12X_ROCE', 'b12x_roce')]:
+                ('VLLM_ENABLE_PCIE_ALLREDUCE', 'b12x_pcie'), ('DOTS3_B12X_ROCE', 'b12x_roce'),
+                ('DOTS3_COMPACT_DSA_CACHE', 'compact_dsa_cache')]:
             if env.get(variable, '0') != str(int(config[setting])):
                 fail(f'Qualification B12x mismatch for {host}: {setting}')
         if env.get('DOTS3_B12X_EXACT_FP8', '') != config['b12x_exact_fp8']:
@@ -251,6 +253,7 @@ def main():
         GPU_MEMORY_UTILIZATION=str(config['gpu_memory_utilization']),
         MAX_MODEL_LEN=str(config['max_model_len']), MAX_NUM_SEQS=str(config['max_num_seqs']),
         MAX_BATCHED_TOKENS=str(config['max_num_batched_tokens']), KV_CACHE_DTYPE=config['kv_cache_dtype'],
+        DOTS3_COMPACT_DSA_CACHE=str(int(config['compact_dsa_cache'])),
         DOTS3_B12X_VOCAB=str(int(config['b12x_vocab'])), DOTS3_B12X_PCIE=str(int(config['b12x_pcie'])),
         DOTS3_B12X_ROCE=str(int(config['b12x_roce'])),
         DOTS3_B12X_ROCE_EAGER=str(int(config['b12x_roce_eager'])),

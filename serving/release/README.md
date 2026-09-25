@@ -263,6 +263,10 @@ platform stores its own:
 - Repository-relative qualification report path and SHA256 of its exact bytes.
 - GPU memory utilization, context limit, sequence limit and prefill chunk size.
 - FP8 KV format and platform-specific MTP token count (`0` explicitly disables MTP).
+- `compact_dsa_cache`: opt-in compact sparse-attention cache layout. The current
+  RTX release uses `false`; enabling it requires a supporting image and its own
+  measured report. Start/restart bind this setting to the captured
+  `DOTS3_COMPACT_DSA_CACHE` environment. Older profiles default to `false`.
 - Required `reasoning_parser: "dots3"`, verified against the image label.
 - For Spark, `memory_guard: true` and `min_host_available_gib` of at least 8.
 - Boolean B12x vocab and RTX PCIe settings.
