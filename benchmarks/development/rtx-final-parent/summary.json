@@ -1,0 +1,114 @@
+{
+  "schema": "dots3-parent-warm-summary-v1",
+  "release_qualification": false,
+  "complete_parent_warm": true,
+  "scope": "Selected RTX parent-image warmup and limited functional/capacity screen. Not published-image qualification or final performance tables.",
+  "runtime": {
+    "image_id": "sha256:5ecf76bc12da2141373d461adea41bf7ba92fcc74bcead92dddcbec7f2d87c45",
+    "server_args": [
+      "serve",
+      "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+      "--served-model-name",
+      "dots3-note-exl3-k4",
+      "--tensor-parallel-size",
+      "2",
+      "--pipeline-parallel-size",
+      "1",
+      "--distributed-executor-backend",
+      "mp",
+      "--max-model-len",
+      "262144",
+      "--max-num-seqs",
+      "16",
+      "--max-num-batched-tokens",
+      "512",
+      "--gpu-memory-utilization",
+      "0.95",
+      "--kv-cache-dtype",
+      "fp8",
+      "--enable-prefix-caching",
+      "--structured-outputs-config",
+      "{\"backend\":\"xgrammar\"}",
+      "--limit-mm-per-prompt",
+      "{\"image\":1,\"audio\":1,\"video\":0}",
+      "--enable-auto-tool-choice",
+      "--tool-call-parser",
+      "dots",
+      "--host",
+      "0.0.0.0",
+      "--port",
+      "8001",
+      "--reasoning-parser",
+      "dots3",
+      "--speculative-config",
+      "{\"method\":\"mtp\",\"num_speculative_tokens\":3}"
+    ],
+    "selected_environment": [
+      "DOTS3_B12X_VOCAB=0",
+      "VLLM_PCIE_ALLREDUCE_BACKEND=b12x",
+      "OMP_NUM_THREADS=8",
+      "DOTS3_B12X_EXACT_FP8=",
+      "DOTS3_B12X_EXACT_FP8_ROWS=4,16,64,512",
+      "VLLM_ENABLE_PCIE_ALLREDUCE=0",
+      "B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile",
+      "CUTE_DSL_ARCH=sm_120a",
+      "VLLM_EXL3_TRELLIS_MIN_M=1",
+      "VLLM_EXL3_PREFILL_TRELLIS=1"
+    ],
+    "architecture": "x86_64",
+    "gpu_inventory_csv": [
+      "0, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, GPU-fe5b6dd0-a77c-c8fb-6360-e1b9d9918ac0, 595.91.07, 97887 MiB, 400.00 W",
+      "1, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, GPU-95f8f212-9131-df99-fd53-7535965197d7, 595.91.07, 97887 MiB, 400.00 W"
+    ]
+  },
+  "gates": {
+    "prefix_hits": 3520.0,
+    "prefix_queries": 3612.0,
+    "xgrammar_json_passed": true,
+    "reasoning_api_passed": 80,
+    "reasoning_api_total": 80,
+    "multimodal_passed": [
+      "image",
+      "audio"
+    ],
+    "seven_contracts_passed": 6,
+    "seven_contracts_total": 7,
+    "seven_failed_contracts": [
+      {
+        "run": 0,
+        "case": "fable",
+        "contract": {
+          "quality_contract_passed": false,
+          "quality_contract_issues": [
+            "fable has 133 words, outside 140..170"
+          ]
+        }
+      }
+    ],
+    "clients": [
+      {
+        "concurrency": 8,
+        "aggregate_decode_tps": 484.90540150558684,
+        "actual_peak_overlap": 8
+      },
+      {
+        "concurrency": 16,
+        "aggregate_decode_tps": 732.21362165174,
+        "actual_peak_overlap": 16
+      }
+    ],
+    "exact_boundary": {
+      "prompt_tokens": 261888,
+      "output_tokens": 256,
+      "total_tokens": 262144,
+      "ttft_seconds": 83.59043594100513,
+      "decode_tps": 224.96695354677718
+    }
+  },
+  "limitations": [
+    "Seven suite and concurrency/boundary screens have one measured run, not final three-run reporting.",
+    "Fable failed its length contract; overall completion does not mean all content checks passed.",
+    "Original clients invocation used server root and returned404 before measured results; rerun with/v1 succeeded. Runner fixed in8aff603.",
+    "Full published-image qualification remains pending."
+  ]
+}
