@@ -275,6 +275,7 @@ class HybridAttestationWorkerExtension:
         receipt['memory_profile_note'] = 'peak_activation_memory includes applied CUDA graph estimate; do not add cudagraph_memory_estimate again'
         receipt['cache_admission_inputs'] = {
             'max_model_len': self.vllm_config.model_config.max_model_len,
+            'max_num_batched_tokens': self.vllm_config.scheduler_config.max_num_batched_tokens,
             'max_in_flight_tokens': self.vllm_config.max_in_flight_tokens,
             'block_size': self.vllm_config.cache_config.block_size,
         }
