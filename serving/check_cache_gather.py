@@ -10,7 +10,7 @@ args = parser.parse_args()
 torch.manual_seed(42)
 device = 'cuda'
 width, page, layers = 1088, 64, 3
-block_stride = 634752 if args.compact else page * layers * width
+block_stride = 589248 if args.compact else page * layers * width
 high = 2**31 // block_stride + 2
 if args.compact:
     backing = torch.empty((high + 2) * block_stride, device=device, dtype=torch.float8_e4m3fn)

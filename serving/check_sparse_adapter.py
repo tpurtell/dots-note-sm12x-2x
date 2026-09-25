@@ -17,10 +17,10 @@ impl.capacity = 4
 impl.topk_indices_buffer = torch.full((4, 2048), -1, dtype=torch.int32, device=device)
 impl.topk_indices_buffer[:, :64] = torch.arange(64, dtype=torch.int32, device=device)
 if args.compact:
-    # Actual14 DSA +14indexer pool, padded to a whole576-byte record.
+    # Actual13 DSA +13indexer pool, padded to a whole576-byte record.
     # Layer7 gives a nonzero storage offset; neighboring pages remain untouched.
-    backing = (torch.randn(4 * 634752, device=device) * 10).to(torch.float8_e4m3fn)
-    cache = backing.as_strided((4, 64, 576), (634752, 576, 1), 7 * 64 * 576)
+    backing = (torch.randn(4 * 589248, device=device) * 10).to(torch.float8_e4m3fn)
+    cache = backing.as_strided((4, 64, 576), (589248, 576, 1), 7 * 64 * 576)
 else:
     backing = (torch.randn(4, 3, 64, 1088, device=device) * 10).to(torch.float8_e4m3fn)
     cache = backing[:, 1]

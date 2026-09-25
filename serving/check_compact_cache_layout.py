@@ -59,11 +59,11 @@ def main():
     output={}
     for compact in (False,True):
         os.environ['DOTS3_COMPACT_DSA_CACHE']='1' if compact else '0'
-        specs={**{f'dsa{i}':Spec(576 if compact else 1088) for i in range(14)},**{f'idx{i}':Spec(132) for i in range(14)},**{f'swa{i}':Sliding(1088) for i in range(33)}}
+        specs={**{f'dsa{i}':Spec(576 if compact else 1088) for i in range(13)},**{f'idx{i}':Spec(132) for i in range(13)},**{f'swa{i}':Sliding(1088) for i in range(34)}}
         groups=env['_get_packed_kv_cache_groups'](config,specs)
         stride=env['_get_kv_cache_bytes_per_block'](groups)
-        assert len({n for g in groups for n in g.layer_names})==61
-        assert sum(len(g.layer_names) for g in groups)==61
+        assert len({n for g in groups for n in g.layer_names})==60
+        assert sum(len(g.layer_names) for g in groups)==60
         assert stride%(576 if compact else 1088)==0
         # Regions within each group's allocated block never overlap. Different
         # groups alias the arena, but scheduler allocates distinct pool IDs.
@@ -71,7 +71,7 @@ def main():
             end=sum(specs[n].page_size_bytes for n in g.layer_names)
             assert end<=stride
         counts=[len(g.layer_names) for g in groups]
-        assert counts==([28,9,8,8,8] if compact else [28,17,16]),counts
+        assert counts==([26,7,7,7,7,6] if compact else [26,17,17]),counts
         row=dict(groups=counts,pool_block_bytes=stride,contexts={})
         for context in (262144,524288):
             # Async two512-token batches +window512; +1 boundaryblock.
