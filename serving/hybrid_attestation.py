@@ -200,6 +200,9 @@ def attest_model(model, vllm_config, *, require_bound_cache=True):
 def _boundary_storage(module, rank, errors, name):
     detail = _module_storage(module)
     detail['owner_rank'] = getattr(module, 'hybrid_owner', None)
+    weight = getattr(module, 'weight', None)
+    if weight is not None:
+        detail['weight'] = _tensor(weight)
     if getattr(module, '_hybrid_owned_boundary', False):
         owner = module.hybrid_owner == rank
         if owner:
@@ -246,7 +249,12 @@ def attest_draft_and_boundaries(model, draft, rank):
             if not row['head_is_shared_with_target']:
                 errors.append(f'draft layer{name}: head is not shared with target')
             layers.append(row)
-    return {'boundary_storage':boundary,'draft_layers':layers},errors
+    boundary_modules = [language.model.embed_tokens, language.lm_head]
+    if draft is not None:
+        boundary_modules.append(draft.model.embed_tokens)
+    return {'boundary_storage':boundary,
+            'boundary_combined_storage':_modules_storage(boundary_modules),
+            'draft_layers':layers},errors
 
 
 class HybridAttestationWorkerExtension:

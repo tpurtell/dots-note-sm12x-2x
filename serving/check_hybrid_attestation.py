@@ -139,3 +139,13 @@ assert evidence['allocator_counters']['inactive_split_bytes.all.current'] == 22
 assert result.total_consumed == 12345
 json.dumps(evidence)
 print('Profile snapshots and allocator counters copied without allocation, retained snapshots, or accounting changes')
+
+# Native TP boundary tables expose storage identity too; module-local summaries
+# alone cannot establish whether target and draft embeddings share allocation.
+from hybrid_attestation import _boundary_storage, _modules_storage
+shared=Tensor(901)
+m1=NS(weight=shared,parameters=lambda:iter([shared]),buffers=lambda:iter([]))
+m2=NS(weight=shared,parameters=lambda:iter([shared]),buffers=lambda:iter([]))
+assert _boundary_storage(m1,0,[],'native')['weight']['storage_pointer']==901
+assert _modules_storage([m1,m2])['cuda_storage_bytes']==8
+print('Native boundary weight identity and combined alias dedup passed')
