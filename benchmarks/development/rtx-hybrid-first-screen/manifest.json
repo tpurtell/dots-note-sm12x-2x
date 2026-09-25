@@ -1,0 +1,348 @@
+{
+  "schema": 1,
+  "scope": "First hybrid owner-attention development screen; not release qualification and no matched native performance conclusion",
+  "image_id": "sha256:f4c227423bff15dee498e1ba504b357f34c9013b175584b013d7a2ebdd8bd549",
+  "hybrid_source_commit": "347a470",
+  "b12x_commit": "bf5677c69197499433314d61aad70f79e89c47c9",
+  "launch_args": [
+    "serve",
+    "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+    "--served-model-name",
+    "dots3-note-exl3-k4",
+    "--tensor-parallel-size",
+    "2",
+    "--pipeline-parallel-size",
+    "1",
+    "--distributed-executor-backend",
+    "mp",
+    "--max-model-len",
+    "524288",
+    "--max-num-seqs",
+    "16",
+    "--max-num-batched-tokens",
+    "512",
+    "--gpu-memory-utilization",
+    "0.95",
+    "--kv-cache-dtype",
+    "fp8",
+    "--enable-prefix-caching",
+    "--structured-outputs-config",
+    "{\"backend\":\"xgrammar\"}",
+    "--limit-mm-per-prompt",
+    "{\"image\":1,\"audio\":1,\"video\":0}",
+    "--enable-auto-tool-choice",
+    "--tool-call-parser",
+    "dots",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "8001",
+    "--reasoning-parser",
+    "dots3",
+    "--block-size",
+    "64",
+    "--speculative-config",
+    "{\"method\":\"mtp\",\"num_speculative_tokens\":3}"
+  ],
+  "selected_environment": {
+    "DOTS3_B12X_EXACT_FP8": "",
+    "DOTS3_B12X_VOCAB": "0",
+    "VLLM_ENABLE_PCIE_ALLREDUCE": "0",
+    "B12X_COMPILE_CACHE_DIR": "/root/.cache/vllm-runtime/b12x/compile",
+    "VLLM_HYBRID_LAYER_PARTITION": "23,23",
+    "DOTS3_B12X_EXACT_FP8_ROWS": "4,16,64,512",
+    "VLLM_PCIE_ALLREDUCE_BACKEND": "b12x",
+    "VLLM_CACHE_ROOT": "/root/.cache/vllm-runtime/vllm",
+    "VLLM_LOGGING_LEVEL": "INFO",
+    "DOTS3_COMPACT_DSA_CACHE": "1",
+    "DOTS3_INDEXER_PREFILL_CONTEXTS": "4",
+    "VLLM_ENABLE_CUDA_COMPATIBILITY": "0",
+    "VLLM_USAGE_SOURCE": "production-docker-image",
+    "VLLM_BUILD_COMMIT": "ced6857afa0ea7b2e3f0846a62e1394e90f15607",
+    "VLLM_BUILD_PIPELINE": "019d130e-464e-4ff7-b84b-492992c0c06b",
+    "VLLM_BUILD_URL": "https://buildkite.com/vllm/release-v2/builds/7022",
+    "VLLM_IMAGE_TAG": "vllm/vllm-openai:v0.30.0",
+    "VLLM_EXL3_TRELLIS_MIN_M": "1",
+    "VLLM_EXL3_PREFILL_TRELLIS": "1"
+  },
+  "reasoning_summary": {
+    "record": "summary",
+    "passed": true,
+    "cases_passed": 40,
+    "cases_total": 40,
+    "failed_cases": [],
+    "evidence_issues": [],
+    "speculative_draft_token_delta": 2044.0,
+    "structured_boundary_chunks": [
+      {
+        "case": "json",
+        "repeat": 0,
+        "chunks": [
+          [
+            532,
+            151722,
+            4913
+          ]
+        ]
+      },
+      {
+        "case": "tool_named",
+        "repeat": 0,
+        "chunks": [
+          [
+            729,
+            624,
+            151722,
+            90
+          ]
+        ]
+      },
+      {
+        "case": "tool_required",
+        "repeat": 0,
+        "chunks": [
+          [
+            729,
+            624,
+            151722,
+            58
+          ]
+        ]
+      }
+    ],
+    "speculative_metrics_after": {
+      "raw_lines": [
+        "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 709.0",
+        "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 2086.0",
+        "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1620.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"0\"} 614.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"1\"} 546.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"2\"} 460.0"
+      ],
+      "totals": {
+        "vllm:spec_decode_num_drafts_total": 709.0,
+        "vllm:spec_decode_num_draft_tokens_total": 2086.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 1620.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1620.0
+      }
+    },
+    "boundary_evidence_scope": "An SSE token chunk crossing </think> shows an accepted output burst; it does not expose rejected drafts or prove their exact contents."
+  },
+  "coding_summary": {
+    "record": "summary",
+    "by_concurrency": {
+      "1": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.08216800949594472,
+        "median_completion_latency_seconds": 28.912677185508073,
+        "median_completed_latency_seconds": 28.912677185508073,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 154.95531471719426,
+        "wave_peak_overlap": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "aggregate_output_tps": 153.72049263265885
+      },
+      "2": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.1216180800111033,
+        "median_completion_latency_seconds": 30.537388501514215,
+        "median_completed_latency_seconds": 30.537388501514215,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 130.53822986007106,
+        "wave_peak_overlap": [
+          2,
+          2
+        ],
+        "aggregate_output_tps": 206.39421735618237
+      },
+      "4": {
+        "requests": 4,
+        "completed": 4,
+        "truncated": 0,
+        "errors": 0,
+        "static_checks_passed": 4,
+        "median_ttft_seconds": 0.22584315152198542,
+        "median_completion_latency_seconds": 42.13971776051039,
+        "median_completed_latency_seconds": 42.13971776051039,
+        "reasoning_finished": 4,
+        "reasoning_incomplete": 0,
+        "reasoning_unobserved": 0,
+        "median_per_request_decode_tps": 97.97259065825023,
+        "wave_peak_overlap": [
+          4
+        ],
+        "aggregate_output_tps": 308.1961830782891
+      }
+    }
+  },
+  "diagnostics": {
+    "v1": "Checkpoint loaded, then nonowner MTP completeness check failed; fixed in 347a470.",
+    "v2": "Nonowner rank selected default block size 16; retry explicitly used block size 64.",
+    "v3": "Functional and coding screen completed. Container snapshot is historical, not current liveness."
+  },
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/prefix-v3.json",
+      "archive": "prefix-v3.json.gz",
+      "bytes": 2681,
+      "sha256": "ec167af5a6c86212b402074e266d125d7a0947dafbb61d21c6efb3e52fb3b647",
+      "gzip_sha256": "1733df38b355666069c7ac5caa681576fd5a1ef95f0145884e77dd4dee285b71"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-v3.jsonl",
+      "archive": "reasoning-v3.jsonl.gz",
+      "bytes": 252185,
+      "sha256": "ee77f12d6f0249bca338c1a14ae7b0de9174f843e75b7d9ab235dd19494a3128",
+      "gzip_sha256": "cdebba43cbad8f4c25d13d9810b78fd19e966b303d3452bf5e6e256404ec16b6"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/reasoning-v3.log",
+      "archive": "reasoning-v3.log.gz",
+      "bytes": 5735,
+      "sha256": "72bb2c5d3c86d59edcf55149b528ddf6051885bb83d3ebc97e677ec2f6600a83",
+      "gzip_sha256": "d0d6e6a4a8be29a9103830b781fbb5b94b127eb8520865386e09282af96836f8"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-v3.jsonl",
+      "archive": "coding-v3.jsonl.gz",
+      "bytes": 13113644,
+      "sha256": "8418e031762af87e76ec8391a41a00b7005b6cd0f2199e4764fd7482b0b63070",
+      "gzip_sha256": "4f919dcc6d4e70c182309b5efb5a59bc91f4775d02fbb1be3683dab6c0d1a5d8"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-v3.log",
+      "archive": "coding-v3.log.gz",
+      "bytes": 4371,
+      "sha256": "208c991612d5cd83e2842aa2eeaff2205374958e4a64df4ed4b53d6ebacba50d",
+      "gzip_sha256": "a492a704679dc930b5a536b8fc5c58afcd314297efdfbeac6d4cd57c917c9778"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-v3.json",
+      "archive": "runtime-v3.json.gz",
+      "bytes": 9000,
+      "sha256": "e4c7880f6986edeca58859070ebf2062d17e52f2771396b41b811c46497862f7",
+      "gzip_sha256": "4afd6807ea5cfecedf72d0431cea5ac4b6e7a466e9d66182813f8811bf92f0b1"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-v3.log",
+      "archive": "startup-v3.log.gz",
+      "bytes": 316591,
+      "sha256": "e05b04982b5c6400a722caff916adec0e03ae732705b8694208115f323e6348b",
+      "gzip_sha256": "02931063a7367d9a685f909847f2d1c9021a2d8f563d646e269051b688914339"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-v3.json",
+      "archive": "container-v3.json.gz",
+      "bytes": 16306,
+      "sha256": "9fb72b4d3f3d7961e91aa0ef7bed7115cde09dc099b7394cb362a7e57b755b78",
+      "gzip_sha256": "7759fb64463a7058ea9f332f6571efc4536ac41398fc40278cedf6b334130e3a"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-v1.log",
+      "archive": "start-v1.log.gz",
+      "bytes": 65,
+      "sha256": "5e84c0ace9cdfcd49f1dc875f9eb4089012f0903a536428f18ba5fd4f678787e",
+      "gzip_sha256": "357eb018d719685e02bce02ac479628f660d27bde2fcc10475d4d51531b7b517"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-v2.log",
+      "archive": "start-v2.log.gz",
+      "bytes": 65,
+      "sha256": "7d373240141ab7ec7ea958a0d4fe97e808d56b5bf0808dc36ac89b1752ab6d13",
+      "gzip_sha256": "1086cd9ee1f88a5a4706f086fb2cc852ed0eecdba760973cd52f62bcc0033dd5"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-v3.log",
+      "archive": "start-v3.log.gz",
+      "bytes": 65,
+      "sha256": "48324ed0936c444076a5f4e86384db26da13ad51e2caf73c83a3cfd6a1c36b4f",
+      "gzip_sha256": "3d7fa51ded090e1011697b3e244602c657d02ff3ac392bfae2c6488ce6acc627"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-v1.log",
+      "archive": "startup-v1.log.gz",
+      "bytes": 286778,
+      "sha256": "06bdc4a7c4757ce986a16fa07d1219e4d7ae8f2e658cad04b10f298d8e262002",
+      "gzip_sha256": "980d4a810dc897737272d62a632017fc40521ffc825d9472762e267ec9073a85"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-v2.log",
+      "archive": "startup-v2.log.gz",
+      "bytes": 289559,
+      "sha256": "0f8971550bc5d4665f1b102fe5368e7eba23918d5b5c73b2a2f830512d9aad78",
+      "gzip_sha256": "f05a7bef92a680a2a9f7f3649f68ea7255253e06400d34c0df3c6fa110c3ec54"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-v1.json",
+      "archive": "container-v1.json.gz",
+      "bytes": 16054,
+      "sha256": "a2f09dc4297136e3848f2ac1b36556712c71ede4fb0ca1e385a514c4f8b390ab",
+      "gzip_sha256": "41aee0fdb60436a5a4280eba32ad7405754c69d9046e1ec57bf6f066055ec5af"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-v2.json",
+      "archive": "container-v2.json.gz",
+      "bytes": 16206,
+      "sha256": "b080c931465ea87192f9c7bc9c8a9d96ef601b21974266f978115a60309acb7c",
+      "gzip_sha256": "4a8718e846cfca961cb180f7da7745c8bff04310adfc3fe1ec883b347dd7728d"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-provenance.json",
+      "archive": "build-provenance.json.gz",
+      "bytes": 1100,
+      "sha256": "c23391a92b6d2d3c879efd18077d909f6f7912b35d40c7baddf8b457e8f40f29",
+      "gzip_sha256": "3226de495b591c9010b256137d3950806fcdecb2a779a7cbc5058be58fee48ec"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-provenance.json.v1",
+      "archive": "build-provenance.json.v1.gz",
+      "bytes": 1100,
+      "sha256": "760556d2c77ab9a6e6d892b9e13dc5aa986932335981941f0ef1d7748fae23c3",
+      "gzip_sha256": "aff3fecd15dbdfeee0f76f412ed4364ccc7e0ab96bea656e5ac4f20d30cf4223"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build.log",
+      "archive": "build.log.gz",
+      "bytes": 2160,
+      "sha256": "91a492829d8cd5228214ed7b09f6f7c76b187e8286d00d1537cb3d8da57cd340",
+      "gzip_sha256": "1ca2c1c6e2a5c666869d9d4cbe4fb62ba35a0ce58359c9ea3d1859433eb0ed9b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build.log.v1",
+      "archive": "build.log.v1.gz",
+      "bytes": 2195,
+      "sha256": "3efcdf60a74d4e64190604d4d3503868b774c5014f9ca93b80987675121544f3",
+      "gzip_sha256": "d4aff8a36b6ef7fa3cc69b65db16d673a35650e9234b9112e6f583e470547436"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/Dockerfile.candidate",
+      "archive": "Dockerfile.candidate.gz",
+      "bytes": 818,
+      "sha256": "46d8ef347d737739e4eebf3a1c4ffdbb03a779ad57d05d25ba8b4b6c478ab14d",
+      "gzip_sha256": "74ec7310ffb5ea1a47232cf37665127f625e890e2f5e8ba47631c73ca0af8081"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/Dockerfile.candidate.v1",
+      "archive": "Dockerfile.candidate.v1.gz",
+      "bytes": 818,
+      "sha256": "2b9d07a8e6701cf2b0e4c5dbc262a77e3b30a85bc8c875ab0626ff3d45f5b697",
+      "gzip_sha256": "f09e06d733ef7265cf439395ab3c0201badc38cbc2896d98eb60225758ccb38e"
+    }
+  ]
+}
