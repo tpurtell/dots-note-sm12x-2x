@@ -19,7 +19,7 @@ def patch(root):
     source = path.read_text()
     source = replace_once(source, '        return replace(spec, head_size=self.physical_head_size)',
         '        if __import__("os").environ.get("DOTS3_COMPACT_DSA_CACHE") == "1":\n'
-        '            if spec.head_size != 576 or spec.dtype != torch.float8_e4m3fn:\n'
+        '            if (spec.head_size != 576 or spec.cache_dtype_str not in ("fp8", "fp8_e4m3") or spec.dtype not in (torch.uint8, torch.float8_e4m3fn)):\n'
         '                raise ValueError("Compact Dots3 DSA requires logical576 E4M3 cache")\n'
         '            return spec\n'
         '        return replace(spec, head_size=self.physical_head_size)')
