@@ -2,6 +2,8 @@
 import json
 import os
 import re
+import time
+from pathlib import Path
 
 
 def apply_allocator_policy(worker, torch_module=None):
@@ -38,10 +40,20 @@ def apply_allocator_policy(worker, torch_module=None):
         raise RuntimeError(f'Allocator policy did not activate: {actual=}, {settings=}')
     total = torch_module.cuda.get_device_properties(torch_module.cuda.current_device()).total_memory
     receipt = {'phase': 'after_compile_and_warmup_before_requests',
+               'rank': int(worker.rank), 'pid': os.getpid(),
+               'world_size': (torch_module.distributed.get_world_size()
+                              if torch_module.distributed.is_initialized() else 1),
+               'created_at_unix': time.time(), 'allocator_backend': 'native',
                'per_process_fraction': actual, 'settings': settings,
                'previous_settings': before,
                'total_device_bytes': total, 'allocator_ceiling_bytes': int(total * actual),
                'reclamation_threshold_bytes': int(total * actual * gc)}
     worker.dots3_allocator_policy = receipt
+    anchor = os.environ.get('VLLM_HYBRID_ATTESTATION_PATH') or '/root/.cache/vllm-runtime/ownership.json'
+    path = Path(anchor).parent / f'allocator-policy-rank{worker.rank}.json'
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(path.name + f'.{os.getpid()}.tmp')
+    temporary.write_text(json.dumps(receipt, indent=2) + '\n')
+    temporary.replace(path)
     print('DOTS3_ALLOCATOR_POLICY ' + json.dumps(receipt), flush=True)
     return receipt

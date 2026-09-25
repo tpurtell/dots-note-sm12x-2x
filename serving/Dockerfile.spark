@@ -33,6 +33,8 @@ COPY serving/dots3_hybrid_boundary.py /usr/local/lib/python3.12/dist-packages/vl
 COPY serving/port_hybrid_boundary.py /tmp/port_hybrid_boundary.py
 COPY serving/b12x_roce_all_reduce.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/device_communicators/b12x_roce_all_reduce.py
 COPY serving/port_roce.py /tmp/port_roce.py
+COPY serving/allocator_policy.py /opt/dots3/allocator_policy.py
+COPY serving/port_allocator_policy.py /tmp/port_allocator_policy.py
 RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_reasoning.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_compact_cache.py /usr/local/lib/python3.12/dist-packages/vllm \
@@ -41,6 +43,7 @@ RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_hybrid_cache_groups.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_hybrid_multimodal.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_hybrid_boundary.py /usr/local/lib/python3.12/dist-packages/vllm \
+ && python3 /tmp/port_allocator_policy.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 -c 'from vllm.model_executor.layers.quantization import get_quantization_config; assert get_quantization_config("exl3").__name__ == "Dots3HybridExl3Config"'
 
 COPY third_party/sparkinfer-glmrt /opt/b12x
