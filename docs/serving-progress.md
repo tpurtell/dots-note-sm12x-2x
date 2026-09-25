@@ -10,7 +10,38 @@ References: `../brandon-glm-5.3-flash/recipe/README.md` for RTX B12x integration
 `../rtx6k-exl3-qwen3.8-flash-next/README.md` for Spark choices and measurement
 conventions. Evaluate all applicable B12x features against Dots3 geometry.
 
-## Current development: hybrid layer owners and expert TP2
+## Current release status
+
+RTX `20260925-v2` is published publicly at digest
+`sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e`.
+Authenticated and anonymous pulls passed. Its selected profile uses a 17/29
+decoder split, routed-expert TP2, vision/audio owners 0/1, batch 512, MTP3,
+compact KV storage, and the measured routing/shared-expert optimizations.
+Only SWA Q-B projection rows 4/8/16 select the optional B12x FP8 kernel.
+Boundary embedding/head ownership and forced sparse MQA are disabled.
+
+The complete native build and fresh-cache wrapper both reproduced **2,004,801
+accounted cache tokens**. The parent passed the exact 524,032-input + 256-output
+boundary; its allocator warnings recovered and remain in the saved log. The
+server omitted cached-token usage, so cold-prompt evidence is the unique first
+block nonce and prompt hash, not an explicit zero counter.
+[Parent evidence](../benchmarks/development/rtx-native-v2-parent-warm/manifest.json)
+and [public wrapper evidence](../benchmarks/development/rtx-native-v2-wrapper/manifest.json)
+are preliminary gates. Full published-image qualification is running; public
+`run.sh` settings still select the qualified v1 until v2 completes.
+
+Spark currently uses the 17/29 split with utilization **0.80** and exactly a
+**1 GiB** host reserve. Its batch-512 baseline accounts for **2,750,605 tokens**.
+Batch 2048 (**1,648,961**) and 4096 (**1,212,943**) violate the 200,000-token loss
+limit and were rejected before performance traffic. Batch 1024 accounts for
+**2,617,069**, passing that limit with a loss of **133,536**; its performance
+comparison is still in progress. Any optional kernel weight copies must also
+fit the combined capacity floor of **2,550,605 tokens**.
+[Batch evidence](../benchmarks/development/spark-prefill-batch-gates/manifest.json).
+Final Spark kernel selection, the common ARM image on both hosts, publication,
+and full qualification remain outstanding.
+
+## Earlier hybrid development comparisons
 
 The next release targets native 524,288 context with compact DSA cache storage,
 four indexer prefill contexts, and owner-local non-expert layers. Every routed
