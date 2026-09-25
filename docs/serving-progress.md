@@ -32,7 +32,7 @@ warmup after completing the smaller context stages, then failed on 2026-09-25
 at 11:30:41 UTC: GPU 1 reported **Xid 79 (fallen off the bus)**, and the driver
 required a node reboot for both GPUs. The poisoned container was stopped and
 the qualification process exited 1. Completed stage receipts are retained, but
-this run does not qualify v2. The user requires keeping completed measurements
+that interrupted attempt alone did not qualify v2; the accepted continuation is recorded below. The user requires keeping completed measurements
 and running only unfinished tests after host recovery. An explicit restart
 continuation must link the old/new runtime identities, preserve completed
 receipt hashes, and verify the same image/model/profile before executing the
@@ -86,15 +86,33 @@ The production ARM parent started successfully on both hosts with matching
 images and verified per-rank allocator receipts. The [final ARM wrapper](../benchmarks/development/spark-native-v1-wrapper/README.md)
 is published at digest `sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad`.
 It includes both hosts' compiled caches; an empty-cache seed check copied 4,014
-files successfully. Final startup and the unfinished workload measurements
-remain pending. The [seven-stage inheritance manifest](../benchmarks/development/spark-qualification-lineage/manifest.json)
+files successfully. Final workload qualification is now complete; public launcher lifecycle verification has passed. The [seven-stage inheritance manifest](../benchmarks/development/spark-qualification-lineage/manifest.json)
 retains completed functional, prefill and boundary evidence with explicit
 source/profile differences; one-token prefill has no inferred decode rate.
 Optional kernel weight copies must also fit the combined
 capacity floor of **2,550,605 tokens** and pass physical-memory qualification.
 [Batch evidence](../benchmarks/development/spark-prefill-batch-gates/manifest.json).
-Final Spark kernel selection, the common ARM image on both hosts, publication,
-and full qualification remain outstanding.
+Final Spark v1 settings are active with the common public ARM image on both
+hosts, native FP8 projections, B12x RoCE and the post-warmup allocator policy.
+[Completed report](../benchmarks/releases/spark-20260925-v1/report.json), SHA256
+`907e0fa8ca5df24f0a265e354ee2ae48a2f0e953ec977cb934368f75c5b36d26`,
+records actual wrapper capacity **2,777,333**, 36/36 natural/static coding passes,
+17/21 content contracts, tool scores **118/138 Basic, 32/38 Hard, 150/176 Total**,
+and **6/6 retrieval** including three near-maximum-context positions.
+A timeout-only continuation preserved 16 stages after a 900-second client socket
+timeout; only missing retrieval was completed with a 3,600-second timeout.
+Seven inherited stages remain source/profile-bound and explicitly distinguished
+from final-digest measurements. Both attempts' memory samples are retained:
+minimum physical headroom **4,882,108,416 / 6,175,846,400 bytes**, zero sampled
+swap use. No power/temperature/cooling changes or repeated completed tests.
+[Public lifecycle evidence](../benchmarks/releases/spark-20260925-v1/fastpath/manifest.json)
+now confirms both pulls, fresh-cache start, health, status, logs, stop and
+coordinated restart. Both actual allocator/profile and guard checks passed;
+old guards exited without duplicates. No generation requests, model downloads
+or thermal changes were made. Fresh startup accounted for **2,722,237** tokens,
+restart **2,762,204**, versus benchmark **2,777,333**; all clear the 2,550,605
+floor. The benchmark figure remains the reported measurement. Both hosts ended
+running and healthy.
 
 ## Earlier hybrid development comparisons
 

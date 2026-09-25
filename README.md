@@ -1,8 +1,8 @@
 # Dots3 Note Preview: EXL3 K4 on two Sparks or two RTX GPUs
 
-This repository provides one Dots3 Note Preview checkpoint and is developing two-GPU vLLM recipes for DGX Spark and RTX PRO 6000. The completed checkpoint retains the [FP8 source](https://huggingface.co/dots-studio/dots3-note-prev-fp8) outside the routed language-model experts. Every routed expert `gate_proj`, `up_proj`, and `down_proj` weight in layers 1–45 comes from the [BF16 source](https://huggingface.co/dots-studio/dots3-note-prev) and uses uniform EXL3 K4. Vision experts remain as supplied by the FP8 checkpoint. The published checkpoint is [`wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1`](https://huggingface.co/wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1).
+This repository provides one Dots3 Note Preview checkpoint and qualified two-GPU vLLM recipes for DGX Spark and RTX PRO 6000. The completed checkpoint retains the [FP8 source](https://huggingface.co/dots-studio/dots3-note-prev-fp8) outside the routed language-model experts. Every routed expert `gate_proj`, `up_proj`, and `down_proj` weight in layers 1–45 comes from the [BF16 source](https://huggingface.co/dots-studio/dots3-note-prev) and uses uniform EXL3 K4. Vision experts remain as supplied by the FP8 checkpoint. The published checkpoint is [`wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1`](https://huggingface.co/wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1).
 
-**Status (2026-09-25):** quantization, tensor audit, publication and local cache installation are complete. The checkpoint is pinned to `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. **RTX v2 published-image qualification is complete at the native 524,288-token context.** Its public container fast path has passed pull, fresh-cache startup, health, logs, stop and restart checks. The Spark full-context memory check has passed and its ARM container is published; anonymous pulling has passed and final qualification is running; unmeasured Spark table entries stay blank. See the [RTX v2 report](benchmarks/releases/rtx-20260925-v2/report.json) and [qualification ledger](docs/serving-progress.md).
+**Status (2026-09-26):** quantization, tensor audit, publication and local cache installation are complete. The checkpoint is pinned to `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. **RTX v2 published-image qualification is complete at the native 524,288-token context.** Its public container fast path has passed pull, fresh-cache startup, health, logs, stop and restart checks. Spark v1 qualification is also complete, with 36/36 natural coding completions, 6/6 retrieval probes and 150/176 tool-quality points. Both native containers are public. Spark public pull, fresh-cache start, health, logs, stop and coordinated restart also passed. See the [RTX v2 report](benchmarks/releases/rtx-20260925-v2/report.json) and [qualification ledger](docs/serving-progress.md).
 
 ## Container fast path
 
@@ -14,13 +14,19 @@ ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:d350ceb8c9be1dce3851ab20fba4c586f
 
 The [deployment evidence](benchmarks/releases/rtx-20260925-v2/fastpath/manifest.json) records these checks with zero benchmark requests and no model download.
 
-Follow the [container run instructions](serving/release/README.md#container-fast-path) and [pinned release settings](serving/release/settings.json). Mount the entire existing `HF_HOME`; no model download is needed. RTX uses one amd64 container with two GPUs. Spark uses a separate arm64 image on both hosts, worker first. Its `20260925-v1` container is [published with recorded build/cache provenance](benchmarks/development/spark-native-v1-wrapper/README.md); anonymous pulling has passed; final workload and launcher qualification remain pending.
+Follow the [container run instructions](serving/release/README.md#container-fast-path) and [pinned release settings](serving/release/settings.json). Mount the entire existing `HF_HOME`; no model download is needed. RTX uses one amd64 container with two GPUs. Spark uses a separate arm64 image on both hosts, worker first. Its `20260925-v1` container is [published with recorded build/cache provenance](benchmarks/development/spark-native-v1-wrapper/README.md); anonymous pulling and workload qualification passed. Spark public pull, fresh-cache start, health, logs, stop and coordinated restart also passed.
+
+```text
+ghcr.io/tpurtell/dots3-note-exl3-k4-spark@sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad
+```
+
+Spark selects the same 17/29 decoder and 0/1 multimodal ownership, routed-expert TP2, 524,288 context, MTP3 and batch 512, with **0.80 utilization**, **1 GiB host reserve**, B12x RoCE and native FP8 projections. Post-warmup native allocator fraction **0.90** and garbage-collection threshold **0.90** reclaim freed segments; actual per-rank state is captured. Its benchmark wrapper accounts for **2,777,333 KV tokens**. The [public lifecycle check](benchmarks/releases/spark-20260925-v1/fastpath/manifest.json) observed **2,722,237** after fresh startup and **2,762,204** after restart; allocation varies between startups, with all three above the 2,550,605-token acceptance floor.
 
 The qualified RTX profile uses **17/29 owner-local decoder layers**, **TP2 for every routed expert**, vision on rank 0 and audio on rank 1, FP8 KV, **524,288 context**, **0.95 utilization**, 16 slots, batch 512 and **MTP3**. It enables packed/fused routing, shared-expert overlap, compact cache storage and balanced KV groups. Optional B12x SWA Q-B projection runs only at rows 4/8/16; vocabulary, boundary tables and other dense projections retain the selected native paths. Accounted KV capacity is **2,004,801 tokens**, not a promise that every request mix can use that total. See [execution and cache accounting](docs/hybrid-expert-tp.md).
 
-The report explicitly records a hardware interruption and restart: **14 completed stages were preserved**, and **three unfinished stages** were completed with the same image, model, launch profile and workload sources. This was not an uninterrupted run. Original receipts, prior-artifact hashes, driver failure evidence and both runtime identities are retained. No temperature, power or cooling settings were changed for the continuation.
+The RTX report explicitly records a hardware interruption and restart: **14 completed stages were preserved**, and **three unfinished stages** were completed with the same image, model, launch profile and workload sources. This was not an uninterrupted run. Original receipts, prior-artifact hashes, driver failure evidence and both runtime identities are retained. No temperature, power or cooling settings were changed for the continuation.
 
-The earlier ordinary-TP2, 262,144-context RTX v1 remains available as [historical release evidence](benchmarks/releases/rtx-20260925-v1/report.json); the tables below describe hybrid v2.
+The earlier ordinary-TP2, 262,144-context RTX v1 remains available as [historical release evidence](benchmarks/releases/rtx-20260925-v1/report.json); the tables below describe RTX hybrid v2 and Spark v1.
 
 ## Source and calibration
 
@@ -37,7 +43,7 @@ Both Sparks have 121 GiB unified memory and local NVMe. The source checkpoint ex
 
 ## Serving target
 
-Start from [vLLM v0.30.0](https://github.com/vllm-project/vllm/releases/tag/v0.30.0), the latest stable release rechecked on 2026-09-25. Native Dots3 Note support entered through [#51255](https://github.com/vllm-project/vllm/pull/51255), and the merged [Dots3 runtime optimization #53517](https://github.com/vllm-project/vllm/pull/53517) is present in the pinned source. The open [video-audio cache repair #57655](https://github.com/vllm-project/vllm/pull/57655) remains relevant if video with audio is qualified. The [two-node launch script](serving/start_spark_node.sh) targets two GB10 GPUs at tensor parallel size 2 with **80% GPU memory utilization** in current candidates, based on measured unified-memory headroom and a 1 GiB host-memory guard. Final limits require request qualification.
+Start from [vLLM v0.30.0](https://github.com/vllm-project/vllm/releases/tag/v0.30.0), the latest stable release rechecked on 2026-09-25. Native Dots3 Note support entered through [#51255](https://github.com/vllm-project/vllm/pull/51255), and the merged [Dots3 runtime optimization #53517](https://github.com/vllm-project/vllm/pull/53517) is present in the pinned source. The open [video-audio cache repair #57655](https://github.com/vllm-project/vllm/pull/57655) remains relevant if video with audio is qualified. The [two-node launch script](serving/start_spark_node.sh) targets two GB10 GPUs at tensor parallel size 2 with **80% GPU memory utilization** in the qualified Spark profile, based on measured unified-memory headroom and a 1 GiB host-memory guard.
 
 Qualification must prove prefix-cache hits on repeated long prompts, including Dots3's sliding-window and sparse-MLA cache groups. Record cached-token counters and warm versus cold TTFT; review vLLM's [prefix caching contract](https://docs.vllm.ai/en/latest/features/automatic_prefix_caching/) and sparse-MLA alignment rules. Exercise xgrammar JSON and tool calls with and without speculation. The earlier Qwen recipe carried a termination fix related to [#52805](https://github.com/vllm-project/vllm/pull/52805), with a [reported follow-up](https://github.com/vllm-project/vllm/issues/53181); carry a patch only if the pinned release still needs it.
 
@@ -47,7 +53,7 @@ The [Brandon-derived GLM RTX recipe](https://github.com/tpurtell/glm-5.3-flash-e
 
 ## Headline measurements
 
-Spark entries below are completed, validated stages from the public `20260925-v1` image unless marked ¹. Reasoning/coding, hard-mode tools, concurrency and context measurements are complete. Only near-maximum-context retrieval and the final launcher lifecycle remain pending. [Completed-stage evidence](benchmarks/development/spark-v1-completed-stages/README.md). No completed test is being repeated.
+Tables use the completed [Spark v1 report](benchmarks/releases/spark-20260925-v1/report.json) and [RTX v2 report](benchmarks/releases/rtx-20260925-v2/report.json). Spark final-digest measurements are distinguished from retained prior-profile evidence marked ¹. Spark's timeout-only continuation preserved 16 completed stages and completed only the missing near-maximum-context retrieval stage with a 3,600-second client timeout after the earlier 900-second socket timeout. It was not an uninterrupted run. Functional and selected context stages remain explicitly inherited; completed tests were not repeated.
 
 | Metric | 2× Spark | 2× RTX |
 |---|---|---|
@@ -164,7 +170,7 @@ The [failure audit](benchmarks/development/rtx-tool-quality-audit/README.md) sep
 
 | Platform | Reasoning/tools/JSON | Prefix hits/queries | Cold TTFT s | Warm TTFT s | Passed retrieval probes | MM examples |
 |---|---|---|---|---|---|---|
-| spark¹ | 40/40 | 3520/3612 | 4.12 | 0.36 | 3/3 at 8K; near-max pending | 2 |
+| spark¹ | 40/40 | 3520/3612 | 4.12 | 0.36 | 6/6 (8K and near-maximum context) | 2 |
 | rtx | 80/80 | 3520.0/3612.0 | 9.75 | 0.06 | 6 | 2 |
 
 ¹ Spark functional results are retained prior-profile checks, with source images and changes disclosed in the [inheritance manifest](benchmarks/development/spark-qualification-lineage/manifest.json); they were not rerun on the final digest.
@@ -173,11 +179,15 @@ Prefix counters establish reuse. Cold/warm latency includes first-use overhead a
 
 Spark final-wrapper startup accounts for **2,777,333 KV tokens** at utilization **0.80**, batch **512**, with the **1 GiB** host guard. This differs from the larger parent/diagnostic allocations; the recipe uses the actual wrapper figure.
 
+Spark: minimum sampled physical MemAvailable **4.55 GiB on Rhea / 5.75 GiB on Moa**, with no sampled swap use. The final report includes both attempts; sampled minima are not continuous guarantees.
+
 RTX: minimum sampled host MemAvailable 163.82GiB; GPU0 peak 94.92GiB, GPU1 peak 94.14GiB.
 
 Sampled peaks can miss brief excursions; Spark memory is shared with the host. Quality misses/truncations and raw traces remain in the reports.
 
 ## Release evidence
+
+- Spark: [report](benchmarks/releases/spark-20260925-v1/report.json), [public lifecycle evidence](benchmarks/releases/spark-20260925-v1/fastpath/manifest.json), [lossless evidence manifest](benchmarks/releases/spark-20260925-v1/archive-manifest.json); SHA256 `907e0fa8ca5df24f0a265e354ee2ae48a2f0e953ec977cb934368f75c5b36d26`.
 
 - RTX: [report](benchmarks/releases/rtx-20260925-v2/report.json), [lossless evidence manifest](benchmarks/releases/rtx-20260925-v2/archive-manifest.json); SHA256 `bd29e1e31b8d0adf2a0b04654429118795bcfcd72815ace1d74516c4f8f6de50`.
 

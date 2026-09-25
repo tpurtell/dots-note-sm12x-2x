@@ -181,15 +181,21 @@ The separate native ARM64 Spark wrapper has been published as
 `sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad`.
 The package is **public**: authenticated pulls on both hosts and an anonymous
 exact-digest pull passed. See the [publication archive](../../benchmarks/development/spark-native-v1-wrapper/README.md).
-Final qualification remains pending; publication does not activate Spark
-settings. Both Spark hosts must use this same ARM64 digest. The runner continues
-to refuse pending Spark settings.
+Spark qualification is complete and its settings are active; see the [final report](../../benchmarks/releases/spark-20260925-v1/report.json).
+Both Spark hosts must use this same ARM64 digest. Source-bound inherited stages
+and the timeout-only retrieval continuation remain explicit in the report.
+Public pull, fresh-cache start, health, status, logs, stop and coordinated restart
+passed on both hosts. Both starts verified the actual allocator policy and host
+guards; old guards exited without duplicates. See the [lifecycle receipt](../../benchmarks/releases/spark-20260925-v1/fastpath/receipt.json.gz)
+and [artifact hashes](../../benchmarks/releases/spark-20260925-v1/fastpath/manifest.json).
+No generation requests, model downloads or thermal changes were made by this check.
 
 ## Container fast path
 
 RTX settings contain the v2 published digest, qualified profile and completed
-report hash. Spark remains `pending-qualification` until its native image and
-report are ready. `run.sh` refuses incomplete platform settings.
+report hash. Spark v1 settings likewise contain its public ARM64 digest, completed
+report hash and independently selected profile. `run.sh` refuses incomplete
+platform settings.
 No development image tag is a release fallback. Keep this recipe checkout,
 including its qualification reports and `serving/start_*.sh` launchers.
 
@@ -199,8 +205,13 @@ experts at TP2; vision/audio towers use owners 0/1. It enables compact DSA,
 owner-aware KV grouping, packed/fused routing, bounded shared-expert overlap,
 and exact SWA Q-B for rows 4/8/16. Vocabulary projection and boundary tables
 retain their native implementations. The report and settings bind every choice.
-Spark's selection is independent; its current candidates use 0.80 utilization
-with the host guard. Spark settings activate only after its own release approval.
+Spark selects 0.80 utilization, a 1 GiB physical-memory guard, MTP3, batch 512,
+17/29 ownership, B12x RoCE and native FP8 projections. Its post-warmup allocator
+fraction and reclamation threshold are both 0.90; actual receipts bind both ranks.
+Final wrapper KV capacity is 2,777,333 tokens, distinct from parent/diagnostic
+allocations. Fresh lifecycle startup accounted for 2,722,237 tokens and restart
+for 2,762,204, both above the 2,550,605 acceptance floor; exact capacity can vary
+between startups without a profile change.
 Bare development launcher defaults do not reproduce these profiles.
 
 Run from the same recipe checkout revision on both Spark hosts, or from the
@@ -225,6 +236,10 @@ If its published package requires authentication, log Docker in on both hosts
 with an account that has access before pulling.
 Set addresses and the network interface for your own hosts. The interface must
 reach the other Spark; the existing launcher also exposes `/dev/infiniband`.
+The tested hosts used `SOCKET_IFNAME=enP2p1s0f0np0`,
+`B12X_ROCE_HCA=roceP2p1s0f0` and GID index `3`. Set the matching interface,
+HCA and RoCE GID for your hosts explicitly; an empty HCA was not the tested
+configuration. Preserve these exports for restart as well.
 
 ```bash
 # On both hosts:
@@ -232,6 +247,8 @@ export HF_HOME="$HOME/.cache/huggingface"
 export RUNTIME_CACHE="$PWD/.cache/release/spark-runtime"
 export MASTER_ADDR=HEAD_NETWORK_IP
 export SOCKET_IFNAME=RDMA_NETWORK_INTERFACE
+export B12X_ROCE_HCA=RDMA_HCA
+export B12X_ROCE_GID_INDEX=3
 bash serving/release/run.sh spark pull
 
 # On the worker:
@@ -288,8 +305,7 @@ Avoid putting secrets in shared shell history.
 
 ### API example
 
-Run this on the RTX host, or use port `8000` on the Spark head after its release
-is qualified. The model name is the same on both platforms.
+Run this on the RTX host, or use port `8000` on the qualified Spark head. The model name is the same on both platforms.
 
 ```bash
 curl --fail-with-body --silent --show-error http://127.0.0.1:8001/v1/chat/completions \
