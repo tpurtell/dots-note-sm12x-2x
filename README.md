@@ -47,13 +47,13 @@ The [Brandon-derived GLM RTX recipe](https://github.com/tpurtell/glm-5.3-flash-e
 
 ## Headline measurements
 
-Spark entries below are completed, validated stages from the public `20260925-v1` image unless marked ¹. Its full qualification is still running: reasoning/coding, hard-mode tools, and remaining context/retrieval measurements stay pending. [Completed-stage evidence](benchmarks/development/spark-v1-completed-stages/README.md). No completed test is being repeated.
+Spark entries below are completed, validated stages from the public `20260925-v1` image unless marked ¹. Reasoning/coding, hard-mode tools, concurrency and context measurements are complete. Only near-maximum-context retrieval and the final launcher lifecycle remain pending. [Completed-stage evidence](benchmarks/development/spark-v1-completed-stages/README.md). No completed test is being repeated.
 
 | Metric | 2× Spark | 2× RTX |
 |---|---|---|
-| C1 reasoning/coding aggregate output tokens/s | — | 161.30 |
-| C2 reasoning/coding aggregate output tokens/s | — | 229.07 |
-| C4 reasoning/coding aggregate output tokens/s | — | 327.47 |
+| C1 reasoning/coding aggregate output tokens/s | 31.63 | 161.30 |
+| C2 reasoning/coding aggregate output tokens/s | 44.69 | 229.07 |
+| C4 reasoning/coding aggregate output tokens/s | 58.22 | 327.47 |
 | C1 seven-workload weighted decode tokens/s | 30.62 | 165.60 |
 | Seven content contracts | 17/21 | 18/21 |
 | Exact context boundary, input + output | 524,032 + 256 = 524,288¹ | 524,032 + 256 = 524,288 |
@@ -67,9 +67,9 @@ Spark entries below are completed, validated stages from the public `20260925-v1
 
 | Platform | C | Aggregate output tokens/s | Completed latency s | Natural | Static checks | Truncated | Output tokens median (range) |
 |---|---|---|---|---|---|---|---|
-| spark | 1 | — | — | —/— | —/— | — | — (—–—) |
-| spark | 2 | — | — | —/— | —/— | — | — (—–—) |
-| spark | 4 | — | — | —/— | —/— | — | — (—–—) |
+| spark | 1 | 31.63 | 111.18 | 12/12 | 12/12 | 0 | 3,525.50 (2479–6798) |
+| spark | 2 | 44.69 | 162.95 | 12/12 | 12/12 | 0 | 3,953.50 (2635–6550) |
+| spark | 4 | 58.22 | 174.60 | 12/12 | 12/12 | 0 | 3,400.50 (2243–7911) |
 | rtx | 1 | 161.30 | 23.28 | 12/12 | 12/12 | 0 | 3,783.50 (2336–7282) |
 | rtx | 2 | 229.07 | 34.76 | 12/12 | 12/12 | 0 | 4,343.00 (2754–6266) |
 | rtx | 4 | 327.47 | 39.02 | 12/12 | 12/12 | 0 | 3,844.00 (2557–5994) |
@@ -114,6 +114,9 @@ RTX content contract misses: fable run1: fable has 113 words, outside 140..170; 
 | spark | code-agent | 0 | 0.33 | 451.36 | 34.97 |
 | spark | code-agent | 8192 | 0.34 | 24,174.23 | 33.10 |
 | spark | code-agent | 24000 | 0.44 | 53,933.00 | 36.23 |
+| spark | context-2048 | 2048 | 2.69 | 761.27 | 40.24 |
+| spark | context-65536 | 65536 | 82.55 | 793.91 | 40.01 |
+| spark | context-262144 | 262144 | 383.93 | 682.79 | 39.62 |
 | rtx | code-agent | 0 | 0.06 | 2,372.99 | 187.95 |
 | rtx | code-agent | 8192 | 0.08 | 98,452.59 | 178.41 |
 | rtx | code-agent | 24000 | 0.09 | 268,774.51 | 178.81 |
@@ -142,14 +145,16 @@ These completed measurements use earlier profiles, as recorded in the [inheritan
 
 | Platform | Suite | Points | Score % | Pass/partial/fail |
 |---|---|---|---|---|
-| spark | Basic | —/— | — | —/—/— |
-| spark | Hard | —/— | — | —/—/— |
-| spark | Total | —/— | — | —/—/— |
+| spark | Basic | 118/138 | 85.51 | 55/8/6 |
+| spark | Hard | 32/38 | 84.21 | 15/2/2 |
+| spark | Total | 150/176 | 85.23 | 70/10/8 |
 | rtx | Basic | 116/138 | 84.06 | 51/14/4 |
 | rtx | Hard | 31/38 | 81.58 | 14/3/2 |
 | rtx | Total | 147/176 | 83.52 | 65/17/6 |
 
-Thinking is enabled. The run uses temperature 0, eight parallel scenarios, one trial, at most eight turns and a 4,096-token benchmark response budget. This budget is not a server default. The source model documents thinking on/off, with no named reasoning-effort levels.
+Both platforms graded all 88 scenarios without infrastructure exclusions. Spark scored **150/176** and RTX **147/176**; both completed **36/36** reasoning/coding requests naturally with static checks.
+
+Thinking is enabled. Each tool run uses temperature 0, eight parallel scenarios, one trial, at most eight turns and a 4,096-token benchmark response budget. This budget is not a server default. The source model documents thinking on/off, with no named reasoning-effort levels.
 
 Pinned public suite: 69 Basic + 19 Hard = 88, partial credit 0/1/2. Missing entries are unmeasured, not zero. Total weights scenario counts. Parser/API compatibility checks below are a separate measure. [Reproduce the hard-mode suite](serving/benchmarks/tool_quality.md).
 
@@ -159,7 +164,7 @@ The [failure audit](benchmarks/development/rtx-tool-quality-audit/README.md) sep
 
 | Platform | Reasoning/tools/JSON | Prefix hits/queries | Cold TTFT s | Warm TTFT s | Passed retrieval probes | MM examples |
 |---|---|---|---|---|---|---|
-| spark¹ | 40/40 | 3520/3612 | 4.12 | 0.36 | Pending | 2 |
+| spark¹ | 40/40 | 3520/3612 | 4.12 | 0.36 | 3/3 at 8K; near-max pending | 2 |
 | rtx | 80/80 | 3520.0/3612.0 | 9.75 | 0.06 | 6 | 2 |
 
 ¹ Spark functional results are retained prior-profile checks, with source images and changes disclosed in the [inheritance manifest](benchmarks/development/spark-qualification-lineage/manifest.json); they were not rerun on the final digest.
