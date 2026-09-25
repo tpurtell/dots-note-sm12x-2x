@@ -47,17 +47,21 @@ The [Brandon-derived GLM RTX recipe](https://github.com/tpurtell/glm-5.3-flash-e
 
 ## Headline measurements
 
+Spark entries below are completed, validated stages from the public `20260925-v1` image unless marked ¹. Its full qualification is still running: reasoning/coding, hard-mode tools, and remaining context/retrieval measurements stay pending. [Completed-stage evidence](benchmarks/development/spark-v1-completed-stages/README.md). No completed test is being repeated.
+
 | Metric | 2× Spark | 2× RTX |
 |---|---|---|
 | C1 reasoning/coding aggregate output tokens/s | — | 161.30 |
 | C2 reasoning/coding aggregate output tokens/s | — | 229.07 |
 | C4 reasoning/coding aggregate output tokens/s | — | 327.47 |
-| C1 seven-workload weighted decode tokens/s | — | 165.60 |
-| Seven content contracts | Pending | 18/21 |
-| Exact context boundary, input + output | — | 524,032 + 256 = 524,288 |
-| C1 greedy merge_intervals median tokens/s | — | 202.57 |
-| Sampled async code, depth 0, burst-excluded tokens/s | — | 187.95 |
-| C16 sampled clients aggregate tokens/s | — | 665.05 |
+| C1 seven-workload weighted decode tokens/s | 30.62 | 165.60 |
+| Seven content contracts | 17/21 | 18/21 |
+| Exact context boundary, input + output | 524,032 + 256 = 524,288¹ | 524,032 + 256 = 524,288 |
+| C1 greedy merge_intervals median tokens/s | 37.70 | 202.57 |
+| Sampled async code, depth 0, burst-excluded tokens/s | 34.97 | 187.95 |
+| C16 sampled clients aggregate tokens/s | 136.63 | 665.05 |
+
+¹ The Spark exact boundary is the retained single diagnostic-image measurement with the same allocator policy; it is not a new final-image run. [Boundary evidence and profile differences](benchmarks/development/spark-context-memory-reclamation/README.md).
 
 ## Reasoning-enabled coding: C1–C4
 
@@ -76,13 +80,15 @@ Coding aggregate throughput is total streamed output tokens divided by summed co
 
 | Case | Spark median tokens/s | RTX median tokens/s |
 |---|---|---|
-| code | — | 202.57 |
-| math | — | 204.42 |
-| fable | — | 126.22 |
-| hello | — | 168.35 |
-| topic | — | 136.71 |
-| structured-json | — | 209.66 |
-| multilingual | — | 143.32 |
+| code | 37.70 | 202.57 |
+| math | 39.77 | 204.42 |
+| fable | 22.48 | 126.22 |
+| hello | 31.94 | 168.35 |
+| topic | 27.44 | 136.71 |
+| structured-json | 36.94 | 209.66 |
+| multilingual | 26.48 | 143.32 |
+
+Spark content checks passed **17/21**: three fables missed the 140–170-word range (one also missed the closing moral), and one topic response omitted paging.
 
 RTX content contract misses: fable run1: fable has 113 words, outside 140..170; fable run2: fable has 100 words, outside 140..170, response does not end with a moral about sharing credit; topic run2: response omits paging.
 
@@ -90,6 +96,11 @@ RTX content contract misses: fable run1: fable has 113 words, outside 140..170; 
 
 | Platform | Clients | Aggregate tokens/s | Minimum overlap |
 |---|---|---|---|
+| spark | 1 | 21.53 | 1 |
+| spark | 2 | 37.14 | 2 |
+| spark | 4 | 56.91 | 4 |
+| spark | 8 | 88.13 | 8 |
+| spark | 16 | 136.63 | 16 |
 | rtx | 1 | 112.94 | 1 |
 | rtx | 2 | 185.71 | 2 |
 | rtx | 4 | 294.05 | 4 |
@@ -100,6 +111,9 @@ RTX content contract misses: fable run1: fable has 113 words, outside 140..170; 
 
 | Platform | Probe | Input depth | TTFT s | Prompt tokens / TTFT | Decode tokens/s |
 |---|---|---|---|---|---|
+| spark | code-agent | 0 | 0.33 | 451.36 | 34.97 |
+| spark | code-agent | 8192 | 0.34 | 24,174.23 | 33.10 |
+| spark | code-agent | 24000 | 0.44 | 53,933.00 | 36.23 |
 | rtx | code-agent | 0 | 0.06 | 2,372.99 | 187.95 |
 | rtx | code-agent | 8192 | 0.08 | 98,452.59 | 178.41 |
 | rtx | code-agent | 24000 | 0.09 | 268,774.51 | 178.81 |
@@ -112,6 +126,17 @@ RTX content contract misses: fable run1: fable has 113 words, outside 140..170; 
 | rtx | context-524032 | 524032 | 271.38 | 1,931.01 | 182.53 |
 
 Decode excludes the entire first SSE token burst. Prompt tokens / TTFT includes tokenization and first-token handoff. For unique cold context probes this estimates effective prefill throughput. Sampled code-agent history probes can reuse prefixes; their ratios are not prefill-speed measurements. Fixed 256-output probes do not demonstrate natural completion.
+
+### Retained Spark cold-context measurements
+
+These completed measurements use earlier profiles, as recorded in the [inheritance manifest](benchmarks/development/spark-qualification-lineage/manifest.json). The 8K/32K/128K probes generated one token, so they provide no decode measurement. The 524K row is one successful diagnostic-image boundary. They are preserved without rerunning them and are not represented as final-container measurements.
+
+| Prompt tokens | Samples | Output tokens | TTFT s | Prompt tokens / TTFT | Decode tokens/s |
+|---|---|---|---|---|---|
+| 8,192 | 3 | 1 | 9.76 | 839.35 | — |
+| 32,768 | 3 | 1 | 39.75 | 824.45 | — |
+| 131,072 | 3 | 1 | 242.15 | 541.28 | — |
+| 524,032 | 1 | 256 | 1071.07 | 489.26 | 39.19 |
 
 ## Tool-use quality: hard mode, Basic / Hard / Total
 
@@ -134,9 +159,14 @@ The [failure audit](benchmarks/development/rtx-tool-quality-audit/README.md) sep
 
 | Platform | Reasoning/tools/JSON | Prefix hits/queries | Cold TTFT s | Warm TTFT s | Passed retrieval probes | MM examples |
 |---|---|---|---|---|---|---|
+| spark¹ | 40/40 | 3520/3612 | 4.12 | 0.36 | Pending | 2 |
 | rtx | 80/80 | 3520.0/3612.0 | 9.75 | 0.06 | 6 | 2 |
 
+¹ Spark functional results are retained prior-profile checks, with source images and changes disclosed in the [inheritance manifest](benchmarks/development/spark-qualification-lineage/manifest.json); they were not rerun on the final digest.
+
 Prefix counters establish reuse. Cold/warm latency includes first-use overhead and is not an isolated cache-speedup measurement.
+
+Spark final-wrapper startup accounts for **2,777,333 KV tokens** at utilization **0.80**, batch **512**, with the **1 GiB** host guard. This differs from the larger parent/diagnostic allocations; the recipe uses the actual wrapper figure.
 
 RTX: minimum sampled host MemAvailable 163.82GiB; GPU0 peak 94.92GiB, GPU1 peak 94.14GiB.
 
