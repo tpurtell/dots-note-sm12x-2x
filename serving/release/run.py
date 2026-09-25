@@ -9,6 +9,7 @@ import platform
 import re
 import subprocess
 import sys
+import time
 import urllib.request
 
 HERE = Path(__file__).resolve().parent
@@ -35,6 +36,10 @@ def settings(path, selected):
         config.setdefault('b12x_roce_rows', list(range(1, 65)))
     if config.get('reasoning_parser') != 'dots3':
         fail('Qualified release requires explicit reasoning_parser=dots3; legacy parser-off profiles are development-only')
+    if selected == 'spark' and (config.get('memory_guard') is not True or
+            type(config.get('min_host_available_gib')) not in (int, float) or
+            not 8 <= config['min_host_available_gib'] <= 64):
+        fail('Qualified Spark release requires memory_guard=true and at least 8 GiB host headroom')
     expected = {'rtx': 'amd64', 'spark': 'arm64'}[selected]
     if config.get('architecture') != expected:
         fail('Release platform architecture mismatch')
@@ -78,6 +83,41 @@ def settings(path, selected):
     return config
 
 
+def check_spark_headroom(minimum_gib):
+    available = next(int(line.split()[1]) * 1024 for line in
+        Path('/proc/meminfo').read_text().splitlines() if line.startswith('MemAvailable:'))
+    if available < minimum_gib * 2**30:
+        fail(f'Spark has less than {minimum_gib} GiB physical memory available; refusing start/restart')
+
+
+def rearm_spark_guard(container, env):
+    cache = Path(env.get('RUNTIME_CACHE', PROJECT / '.cache/serving/spark/runtime'))
+    try:
+        cache.mkdir(parents=True, exist_ok=True)
+        with (cache / 'memory-watch.log').open('a') as log:
+            guard = subprocess.Popen([sys.executable, str(HERE.parent / 'watch_spark_memory.py'),
+                '--container', container, '--min-available-gib', env['MIN_HOST_AVAILABLE_GIB'],
+                '--ready-directory', str(cache)],
+                stdout=log, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL,
+                env=env, start_new_session=True)
+        (cache / 'memory-watch.pid').write_text(str(guard.pid) + '\n')
+        # Require a successful initial memory sample, not just a process PID.
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            if guard.poll() is not None:
+                raise RuntimeError('Spark memory guard exited before readiness')
+            marker = cache / f'memory-watch-ready-{guard.pid}'
+            if marker.is_file():
+                marker.unlink()
+                print(f'Host memory monitor PID {guard.pid}; log: {cache / "memory-watch.log"}')
+                return
+            time.sleep(.1)
+        raise RuntimeError('Spark memory guard did not become ready within 10 seconds')
+    except BaseException:
+        subprocess.run(['docker', 'kill', container], check=False, timeout=20)
+        raise
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('platform', choices=['rtx', 'spark'])
@@ -115,6 +155,10 @@ def main():
         DOTS3_B12X_ROCE_ROWS=','.join(map(str, config['b12x_roce_rows'])),
         DOTS3_B12X_EXACT_FP8=config['b12x_exact_fp8'],
         DOTS3_B12X_EXACT_FP8_ROWS=','.join(map(str, config['b12x_exact_fp8_rows'])))
+    if args.platform == 'spark':
+        env.update(MEMORY_GUARD='1', MIN_HOST_AVAILABLE_GIB=str(config['min_host_available_gib']))
+        if args.action in ('start', 'restart'):
+            check_spark_headroom(config['min_host_available_gib'])
     if args.action in ('start', 'restart'):
         label = subprocess.check_output(['docker', 'image', 'inspect', '--format',
             '{{index .Config.Labels "io.tpurtell.dots3.reasoning-parser"}}', config['image']], text=True).strip()
@@ -147,6 +191,14 @@ def main():
                    'stop': ['docker', 'stop', '--time', '60', container],
                    'restart': ['docker', 'restart', '--time', '60', container],
                    'remove': ['docker', 'rm', container]}[args.action]
+    if args.platform == 'spark' and args.action == 'restart':
+        try:
+            subprocess.run(command, env=env, check=True, timeout=90)
+        except BaseException:
+            subprocess.run(['docker', 'kill', container], check=False, timeout=20)
+            raise
+        rearm_spark_guard(container, env)
+        return
     os.execvpe(command[0], command, env)
 
 

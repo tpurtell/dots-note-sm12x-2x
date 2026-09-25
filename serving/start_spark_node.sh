@@ -118,8 +118,21 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
 if [[ "${MEMORY_GUARD:-1}" == 1 ]]; then
   nohup python3 "$project_root/serving/watch_spark_memory.py" \
     --container "$container" --min-available-gib "${MIN_HOST_AVAILABLE_GIB:-8}" \
+    --ready-directory "$runtime_cache" \
     > "$runtime_cache/memory-watch.log" 2>&1 < /dev/null &
   guard_pid=$!
   echo "$guard_pid" > "$runtime_cache/memory-watch.pid"
+  ready_file="$runtime_cache/memory-watch-ready-$guard_pid"
+  guard_ready=0
+  for _ in {1..100}; do
+    if ! kill -0 "$guard_pid" 2>/dev/null; then break; fi
+    if [[ -f "$ready_file" ]]; then guard_ready=1; rm -f "$ready_file"; break; fi
+    sleep 0.1
+  done
+  if [[ "$guard_ready" != 1 ]]; then
+    echo "Memory guard failed to become ready; stopping $container" >&2
+    docker kill "$container" >&2
+    exit 1
+  fi
   echo "Host memory monitor PID $guard_pid; log: $runtime_cache/memory-watch.log"
 fi

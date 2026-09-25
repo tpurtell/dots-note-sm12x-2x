@@ -6,17 +6,20 @@ not download model weights, publish images, or choose serving defaults.
 
 ## Spark host memory guard
 
-The existing Spark launcher starts `watch_spark_memory.py` on each host by
-default (`MEMORY_GUARD=1`, `MIN_HOST_AVAILABLE_GIB=8`). It stops that container
-after three one-second samples below the physical-memory threshold. Logs and
-PID are under `RUNTIME_CACHE/memory-watch.{log,pid}`. Keep this guard enabled
-during qualification and serving; GPU utilization is separate from available
-host RAM on Spark. These environment settings are currently inherited rather
-than pinned in the release profile.
+The release profile pins `memory_guard: true` and at least 8 GiB host memory
+headroom. Release start/restart ignore inherited disabling settings and refuse
+when current physical memory is below that threshold. The launcher starts
+`watch_spark_memory.py` on each host and requires a successful initial memory
+sample before reporting success. The monitor stops its container after three
+one-second samples below the threshold. Logs and PID are under
+`RUNTIME_CACHE/memory-watch.{log,pid}`.
 
-The current `restart` action restarts Docker directly and does not rearm a guard
-that exited after a stop. For Spark, use `stop`, `remove`, and `start` on both
-hosts (worker first when starting) to establish new guards.
+Release restart rearms a monitor immediately after Docker restart. If readiness
+cannot be established within ten seconds, the container is killed. Start and
+restart both require a host Python interpreter and working Docker CLI. The
+monitor runs outside the container; it does not survive a host reboot. Start
+the recipe again after reboot. GPU utilization is separate from available host
+RAM on Spark.
 
 ## Reasoning parser contract
 

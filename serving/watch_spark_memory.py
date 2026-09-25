@@ -2,6 +2,7 @@
 """Stop this recipe's container if Spark host memory headroom is exhausted."""
 import argparse
 import json
+import os
 import subprocess
 import time
 from pathlib import Path
@@ -9,6 +10,7 @@ from pathlib import Path
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--container', choices=['dots3-vllm-head', 'dots3-vllm-worker'], required=True)
 parser.add_argument('--min-available-gib', type=float, default=8)
+parser.add_argument('--ready-directory', type=Path, help='Write per-PID readiness after the first memory sample')
 args = parser.parse_args()
 threshold = int(args.min_available_gib * 1024**3)
 if args.min_available_gib <= 0:
@@ -19,6 +21,7 @@ container_id = subprocess.check_output(
     ['docker', 'inspect', '--format', '{{.Id}}', args.container], text=True, timeout=5
 ).strip()
 low_samples = 0
+ready_written = False
 while True:
     try:
         state = subprocess.run(['docker', 'inspect', '--format', '{{.State.Status}}', container_id],
@@ -34,6 +37,12 @@ while True:
         key, value = line.split(':', 1)
         values[key] = int(value.split()[0]) * 1024
     available = values['MemAvailable']
+    if args.ready_directory is not None and not ready_written and state is not None:
+        if available < threshold:
+            subprocess.run(['docker', 'kill', container_id], check=False, timeout=15)
+            raise SystemExit('Insufficient initial headroom to arm memory guard')
+        (args.ready_directory / f'memory-watch-ready-{os.getpid()}').write_text(container_id + '\n')
+        ready_written = True
     low_samples = low_samples + 1 if available < threshold else 0
     print(json.dumps({'time': time.time(), 'available_bytes': available,
                       'swap_used_bytes': values['SwapTotal'] - values['SwapFree'],
