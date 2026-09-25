@@ -93,3 +93,7 @@ Holding the dummy logits allocation through one profile forward did not remove r
 ## Batch-token cap: retain512 after warm return control
 
 Batch1024 improved cold prefill by about9–10% but lost132,471 KV tokens. After matched prefill load, warm512 coding measured164.10/129.17/98.83 tokens/s atC1/C2/C4 versus1024 at148.70/121.83/82.05 (about−9.4/−5.7/−17.0%). Warm512 completed12/12 naturally/static;1024 completed11/12 with one async8192-budget truncation. Retain512. This does not establish causal quality or thermal effects. [Raw prefill/coding, return-control telemetry and exact hashes](../benchmarks/development/rtx-prefill-batch-capacity/manifest.json).
+
+## Boundary0/1 ownership rejected
+
+Same narrow SWA-QB profile with boundary0/1 measured149.82/122.24/93.71 coding tokens/s versus167.41/139.41/97.04 atC1/C2/C4 with native TP2 boundary tables. Capacity declined2,004,801→1,899,086. Despite12/12 natural/static completions and functional passes, retain native TP2 embedding/head. No causal quality claim. [Raw ownership/alias, functional and timing evidence](../benchmarks/development/rtx-rejected-boundary-ownership/manifest.json).
