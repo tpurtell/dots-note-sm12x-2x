@@ -2,22 +2,23 @@
 
 This repository provides one Dots3 Note Preview checkpoint and is developing two-GPU vLLM recipes for DGX Spark and RTX PRO 6000. The completed checkpoint retains the [FP8 source](https://huggingface.co/dots-studio/dots3-note-prev-fp8) outside the routed language-model experts. Every routed expert `gate_proj`, `up_proj`, and `down_proj` weight in layers 1–45 comes from the [BF16 source](https://huggingface.co/dots-studio/dots3-note-prev) and uses uniform EXL3 K4. Vision experts remain as supplied by the FP8 checkpoint. The published checkpoint is [`wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1`](https://huggingface.co/wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1).
 
-**Status (2026-09-25):** quantization, tensor audit, publication and local cache installation are complete. The checkpoint is pinned to `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. Both serving tracks pass development checks for text, image/audio, prefix caching, constrained JSON and tool calls. **RTX selects MTP3 with native vocabulary projection for reasoning-enabled coding at C1–C4; Spark selects its settings independently.** RTX uses 0.95 GPU memory utilization; current Spark candidates use 0.80 with the host-memory guard. The Dots-aware `dots3` reasoning parser is required by both final release profiles. RTX published-image qualification is complete and its benchmark profile is accepted; the public container fast path has passed fresh-start and restart checks. Spark qualification and native GHCR publication remain in progress. See the [RTX release report](benchmarks/releases/rtx-20260925-v1/report.json) and [qualification ledger](docs/serving-progress.md).
+**Status (2026-09-25):** quantization, tensor audit, publication and local cache installation are complete. The checkpoint is pinned to `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. **RTX v2 published-image qualification is complete at the native 524,288-token context.** Its deployment lifecycle checks are being finalized. Spark memory qualification and its final container remain in progress; unmeasured Spark table entries stay blank. See the [RTX v2 report](benchmarks/releases/rtx-20260925-v2/report.json) and [qualification ledger](docs/serving-progress.md).
 
 ## Container fast path
 
-The published RTX v1 profile below uses ordinary TP2 and a **262,144-token**
-context. The next recipes target the model's **524,288-token** context with
-owner-local attention/KV and multimodal towers while retaining **TP2 for every
-routed expert**. Those hybrid recipes are still being qualified on both
-platforms; their development results have not replaced the release tables.
-See [current hybrid qualification](docs/serving-progress.md#current-development-hybrid-layer-owners-and-expert-tp2).
+The public RTX `20260925-v2` image is:
 
-The public **amd64 RTX** container is available; the separate **arm64 Spark** container is under qualification. Each contains its platform kernels and runtime caches. Use the [container run instructions](serving/release/README.md#container-fast-path): pull the platform image, mount the entire existing `HF_HOME`, and start the pinned profile. Spark runs one container on each host, worker first. Model downloads are unnecessary when the published checkpoint is already installed.
+```text
+ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e
+```
 
-RTX v2 is now publicly published, but its native 524,288-context profile is still undergoing full published-image qualification. [Publication receipts](benchmarks/development/rtx-native-v2-wrapper/README.md) distinguish these gates from final qualification. The fast path continues to use qualified v1 until its settings are explicitly updated.
+Follow the [container run instructions](serving/release/README.md#container-fast-path) and [pinned release settings](serving/release/settings.json). Mount the entire existing `HF_HOME`; no model download is needed. RTX uses one amd64 container with two GPUs. Spark uses a separate arm64 image on both hosts, worker first; its final public fast path is pending.
 
-The [release settings](serving/release/settings.json) qualify each platform independently. RTX is qualified and its public fast path is verified. Spark remains pending. The runner refuses incomplete platform settings. Development launchers have different defaults; see [serving development and qualification](serving/README.md).
+The qualified RTX profile uses **17/29 owner-local decoder layers**, **TP2 for every routed expert**, vision on rank 0 and audio on rank 1, FP8 KV, **524,288 context**, **0.95 utilization**, 16 slots, batch 512 and **MTP3**. It enables packed/fused routing, shared-expert overlap, compact cache storage and balanced KV groups. Optional B12x SWA Q-B projection runs only at rows 4/8/16; vocabulary, boundary tables and other dense projections retain the selected native paths. Accounted KV capacity is **2,004,801 tokens**, not a promise that every request mix can use that total. See [execution and cache accounting](docs/hybrid-expert-tp.md).
+
+The report explicitly records a hardware interruption and restart: **14 completed stages were preserved**, and **three unfinished stages** were completed with the same image, model, launch profile and workload sources. This was not an uninterrupted run. Original receipts, prior-artifact hashes, driver failure evidence and both runtime identities are retained. No temperature, power or cooling settings were changed for the continuation.
+
+The earlier ordinary-TP2, 262,144-context RTX v1 remains available as [historical release evidence](benchmarks/releases/rtx-20260925-v1/report.json); the tables below describe hybrid v2.
 
 ## Source and calibration
 
@@ -44,108 +45,104 @@ The [Brandon-derived GLM RTX recipe](https://github.com/tpurtell/glm-5.3-flash-e
 
 ## Headline measurements
 
-The tables use the workload families from the [Qwen3.8 Flash Next recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next). A dash reserves an entry for final release-image qualification. Development measurements and their contract failures are recorded in the [qualification ledger](docs/serving-progress.md).
+| Metric | 2× Spark | 2× RTX |
+|---|---|---|
+| C1 reasoning/coding per-request decode tokens/s | — | 163.02 |
+| C2 reasoning/coding per-request decode tokens/s | — | 129.26 |
+| C4 reasoning/coding per-request decode tokens/s | — | 98.80 |
+| C1 seven-workload weighted decode tokens/s | — | 165.60 |
+| Seven content contracts | Pending | 18/21 |
+| Exact context boundary, input + output | — | 524,032 + 256 = 524,288 |
+| C1 greedy merge_intervals median tokens/s | — | 202.57 |
+| Sampled async code, depth 0, burst-excluded tokens/s | — | 187.95 |
+| C16 sampled clients aggregate tokens/s | — | 665.05 |
 
-The following GB10 results are component checks, separate from the developing whole-model measurements:
+## Reasoning-enabled coding: C1–C4
 
-| Component check | Measured result |
-| --- | --- |
-| Real K4 top-8 expert fixture versus GPTQModel ExLlamaV3 | Minimum cosine 0.99999940; relative L2 0.000905 |
-| Real TP=2 BF16 vocabulary shard, one-token GPU median | B12x 3.06 ms on each shard; PyTorch 3.18 / 3.14 ms |
-| Real FP8 core `q_a_proj`, exact-scale B12x versus dequantized-FP8 reference | BF16 output relative L2 0.0000114; CUDA graph replay difference 0 |
+| Platform | C | Decode tokens/s | Completed latency s | Natural | Static checks | Truncated | Output tokens median (range) |
+|---|---|---|---|---|---|---|---|
+| spark | 1 | — | — | —/— | —/— | — | — (—–—) |
+| spark | 2 | — | — | —/— | —/— | — | — (—–—) |
+| spark | 4 | — | — | —/— | —/— | — | — (—–—) |
+| rtx | 1 | 163.02 | 23.28 | 12/12 | 12/12 | 0 | 3,783.50 (2336–7282) |
+| rtx | 2 | 129.26 | 34.76 | 12/12 | 12/12 | 0 | 4,343.00 (2754–6266) |
+| rtx | 4 | 98.80 | 39.02 | 12/12 | 12/12 | 0 | 3,844.00 (2557–5994) |
 
-The [serving component probes](serving/README.md) describe their input sizes and limits; their raw vocabulary and FP8 samples are in [benchmarks/component](benchmarks/component). No entry above represents an end-to-end Dots3 serving rate.
+Decode includes reasoning. Completed latency excludes truncated answers. The benchmark output budget 8192 includes reasoning and is not the server output limit; clients may request more within context. Static checks are not execution-based code correctness. Variable output lengths affect latency.
 
-| Measurement | 2× DGX Spark | 2× RTX PRO 6000 |
-| --- | ---: | ---: |
-| C1 seven-workload weighted decode, tokens/s | — | 181.48 (17/21 contracts) |
-| C1 greedy `merge_intervals` median, tokens/s | — | 233.52 |
-| C1 sampled async code, first-burst-excluded median tokens/s | — | 203.21 |
-| C16 sampled-prose aggregate median, tokens/s | — | 693.71 |
-| Full-context boundary, input + output tokens | — | 261,888 + 256 = 262,144 |
-| API tool constraints / retrieval probes | — | 80/80 reasoning/tool/JSON cases; 6/6 retrieval |
+## Seven content workloads: C1
 
-RTX uses the published MTP3/dots3-parser image with native vocabulary and collectives, FP8 KV, 0.95 memory utilization, 262,144 context, 16 slots and 512 batched tokens. Measurements use three runs; coding medians pool 12 requests per concurrency. The seven-workload headline is weighted by timed decode duration. Quality checks pass 17/21 seven-workload contracts and 34/36 coding responses. The sampled async-code headline uses the depth-0 prompt and excludes the entire first speculative SSE token burst from decode tokens/time; the older `(output tokens − 1)` convention is retained separately in raw/report evidence. Prefill rates use actual prompt tokens divided by client TTFT, including first-token handoff.
+| Case | Spark median tokens/s | RTX median tokens/s |
+|---|---|---|
+| code | — | 202.57 |
+| math | — | 204.42 |
+| fable | — | 126.22 |
+| hello | — | 168.35 |
+| topic | — | 136.71 |
+| structured-json | — | 209.66 |
+| multilingual | — | 143.32 |
 
-See the [RTX release report](benchmarks/releases/rtx-20260925-v1/report.json), [lossless evidence hashes](benchmarks/releases/rtx-20260925-v1/archive-manifest.json), and [public pull/start/restart checks](benchmarks/releases/rtx-20260925-v1/fastpath/report.json) for exact image/source identities, output lengths, memory observations and deployment evidence.
+RTX content contract misses: fable run1: fable has 113 words, outside 140..170; fable run2: fable has 100 words, outside 140..170, response does not end with a moral about sharing credit; topic run2: response omits paging.
 
-### Reasoning-enabled coding: C1–C4
+## Sampled prose clients
 
-Four debugging tasks use natural stopping and an 8,192-token output budget, including reasoning. Report completed-answer latency alongside token rates, output lengths, truncation and static response checks. Static checks do not establish behavioral code correctness. Identical request payloads are required for MTP comparisons; select defaults separately on each platform.
+| Platform | Clients | Aggregate tokens/s | Minimum overlap |
+|---|---|---|---|
+| rtx | 1 | 112.94 | 1 |
+| rtx | 2 | 185.71 | 2 |
+| rtx | 4 | 294.05 | 4 |
+| rtx | 8 | 442.00 | 8 |
+| rtx | 16 | 665.05 | 16 |
 
-| Clients | Spark per-request decode tokens/s | Spark completed-answer latency, s | RTX per-request decode tokens/s | RTX completed-answer latency, s |
-| ---: | ---: | ---: | ---: | ---: |
-| 1 | — | — | 180.44 | 19.72 |
-| 2 | — | — | 140.87 | 23.74 |
-| 4 | — | — | 102.81 | 35.78 |
+## Sampled async code and context scaling
 
-RTX natural completions and static checks: **34/36**. One C2 and one C4 request hit this benchmark’s 8,192-token per-request output budget, including reasoning; completed-answer latency excludes those two requests. Decode rates include reasoning and all measured requests. This budget is a benchmark setting, not a server output limit; clients can request larger outputs within the available context. Output lengths include reasoning:
+| Platform | Probe | Input depth | TTFT s | Prompt tokens / TTFT | Decode tokens/s |
+|---|---|---|---|---|---|
+| rtx | code-agent | 0 | 0.06 | 2,372.99 | 187.95 |
+| rtx | code-agent | 8192 | 0.08 | 98,452.59 | 178.41 |
+| rtx | code-agent | 24000 | 0.09 | 268,774.51 | 178.81 |
+| rtx | context-2048 | 2048 | 0.61 | 3,332.80 | 205.47 |
+| rtx | context-8192 | 8192 | 2.29 | 3,583.20 | 204.58 |
+| rtx | context-32768 | 32768 | 9.29 | 3,528.71 | 201.83 |
+| rtx | context-65536 | 65536 | 19.14 | 3,423.60 | 201.65 |
+| rtx | context-131072 | 131072 | 40.75 | 3,216.11 | 202.17 |
+| rtx | context-262144 | 262144 | 92.13 | 2,845.40 | 202.29 |
+| rtx | context-524032 | 524032 | 271.38 | 1,931.01 | 182.53 |
 
-| Clients | RTX output tokens, median (min–max) | Natural completions |
-| ---: | ---: | ---: |
-| 1 | 3,602.0 (2,434–7,311) | 12/12 |
-| 2 | 3,317.5 (1,968–8,192) | 11/12 |
-| 4 | 3,710.0 (2,230–8,192) | 11/12 |
+Decode excludes the entire first SSE token burst. Prompt tokens / TTFT includes tokenization and first-token handoff. For unique cold context probes this estimates effective prefill throughput. Sampled code-agent history probes can reuse prefixes; their ratios are not prefill-speed measurements. Fixed 256-output probes do not demonstrate natural completion.
 
-### Seven content workloads: C1
+## Tool-use quality: hard mode, Basic / Hard / Total
 
-| Workload | Spark decode tokens/s | Contract | RTX decode tokens/s | Contract |
-| --- | ---: | ---: | ---: | ---: |
-| Code | — | — | 233.52 | 3/3 |
-| Math | — | — | 225.36 | 3/3 |
-| Fable | — | — | 129.50 | 1/3 |
-| Hello | — | — | 189.80 | 3/3 |
-| Topic | — | — | 157.25 | 1/3 |
-| Structured JSON | — | — | 234.54 | 3/3 |
-| Multilingual | — | — | 161.51 | 3/3 |
+| Platform | Suite | Points | Score % | Pass/partial/fail |
+|---|---|---|---|---|
+| spark | Basic | —/— | — | —/—/— |
+| spark | Hard | —/— | — | —/—/— |
+| spark | Total | —/— | — | —/—/— |
+| rtx | Basic | 116/138 | 84.06 | 51/14/4 |
+| rtx | Hard | 31/38 | 81.58 | 14/3/2 |
+| rtx | Total | 147/176 | 83.52 | 65/17/6 |
 
-RTX seven-workload contracts pass **17/21**: two fables miss the word-count range and two topic responses omit paging.
+Thinking is enabled. The run uses temperature 0, eight parallel scenarios, one trial, at most eight turns and a 4,096-token benchmark response budget. This budget is not a server default. The source model documents thinking on/off, with no named reasoning-effort levels.
 
-### Sampled prose: independent clients
+Pinned public suite: 69 Basic + 19 Hard = 88, partial credit 0/1/2. Missing entries are unmeasured, not zero. Total weights scenario counts. Parser/API compatibility checks below are a separate measure. [Reproduce the hard-mode suite](serving/benchmarks/tool_quality.md).
 
-| Clients | Spark aggregate tokens/s | Minimum overlap | RTX aggregate tokens/s | Minimum overlap |
-| ---: | ---: | ---: | ---: | ---: |
-| 1 | — | — | 124.30 | 1 |
-| 2 | — | — | 195.64 | 2 |
-| 4 | — | — | 311.94 | 4 |
-| 8 | — | — | 455.96 | 8 |
-| 16 | — | — | 693.71 | 16 |
+The [failure audit](benchmarks/development/rtx-tool-quality-audit/README.md) separates unfinished tasks, ineffective retries, overclarification and prompt-injection failures from brittle grader matches. The official **147/176** score is unchanged; no failures are excluded or manually rescored.
 
-### Prefill and context scaling: C1
+## Functional checks and sampled memory
 
-| Prompt tokens | Spark prefill tokens/s | Spark TTFT, s | Spark decode tokens/s | RTX prefill tokens/s | RTX TTFT, s | RTX decode tokens/s |
-| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 2,048 | — | — | — | 4219.33 | 0.485 | 225.23 |
-| 8,192 | — | — | — | 4096.49 | 2.000 | 226.14 |
-| 32,768 | — | — | — | 4021.17 | 8.149 | 223.47 |
-| 65,536 | — | — | — | 3851.92 | 17.014 | 223.41 |
-| 131,072 | — | — | — | 3523.21 | 37.202 | 222.77 |
-| Maximum qualified context | — | — | — | 3014.80 | 86.867 | 221.69 |
+| Platform | Reasoning/tools/JSON | Prefix hits/queries | Cold TTFT s | Warm TTFT s | Passed retrieval probes | MM examples |
+|---|---|---|---|---|---|---|
+| rtx | 80/80 | 3520.0/3612.0 | 9.75 | 0.06 | 6 | 2 |
 
-### Functional checks
+Prefix counters establish reuse. Cold/warm latency includes first-use overhead and is not an isolated cache-speedup measurement.
 
-| Check | 2× DGX Spark | 2× RTX PRO 6000 |
-| --- | --- | --- |
-| Repeated-prefix cached tokens and TTFT | — | 3,520 hits / 3,612 queried; cold 9.713 s → warm 0.058 s |
-| xgrammar JSON and tool constraints | — | 80/80 thinking/nonthinking, stream/nonstream API cases |
-| Text, image, and audio requests | — | Passed text, source-example image and audio contracts |
-| CUDA graphs | — | Full/piecewise capture and C1–C16 request checks passed; [component replay evidence](docs/optimization-matrix.md) |
-| Sampled peak GPU memory / minimum host available | — | GPU 0: 93.17 GiB; GPU 1: 93.15 GiB; host available minimum 163.62 GiB |
+RTX: minimum sampled host MemAvailable 163.82GiB; GPU0 peak 94.92GiB, GPU1 peak 94.14GiB.
 
-The RTX maximum-context row uses 261,888 prompt tokens plus 256 output tokens. Cold/warm TTFT includes first-use runtime overhead; the cache counters establish prefix reuse, while the timing ratio is not an isolated cache speedup. GPU memory entries are sampled peaks and can miss brief higher allocations. RTX GPUs were limited to 400 W each.
+Sampled peaks can miss brief excursions; Spark memory is shared with the host. Quality misses/truncations and raw traces remain in the reports.
 
-Raw responses, timing samples, exact image and source revisions, GPU mode, memory snapshots, and quantization error evidence accompany each accepted table entry.
+## Release evidence
 
-### Tool-use quality: Basic / Hard / Total
-
-Final RTX and Spark recipes will run the pinned `tool-eval-bench` public suite with Hard Mode enabled: **69 Basic + 19 Hard = 88 scenarios**. Scores include partial credit (0/1/2 points per scenario); they are distinct from parser/API compatibility checks. Infrastructure exclusions prevent qualification and remain visible in raw evidence.
-
-| Platform | Basic (69) | Hard (19) | Total (88) |
-|---|---:|---:|---:|
-| 2× RTX | Pending final-profile run | Pending | Pending |
-| 2× Spark | Pending final-profile run | Pending | Pending |
-
-[Reproduction and raw evidence format](serving/benchmarks/tool_quality.md). No tool-quality score is inferred from the existing coding or tool-parser checks.
+- RTX: [report](benchmarks/releases/rtx-20260925-v2/report.json), [lossless evidence manifest](benchmarks/releases/rtx-20260925-v2/archive-manifest.json); SHA256 `bd29e1e31b8d0adf2a0b04654429118795bcfcd72815ace1d74516c4f8f6de50`.
 
 ## Third-party sources
 

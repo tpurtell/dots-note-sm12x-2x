@@ -39,11 +39,17 @@ receipt hashes, and verify the same image/model/profile before executing the
 remaining 524K and retrieval stages. Do not silently bypass the startup-identity
 check or present the combined evidence as one uninterrupted run. No temperature,
 power, or cooling changes are planned.
-The host has since rebooted; both original GPUs enumerate normally and the new
-boot log has no Xid errors. The same container/profile has restarted. The
-explicit continuation preserves all 14 completed stages and runs only the
-unfinished 524K and two retrieval stages. Public `run.sh` settings still select
-qualified v1 until the remaining evidence is accepted.
+The host rebooted and both original GPUs recovered. The explicit continuation
+has now **completed successfully**: all 14 earlier stages remain preserved,
+the exact 524,032 + 256 boundary passed its three measured runs, and all six
+retrieval probes passed (including early/middle/late near-maximum-context
+needles). [Accepted v2 report](../benchmarks/releases/rtx-20260925-v2/report.json)
+records the two runtime identities and interruption. Native-boundary median
+TTFT is 271.38 seconds and decode is 182.53 tokens/s. Coding C1/C2/C4 measures
+163.02 / 129.26 / 98.80 tokens/s per request with 36/36 natural completions and
+static checks. Hard-mode tools score 116/138 Basic, 31/38 Hard, **147/176 Total**.
+Deployment lifecycle verification is the remaining RTX release gate; no
+completed workload stages will be repeated.
 
 Spark currently uses the 17/29 split with utilization **0.80** and exactly a
 **1 GiB** host reserve. Its batch-512 baseline accounts for **2,750,605 tokens**.
