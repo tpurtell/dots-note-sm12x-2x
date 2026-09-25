@@ -9,6 +9,7 @@ import re
 import torch
 from torch import nn
 from vllm.distributed import get_tp_group
+from vllm.logger import init_logger
 from vllm.distributed.hybrid_parallel import (
     LayerOwnerPlan, DenseParallelContext, PyNcclOwnerTransport,
     RoutedLayerBuffers, execute_routed_layer, transfer_owner_state,
@@ -17,6 +18,7 @@ from vllm.model_executor.models.utils import PPMissingLayer
 
 _NATIVE = None
 _ARENAS = {}
+_LOG = init_logger(__name__)
 
 
 def enabled():
@@ -205,6 +207,10 @@ def install_model(namespace):
         original_init(self, *args, **kwargs)
         if not self.layers[-1].context.owns_parameters:
             self.norm = PPMissingLayer()
+        owned = [layer.layer_idx for layer in self.layers if layer.context.owns_parameters]
+        routed = [layer.layer_idx for layer in self.layers if layer.is_moe]
+        _LOG.info("Hybrid layer ownership rank=%d owners=%s local_dense_layers=%s routed_expert_tp_layers=%s boundary_embedding_vocab=TP",
+                  get_tp_group().rank_in_group, self.layers[0].plan.owners, owned, routed)
     def load(self, weights):
         return original_load(self, _filter_weights(self, weights))
     model.__init__, model.load_weights, model.forward = init, load, hybrid_model_forward
