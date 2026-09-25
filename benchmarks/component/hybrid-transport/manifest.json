@@ -1,0 +1,31 @@
+{
+  "scope": "component correctness, not model qualification",
+  "platform": "rtx",
+  "image_id": "sha256:7d832b17bc58b06f3d73ecd1636d76aa7862e434abc3cebf16a28f147e688497",
+  "source_mount": "project mounted read-only at /recipe",
+  "command": "torchrun --standalone --nproc-per-node=2 /recipe/serving/check_hybrid_transport.py",
+  "exit_code": 0,
+  "checks": "activation/route broadcast and FP32 reduction to each owner, BF16 inputs, 3 changed-input CUDA graph replays at rows 1/4/16/512",
+  "artifacts": [
+    {
+      "source": "serving/check_hybrid_transport.py",
+      "artifact": "check_hybrid_transport.py.gz",
+      "sha256": "680165f7500fd2d168fcfd7a9d6249c06ce6150743eda535e6b1912927b2a20a"
+    },
+    {
+      "source": "serving/hybrid_parallel.py",
+      "artifact": "hybrid_parallel.py.gz",
+      "sha256": "647c6fc31a8f7a275a921733f639c0c8c4a285b4222c9235650612952b4e99a8"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/transport.log",
+      "artifact": "transport.log.gz",
+      "sha256": "3563e5f726c6f9a1582f2549a93c9312ce2d74db9894c5dbf342894893dfcbdb"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/cache-projection.log",
+      "artifact": "cache-projection.log.gz",
+      "sha256": "4c70754afc4252cc4e6d34bf39835852d5f3b663e10abc046dc49a989a896b1f"
+    }
+  ]
+}
