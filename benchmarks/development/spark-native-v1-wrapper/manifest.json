@@ -1,0 +1,201 @@
+{
+  "schema": "lossless-development-archive-v1",
+  "files": [
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/build-rhea.log",
+      "archive": "build-rhea.log.gz",
+      "bytes": 7889,
+      "sha256": "354143b72a33ffe996dab9fc8e42107cfe11eb2206bc53c2de15661df208a4ec",
+      "gzip_sha256": "ef169310912f7999ce5d3df73dd4734720c5ddaa257c590bceb498cbc4f61238"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/container-moa.json",
+      "archive": "container-moa.json.gz",
+      "bytes": 20953,
+      "sha256": "63f2a59236eb3c5d6044c1a41baba3d62c7fb10371856e14b3d20c5101197cab",
+      "gzip_sha256": "58305772763f8208ef86bd0f9d528e1b16548c1cb3327790e16632b5aecf24a3"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/container-rhea.json",
+      "archive": "container-rhea.json.gz",
+      "bytes": 19784,
+      "sha256": "ee4246ea2e7698847a4d0be2f4a36b4ddc6a011e88f16ffabea96b50d6e92fff",
+      "gzip_sha256": "ec622e760096576f2911eb6e54a034042082f3419b4a309e9cb24c3fbefc4f1c"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/export-moa.log",
+      "archive": "export-moa.log.gz",
+      "bytes": 115,
+      "sha256": "79c4d00cf3b2acd1581fd98da7c7a2842b312544fe770942f1107fb6ae1fadc3",
+      "gzip_sha256": "4386036eda2bf90c67ab8bd9f3466c3baa7e15a26311025817f5f7c7fc4ec89f"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/export-rhea.log",
+      "archive": "export-rhea.log.gz",
+      "bytes": 116,
+      "sha256": "d84dbf5cee2b5395f6b96d45cd20be61a6d5526faafdf0643d95ad365d7f8de4",
+      "gzip_sha256": "1abac028963fc28ba534a03cbf9ac142feb1c5f8f727e2ace84f65f6a6189d4f"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/image-moa.json",
+      "archive": "image-moa.json.gz",
+      "bytes": 19378,
+      "sha256": "ea0434f96496872a6422e44d1d401e4c074b19ca4bb836df97614b741102f242",
+      "gzip_sha256": "1773bba1040a75537344fd12324d89497855dee3374a75ec9e258606c0d06ef6"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/image-rhea.json",
+      "archive": "image-rhea.json.gz",
+      "bytes": 18067,
+      "sha256": "059e2827610160f0c7ba7292d918c1f14623f4d4347d29e01b2d192f25a778f8",
+      "gzip_sha256": "0e871cedf2966876366360b5b2440bda49ae94b6def390e99dc6085f3b852ad3"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/policy-moa.json",
+      "archive": "policy-moa.json.gz",
+      "bytes": 1827,
+      "sha256": "2251e4358498dbc0f00394107e841e7d715a6d560cb5ed482b1f8e9a01c16148",
+      "gzip_sha256": "12eb1a76bd1bcb36688a7d5ad801574757751822dbdd2a6b50ca68386a1774e3"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/policy-rhea.json",
+      "archive": "policy-rhea.json.gz",
+      "bytes": 1826,
+      "sha256": "345d0edaa4ca16ce23280aa2c854973bdf1eed7f034e6254546a72d3d3ba351d",
+      "gzip_sha256": "0b44e209c21b0347ee099fef1f98f26c611607d36f0dfdfc7dc1809d8166c9c5"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/push-rhea.log",
+      "archive": "push-rhea.log.gz",
+      "bytes": 5115,
+      "sha256": "57ee46d1cd037023261e7af82ea4a0445ddb613ee11ec4467478abc39c83b76a",
+      "gzip_sha256": "49f6f2b838b377457f92736fa24599ba245a8bf614a52ecd0b2190a9abe94654"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/recipe-revision.txt",
+      "archive": "recipe-revision.txt.gz",
+      "bytes": 41,
+      "sha256": "c910bccd60b77541ce67a27638513d2698da363ef92765e7e5d9668f86aeb7ff",
+      "gzip_sha256": "72c21f3bdb6ea9364385400c74ebc454e3b50921d82f0772d0caa04960b92cc4"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/runtime-moa.json",
+      "archive": "runtime-moa.json.gz",
+      "bytes": 6957,
+      "sha256": "2dae0ae506b39b7a81d86c18b1b8adec1817a8bca636532a41777ba7ba3a77a2",
+      "gzip_sha256": "a6f6b9b7cf223c7a66f12300b7bcae249dc06303769c27a1a1a03607b095142a"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/runtime-rhea.json",
+      "archive": "runtime-rhea.json.gz",
+      "bytes": 327800,
+      "sha256": "e16f12c5221fb8fb0a137a37ee75498f815ae85b584bf7c1ebd6d51df0b9981e",
+      "gzip_sha256": "defbcaf272f674aefc8046867b7b32f5c82adca0a4371df55d624d46ae488c41"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/seed-merged-manifest.json",
+      "archive": "seed-merged-manifest.json.gz",
+      "bytes": 1735431,
+      "sha256": "b51b3ffb1fd521d01356beb4aae3ce265aee04893839514233cf6312563f74af",
+      "gzip_sha256": "b1dde456bd72387ad147c1b8719118aed45cbf19c5bd8b961fac65041176c552"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/seed-moa-manifest.json",
+      "archive": "seed-moa-manifest.json.gz",
+      "bytes": 803874,
+      "sha256": "91d1ec356e5264c87a16d9fb785deffdf9e5e7e5768d9091102173213f0ea128",
+      "gzip_sha256": "a4a773bce00369397004114f416dca751aafa64c1bc5060c5537e55f02bbdbae"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/seed-rhea-manifest.json",
+      "archive": "seed-rhea-manifest.json.gz",
+      "bytes": 818499,
+      "sha256": "d63b4d609254b928990a2702534d2cd8879d7b914823da85bf945fbd4159d225",
+      "gzip_sha256": "3ac1e73b86cc6eb5473ccc872feadd6dd6f8ea1c3b528ce5bc9a9863b15b2ab8"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/source-hashes.json",
+      "archive": "source-hashes.json.gz",
+      "bytes": 499159,
+      "sha256": "99f5f6858f0a404da81591269b8f866c68bb110e7d79c837f8f9f9f4aa27721a",
+      "gzip_sha256": "e607c96dc8bb76855c382cc89ae07719bbcf5899bc20497cebd5bfa6cd1d3c92"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/submodules.json",
+      "archive": "submodules.json.gz",
+      "bytes": 128,
+      "sha256": "8fcab7eaad50b2d7cc1685e5b6d08f3eec267edb13f123b6820f43a2ca6af230",
+      "gzip_sha256": "5226187c86851314f5c88d19820bddf2bb08de25dd82caa8dec9f749506f454f"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/transfer-moa.log",
+      "archive": "transfer-moa.log.gz",
+      "bytes": 87,
+      "sha256": "35c0f662ae84d37ae2a9556e3e2a89ad79c146da3fa1e1f46b68998ce02460ec",
+      "gzip_sha256": "d939c2058093607a10f4cb5d67a8d070f2fd3942526ffca6577b02af90bac7dd"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wait-ready.py",
+      "archive": "wait-ready.py.gz",
+      "bytes": 1916,
+      "sha256": "8df527286cde7b13bf70db6268e83714335957137335e6ac5b6ab669e72f67d1",
+      "gzip_sha256": "241dfcae3f369266b92ba81b4cc1672040d7dbc6222082a6b9cf8f6bfde2f551"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/working-tree-at-freeze.txt",
+      "archive": "working-tree-at-freeze.txt.gz",
+      "bytes": 104,
+      "sha256": "4035f5aa8a903b7cc5f9a53a15a558d120ddc6efb59d92326e5a17e79b96a669",
+      "gzip_sha256": "d29a3872363aef767f04e7c0d3b7815b735dea3a214614da7feaeb7a80cd65ee"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-build.log",
+      "archive": "wrapper-build.log.gz",
+      "bytes": 1875,
+      "sha256": "680c6e4ce6e37e8aa532b98e5c9ac9d09fea73782b646d4ad3deda10334d8aea",
+      "gzip_sha256": "dc5d382c1556d790bdc49881e85c5b4c1ba54fa94be569d73197f0bd5be3b9d9"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-image-rhea.json",
+      "archive": "wrapper-image-rhea.json.gz",
+      "bytes": 19025,
+      "sha256": "a564f222ae3f6d10e1e1a5338b37e0545603bacf2d0145a7f2896b61f2e2225e",
+      "gzip_sha256": "0e0de7478c6aa5f29356c3caa9090c6557727f3ce625aeba787a4314bfdb6a88"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-pull-rhea.log",
+      "archive": "wrapper-pull-rhea.log.gz",
+      "bytes": 502,
+      "sha256": "83cdc5e89f64148a09b74d81497f98b2650d53c28e679cc7d78f9f0bcafd696d",
+      "gzip_sha256": "251e1aa31ddf83ddcfee8c9fcd19eddfe13ab1558a6a7cd68c33f32f671e9495"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-push.log",
+      "archive": "wrapper-push.log.gz",
+      "bytes": 5702,
+      "sha256": "ed53d744cb292047127f5d3adeb468603dcd0efe7ba1e7b8267fbe7718976c80",
+      "gzip_sha256": "f1b9cf5245a29e359e1e4e39029c31a534dbc53a07465d2a21446c56408b6b0f"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-recipe-revision.txt",
+      "archive": "wrapper-recipe-revision.txt.gz",
+      "bytes": 41,
+      "sha256": "828476b37b7eeb02592779a6843181ecb8e712e4f7f88718ddf573651b9ae973",
+      "gzip_sha256": "fb240b760f2ae5041c7055dfd144c3acf5a4ed6dddbe70c9b366e9ab91bb663c"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-seed-smoke.log",
+      "archive": "wrapper-seed-smoke.log.gz",
+      "bytes": 54,
+      "sha256": "db10b7650ef35aacb1616e0fd0d3dbdac6cd158e4041c007a7d9007e79b01760",
+      "gzip_sha256": "c46e7c4db8fc34e581fc781c0b43ac966e4294d23034d345c20ed81a7cf585be"
+    },
+    {
+      "source": ".cache/release/spark-gc-parent-provenance/wrapper-tool-hashes.json",
+      "archive": "wrapper-tool-hashes.json.gz",
+      "bytes": 518,
+      "sha256": "1cf932e8510eee70ded0fdf38e2a17bb40a51dd157a17546812f92ca48b9ff61",
+      "gzip_sha256": "964caa1276120733f8ee505f0fa1829bbb0daa836f24b417dbb9d051a18f9f24"
+    }
+  ]
+}

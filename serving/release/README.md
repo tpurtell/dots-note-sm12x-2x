@@ -174,7 +174,15 @@ RTX v1 remains an immutable historical 262,144-context recipe; its
 [report](../../benchmarks/releases/rtx-20260925-v1/report.json) and
 [deployment evidence](../../benchmarks/releases/rtx-20260925-v1/fastpath/report.json)
 remain available. The current commands select v2 through qualified settings,
-not a mutable registry tag. Spark remains pending its separate ARM64 release.
+not a mutable registry tag.
+
+The separate native ARM64 Spark wrapper has been published as
+`ghcr.io/tpurtell/dots3-note-exl3-k4-spark:20260925-v1`, digest
+`sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad`.
+Its final qualification and public visibility are pending; publication does not
+activate Spark settings. Until anonymous access is verified, Docker authentication
+with package access is required to pull it. Both Spark hosts must use this same
+ARM64 digest. The runner continues to refuse pending Spark settings.
 
 ## Container fast path
 

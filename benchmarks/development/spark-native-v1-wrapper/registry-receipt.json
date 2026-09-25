@@ -1,0 +1,25 @@
+{
+  "schema": "dots3-spark-publication-development-v1",
+  "release_qualification": false,
+  "image_tag": "ghcr.io/tpurtell/dots3-note-exl3-k4-spark:20260925-v1",
+  "registry_digest": "sha256:fbe12925a19f529a35ea036a1f0ed9db0ba6de77f7455a6401816ea54508dbad",
+  "wrapper_local_image_id": "sha256:0492bba788ce02b011c903fa2bf55b5a4a7678b4b1e48250b791b6f327c225b7",
+  "parent_local_image_id": "sha256:bc959336ec2a3db42e6a50309326aadac8c054d7ff7b0840cf402abf0e2d80e9",
+  "parent_recipe_revision": "8f0a580cb360e19ee757f1435d03e7bf7c6a52e4",
+  "wrapper_recipe_revision": "2a84f3a8395fe296224a3a09633e9a1ccfb7f583",
+  "helper_fingerprints": {
+    "/opt/dots3/allocator_policy.py": "ea3edd55c0c265a976dfff295b6bc9c3b500f77177725d18952e7fab443f4362",
+    "/opt/dots3/hybrid_attestation.py": "9c318cf59efba184c967a09deed4f58315e0a7e02f4ebc9c6d5514901f88035d"
+  },
+  "registry": {
+    "push": "passed",
+    "authenticated_rhea_digest_pull": "passed",
+    "anonymous_pull": "not verified",
+    "visibility": "pending user action"
+  },
+  "seed_smoke": {
+    "cache_seed_copied": 4014,
+    "cache_seed_existing": 0
+  },
+  "scope": "Build/cache-seed/publication provenance only. Moa pull and final startup/qualification are active and excluded."
+}
