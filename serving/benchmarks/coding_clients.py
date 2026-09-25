@@ -91,6 +91,36 @@ def content_check(task, content, finish):
             'code_executed':False,'scope':'response syntax/required artifacts and bounded reference answers; not behavioral code correctness'}
 
 
+
+def reasoning_status(row):
+    """Infer a visible reasoning boundary; unknown stays unknown.
+
+    Times are SSE observations, so a burst may contain the end marker and the
+    beginning of the answer. No tokenizer or hidden server timing is inferred.
+    This helper also accepts saved v1 rows for postprocessing older runs.
+    """
+    content=''; saw_reasoning=False; boundary=None; token_count=0; boundary_tokens=None
+    for item in row.get('sse_events',[]):
+        for choice in item['event'].get('choices',[]):
+            delta=choice.get('delta',{})
+            token_count+=len(choice.get('token_ids') or [])
+            piece=delta.get('content') or ''
+            separate=delta.get('reasoning_content') or delta.get('reasoning') or ''
+            content+=piece
+            saw_reasoning = saw_reasoning or bool(separate) or '<think>' in content or '</think>' in content
+            closed='</think>' in content
+            split_answer=bool(piece and saw_reasoning and '<think>' not in content and not separate)
+            if boundary is None and (closed or split_answer):
+                boundary=item['seconds']; boundary_tokens=token_count
+    finished=True if boundary is not None else (False if saw_reasoning else None)
+    ttft=row.get('ttft_seconds')
+    return {'finished':finished,'observed':saw_reasoning,
+            'boundary_seconds_approx':boundary,
+            'duration_seconds_approx':max(0,boundary-ttft) if boundary is not None and ttft is not None else None,
+            'tokens_through_boundary_burst':boundary_tokens,
+            'measurement':'SSE boundary observation; may include final-answer tokens in same burst'}
+
+
 def request(base,model,task,run,index,concurrency,args,barrier):
     tag=hashlib.sha256(f'{args.seed}:{concurrency}:{run}:{task[0]}'.encode()).hexdigest()[:16]
     payload={'model':model,'messages':[{'role':'user','content':f'Request identifier {tag}; ignore it.\n'+task[1]}],
@@ -153,6 +183,7 @@ def request(base,model,task,run,index,concurrency,args,barrier):
     row['decode_tokens']=count-len(chunks[0]['token_ids']) if chunks else 0
     row['decode_tps']=row['decode_tokens']/row['decode_seconds'] if row['decode_seconds'] else None
     row['reasoning_visible']=bool(row['reasoning'] or '<think>' in row['content'] or '</think>' in row['content'])
+    row['reasoning_status']=reasoning_status(row)
     row['content_result']=content_check(task,row['content'],row['finish_reason'])
     return row
 
@@ -233,10 +264,16 @@ def main():
             def median(key):
                 v=[r[key] for r in rows if r[key] is not None]
                 return statistics.median(v) if v else None
+            completed_latencies=[r['completion_latency_seconds'] for r in rows if r['completed']]
+            reasoning_states=[r.get('reasoning_status') or reasoning_status(r) for r in rows]
             summaries[str(c)]={'requests':len(rows),'completed':sum(r['completed'] for r in rows),
                 'truncated':sum(r['truncated'] for r in rows),'errors':sum(r['error'] is not None for r in rows),
                 'static_checks_passed':sum(r['content_result']['static_checks_passed'] for r in rows),
                 'median_ttft_seconds':median('ttft_seconds'),'median_completion_latency_seconds':median('completion_latency_seconds'),
+                'median_completed_latency_seconds':statistics.median(completed_latencies) if completed_latencies else None,
+                'reasoning_finished':sum(r['finished'] is True for r in reasoning_states),
+                'reasoning_incomplete':sum(r['finished'] is False for r in reasoning_states),
+                'reasoning_unobserved':sum(r['finished'] is None for r in reasoning_states),
                 'median_per_request_decode_tps':median('decode_tps'),
                 'wave_peak_overlap':[w['summary']['peak_overlapping_stream_intervals'] for w in waves],
                 'aggregate_output_tps':sum(r['stream_token_count'] for r in rows)/sum(w['summary']['wall_seconds'] for w in waves)
