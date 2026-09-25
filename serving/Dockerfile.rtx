@@ -10,6 +10,7 @@ RUN python3 -m pip install --no-deps --only-binary=:all: --require-hashes -r /tm
 # The pinned EXL3 adapter is Apache-2.0 Python source from the vLLM fork.
 COPY serving/vendor/exl3.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/exl3.py
 COPY serving/dots3_exl3_fp8.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/dots3_exl3_fp8.py
+COPY serving/dots3_b12x_fp8.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/dots3_b12x_fp8.py
 COPY serving/dots3_b12x_attention.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/b12x_attention.py
 COPY serving/source_multimodal_config.json /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/common/source_multimodal_config.json
 COPY serving/dots3_cache_gather.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/cache_gather.py

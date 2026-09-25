@@ -360,3 +360,27 @@ at rows 4/16/64/512 but lost slightly at row 1; output projection has no broadly
 useful gain. These component results do not establish a whole-model benefit.
 See `fp8-qb-graph.json` and `fp8-o-graph.json`. The optional exact path also
 differs from native DeepGemm scale rounding and must pass model qualification.
+
+## Matched control and exact FP8 candidate
+
+The 128K native no-speculation control completed at 86.25 weighted decode
+tokens/s with 19/21 contracts, confirming the earlier 262K control's rate.
+Its sampled coding-task median was 85.67 tokens/s. The audio-dependency image
+passed image/audio checks. Receipts: `seven-128k-native-control.jsonl`,
+`code-agent-native-task.jsonl`, `multimodal-audio-native.json`,
+`runtime-native-128k.json`.
+
+The optional exact-FP8 Q-B adapter is disabled by default. Real DSA/SWA TP2
+shards passed source immutability, changed-input graph/eager equality, exact
+M4 reference and native M1 fallback checks. The probe uses a real single-rank
+NCCL context with explicitly sliced TP2 weights; distributed loader validation
+comes from the pending whole-model launch. Source scales remain FP32, whereas
+the native path rounds them for DeepGemm. This may change model output and
+requires quality qualification. Whole-model MTP3 plus this candidate is now
+starting at 128K/0.94/512; it is not a selected release default.
+
+Both launchers now persist B12x compile objects inside the project runtime
+cache. Earlier containers only persisted vLLM/Triton caches, so removing them
+lost B12x compile artifacts and added repeated startup work. Spark's current
+MTP1 container predates this launcher change; its artifacts will be copied
+before the next removal.

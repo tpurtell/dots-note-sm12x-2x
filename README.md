@@ -2,7 +2,7 @@
 
 This repository provides one Dots3 Note Preview checkpoint and is developing two-GPU vLLM recipes for DGX Spark and RTX PRO 6000. The completed checkpoint retains the [FP8 source](https://huggingface.co/dots-studio/dots3-note-prev-fp8) outside the routed language-model experts. Every routed expert `gate_proj`, `up_proj`, and `down_proj` weight in layers 1–45 comes from the [BF16 source](https://huggingface.co/dots-studio/dots3-note-prev) and uses uniform EXL3 K4. Vision experts remain as supplied by the FP8 checkpoint. The published checkpoint is [`wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1`](https://huggingface.co/wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1).
 
-**Status (2026-09-25):** quantization and the complete tensor audit passed. The checkpoint is published at revision `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. RTX development checks pass text, image, audio, prefix caching, constrained JSON, eight tool-call cases, and an initial 7/7 content screen. Later repeated content-contract scores vary (documented in the qualification ledger). Full performance tuning, final-image qualification, and GHCR publication remain pending. Spark and RTX serving recipes are being developed in parallel; the corrected Spark runtime is loading after host recovery. See the [serving qualification ledger](docs/serving-progress.md) for remaining gates, including separate GHCR releases.
+**Status (2026-09-25):** quantization and the complete tensor audit passed. The checkpoint is published at revision `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. RTX development checks pass text, image, audio, prefix caching, constrained JSON, eight tool-call cases, and an initial 7/7 content screen. Later repeated content-contract scores vary (documented in the qualification ledger). Full performance tuning, final-image qualification, and GHCR publication remain pending. Both platforms now pass text, image/audio, prefix caching, constrained JSON and eight tool-call cases. Spark target-only measured 24.38 weighted decode tokens/s with 16/21 repeated content contracts; RTX MTP3 measured 183.02 with 17/21. These are development configurations, not release-image results. Parallel tuning continues with measured Spark memory headroom. See the [serving qualification ledger](docs/serving-progress.md) for remaining gates, including separate GHCR releases.
 
 ## Source and calibration
 
@@ -27,9 +27,9 @@ Use B12x where its exact Dots3 geometry and semantics qualify: EXL3 MoE, dense p
 
 ## Headline measurements
 
-The tables use the workload families from the [Qwen3.8 Flash Next recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next). A dash means the workload has not been measured on this checkpoint.
+The tables use the workload families from the [Qwen3.8 Flash Next recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next). A dash reserves an entry for final release-image qualification. Development measurements and their contract failures are recorded in the [qualification ledger](docs/serving-progress.md).
 
-The available GB10 results are component checks, not whole-model throughput:
+The following GB10 results are component checks, separate from the developing whole-model measurements:
 
 | Component check | Measured result |
 | --- | --- |

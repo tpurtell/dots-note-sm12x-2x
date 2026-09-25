@@ -322,7 +322,10 @@ class Dots3HybridExl3Config(Exl3Config):
                 return Dots3B12xVocabMethod()
             return UnquantizedEmbeddingMethod()
         if isinstance(layer, LinearBase) and not self._linear_prefix_is_exl3(prefix):
-            return fp8.get_quant_method(layer, prefix)
+            from vllm.model_executor.layers.quantization.dots3_b12x_fp8 import maybe_exact_fp8_method
+
+            candidate = maybe_exact_fp8_method(fp8, prefix)
+            return candidate if candidate is not None else fp8.get_quant_method(layer, prefix)
         if isinstance(layer, RoutedExperts) and not self._moe_prefix_is_exl3(
             prefix, layer
         ):

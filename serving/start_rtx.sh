@@ -17,9 +17,12 @@ mkdir -p "$runtime_cache"
 docker run -d --name "$container" --gpus all --ipc=host --network=host \
   --cap-add=IPC_LOCK --ulimit memlock=-1 \
   -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
+  -e DOTS3_B12X_EXACT_FP8="${DOTS3_B12X_EXACT_FP8:-}" \
+  -e DOTS3_B12X_EXACT_FP8_ROWS="${DOTS3_B12X_EXACT_FP8_ROWS:-4,16,64,512}" \
   -e DOTS3_B12X_VOCAB="${DOTS3_B12X_VOCAB:-0}" \
   -e VLLM_ENABLE_PCIE_ALLREDUCE="${DOTS3_B12X_PCIE:-0}" \
   -e VLLM_PCIE_ALLREDUCE_BACKEND=b12x \
+  -e B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile \
   -e VLLM_CACHE_ROOT=/root/.cache/vllm-runtime/vllm \
   -e TRITON_CACHE_DIR=/root/.cache/vllm-runtime/triton \
   -e CUDA_CACHE_PATH=/root/.cache/vllm-runtime/cuda \
