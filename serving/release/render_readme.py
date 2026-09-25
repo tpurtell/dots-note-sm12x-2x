@@ -52,6 +52,7 @@ def render(reports,paths):
       [(label,*[number(stage(p,'seven').get(key)) for p in ('spark','rtx')]) for label,key in [('C1 seven-workload weighted decode tokens/s','weighted_decode_tps')]]+
       [('Seven content contracts',*[f"{stage(p,'seven')['contracts_passed']}/{stage(p,'seven')['contracts_total']}" if stage(p,'seven') else 'Pending' for p in ('spark','rtx')])])
     for label,name,selector in [
+        ('C1 greedy merge_intervals median tokens/s','seven',lambda s: s.get('median_tps_by_case',{}).get('code')),
         ('Sampled async code, depth 0, burst-excluded tokens/s','code-agent',lambda s: next((x['decode_tokens_per_second_median'] for x in s.get('points',[]) if x['depth']==0),None)),
         ('C16 sampled clients aggregate tokens/s','clients',lambda s: next((x['aggregate_decode_tokens_per_second']['median'] for x in s.get('points',[]) if x['concurrency']==16),None)),
     ]:
@@ -95,8 +96,9 @@ def render(reports,paths):
     for p,r in reports.items():
         if not r:continue
         api=stage(p,'reasoning-api');prefix=stage(p,'prefix');retrieval=[s for name,s in r['stage_results'].items() if name.startswith('retrieval-')]
-        rows.append([p,f"{api.get('cases_passed')}/{api.get('cases_total')}",f"{prefix.get('warm_prefix_hits')}/{prefix.get('warm_prefix_queries')}",sum(s['requests'] for s in retrieval if s['passed']),len(stage(p,'multimodal').get('examples',[]))])
-    table(['Platform','Reasoning/tools/JSON','Prefix hits/queries','Passed retrieval probes','MM examples'],rows)
+        rows.append([p,f"{api.get('cases_passed')}/{api.get('cases_total')}",f"{prefix.get('warm_prefix_hits')}/{prefix.get('warm_prefix_queries')}",number(prefix.get('cold',{}).get('ttft_seconds')),number(prefix.get('warm',{}).get('ttft_seconds')),sum(s['requests'] for s in retrieval if s['passed']),len(stage(p,'multimodal').get('examples',[]))])
+    table(['Platform','Reasoning/tools/JSON','Prefix hits/queries','Cold TTFT s','Warm TTFT s','Passed retrieval probes','MM examples'],rows)
+    lines+=['','Prefix counters establish reuse. Cold/warm latency includes first-use overhead and is not an isolated cache-speedup measurement.']
     for p,r in reports.items():
         if not r:continue
         for host,m in r.get('memory_observations',{}).get('hosts',{}).items():
