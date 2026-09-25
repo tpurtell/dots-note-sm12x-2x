@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "scope": "Completed512/1024 prefill and rejected2048/4096 admission;1024coding pending",
+  "scope": "Completed prefill/decode capacity tradeoff; retainbatch512",
   "image_id": "sha256:e54f202f986cf5d041f37588759c57252fec0867ff5eaafc8dd31f29f1879ad1",
   "batch512": {
     "kv_capacity_tokens": 2049116,
@@ -196,7 +196,7 @@
     "performance_measured": false
   },
   "batch1024": {
-    "status": "prefill completed; coding still active and not archived; no final profile selection",
+    "status": "completed; rejected as default due decode cost and capacity loss",
     "kv_capacity_tokens": 1916645,
     "capacity_loss_tokens": 132471,
     "prefill": {
@@ -382,7 +382,70 @@
         "batch1024_tps": 3631.782292949655,
         "change_percent": 9.87366349182448
       }
-    ]
+    ],
+    "coding_summary": {
+      "record": "summary",
+      "by_concurrency": {
+        "1": {
+          "requests": 4,
+          "completed": 4,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 4,
+          "median_ttft_seconds": 0.11183111650461797,
+          "median_completion_latency_seconds": 25.070545487993513,
+          "median_completed_latency_seconds": 25.070545487993513,
+          "reasoning_finished": 4,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_per_request_decode_tps": 148.70286535596267,
+          "wave_peak_overlap": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "aggregate_output_tps": 146.93006770674293
+        },
+        "2": {
+          "requests": 4,
+          "completed": 3,
+          "truncated": 1,
+          "errors": 0,
+          "static_checks_passed": 3,
+          "median_ttft_seconds": 0.14657483498740476,
+          "median_completion_latency_seconds": 32.92767418800213,
+          "median_completed_latency_seconds": 30.15049994699075,
+          "reasoning_finished": 3,
+          "reasoning_incomplete": 1,
+          "reasoning_unobserved": 0,
+          "median_per_request_decode_tps": 121.83324422375433,
+          "wave_peak_overlap": [
+            2,
+            2
+          ],
+          "aggregate_output_tps": 187.73377956933868
+        },
+        "4": {
+          "requests": 4,
+          "completed": 4,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 4,
+          "median_ttft_seconds": 0.21732344150950667,
+          "median_completion_latency_seconds": 71.17216399550671,
+          "median_completed_latency_seconds": 71.17216399550671,
+          "reasoning_finished": 4,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_per_request_decode_tps": 82.05489101975944,
+          "wave_peak_overlap": [
+            4
+          ],
+          "aggregate_output_tps": 298.4912599512338
+        }
+      }
+    }
   },
   "limitations": [
     "Client prompt tokens divided by TTFT includes tokenization and first-token handoff, not isolated kernel speed.",
@@ -528,6 +591,191 @@
       "bytes": 286640,
       "sha256": "ab6234113b2e43d4cb84aa6aa9257c8a1f42fae2c368717b0aa6a01731635e79",
       "gzip_sha256": "c8d64142fd0d15a0163171306fa205ba58e974fe84726b279b702c1e21d4946b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-prefill17-b1024.jsonl",
+      "archive": "coding-prefill17-b1024.jsonl.gz",
+      "bytes": 13764890,
+      "sha256": "d61d86e4e768481c6f6f6cbf1f2bca0d7578a725d274bff7231b465fa283b28f",
+      "gzip_sha256": "9d72d89fef2a82c78757b09db1ef6fc2731b7abd11e787d5ddb21399c14e5704"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-prefill17-b1024.log",
+      "archive": "coding-prefill17-b1024.log.gz",
+      "bytes": 4371,
+      "sha256": "8ab36c4893642fa2ca9431a36695e587ad30b40d16f7bca056dd9b14b1bd0d66",
+      "gzip_sha256": "7e5ac2e9f418652ad70f383ae689e652d1ff287d3d1c5e950eae4b341d262248"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-prefill17-b1024-complete.log",
+      "archive": "container-prefill17-b1024-complete.log.gz",
+      "bytes": 306259,
+      "sha256": "ca0caa6f54dec22296cfa5a579c1ba4005bc954e2382647483e0f3cb37b1b2e2",
+      "gzip_sha256": "e415a7434e7c069e66eb30e856d696edb8827ae2648592198273b4e4128ebdfd"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-warm-return17-b512.json",
+      "archive": "runtime-warm-return17-b512.json.gz",
+      "bytes": 321509,
+      "sha256": "c39fd763032523c25cf3245a667858ebacda78244b2c5ac9ddd035603d1fb0e3",
+      "gzip_sha256": "013b93c413cca0102b4c589dcca2fb63f360871b17a2612d79ac204800fe023f"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-warm-return17-b512.json",
+      "archive": "runtime-ownership-warm-return17-b512.json.gz",
+      "bytes": 286638,
+      "sha256": "5cc79589ac7581f45a9d86c11e5e81f571f397536c1820bf1cf644d711dff41b",
+      "gzip_sha256": "02c959e8a8d8fcee204347a5045dd6760fc52d62d0233a889d5186556e65a6f7"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-warm-return17-b512-complete.log",
+      "archive": "container-warm-return17-b512-complete.log.gz",
+      "bytes": 247135,
+      "sha256": "bfca248fe2e8fa4e3bef2af2eb682d8e9361ab4ba2f5d04eed013349e23ca859",
+      "gzip_sha256": "10d2c08615b06c92aa7f80dbb5a39744a87f969dc6d56c19cbff14c1198d545c"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/coding-warm512-vs-warm1024.json",
+      "archive": "coding-warm512-vs-warm1024.json.gz",
+      "bytes": 57941,
+      "sha256": "a12dddf932a6dfb9a6ba8e4e31c570c35b42e7839b494c510c44ce45b34a26b6",
+      "gzip_sha256": "d67cc7965aa89101f340ae33ed71aab9ef5fe2a907551d24f235a0e413312925"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/warm-return17-b512/prefill.log",
+      "archive": "warm-return17-b512-prefill.log.gz",
+      "bytes": 444,
+      "sha256": "4752aed89f506e8d764b1ff3d1a2c941d1ea9002b1aa65913935f4c0fe319910",
+      "gzip_sha256": "9c843da1bbb0d318ac8cbfeeb855b649740c0908a13b3d3288225ec8a7810f44"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/warm-return17-b512/coding-timing.json",
+      "archive": "warm-return17-b512-coding-timing.json.gz",
+      "bytes": 408,
+      "sha256": "b6f3eaf25035f0027dac5038fc6a26048368e2298d9fa1d790f8d38c4ab19f31",
+      "gzip_sha256": "534b594a601696fefd037046aa8e0566f105de06296f6a3a1343758c0138f98b"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/warm-return17-b512/memory.jsonl",
+      "archive": "warm-return17-b512-memory.jsonl.gz",
+      "bytes": 184586,
+      "sha256": "f233169ed5b0b546168be9b7ff117d407b2df7456a3f68f957b0717c10086c07",
+      "gzip_sha256": "da4fa15bad9741beb7bff3300ff2c2457983402d29f1a9d75a9444437bf63027"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/warm-return17-b512/prefill.json",
+      "archive": "warm-return17-b512-prefill.json.gz",
+      "bytes": 5382,
+      "sha256": "a1c23088678e748ffc093f19ea737f08da3810a73349fb2525cb23e7b6fb270b",
+      "gzip_sha256": "16c412c1b27e71148e773ad3865a41e5b1ae3f31e5c631bd263cbf542a969d56"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/warm-return17-b512/coding.log",
+      "archive": "warm-return17-b512-coding.log.gz",
+      "bytes": 4368,
+      "sha256": "ea68e386644313cbeccf628a5cfb8340750731142b08623ce64330b0788d6576",
+      "gzip_sha256": "e659276e95295f4883e1e7e1d2324df6d67c856a3d5b8dd8bee72394ccff1317"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/warm-return17-b512/prefill-timing.json",
+      "archive": "warm-return17-b512-prefill-timing.json.gz",
+      "bytes": 350,
+      "sha256": "9c97c5f797d19828816a29828e77a8b2c9140920fecaf8b1f369bb3b2e63b060",
+      "gzip_sha256": "3cda150bcece22fe084a7893c7c6ec6d1d808aa97dd52b3fcc0f1afc3bd33528"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/warm-return17-b512/coding.jsonl",
+      "archive": "warm-return17-b512-coding.jsonl.gz",
+      "bytes": 13044551,
+      "sha256": "d57af03b20ad9104b2e8846f829919b456a07378ff2a5f9dae9a778aa3a3a33c",
+      "gzip_sha256": "0ab83da0bcaf61470a17398881720462e20d3db1d99e06319a407acba3747f1e"
     }
-  ]
+  ],
+  "warm512_control": {
+    "coding_summary": {
+      "record": "summary",
+      "by_concurrency": {
+        "1": {
+          "requests": 4,
+          "completed": 4,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 4,
+          "median_ttft_seconds": 0.10013385600177571,
+          "median_completion_latency_seconds": 29.453005015995586,
+          "median_completed_latency_seconds": 29.453005015995586,
+          "reasoning_finished": 4,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_per_request_decode_tps": 164.1042189868335,
+          "wave_peak_overlap": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "aggregate_output_tps": 160.74446444698765
+        },
+        "2": {
+          "requests": 4,
+          "completed": 4,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 4,
+          "median_ttft_seconds": 0.1343579034873983,
+          "median_completion_latency_seconds": 34.280032128997846,
+          "median_completed_latency_seconds": 34.280032128997846,
+          "reasoning_finished": 4,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_per_request_decode_tps": 129.17221823957627,
+          "wave_peak_overlap": [
+            2,
+            2
+          ],
+          "aggregate_output_tps": 211.8311167910503
+        },
+        "4": {
+          "requests": 4,
+          "completed": 4,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 4,
+          "median_ttft_seconds": 0.23937599948840216,
+          "median_completion_latency_seconds": 38.35311361748609,
+          "median_completed_latency_seconds": 38.35311361748609,
+          "reasoning_finished": 4,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_per_request_decode_tps": 98.83362156248218,
+          "wave_peak_overlap": [
+            4
+          ],
+          "aggregate_output_tps": 343.8863757519954
+        }
+      }
+    },
+    "comparison": [
+      {
+        "concurrency": 1,
+        "warm512_tps": 164.1042189868335,
+        "batch1024_tps": 148.70286535596267,
+        "batch1024_change_percent": -9.38510522517798
+      },
+      {
+        "concurrency": 2,
+        "warm512_tps": 129.17221823957627,
+        "batch1024_tps": 121.83324422375433,
+        "batch1024_change_percent": -5.681542142607099
+      },
+      {
+        "concurrency": 4,
+        "warm512_tps": 98.83362156248218,
+        "batch1024_tps": 82.05489101975944,
+        "batch1024_change_percent": -16.976743619695554
+      }
+    ],
+    "scope": "Return-to512 after equivalent prefill load; monitored temperature/clocks; no causal thermal assertion"
+  },
+  "decision": "Retain batch512:1024 prefill gains about10% but loses132471 KV tokens and lowers matched coding decode. Sampled completion difference is not a causal quality claim."
 }

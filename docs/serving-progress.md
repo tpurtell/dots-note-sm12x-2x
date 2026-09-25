@@ -698,3 +698,7 @@ The screen is complete and will not be extended.
 ## Matched hybrid allocator diagnostic
 
 Same-image profile18/profile17 counters isolate a rank1 reserved-memory difference dominated by inactive splits after profiling (about3.025 versus0.805GiB), while active allocation growth is about0.495GiB and non-Torch usage1.124GiB for both. Before-profile free-reserved proxies are0.840/0.830GiB. Allocation origin and the separate lifetime candidate remain under investigation. Profile17 completed12/12 coding tasks naturally with static checks. [Raw snapshots, counter hashes and coding evidence](../benchmarks/development/rtx-hybrid-allocator-profile/manifest.json).
+
+## Batch-token cap: retain512 after warm return control
+
+Batch1024 improved cold prefill by about9–10% but lost132,471 KV tokens. After matched prefill load, warm512 coding measured164.10/129.17/98.83 tokens/s atC1/C2/C4 versus1024 at148.70/121.83/82.05 (about−9.4/−5.7/−17.0%). Warm512 completed12/12 naturally/static;1024 completed11/12 with one async8192-budget truncation. Retain512. This does not establish causal quality or thermal effects. [Raw prefill/coding, return-control telemetry and exact hashes](../benchmarks/development/rtx-prefill-batch-capacity/manifest.json).

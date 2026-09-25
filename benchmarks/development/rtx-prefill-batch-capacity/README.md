@@ -1,6 +1,6 @@
 # RTX prefill versus batch-token admission
 
-Completed prefill: batch512 baseline and batch1024, plus rejected2048/4096 admissions. Batch1024 coding is still active and is not included; no final profile decision is claimed. All use the exact profiling image `e54f202f`, cut17, native524288 context and recorded launch settings.
+Completed prefill: batch512 baseline and batch1024, plus rejected2048/4096 admissions. Batch1024 coding and the monitored warm512 return control are complete; retain batch512 for this candidate. All use the exact profiling image `e54f202f`, cut17, native524288 context and recorded launch settings.
 
 | Batch cap | KV capacity tokens | Disposition |
 |---:|---:|---|
@@ -27,3 +27,15 @@ Capacity1,916,645 tokens, down132,471 from512. Three runs per depth:
 | 8192 | 4108.742 | 4483.648 | +9.12% |
 | 32768 | 3927.787 | 4319.068 | +9.96% |
 | 131072 | 3305.417 | 3631.782 | +9.87% |
+
+## Completed coding return control and decision
+
+After equivalent prefill load, warm512 returned12/12 natural completions/static passes; batch1024 achieved11/12 with one async request reaching the8192 benchmark output budget.
+
+| C | Warm512 decode tokens/s | Batch1024 | Change |
+|---:|---:|---:|---:|
+| 1 | 164.104 | 148.703 | -9.39% |
+| 2 | 129.172 | 121.833 | -5.68% |
+| 4 | 98.834 | 82.055 | -16.98% |
+
+Retain batch512: the roughly10% prefill gain at1024 does not offset the measured decode cost and132,471-token capacity loss for this recipe. Temperature/clock monitoring, timing intervals and full raw outputs are preserved. No causal thermal or quality claim is made; stochastic output lengths affect completion latency. This remains development evidence, not final release qualification.

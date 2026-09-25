@@ -89,3 +89,7 @@ qualification must still exercise the selected profile at its context boundary.
 ## Rejected indexer profiling lifetime change
 
 Holding the dummy logits allocation through one profile forward did not remove rank1 fragmentation and worsened rank0 capacity. Same-cut18 startup: rank0 inactive splits1.547→5.047GiB and KV6.654→2.654GiB; rank1 inactive splits stayed3.025GiB while peak increased512MiB. `VLLM_INDEXER_PROFILE_HOLD_LOGITS` is not adopted; `port_indexer_profile_lifetime.py` is a rejected experiment retained for reproducibility, not part of native image/launcher integration. [Raw comparison and provenance](../benchmarks/development/rtx-rejected-indexer-lifetime/manifest.json). No performance traffic or accepted fix is claimed.
+
+## Batch-token cap: retain512 after warm return control
+
+Batch1024 improved cold prefill by about9–10% but lost132,471 KV tokens. After matched prefill load, warm512 coding measured164.10/129.17/98.83 tokens/s atC1/C2/C4 versus1024 at148.70/121.83/82.05 (about−9.4/−5.7/−17.0%). Warm512 completed12/12 naturally/static;1024 completed11/12 with one async8192-budget truncation. Retain512. This does not establish causal quality or thermal effects. [Raw prefill/coding, return-control telemetry and exact hashes](../benchmarks/development/rtx-prefill-batch-capacity/manifest.json).
