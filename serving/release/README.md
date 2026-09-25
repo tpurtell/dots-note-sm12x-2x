@@ -108,6 +108,19 @@ seeded under that same mount via `B12X_COMPILE_CACHE_DIR`. An existing stale
 runtime cache is still governed by each library's own cache identity checks;
 use a new directory for release qualification.
 
+## Interpreting post-ready Triton warnings
+
+vLLM 0.30 logs Triton's process-first `jit_post_compile_hook` as “JIT
+compilation” even when Triton's compiler returns an existing disk-cached kernel.
+The warning alone therefore does not establish a new compilation. In the RTX
+wrapper check, all 72 cached files for the four warning kernel families
+(including `_bmm_outer_product_kernel`) matched the parent seed hashes. The only
+new cache paths were CUDA driver-cache files, which the seed intentionally
+excludes. [CPU audit and exact image/source hashes](../../benchmarks/component/cache/rtx-wrapper-post-ready-audit.json)
+preserve that evidence. First-use loading still has overhead; this observation
+does not promise zero compilation across other shapes, libraries or hardware.
+No monitor suppression or additional wrapper rebuild was needed for these warnings.
+
 ## Portability and remaining startup work
 
 B12x intentionally keys its persistent executables by **physical GPU UUID**,
