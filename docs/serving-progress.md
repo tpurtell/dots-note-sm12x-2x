@@ -32,8 +32,13 @@ warmup after completing the smaller context stages, then failed on 2026-09-25
 at 11:30:41 UTC: GPU 1 reported **Xid 79 (fallen off the bus)**, and the driver
 required a node reboot for both GPUs. The poisoned container was stopped and
 the qualification process exited 1. Completed stage receipts are retained, but
-this run does not qualify v2. After host recovery, run a fresh full qualification:
-the existing provenance checks correctly bind container startup identity.
+this run does not qualify v2. The user requires keeping completed measurements
+and running only unfinished tests after host recovery. An explicit restart
+continuation must link the old/new runtime identities, preserve completed
+receipt hashes, and verify the same image/model/profile before executing the
+remaining 524K and retrieval stages. Do not silently bypass the startup-identity
+check or present the combined evidence as one uninterrupted run. No temperature,
+power, or cooling changes are planned.
 Public `run.sh` settings still select qualified v1; neither image can run on
 the failed driver until host recovery.
 
