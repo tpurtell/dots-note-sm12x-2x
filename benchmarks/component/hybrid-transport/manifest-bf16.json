@@ -1,0 +1,24 @@
+{
+  "scope": "component correctness with model reduction dtype; not full model qualification",
+  "image_id": "sha256:7d832b17bc58b06f3d73ecd1636d76aa7862e434abc3cebf16a28f147e688497",
+  "command": "torchrun --standalone --nproc-per-node=2 /recipe/serving/check_hybrid_transport.py --reduction-dtype bfloat16",
+  "source_mount": "project read-only at /recipe",
+  "exit_code": 0,
+  "artifacts": [
+    {
+      "source": "serving/check_hybrid_transport.py",
+      "artifact": "check_hybrid_transport-bf16.py.gz",
+      "sha256": "50ba9eba74be36b92c94e51ab8033b671cecb8168f792e21537b5b02c44a3cc1"
+    },
+    {
+      "source": "serving/hybrid_parallel.py",
+      "artifact": "hybrid_parallel-bf16.py.gz",
+      "sha256": "4a87bb67f6f029731e5e149f4b8d39f6bd3cfcffc99abd1bc21f0843f7257b38"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/transport-bf16.log",
+      "artifact": "transport-bf16-bf16.log.gz",
+      "sha256": "d2764c5dc1ec57f39a0d1e188c3d2ea68900d44b359066d6fb1a64be1a2753e8"
+    }
+  ]
+}

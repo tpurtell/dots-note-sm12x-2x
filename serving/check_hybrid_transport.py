@@ -4,6 +4,7 @@
 Run with torchrun --nproc-per-node=2 (RTX) or one process per Spark host.
 Checks changed inputs and both owners; does not benchmark model performance.
 """
+import argparse
 import json
 import os
 from types import SimpleNamespace as NS
@@ -15,6 +16,9 @@ from hybrid_parallel import PyNcclOwnerTransport
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--reduction-dtype', choices=['float32', 'bfloat16'], default='float32')
+    args = parser.parse_args()
     local_rank = int(os.environ['LOCAL_RANK'])
     torch.cuda.set_device(local_rank)
     dist.init_process_group('nccl')
@@ -29,7 +33,7 @@ def main():
     for rows in (1, 4, 16, 512):
         for owner in (0, 1):
             x = torch.empty((rows, 5120), device='cuda', dtype=torch.bfloat16)
-            partial = torch.empty_like(x, dtype=torch.float32)
+            partial = torch.empty_like(x, dtype=getattr(torch, args.reduction_dtype))
             output = torch.empty_like(partial)
             ids = torch.empty((rows, 8), device='cuda', dtype=torch.int32)
             weights = torch.empty((rows, 8), device='cuda', dtype=torch.float32)
@@ -70,7 +74,8 @@ def main():
     dist.destroy_process_group(cpu)
     dist.destroy_process_group()
     if rank == 0:
-        print(json.dumps({'passed': True, 'checks': records}), flush=True)
+        print(json.dumps({'passed': True, 'reduction_dtype': args.reduction_dtype,
+                          'checks': records}), flush=True)
 
 
 if __name__ == '__main__':
