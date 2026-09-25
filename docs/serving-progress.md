@@ -14,9 +14,9 @@ conventions. Evaluate all applicable B12x features against Dots3 geometry.
 
 The next release targets native 524,288 context with compact DSA cache storage,
 four indexer prefill contexts, and owner-local non-expert layers. Every routed
-expert remains TP2 across both GPUs. The initial 23/23 split is provisional;
-owner-only vision/audio placement and measured KV budgets will guide an uneven
-split independently for RTX and Spark. See [execution and memory details](hybrid-expert-tp.md).
+expert remains TP2 across both GPUs. Vision runs only on rank 0 and audio only
+on rank 1 in current candidates. Measured KV budgets guide an uneven split
+independently for RTX and Spark. See [execution and memory details](hybrid-expert-tp.md).
 
 The matched RTX 524K screen measured native TP2 at 184.68 / 135.08 / 101.63
 per-request decode tokens/s versus the initial unpacked hybrid at 154.96 /
@@ -24,11 +24,34 @@ per-request decode tokens/s versus the initial unpacked hybrid at 154.96 /
 the static response checks. These are small development screens; the published
 RTX v1 results remain the release baseline. [Archived comparison](../benchmarks/development/rtx-native524-hybrid-comparison).
 
-The packed RTX candidate combines routing inputs into one broadcast and has
-passed loaded ownership checks. Whole-model measurements are in progress.
-Spark's initial hybrid candidate passed 40 API cases and prefix/JSON/tool
-checks at 524K, utilization 0.80 and a 1 GiB host reserve; its coding screen is
-in progress. Neither hybrid candidate is yet a qualified release image.
+The RTX 18/28 candidate combines routing inputs into one broadcast, fuses
+payload packing, overlaps shared-expert work for up to 16 rows, and refines SWA
+groups to reduce arena padding. It completed all 12 coding requests naturally
+and passed their static checks, measuring **166.99 / 138.90 / 97.91 tokens/s**
+at C1/C2/C4. Loaded ownership, image/audio, prefix/JSON/tool checks and all 40
+reasoning API cases passed. [Completed development evidence](../benchmarks/development/rtx-hybrid-optimized-group18/manifest.json).
+
+A separate matched capacity diagnostic measured **1,661,873 accounted tokens
+at 18/28** versus **2,061,346 at 17/29**. These are startup allocation figures,
+not demonstrated full-context concurrency. The 18/28 split is therefore not
+the final capacity choice. Cut selection and allocator profiling continue;
+the cut comparison must use identical kernel and scheduling settings.
+[Matched capacity evidence](../benchmarks/development/rtx-hybrid-capacity-audit/manifest.json).
+
+Spark owner-only vision/audio passed image/audio and 40 API cases at 23/23.
+Its 20/26 candidate admitted **2,416,692 accounted tokens** and passed
+prefix/JSON/tool checks, at utilization **0.80** and a **1 GiB** host reserve.
+Further cut and kernel comparisons remain in progress.
+[Spark placement evidence](../benchmarks/development/spark-mm-placement/manifest.json).
+
+After cut selection, compare prefill batches 512/2048/4096 independently per
+platform. A larger batch must provide a meaningful cold-prefill improvement,
+preserve C1–C4 coding performance, and lose no more than **200,000 accounted
+cache tokens** against the same candidate at 512. See the
+[selection procedure](optimization-matrix.md#hybrid-ownership-prefill-batch-selection).
+Neither hybrid candidate is yet a qualified release image. Final qualification
+also requires hard-mode tool-eval-bench with Basic, Hard and Total scores,
+native-context boundary/retrieval checks, and published-container fast paths.
 
 ## Baseline revalidation: 2026-09-25
 
