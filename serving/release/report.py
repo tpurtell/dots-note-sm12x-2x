@@ -281,7 +281,13 @@ def export(args):
         require(any(cache['model_revision'] in item for item in command), 'Checkpoint revision absent from launch args')
         profiles[host] = {key[2:].replace('-', '_'): flag(command, key) for key in
             ['--max-model-len', '--max-num-seqs', '--max-num-batched-tokens', '--gpu-memory-utilization',
-             '--kv-cache-dtype', '--reasoning-parser', '--tool-call-parser', '--speculative-config', '--tensor-parallel-size', '--block-size', '--worker-extension-cls']}
+             '--kv-cache-dtype', '--reasoning-parser', '--tool-call-parser', '--speculative-config', '--tensor-parallel-size']}
+        # Ordinary TP releases predate the hybrid block-size/worker extension
+        # flags. Preserve explicit values when present without requiring them
+        # in historical or newly qualified ordinary TP profiles.
+        for key in ('--block-size', '--worker-extension-cls'):
+            if any(item == key or item.startswith(key+'=') for item in command):
+                profiles[host][key[2:].replace('-', '_')] = flag(command, key)
     artifacts = {source/'manifest.json', complete_path}
     results = {}
     require(len({s['name'] for s in manifest['plan']}) == len(manifest['plan']), 'Duplicate stage names')

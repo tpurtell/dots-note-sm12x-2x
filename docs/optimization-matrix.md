@@ -59,3 +59,29 @@ Retain native FP8: this finite screen does not establish a clear balanced
 benefit, the copied weights add about 264 MiB per GPU, and native 524K-context
 capacity is now the priority. [Exact raw evidence and provenance](../benchmarks/development/rtx-swa-qb-priority/manifest.json)
 are archived; no benchmark extension is planned.
+
+## Hybrid ownership: prefill batch selection
+
+The ordinary TP results above remain historical controls. The current hybrid
+candidates keep routed experts at TP2 while assigning attention, other decoder
+work and KV storage to layer owners. Their larger KV budgets require a fresh
+prefill comparison; the earlier 512-token choice is not a final hybrid default.
+
+After selecting a layer cut, compare `max_num_batched_tokens=512`, `2048` and
+`4096` separately on RTX and Spark. Keep the image, layer cut, kernel options,
+MTP depth, context limit, sequence limit and memory utilization identical.
+
+- Capture each startup's actual KV budget, block count, group stride and
+  scheduler admission bounds. Larger chunks can consume both activation
+  workspace and additional bounded SWA blocks.
+- Reject increases costing more than **200,000 accounted cache tokens** relative
+  to the same candidate at 512, before running expensive performance screens.
+- Measure repeated cold-prefill throughput and TTFT with matched prompt lengths
+  and no reusable prefix. Preserve actual prompt-token counts and individual
+  samples; prefix-cache hits must not masquerade as faster prefill.
+- Promote a larger batch only for a repeatable, meaningful prefill improvement
+  while preserving the requested C1–C4 reasoning/coding performance. Otherwise
+  retain 512. The two platforms may select different values.
+
+These screens do not establish maximum-context concurrency. Final release
+qualification must still exercise the selected profile at its context boundary.
