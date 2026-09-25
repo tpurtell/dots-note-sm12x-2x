@@ -131,12 +131,17 @@ def reasoning_status(row):
             'measurement':'SSE boundary observation; may include final-answer tokens in same burst'}
 
 
-def request(base,model,task,run,index,concurrency,args,barrier):
+def request_payload(model,task,run,index,concurrency,args):
     tag=hashlib.sha256(f'{args.seed}:{concurrency}:{run}:{task[0]}'.encode()).hexdigest()[:16]
     payload={'model':model,'messages':[{'role':'user','content':f'Request identifier {tag}; ignore it.\n'+task[1]}],
         'chat_template_kwargs':{'enable_thinking':True},'temperature':args.temperature,
         'seed':args.seed+run*17+index,'max_tokens':args.output_tokens,'n':1,
         'stream':True,'stream_options':{'include_usage':True},'return_token_ids':True}
+    return payload
+
+
+def request(base,model,task,run,index,concurrency,args,barrier):
+    payload=request_payload(model,task,run,index,concurrency,args)
     parsed=urlparse(base)
     cls=http.client.HTTPSConnection if parsed.scheme=='https' else http.client.HTTPConnection
     connection=cls(parsed.hostname,parsed.port,timeout=args.timeout)
@@ -227,6 +232,55 @@ def summarize_wave(rows):
         'aggregate_output_tps':sum(r['stream_token_count'] for r in valid)/(end-start) if all_valid else None}
 
 
+def load_resume(args):
+    """Require a complete prior invocation; preserve its raw wave objects."""
+    if args.resume_from is None:
+        return [], None
+    source=args.resume_from.resolve()
+    if source==args.output.resolve():
+        raise ValueError('resume source and output must differ')
+    raw=source.read_bytes()
+    records=[json.loads(line) for line in raw.splitlines() if line.strip()]
+    if (not records or records[0].get('record')!='meta'
+            or records[-1].get('record')!='summary'
+            or sum(r.get('record')=='meta' for r in records)!=1
+            or sum(r.get('record')=='summary' for r in records)!=1):
+        raise ValueError('resume source requires one metadata and terminal summary')
+    meta=records[0]; old=meta['args']
+    if meta.get('schema')!='dots3-coding-clients-v1' or meta.get('task_sha256')!=hashlib.sha256(json.dumps(TASKS).encode()).hexdigest():
+        raise ValueError('resume schema/task hash mismatch')
+    for key in ('model','concurrency','warmup_runs','output_tokens','temperature','seed'):
+        if old.get(key)!=getattr(args,key):
+            raise ValueError(f'resume option mismatch: {key}')
+    if not isinstance(old.get('runs'),int) or not 1<=old['runs']<=args.runs:
+        raise ValueError('resume requires runs >= prior positive run count')
+    expected={(c,run,offset) for c in args.concurrency
+              for run in range(-args.warmup_runs,old['runs'])
+              for offset in range(0,len(TASKS),c)}
+    waves=records[1:-1]; seen=set()
+    for wave in waves:
+        if wave.get('record')!='wave':
+            raise ValueError('unexpected resume record')
+        key=(wave['concurrency'],wave['run'],wave['task_offset'])
+        if key not in expected or key in seen or wave.get('timed')!=(key[1]>=0):
+            raise ValueError('duplicate/unexpected resume wave')
+        seen.add(key)
+        c,run,offset=key
+        rows=wave.get('request_results',[])
+        if len(rows)!=c:
+            raise ValueError('incomplete resume wave')
+        for index,row in zip(range(offset,offset+c),rows):
+            if (row.get('task')!=TASKS[index][0]
+                    or row.get('request_payload')!=request_payload(args.model,TASKS[index],run,index,c,args)
+                    or row.get('error') is not None or not row.get('saw_done')
+                    or row.get('finish_reason') not in ('stop','length')):
+                raise ValueError('resume request incomplete, failed, or payload mismatch')
+    if seen!=expected:
+        raise ValueError('resume source has missing waves')
+    return waves, {'path':str(source),'sha256':hashlib.sha256(raw).hexdigest(),
+                   'prior_runs':old['runs'],'preserved_waves':len(waves)}
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--base-url',default='http://127.0.0.1:8001/v1')
@@ -239,23 +293,38 @@ def main():
     p.add_argument('--seed',type=int,default=20260925)
     p.add_argument('--timeout',type=int,default=1800)
     p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--resume-from',type=Path,help='Complete prior JSONL to extend into a NEW output')
     args=p.parse_args()
     if any(c not in (1,2,4) for c in args.concurrency) or args.runs<1 or args.warmup_runs<0 or args.output_tokens<1:
         p.error('C must be1,2,4; positive runs/tokens and nonnegative warmups required')
+    if len(set(args.concurrency))!=len(args.concurrency):
+        p.error('duplicate concurrency values')
+    try:
+        prior_waves,resume=load_resume(args)
+    except (ValueError,KeyError,TypeError,OSError) as exc:
+        p.error(str(exc))
+    prior_keys={(w['concurrency'],w['run'],w['task_offset']) for w in prior_waves}
     args.output.parent.mkdir(parents=True,exist_ok=True)
     measured=[]
     with args.output.open('x') as f:
         def write(row):
             f.write(json.dumps(row,ensure_ascii=False)+'\n');f.flush()
-        write({'record':'meta','schema':'dots3-coding-clients-v1','args':vars(args)|{'output':str(args.output)},
+        write({'record':'meta','schema':'dots3-coding-clients-v1','args':vars(args)|{'output':str(args.output),'resume_from':str(args.resume_from) if args.resume_from else None},
+            'resume_source':resume,
             'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             'task_sha256':hashlib.sha256(json.dumps(TASKS).encode()).hexdigest(),
             'reasoning':'enable_thinking=true; cached model template defaults true and only emits no_think for false',
             'timing':'SSE token IDs include reasoning; exclude whole initial burst per request for decode; natural EOS, no min_tokens/ignore_eos',
             'scope':'standalone coding/reasoning requests, not autonomous tool-use agent evaluation'})
+        for wave in prior_waves:
+            write(wave)
+            if wave['timed']:
+                measured.append(wave)
         for c in args.concurrency:
             for run in range(-args.warmup_runs,args.runs):
                 for offset in range(0,len(TASKS),c):
+                    if (c,run,offset) in prior_keys:
+                        continue
                     barrier=threading.Barrier(c)
                     with ThreadPoolExecutor(max_workers=c) as pool:
                         futures=[pool.submit(request,args.base_url,args.model,TASKS[i],run,i,c,args,barrier) for i in range(offset,offset+c)]
