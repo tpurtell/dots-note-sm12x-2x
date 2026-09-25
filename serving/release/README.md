@@ -82,8 +82,8 @@ reasoning in the old image.
    Inspect startup, run functional and performance gates, then publish approved
    versioned tags with `docker push`. Record the registry digest.
 5. Pull each image by digest and repeat the release gates. Public access must be
-   checked using an unauthenticated Docker configuration. Use the digest in the
-   documented `IMAGE=ghcr.io/...@sha256:...` fast path.
+   checked using an unauthenticated Docker configuration. Record that digest in `settings.json` together with the final profile and
+   report hash; the public `run.sh` fast path reads this file.
 
 The existing launchers mount the **entire** Hugging Face cache read-only; this is
 necessary for this checkpoint's shared blob links. Set `HF_HOME` to that cache.
@@ -132,7 +132,14 @@ published image digests, qualified profiles and report hashes are recorded.
 No development image tag is a release fallback. Keep this recipe checkout,
 including its qualification reports and `serving/start_*.sh` launchers.
 
-For RTX, after the final release settings are committed:
+RTX currently selects MTP3, native vocabulary and 0.95 GPU memory utilization.
+Spark's selection is independent; its current candidates use 0.80 utilization
+with the host guard. These decisions must be reflected in the final settings
+after the corresponding release images pass qualification. Bare development
+launcher defaults do not reproduce these profiles.
+
+Run the following commands from the recipe checkout root. For RTX, after the
+final release settings are committed:
 
 ```bash
 export HF_HOME="$HOME/.cache/huggingface"
@@ -178,8 +185,8 @@ alone does not establish functional request readiness.
 read-only, with offline mode enabled. No command downloads model weights.
 `RUNTIME_CACHE` must be writable; do not use this project's `/mnt/scratch` disk.
 `PORT` can customize the HTTP port. Extra arguments after `--` are passed to
-vLLM, for example `... rtx start -- --api-key YOUR_LOCAL_KEY`. Extra flags may
-change qualified behavior; published performance applies to the stored profile.
+vLLM, for example `... rtx start -- --api-key YOUR_LOCAL_KEY`. Reasoning parser
+override flags are rejected. Other extra flags may change qualified behavior; published performance applies to the stored profile.
 Avoid putting secrets in shared shell history.
 
 ### Final settings contract
@@ -190,7 +197,9 @@ published digest has been pulled and verified. Each platform stores its own:
 - Native architecture and immutable `ghcr.io/...@sha256:...` image reference.
 - Repository-relative qualification report path and SHA256 of its exact bytes.
 - GPU memory utilization, context limit, sequence limit and prefill chunk size.
-- FP8 KV format and MTP token count (`0` explicitly disables MTP).
+- FP8 KV format and platform-specific MTP token count (`0` explicitly disables MTP).
+- Required `reasoning_parser: "dots3"`, verified against the image label.
+- For Spark, `memory_guard: true` and `min_host_available_gib` of at least 8.
 - Boolean B12x vocab and RTX PCIe settings.
 - Spark RoCE enable/eager booleans and explicit admitted row counts (disabled by default).
 - Explicit exact-FP8 projection selector string (empty disables) and row counts.

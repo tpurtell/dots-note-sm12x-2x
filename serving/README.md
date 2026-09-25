@@ -1,27 +1,55 @@
-# Two-Spark vLLM integration (in progress)
+# RTX and two-Spark serving development
 
-`Dockerfile.spark` pins the multi-architecture vLLM v0.30.0 image, vendors the
-Apache-2.0 EXL3 adapter source, installs the Dots3 FP8-core/EXL3-expert
-configuration, and includes the pinned B12x submodule. It builds on ARM64 and
-imports the native Dots3 model and hybrid quantization config on moa.
+For published containers, use the [release fast path](release/README.md#public-fast-path-enabled-after-final-qualification).
+It pins separate native amd64/RTX and arm64/Spark image digests and each
+platform's qualified settings. Publication and final qualification are still in
+progress; pending settings intentionally refuse launch.
+
+## Current platform decisions
+
+RTX selects **MTP3**, native vocabulary projection, native collectives, and
+0.95 GPU memory utilization for the C1–C4 reasoning/coding balance. Spark
+selection is independent; current Spark candidates use **0.80** utilization
+with the host-memory guard enabled and an 8 GiB minimum physical headroom.
+Both final profiles require `REASONING_PARSER=dots3`, prefix caching, xgrammar,
+and the separate `dots` tool-call parser. See the [qualification ledger](../docs/serving-progress.md)
+and [optimization decisions](../docs/optimization-matrix.md) for measured
+tradeoffs and remaining gates.
+
+The [Brandon-derived GLM RTX recipe](https://github.com/tpurtell/glm-5.3-flash-ext3-4-bit-2x-rtx)
+informs RTX B12x optimization; the [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next)
+informs Spark integration and measurement layout. Each B12x path must qualify
+on Dots3 before becoming a platform default.
+
+## Native development builds
+
+Both Dockerfiles pin vLLM v0.30.0, include the hybrid FP8-core/EXL3-expert
+adapter and pinned B12x source, and install the Dots-aware reasoning parser.
+Build natively on the matching platform:
 
 ```bash
+# On the RTX host:
+docker build -f serving/Dockerfile.rtx -t dots3-vllm-rtx:dev .
+# On each Spark:
 docker build -f serving/Dockerfile.spark -t dots3-vllm-spark:dev .
 ```
 
-After the strict export audit, copy the export to moa with `rdmasync` and set
-`MODEL_DIR` to the audited export on both hosts for prepublication model
-qualification. After publishing and installing the accepted checkpoint into
-each Spark's Hugging Face cache, set `MODEL_REVISION` to the Hub commit and
-unset `MODEL_DIR`. Build the same image on both hosts; start
-`start_spark_node.sh` on moa, then on rhea. The script
-uses the two verified 100 Gb/s RoCE interfaces at `10.55.1.5/6`, vLLM's
-multi-node multiprocessing executor, TP=2, explicit prefix caching, xgrammar,
-the native `dots` tool-call parser, and a starting GPU memory utilization
-target of 0.85. It refuses to start
-while the quantization containers are active. The initial 32K context and
-2048 batched-token settings are qualification settings; increase them after
-measured memory and prefix-cache checks.
+The accepted checkpoint is already published and installed. Mount the entire
+Hugging Face cache with `HF_HOME`; leave `MODEL_DIR` unset. `MODEL_DIR` remains
+a development-only option for auditing a staged export. Start
+`start_spark_node.sh` on moa before rhea, using the same native image on both.
+The verified development addresses are `10.55.1.5/6` on the second RoCE link;
+the launch uses vLLM's multi-node multiprocessing executor with TP=2. RTX uses
+`start_rtx.sh` for TP=2 on one host.
+
+Raw development launchers deliberately preserve older defaults: RTX utilization
+0.90, Spark 0.82, 32,768-token context, 512 batched tokens, 16 sequences,
+parser off, and no MTP unless explicitly requested. They are **not** the chosen
+release profiles. For current candidate qualification, explicitly set
+`GPU_MEMORY_UTILIZATION=0.95` (RTX) or `0.80` (Spark) and
+`REASONING_PARSER=dots3`, with the exact context, MTP and B12x options under
+comparison. The release runner supplies all stored profile values itself.
+Do not copy the RTX MTP choice onto Spark without its comparison results.
 
 This is an integration image, not a qualified serving release. The Dots3
 adapter packs uniform per-expert EXL3 K4 tensors into B12x's native fused-MoE
@@ -57,7 +85,7 @@ GB10. Both shards selected the B12x native single-token kernel, kept the
 same top-20 token order as PyTorch, and replayed CUDA graphs with zero
 observed difference. The vLLM vocabulary method matched direct B12x output
 exactly. Isolated median GPU times were 3.06 ms for B12x on each shard,
-versus 3.18 and 3.14 ms for PyTorch. The launch enables this method only for
+versus 3.18 and 3.14 ms for PyTorch. When enabled, this method applies only to
 single-token decode; other shapes use vLLM's ordinary BF16 projection. These
 component timings are not full-model decode measurements.
 
@@ -70,14 +98,18 @@ JSON and tool responses conform to their requested schemas.
 
 The `benchmarks/` scripts adapt the same seven content contracts, independent
 client timing, exact-length prefill, and context scaling used in the adjacent
-Qwen recipe. Chat workloads set the source model's `enable_thinking=False`
-template option to measure direct answers consistently with calibration.
+Qwen recipe. The legacy content and prose chat workloads set
+`enable_thinking=False` for direct-answer measurements. The separate
+`coding_clients.py` workload enables thinking and drives the current C1–C4
+selection; use `--output-tokens 8192` to reproduce that comparison budget.
 Run them from a client while the server is otherwise idle and
 retain the JSON/JSONL files under this project's `.cache/bench/` until the
 measurement is accepted. `context.py` and `prefill.py` start at 2K and 8K;
 pass longer depths only after the matching service context limit is qualified.
 
 ```bash
+python3 serving/benchmarks/coding_clients.py --base-url http://rhea:8000/v1 --output-tokens 8192 --output .cache/bench/spark-coding.jsonl
+python3 serving/benchmarks/reasoning_api.py --base-url http://rhea:8000 --repeats 2 --require-mtp --require-boundary-chunk --output .cache/bench/spark-reasoning.jsonl
 python3 serving/benchmarks/workloads.py --suite seven --base-url http://rhea:8000 --output .cache/bench/spark-seven.jsonl
 python3 serving/benchmarks/clients.py --base-url http://rhea:8000/v1 --output .cache/bench/spark-clients.json
 python3 serving/benchmarks/prefill.py --base-url http://rhea:8000/v1 --output .cache/bench/spark-prefill.json
@@ -97,14 +129,17 @@ Run `capture_runtime.py dots3-vllm-head --output /path/to/rhea-runtime.json` on
 rhea and the same command with `dots3-vllm-worker` on moa. It keeps image,
 launch flags, selected startup lines, Docker memory use, system memory, and
 GPU inventory alongside the benchmark results. Use both receipts to check the
-0.85 memory-utilization target against actual unified-memory availability.
+0.80 Spark candidate allocation against actual unified-memory availability.
+Keep the host guard active throughout qualification. Use the same capture
+script with `dots3-vllm-rtx` on the RTX host.
 
-Full-model loading, block-FP8 core parity, padded DSA attention, prefix-cache
-hits, xgrammar requests, full-model CUDA graph replay, and the 85% memory target still
-require the completed checkpoint.
-The vLLM base currently ships Torch 2.13 and CuTe DSL 4.7.1 while the pinned
-B12x package declares CuTe DSL 4.6.2. The small GB10 parity and graph tests
-above pass with this combination; full-model qualification is pending.
+Full-model development loading, text/image/audio, prefix-cache hits, xgrammar
+and tool checks have passed on both platforms. Final container qualification
+must repeat them with the selected parser, MTP, context and memory settings.
+Component checks below preserve earlier investigation results and do not
+replace those release gates. Exact installed dependencies and source hashes
+are recorded by the release cache export rather than inferred from package
+metadata requirements.
 
 `smoke_block_fp8.py` exercised two B12x FP8 paths on the real layer-0
 `q_a_proj` weight and scale. The weight-only MXFP8 path re-quantizes arbitrary
