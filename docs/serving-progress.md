@@ -547,3 +547,32 @@ Both complete candidates use the same container image, 262K context, 0.95 utiliz
 | 4 | 96.43 | 102.53 | 40.29 / 43.40 |
 
 Responses have different lengths; compare token rate alongside latency and output lengths, not latency alone. All measured requests visibly finished reasoning. Concurrent waves reach their requested overlap, then naturally drain as tasks finish. MTP3 is the current RTX preference for the requested C1–C4 coding balance; a matched one-run MTP4 screen is running before final choice. The earlier MTP2 preference from sampled prose/C16 no longer drives the default. Dynamic depth is not needed to reconcile these fixed-K curves because MTP3 leads at all three coding levels.
+
+
+## Completed RTX MTP4 extension: retain MTP3 for C1–C4
+
+The completed one-run MTP4 screen was extended with runs 1 and 2, preserving its
+14 warmup/measured wave objects exactly. The screen's raw hash matches the
+combined receipt's resume-source hash. Lossless raw streams, screen, runtime and
+container logs are archived in the [coding evidence manifest](../benchmarks/development/rtx-coding/manifest.json);
+the [three-candidate comparison](../benchmarks/development/rtx-coding/mtp2-vs-mtp3-vs-mtp4.json)
+verifies matched payloads and includes validator hashes and original/recomputed
+static checks.
+
+| Clients | MTP3 median decode tokens/s | MTP4 median decode tokens/s | MTP3 / MTP4 natural completions |
+| --- | ---: | ---: | ---: |
+| 1 | 181.33 | 185.29 | 12/12 / 12/12 |
+| 2 | 141.38 | 140.07 | 12/12 / 11/12 |
+| 4 | 102.53 | 103.07 | 12/12 / 11/12 |
+
+Select **RTX MTP3** for balanced reasoning/coding at C1–C4. MTP4 provides a small
+C1 rate gain and nearly equal C2/C4 rates, with 34/36 natural completions versus
+MTP3's 36/36. Its two `async_pool` requests at C2/run1 and C4/run1 reached the
+8192-token limit before finishing reasoning. This is a limited, three-run sample;
+it does not establish that speculative depth caused an answer-quality change.
+Answer lengths differ, and completed-only latency excludes those truncations,
+so neither latency nor static checks alone ranks overall coding quality.
+
+Final release-image qualification and README performance tables remain pending.
+The next RTX checks use the selected MTP3 with the Dots-aware reasoning parser
+and evaluate the optional vocabulary optimization against its native control.

@@ -32,8 +32,15 @@ each passed 35 static response checks. Those checks do not execute generated
 code. Output lengths differ, so completed-answer latency is reported alongside
 output token counts instead of being treated as an isolated speed ranking.
 The [matched coding evidence](../benchmarks/development/rtx-coding/manifest.json)
-preserves the payloads, responses and runtime identities. MTP4 extension and
-Spark selection are still in progress; these are development measurements.
+preserves the payloads, responses and runtime identities. The completed MTP4
+extension measured 185.29 / 140.07 / 103.07 tokens/s at C1/C2/C4 versus MTP3's
+181.33 / 141.38 / 102.53. MTP4 finished 34/36 requests naturally; two async-pool
+responses exhausted 8192 tokens during reasoning. MTP3 finished 36/36.
+**RTX selects fixed MTP3 for the requested C1–C4 balance.** The small rate
+crossovers do not establish a dynamic-depth benefit. These limited samples do
+not show that MTP4 causes lower answer quality; completion and output length
+are reported separately from decode speed. Spark selection remains in progress;
+all of these are development measurements.
 
 The final benchmark report must preserve accepted evidence with exact source,
 model, image, hardware and launch settings. Current results are not GHCR release

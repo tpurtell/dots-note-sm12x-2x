@@ -1,7 +1,7 @@
 {
   "schema": "dots3-development-evidence-v1",
   "release_qualification": false,
-  "scope": "Matched RTX MTP2/MTP3 reasoning-enabled coding, three runs at C1/C2/C4; same parent/wrapper image and request payloads. Source and runtime details in each receipt. Static checks are not executed-code correctness.",
+  "scope": "Matched RTX MTP2/MTP3/MTP4 reasoning-enabled coding, three runs at C1/C2/C4; same parent/wrapper image and matched request payloads. MTP4 preserves the completed one-run screen and extends runs1/2. Static checks are not executed-code correctness. Development evidence, not final release qualification.",
   "files": {
     "coding-mtp2-8192.jsonl.gz": {
       "original_path": ".cache/serving/rtx/coding-mtp2-8192.jsonl",
@@ -38,7 +38,49 @@
       "raw_sha256": "72177f84d71dc70a66e022e5045e459f9f909675ca3cbc059f41833736ebae14",
       "compressed_sha256": "a873b9446458bda4186fed53a1b0d6a4783538a29a5a78b0adc491de06a6affe",
       "raw_bytes": 348186
+    },
+    "coding-mtp4-8192.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/coding-mtp4-8192.jsonl",
+      "raw_sha256": "f4227b3073387cbba7aade238fc03a1059ab540e9f60f689c49091b7a3d91be9",
+      "compressed_sha256": "5737e222e7b9169d791b4f9d09112e53d54aa20c8555ad6d6f272c6de780e197",
+      "raw_bytes": 46246050
+    },
+    "coding-mtp4-8192-screen.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/coding-mtp4-8192-screen.jsonl",
+      "raw_sha256": "7ccb1b80da61324b7cf57930f1f69f500d121159dc41f571548f700db834c18b",
+      "compressed_sha256": "c37ace3a8aa45c7e178b5721947e906b8e520bced554e2fd3596b8e774bdd1b9",
+      "raw_bytes": 23693241
+    },
+    "runtime-mtp4.json.gz": {
+      "original_path": ".cache/serving/rtx/coding-comparison/runtime-mtp4.json",
+      "raw_sha256": "838b8bcda93546e8f634f6761fc368b5d4d974e88b3a584716d63346ee4f9792",
+      "compressed_sha256": "e5c3f9a7a86eabae87c7e65f437afa65eea28619cc8b0f47fd9c3bba27363ed1",
+      "raw_bytes": 8843
+    },
+    "mtp4-container.log.gz": {
+      "original_path": ".cache/serving/rtx/coding-comparison/mtp4-container.log",
+      "raw_sha256": "1102186cbea09f2b659550e7a86559e68700216a50ae4029c62cc356daf57585",
+      "compressed_sha256": "eebe3a8c068efa0cab84ec647dc110aa655a2a5937d247b236e5a67d6ea6bf16",
+      "raw_bytes": 349893
     }
   },
-  "comparison_sha256": "34034103ffb739358e08e570f4d21b6738a6e471cf170b8f62357e58468ab227"
+  "comparison_sha256": "34034103ffb739358e08e570f4d21b6738a6e471cf170b8f62357e58468ab227",
+  "comparisons": {
+    "mtp2-vs-mtp3.json": {
+      "sha256": "34034103ffb739358e08e570f4d21b6738a6e471cf170b8f62357e58468ab227"
+    },
+    "mtp2-vs-mtp3-vs-mtp4.json": {
+      "sha256": "043ea2264a148a32d16579a93ab8384df64ec6e9c62b3f3328245d6b4affe189",
+      "original_path": ".cache/serving/rtx/coding-comparison/mtp2-vs-mtp3-vs-mtp4.json"
+    }
+  },
+  "mtp4_resume_provenance": {
+    "source": "coding-mtp4-8192-screen.jsonl.gz",
+    "source_raw_sha256": "7ccb1b80da61324b7cf57930f1f69f500d121159dc41f571548f700db834c18b",
+    "combined": "coding-mtp4-8192.jsonl.gz",
+    "preserved_waves": 14,
+    "original_screen_runs": 1,
+    "combined_runs": 3,
+    "preserved_wave_objects_verified_equal": true
+  }
 }
