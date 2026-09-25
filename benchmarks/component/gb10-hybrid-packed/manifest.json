@@ -1,0 +1,38 @@
+{
+  "scope": "TwoGB10 actualPyNccl RDMA packed/unpacked routing CPUlayout and changedinputgraphs; microtimings mixed/noisy, notwholemodelperformance.",
+  "rows": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    512
+  ],
+  "owners": [
+    0,
+    1
+  ],
+  "passed": true,
+  "hca": "roceP2p1s0f0",
+  "gid": 3,
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/hybrid-packed-rdma-moa.log",
+      "artifact": "hybrid-packed-rdma-moa.log.gz",
+      "source_sha256": "8fe3dab052f0429972d43540c3c160cc078b6d9444b8f16fc1852f484364d8bf",
+      "artifact_sha256": "64f8ff4fccf17849d9c7950d86182f468d82866e782f1ad8e0b8eca4c4be17df"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid-packed-rdma-rhea.log",
+      "artifact": "hybrid-packed-rdma-rhea.log.gz",
+      "source_sha256": "d00fa809b6d2a2bfd38923de19e8375db66a784c523283310492873676248adb",
+      "artifact_sha256": "50b3e7495f84491696e508c9846cba643352e15e2605cb3612644a32097464e1"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid-packed-rdma-result.json",
+      "artifact": "hybrid-packed-rdma-result.json.gz",
+      "source_sha256": "1758e945388af8697815893eef12154a705b2bc964477d02d38b5a2a041f17c4",
+      "artifact_sha256": "5d7db9c1fee41f71450748feb3197b5058e4f7dadd917ee7a3eb7ead2e521b6d"
+    }
+  ]
+}
