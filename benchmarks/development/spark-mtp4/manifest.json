@@ -1,0 +1,68 @@
+{
+  "scope": "Finite Spark MTP4 vs MTP3 matched run0, RoCE, .80, 32K. Development selection evidence, not final release qualification.",
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/coding-32k-mtp3-roce-80-8192.jsonl",
+      "artifact": "coding-32k-mtp3-roce-80-8192.jsonl.gz",
+      "source_sha256": "727cd79fc7c72b1f6d5aa5dd75bdecc80c30be7d918ed08947f998992b1a6567",
+      "artifact_sha256": "726cd9203f10866139176801952824a5cf4ae3cb936e21544519606df6eac5fd",
+      "source_bytes": 17402166
+    },
+    {
+      "source": ".cache/serving/spark/coding-32k-mtp4-roce-80-8192.jsonl",
+      "artifact": "coding-32k-mtp4-roce-80-8192.jsonl.gz",
+      "source_sha256": "54ba32eebf602e7e2d640773313429774da65d28b75f32973afe0944949933c5",
+      "artifact_sha256": "87601fabbdb90cafcd31e32a5562eac8831ab7aef9ad6b48e7c1b28fa66939a7",
+      "source_bytes": 16058381
+    },
+    {
+      "source": ".cache/serving/spark/coding-roce-mtp3-vs-mtp4-matched-screen.json",
+      "artifact": "coding-roce-mtp3-vs-mtp4-matched-screen.json.gz",
+      "source_sha256": "5810728aab7b2f53807e19ca99f23fe92c4b6835feababaad6979d9ea89938c2",
+      "artifact_sha256": "8a30f91126a82058f6b173731bc8b772038542f4eba108543d27c445ddb0bd4d",
+      "source_bytes": 39262
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-mtp4-roce-80-final.json",
+      "artifact": "runtime-rhea-mtp4-roce-80-final.json.gz",
+      "source_sha256": "11464cc1548aee78dba498ac46195fdebf3c9d00872f280f69417a0bd5e747d8",
+      "artifact_sha256": "9872ef9405b00b7c9175301237cb9f5be23ded9540021f1674e87fb36adc0ed7",
+      "source_bytes": 9056
+    },
+    {
+      "source": ".cache/serving/spark/runtime-moa-mtp4-roce-80-final.json",
+      "artifact": "runtime-moa-mtp4-roce-80-final.json.gz",
+      "source_sha256": "88d0e97b81b1b0430490dba98f6c82cf16008bcede9b972a9b702567f72e3c07",
+      "artifact_sha256": "f2092f0f9ec8b9f577a52467f9d871967001c5e873e9c0602a3fc062c03a086d",
+      "source_bytes": 3806
+    },
+    {
+      "source": ".cache/serving/spark/mtp4-roce-80-rhea-final.log",
+      "artifact": "mtp4-roce-80-rhea-final.log.gz",
+      "source_sha256": "fa5f1cd23cdeaf592d40227c9e31faf0d892865f7928df8e58b3666b4597f80e",
+      "artifact_sha256": "9bbc0defbacc67c0d3cb79a07759fd996d238ba78840fb6ea3aabdf98da5cf60",
+      "source_bytes": 158341
+    },
+    {
+      "source": ".cache/serving/spark/mtp4-roce-80-moa-final.log",
+      "artifact": "mtp4-roce-80-moa-final.log.gz",
+      "source_sha256": "f3636831ad371c186f719a382fa3dfebd3074ec36124933028df0b7e8b83d331",
+      "artifact_sha256": "40550818d622f4720ef56b79f49a8f29f7465985f54462d480257a4abc86c99e",
+      "source_bytes": 40203
+    },
+    {
+      "source": ".cache/serving/spark/memory-rhea-mtp4-roce-80.log",
+      "artifact": "memory-rhea-mtp4-roce-80.log.gz",
+      "source_sha256": "3138645320e62b51d52883aa8f7b56551b4dccfcf4c98a00db3edfb8d8cb14ee",
+      "artifact_sha256": "8f7891f50531bf1713ea6f9412accf22503c89aa6692001115c7cf0e34e31129",
+      "source_bytes": 192290
+    },
+    {
+      "source": ".cache/serving/spark/memory-moa-mtp4-roce-80.log",
+      "artifact": "memory-moa-mtp4-roce-80.log.gz",
+      "source_sha256": "b6fc3dcbc996ac7dded379c1c2d45b786b4da064d5f5ebd98c8ed83f5807d156",
+      "artifact_sha256": "3c978213d8f6a912517c47e53bc57e610359bf4f33fe0e17e6b8230a70b80ddc",
+      "source_bytes": 194592
+    }
+  ]
+}
