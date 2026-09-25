@@ -80,8 +80,10 @@ def render(reports,paths):
         if not r:continue
         for name,s in r['stage_results'].items():
             if name=='code-agent' or name.startswith('context-'):
-                for row in s['points']:rows.append([p,name,row['depth'],number(row['ttft_seconds_median']),number(row['effective_prefill_tokens_per_second_median']),number(row['decode_tokens_per_second_median'])])
-    table(['Platform','Probe','Input depth','TTFT s','Prompt tokens / TTFT','Decode tokens/s'],rows)
+                origin=s.get('evidence_provenance',{})
+                for row in s['points']:
+                    rows.append([p,name,row['depth'],number(row['ttft_seconds_median']),number(row['effective_prefill_tokens_per_second_median']),number(row.get('decode_tokens_per_second_median')),row.get('samples','—'),'/'.join(str(x) for x in row.get('completion_tokens',[])), 'Inherited prior profile' if origin.get('mode')=='inherited' else 'Published image'])
+    table(['Platform','Probe','Input depth','TTFT s','Prompt tokens / TTFT','Decode tokens/s','Samples','Output tokens','Evidence'],rows)
     lines+=['','Decode excludes the entire first SSE token burst. Prompt tokens / TTFT includes tokenization and first-token handoff. For unique cold context probes this estimates effective prefill throughput. Sampled code-agent history probes can reuse prefixes; their ratios are not prefill-speed measurements. Fixed 256-output probes do not demonstrate natural completion.']
     lines+=['','## Tool-use quality: hard mode, Basic / Hard / Total']
     rows=[]
@@ -103,7 +105,19 @@ def render(reports,paths):
         if not r:continue
         for host,m in r.get('memory_observations',{}).get('hosts',{}).items():
             lines+=['',f"{p}/{host}: minimum sampled MemAvailable {number(m['minimum_mem_available_bytes']/2**30) if m.get('minimum_mem_available_bytes') is not None else '—'}GiB; "+', '.join(f"GPU{g['index']} peak {number(g['peak_observed_memory_used_mib']/1024)}GiB" for g in m.get('gpus',{}).values())+'.']
-    lines+=['','Sampled peaks can miss brief excursions; Spark memory is shared with the host. Quality misses/truncations and raw traces remain in the reports.','', '## Evidence']
+    lines+=['','Sampled peaks can miss brief excursions; Spark memory is shared with the host. Quality misses/truncations and raw traces remain in the reports.']
+    inherited=[]
+    for p,r in reports.items():
+        if not r:continue
+        for name,result in r['stage_results'].items():
+            origin=result.get('evidence_provenance',{})
+            if origin.get('mode')=='inherited':
+                inherited.append([p,name,origin.get('source_kind','—'),origin.get('sample_count','—'),origin.get('output_tokens_per_request','—'),str(origin.get('coverage','See report'))])
+    if inherited:
+        lines+=['','## Retained prior measurements','',
+          'Completed tests were retained without rerunning them. These entries are earlier-profile evidence, not measurements on the final container. Reports preserve source artifacts, hashes, both source and target profiles, and explicit profile differences. A one-output-token prefill probe supplies TTFT/prefill data only; its decode rate stays blank.']
+        table(['Platform','Stage','Original probe','Samples','Output budget','Coverage'],inherited)
+    lines+=['','## Evidence']
     for p,path in paths.items():
         if path:lines+=['',f'- {p}: `{path}`; SHA256 `{hashlib.sha256(path.read_bytes()).hexdigest()}`.']
     return '\n'.join(lines)+'\n'
