@@ -17,6 +17,10 @@ python3 serving/release/qualify_rtx.py \
 ```
 
 Set the selected final MTP value and actual image ID, then append `--execute`.
+Use the server root for `--base-url` (for example `http://127.0.0.1:8001`);
+a supplied `/v1` suffix is also normalized. The runner passes `/v1` specifically
+to `clients.py`, which appends `/chat/completions`; the other benchmark CLIs
+receive the server root and construct their existing `/v1` endpoints themselves.
 The script requires explicit TP2, `--max-model-len 262144`, and the expected MTP
 in the running container arguments. The selected recipe must have its reasoning
 parser, tools, xgrammar, multimodal support, and prefix caching enabled.

@@ -29,8 +29,12 @@ def save(path,obj):
 
 
 def plan(args):
-    common=['--base-url',args.base_url,'--model',args.model]
+    base=args.base_url.rstrip('/').removesuffix('/v1')
     def step(name,script,options,count,kind='jsonl'):
+        # clients.py appends /chat/completions to its supplied API base.
+        # The other CLIs append /v1 themselves or normalize either form.
+        api_base=base+'/v1' if script=='serving/benchmarks/clients.py' else base
+        common=['--base-url',api_base,'--model',args.model]
         return {'name':name,'script':script,'options':common+options,
                 'requests':count,'format':kind}
     steps=[step('prefix','serving/qualify_prefix_xgrammar.py',[],4,'json'),
