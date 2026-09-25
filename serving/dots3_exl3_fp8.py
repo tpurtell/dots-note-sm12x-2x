@@ -26,6 +26,7 @@ _SCRATCH_BY_SPEC = {}
 _PRIMERS_BY_SPEC = {}
 _SESSION_LOCK = threading.Lock()
 _SESSIONS_BY_DEVICE = {}
+_VOCAB_PLANS_BY_SPEC = {}
 
 
 class Dots3B12xVocabMethod(UnquantizedEmbeddingMethod):
@@ -41,11 +42,22 @@ class Dots3B12xVocabMethod(UnquantizedEmbeddingMethod):
         from b12x.gemm import bf16_vocab_projection as vocab
         from b12x.preparation import PreparedCall, PreparationSession
 
+        session_key = (weight.device.type, weight.device.index, threading.get_ident())
+        plan_key = (*session_key, weight.dtype, tuple(weight.shape))
+        # The prepared vocabulary runner holds geometry/programs, not packed
+        # weights; apply() always binds the current layer.weight. Reuse its plan
+        # for the temporary MTP head, which vLLM replaces with the target head
+        # after draft loading. Preparing it separately would leave that obsolete
+        # ~0.725 GiB BF16 shard alive in the session's PreparedCall owners.
+        with _SESSION_LOCK:
+            plan = _VOCAB_PLANS_BY_SPEC.get(plan_key)
+        if plan is not None:
+            layer.dots3_b12x_vocab_plan = plan
+            return
         plan = vocab.plan(vocab.Caps(
             device=weight.device, max_tokens=1,
             in_features=5120, out_features=76032,
         ))
-        session_key = (weight.device.type, weight.device.index, threading.get_ident())
         with _SESSION_LOCK:
             session = _SESSIONS_BY_DEVICE.get(session_key)
             if session is None:
@@ -67,6 +79,8 @@ class Dots3B12xVocabMethod(UnquantizedEmbeddingMethod):
         ))
         if plan.selection is None or plan.selection.config.backend != "triton":
             raise ValueError("Dots3 B12x vocabulary did not select a GPU kernel")
+        with _SESSION_LOCK:
+            _VOCAB_PLANS_BY_SPEC[plan_key] = plan
         layer.dots3_b12x_vocab_plan = plan
 
     def apply(self, layer, x, bias=None):
