@@ -86,6 +86,24 @@ def settings(path, selected):
     return config
 
 
+def parse_rows(text):
+    try:
+        rows = set()
+        for item in text.split(','):
+            if '-' in item:
+                low, high = map(int, item.split('-'))
+                if not 0 < low <= high <= 1048576:
+                    raise ValueError('invalid row range')
+                rows.update(range(low, high+1))
+            else:
+                rows.add(int(item))
+        if not rows or min(rows) <= 0:
+            raise ValueError('invalid rows')
+        return rows
+    except ValueError:
+        fail('Invalid active row selection in qualification report')
+
+
 def validate_report(read_report, config, selected):
     report = read_report
     if (report.get('schema') != 'dots3-release-report-v1' or
@@ -104,6 +122,8 @@ def validate_report(read_report, config, selected):
                 fail(f'Qualification profile mismatch for {host}: {setting}')
         if float(profile['gpu_memory_utilization']) != config['gpu_memory_utilization']:
             fail(f'Qualification memory allocation mismatch for {host}')
+        if str(profile.get('tensor_parallel_size')) != '2' or profile.get('tool_call_parser') != 'dots':
+            fail(f'Qualification TP2/tool parser mismatch for {host}')
         spec = json.loads(profile['speculative_config'])
         if spec.get('method') != 'mtp' or spec.get('num_speculative_tokens') != config['mtp_tokens']:
             fail(f'Qualification MTP mismatch for {host}')
@@ -117,6 +137,15 @@ def validate_report(read_report, config, selected):
                 fail(f'Qualification B12x mismatch for {host}: {setting}')
         if env.get('DOTS3_B12X_EXACT_FP8', '') != config['b12x_exact_fp8']:
             fail(f'Qualification exact-FP8 selection mismatch for {host}')
+        if config['b12x_pcie'] and env.get('VLLM_PCIE_ALLREDUCE_BACKEND') != 'b12x':
+            fail(f'Qualification PCIe backend mismatch for {host}')
+        if config['b12x_exact_fp8'] and parse_rows(env.get('DOTS3_B12X_EXACT_FP8_ROWS', '')) != set(config['b12x_exact_fp8_rows']):
+            fail(f'Qualification exact-FP8 rows mismatch for {host}')
+        if config['b12x_roce']:
+            if env.get('DOTS3_B12X_ROCE_EAGER', '0') != str(int(config['b12x_roce_eager'])):
+                fail(f'Qualification RoCE eager setting mismatch for {host}')
+            if parse_rows(env.get('DOTS3_B12X_ROCE_ROWS', '')) != set(config['b12x_roce_rows']):
+                fail(f'Qualification RoCE rows mismatch for {host}')
 
 
 def check_spark_headroom(minimum_gib):
