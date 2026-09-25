@@ -73,7 +73,7 @@ args=(
   --max-model-len "${MAX_MODEL_LEN:-32768}"
   --max-num-seqs "${MAX_NUM_SEQS:-16}"
   --max-num-batched-tokens "${MAX_BATCHED_TOKENS:-512}"
-  --gpu-memory-utilization "${GPU_MEMORY_UTILIZATION:-0.82}"
+  --gpu-memory-utilization "${GPU_MEMORY_UTILIZATION:-0.80}"
   --kv-cache-dtype "${KV_CACHE_DTYPE:-fp8}"
   --enable-prefix-caching
   --structured-outputs-config '{"backend":"xgrammar"}'
@@ -81,6 +81,9 @@ args=(
   --enable-auto-tool-choice
   --tool-call-parser dots
 )
+if [[ -n "${VLLM_HYBRID_LAYER_PARTITION:-}" ]]; then
+  args+=(--block-size 64)
+fi
 if [[ "$role" == worker ]]; then
   args+=(--headless)
 else
