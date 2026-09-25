@@ -70,6 +70,19 @@ def patch(root):
     compile(source, str(path), 'exec')
     path.write_text(source)
 
+    path = root / 'v1/worker/gpu_worker.py'
+    source = path.read_text()
+    anchor = '        # Profile CUDA graph memory if graphs will be captured.'
+    if source.count(anchor) != 1:
+        raise RuntimeError('worker memory profiling source anchor changed')
+    source = source.replace(anchor,
+        '        import os as _hybrid_profile_os\n'
+        '        if _hybrid_profile_os.environ.get("VLLM_HYBRID_ATTESTATION_PATH"):\n'
+        '            from hybrid_attestation import capture_profile_evidence\n'
+        '            capture_profile_evidence(self, profile_result)\n\n' + anchor)
+    compile(source, str(path), 'exec')
+    path.write_text(source)
+
     path = root / 'v1/engine/core.py'
     source = path.read_text()
     anchor = '        self.model_executor.initialize_from_config(kv_cache_configs)'

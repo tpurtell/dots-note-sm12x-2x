@@ -5,13 +5,16 @@ import tempfile
 from pathlib import Path
 from port_hybrid_parallel import patch
 source = Path('.cache/vllm-v0.30.0/vllm')
-files = ('model_executor/models/deepseek_v2.py', 'models/dots3_note/nvidia/model.py', 'models/dots3_note/nvidia/mtp.py', 'models/deepseek_v32/nvidia/mtp.py', 'v1/engine/core.py')
+files = ('model_executor/models/deepseek_v2.py', 'models/dots3_note/nvidia/model.py', 'models/dots3_note/nvidia/mtp.py', 'models/deepseek_v32/nvidia/mtp.py', 'v1/engine/core.py', 'v1/worker/gpu_worker.py')
 with tempfile.TemporaryDirectory() as tmp:
     root = Path(tmp)
     for name in files:
         p = root/name; p.parent.mkdir(parents=True,exist_ok=True)
         p.write_bytes((source/name).read_bytes())
     patch(root)
+    worker = (root/'v1/worker/gpu_worker.py').read_text()
+    assert worker.index('capture_profile_evidence(self, profile_result)') < worker.index('cudagraph_memory_estimate = 0')
+    assert 'if _hybrid_profile_os.environ.get("VLLM_HYBRID_ATTESTATION_PATH"):' in worker
     found = set()
     for name in files:
         text = (root/name).read_text()

@@ -7,6 +7,36 @@ ownership; it does not replace numeric correctness tests.
 import re
 
 
+
+def capture_profile_evidence(worker, profile_result, torch_module=None):
+    """Read counters after native profile cleanup, before graph profiling.
+
+    Keep scalar copies only: no allocator policy changes, synchronization,
+    tensor references, or accounting adjustments.
+    """
+    import os
+    if torch_module is None:
+        import torch as torch_module
+    fields = ('torch_peak', 'torch_allocated', 'free_memory', 'total_memory',
+              'cuda_memory', 'torch_memory', 'non_torch_memory')
+    snapshots = {
+        name: {key: int(getattr(getattr(profile_result, name), key)) for key in fields}
+        for name in ('before_create', 'before_profile', 'after_profile')
+    }
+    device = profile_result.after_profile.device_
+    counters = torch_module.cuda.memory_stats(device)
+    worker.hybrid_profile_evidence = {
+        'phase': 'after_native_profile_cleanup_before_graph_profile',
+        'snapshots_bytes': snapshots,
+        'allocator_counters': {str(key): int(value) for key, value in counters.items()},
+        'allocator_backend': torch_module.cuda.get_allocator_backend(),
+        'allocator_environment': {name: os.environ.get(name) for name in
+                                  ('PYTORCH_ALLOC_CONF', 'PYTORCH_CUDA_ALLOC_CONF')},
+        'sparse_indexer_max_logits_mb': int(os.environ.get('VLLM_SPARSE_INDEXER_MAX_LOGITS_MB', '512')),
+        'note': 'torch_memory is reserved; torch_allocated is active allocation. Snapshot non_torch_memory is cuda_memory minus reserved and includes other device consumers.',
+    }
+
+
 def _tensor(tensor):
     storage = tensor.untyped_storage()
     return {'shape': list(tensor.shape), 'stride': list(tensor.stride()),
@@ -241,6 +271,7 @@ class HybridAttestationWorkerExtension:
         }
         model_memory = getattr(self.model_runner, 'model_memory_usage', None)
         receipt['memory_profile_bytes']['model_memory_usage'] = None if model_memory is None else int(model_memory)
+        receipt['memory_profile_evidence'] = getattr(self, 'hybrid_profile_evidence', None)
         receipt['memory_profile_note'] = 'peak_activation_memory includes applied CUDA graph estimate; do not add cudagraph_memory_estimate again'
         receipt['cache_admission_inputs'] = {
             'max_model_len': self.vllm_config.model_config.max_model_len,

@@ -111,3 +111,31 @@ assert any('nonowner dense' in e for e in attest_draft_and_boundaries(NS(languag
 draft_layer.eh_proj=Module();draft_layer.shared_head.head=Module(True)
 assert any('not shared' in e for e in attest_draft_and_boundaries(NS(language_model=language),draft,0)[1])
 print('CUDA-only accounting, draft nonowner storage and target/draft head alias checks passed')
+
+# Profile telemetry copies exact counters without retaining live snapshots or
+# modifying native accounting. This fake has no allocation/sync APIs, so any
+# accidental GPU operation in the helper fails this CPU check.
+from hybrid_attestation import capture_profile_evidence
+fields = ('torch_peak', 'torch_allocated', 'free_memory', 'total_memory',
+          'cuda_memory', 'torch_memory', 'non_torch_memory')
+snapshots = {name: NS(**{key: index * 100 + k for k, key in enumerate(fields)}, device_='cuda:1')
+             for index, name in enumerate(('before_create','before_profile','after_profile'))}
+stats = {'allocated_bytes.all.current': 17, 'reserved_bytes.all.current': 39,
+         'inactive_split_bytes.all.current': 22, 'num_alloc_retries': 0}
+def memory_stats(device):
+    assert device == 'cuda:1'
+    return stats
+fake_torch = NS(cuda=NS(memory_stats=memory_stats, get_allocator_backend=lambda:'native'))
+worker = NS()
+result = NS(**snapshots, total_consumed=12345)
+capture_profile_evidence(worker, result, fake_torch)
+evidence = worker.hybrid_profile_evidence
+assert evidence['snapshots_bytes']['after_profile']['torch_memory'] == 205
+assert evidence['allocator_counters']['inactive_split_bytes.all.current'] == 22
+snapshots['after_profile'].torch_memory = 0
+stats['inactive_split_bytes.all.current'] = 0
+assert evidence['snapshots_bytes']['after_profile']['torch_memory'] == 205
+assert evidence['allocator_counters']['inactive_split_bytes.all.current'] == 22
+assert result.total_consumed == 12345
+json.dumps(evidence)
+print('Profile snapshots and allocator counters copied without allocation, retained snapshots, or accounting changes')
