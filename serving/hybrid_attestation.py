@@ -19,11 +19,12 @@ def _parameter_bytes(module):
     return sum(p.numel() * p.element_size() for p in module.parameters())
 
 
-def _module_storage(module):
-    if module is None:
+def _modules_storage(modules):
+    modules = [m for m in modules if m is not None]
+    if not modules:
         return {'present': False, 'parameter_bytes': 0, 'unique_storage_bytes': 0}
-    parameters = list(module.parameters())
-    buffers = list(module.buffers())
+    parameters = list({id(p): p for m in modules for p in m.parameters()}.values())
+    buffers = list({id(p): p for m in modules for p in m.buffers()}.values())
     storages = {}
     by_dtype = {}
     for tensor in parameters + buffers:
@@ -34,6 +35,16 @@ def _module_storage(module):
             'parameter_bytes': sum(p.numel()*p.element_size() for p in parameters),
             'buffer_bytes': sum(p.numel()*p.element_size() for p in buffers),
             'unique_storage_bytes': sum(storages.values()), 'logical_bytes_by_dtype': by_dtype}
+
+
+def _module_storage(module):
+    return _modules_storage([module])
+
+
+def _owner_dense_storage(layer):
+    modules = [layer.self_attn, layer.input_layernorm, layer.post_attention_layernorm]
+    modules += ([layer.mlp.gate, layer.mlp.shared_experts] if layer.is_moe else [layer.mlp])
+    return _modules_storage(modules)
 
 
 def attest_model(model, vllm_config, *, require_bound_cache=True):
@@ -88,6 +99,7 @@ def attest_model(model, vllm_config, *, require_bound_cache=True):
             row['shared_expert_parameter_bytes'] = _parameter_bytes(layer.mlp.shared_experts)
             if not owner and (row['router_parameter_bytes'] or row['shared_expert_parameter_bytes']):
                 errors.append(f'layer{layer.layer_idx}: nonowner router/shared parameters')
+        row['owner_dense_storage'] = _owner_dense_storage(layer)
         rows.append(row)
     if [x['layer'] for x in routed] != expected_routed:
         errors.append('not all routed layers present on this rank')

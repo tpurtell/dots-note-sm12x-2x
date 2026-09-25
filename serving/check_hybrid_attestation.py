@@ -19,6 +19,7 @@ class Tensor:
 class Module:
     def __init__(self, owned=False): self.owned=owned
     def parameters(self): return iter([Tensor(1)] if self.owned else [])
+    def buffers(self): return iter([])
     def named_modules(self): return iter([('projection',NS(tp_size=1,tp_rank=0))])
 
 fake=ModuleType('vllm.distributed');fake.get_tp_group=lambda:NS(world_size=2,rank_in_group=0)
@@ -35,6 +36,7 @@ for i in range(3):
     layers.append(NS(layer_idx=i,owner=0 if owned else 1,context=NS(owns_parameters=owned),
         self_attn=attn,input_layernorm=Module(owned),post_attention_layernorm=Module(owned),
         is_moe=i>0,mlp=NS(gate=Module(owned),shared_experts=Module(owned),experts=NS(routed_experts=expert)),plan=plan))
+layers[0].mlp=Module(True)
 model=NS(language_model=NS(model=NS(config=config,layers=layers)))
 context={'model.layers.0.attn':NS(kv_cache=Tensor(100)), 'model.layers.1.attn':NS(kv_cache=Tensor(100))}
 vconfig=NS(compilation_config=NS(static_forward_context=context))
