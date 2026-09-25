@@ -280,6 +280,7 @@ class HybridAttestationWorkerExtension:
         model_memory = getattr(self.model_runner, 'model_memory_usage', None)
         receipt['memory_profile_bytes']['model_memory_usage'] = None if model_memory is None else int(model_memory)
         receipt['memory_profile_evidence'] = getattr(self, 'hybrid_profile_evidence', None)
+        receipt['mm_profile_cleanup'] = getattr(self.model_runner, 'hybrid_mm_cleanup_profile', None)
         receipt['memory_profile_note'] = 'peak_activation_memory includes applied CUDA graph estimate; do not add cudagraph_memory_estimate again'
         receipt['cache_admission_inputs'] = {
             'max_model_len': self.vllm_config.model_config.max_model_len,
