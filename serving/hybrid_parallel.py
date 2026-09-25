@@ -96,6 +96,51 @@ class RoutedLayerBuffers:
     route_ids: Any
     route_weights: Any
     reduced_output: Any
+    packed_payload: Any = None
+
+    def active(self, rows):
+        if rows < 0 or rows > self.activation.shape[0]:
+            raise ValueError('active rows outside prepared capacity')
+        if self.packed_payload is None:
+            return RoutedLayerBuffers(self.activation[:rows], self.route_ids[:rows],
+                                      self.route_weights[:rows], self.reduced_output[:rows])
+        return packed_routing_views(self.packed_payload, rows=rows,
+            hidden=self.activation.shape[1], topk=self.route_ids.shape[1],
+            dtype=self.activation.dtype, reduced_output=self.reduced_output[:rows])
+
+
+def packed_routing_views(payload, *, rows, hidden, topk, dtype, reduced_output):
+    """Alias native typed tensors into one active-size, aligned byte message.
+
+    Offsets depend on active rows, so graph variants retain their own fixed
+    views while sharing the same prepared allocation. No values are cast.
+    """
+    import torch
+    element_size = dtype.itemsize
+    activation_bytes = rows * hidden * element_size
+    ids_offset = (activation_bytes + 3) // 4 * 4
+    ids_bytes = rows * topk * 4
+    weight_offset = ids_offset + ids_bytes
+    size = weight_offset + rows * topk * 4
+    if payload.dtype != torch.uint8 or payload.ndim != 1 or payload.numel() < size:
+        raise ValueError('invalid packed routing allocation')
+    active = payload[:size]
+    return RoutedLayerBuffers(
+        active[:activation_bytes].view(dtype).view(rows, hidden),
+        active[ids_offset:weight_offset].view(torch.int32).view(rows, topk),
+        active[weight_offset:].view(torch.float32).view(rows, topk),
+        reduced_output, active)
+
+
+def allocate_packed_routing(*, capacity, hidden, topk, dtype, device):
+    """Allocate before capture; padding starts zero to avoid uninitialized bytes."""
+    import torch
+    element_size = dtype.itemsize
+    size = (capacity * hidden * element_size + 3) // 4 * 4 + capacity * topk * 8
+    payload = torch.zeros(size, dtype=torch.uint8, device=device)
+    reduced = torch.empty((capacity, hidden), dtype=dtype, device=device)
+    return packed_routing_views(payload, rows=capacity, hidden=hidden, topk=topk,
+                                dtype=dtype, reduced_output=reduced)
 
 
 def execute_routed_layer(
@@ -118,9 +163,12 @@ def execute_routed_layer(
         buffers.activation.copy_(activation)
         buffers.route_ids.copy_(ids)
         buffers.route_weights.copy_(weights)
-    transport.broadcast(buffers.activation, owner)
-    transport.broadcast(buffers.route_ids, owner)
-    transport.broadcast(buffers.route_weights, owner)
+    if buffers.packed_payload is not None:
+        transport.broadcast(buffers.packed_payload, owner)
+    else:
+        transport.broadcast(buffers.activation, owner)
+        transport.broadcast(buffers.route_ids, owner)
+        transport.broadcast(buffers.route_weights, owner)
     partial = execute_local_experts(buffers.activation, buffers.route_ids, buffers.route_weights)
     transport.reduce_sum(buffers.reduced_output, partial, owner)
     if transport.rank == owner:

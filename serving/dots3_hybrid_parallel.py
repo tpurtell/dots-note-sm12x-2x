@@ -12,7 +12,7 @@ from vllm.distributed import get_tp_group
 from vllm.logger import init_logger
 from vllm.distributed.hybrid_parallel import (
     LayerOwnerPlan, DenseParallelContext, PyNcclOwnerTransport,
-    RoutedLayerBuffers, execute_routed_layer, transfer_owner_state,
+    RoutedLayerBuffers, allocate_packed_routing, execute_routed_layer, transfer_owner_state,
 )
 from vllm.model_executor.models.utils import PPMissingLayer
 
@@ -36,11 +36,16 @@ def owner_plan(config):
 
 
 def _arena(device, dtype, capacity, hidden, topk):
-    key = (device, dtype, capacity, hidden, topk)
+    packed = os.environ.get("VLLM_HYBRID_PACKED_ROUTING", "0") == "1"
+    key = (device, dtype, capacity, hidden, topk, packed)
     if key not in _ARENAS:
         if torch.cuda.is_current_stream_capturing():
             raise RuntimeError('hybrid buffers must be prepared before graph capture')
-        _ARENAS[key] = (
+        if packed:
+            _ARENAS[key] = allocate_packed_routing(capacity=capacity, hidden=hidden,
+                                                  topk=topk, dtype=dtype, device=device)
+            return _ARENAS[key]
+        _ARENAS[key] = RoutedLayerBuffers(
             torch.empty((capacity, hidden), device=device, dtype=dtype),
             torch.empty((capacity, topk), device=device, dtype=torch.int32),
             torch.empty((capacity, topk), device=device, dtype=torch.float32),
@@ -156,14 +161,14 @@ class Dots3HybridDecoderLayer(nn.Module):
             def finish(reduced):
                 return reduced + shared
             output = execute_routed_layer(owner=self.owner, transport=self.transport,
-                buffers=RoutedLayerBuffers(*(t[:rows] for t in arena)),
+                buffers=arena.active(rows),
                 prepare_owner=prepare, execute_local_experts=experts, finish_owner=finish)
         else:
             output = self.mlp(hidden_states) if owner else None
         if not owner:
             # Peer values carry shape/dtype only; boundaries explicitly replace
             # them from the previous owner before a different owner consumes them.
-            output = arena[3][:rows]
+            output = arena.reduced_output[:rows]
             if residual is None: residual = torch.empty_like(output)
         return output, residual
 
