@@ -35,6 +35,7 @@ RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
 COPY third_party/sparkinfer-glmrt /opt/b12x
 ENV PYTHONPATH=/opt/dots3:/opt/b12x \
     VLLM_HYBRID_LAYER_PARTITION="" \
+    VLLM_HYBRID_PACKED_ROUTING=0 \
     DOTS3_COMPACT_DSA_CACHE=0 \
     DOTS3_INDEXER_PREFILL_CONTEXTS=0 \
     CUTE_DSL_ARCH=sm_120a \

@@ -1,0 +1,56 @@
+{
+  "scope": "Two-RTX component gate only; no whole-model performance conclusion",
+  "image_id": "sha256:f4c227423bff15dee498e1ba504b357f34c9013b175584b013d7a2ebdd8bd549",
+  "source_overlay": "project read-only at /probe",
+  "command": "torchrun --standalone --nproc-per-node 2 /probe/serving/check_hybrid_packed.py --gpu",
+  "exit_code": 0,
+  "cpu": {
+    "passed": true,
+    "geometries": 12,
+    "checks": "typed byte aliases, alignment, active-only message, shared allocation"
+  },
+  "gpu_passed": true,
+  "changed_input_replays": 3,
+  "timing_summary_us": [
+    {
+      "rows": 1,
+      "unpacked": 24.587199836969376,
+      "packed": 16.366399824619293,
+      "reduction_percent": 33.43528367142186
+    },
+    {
+      "rows": 2,
+      "unpacked": 24.529599398374557,
+      "packed": 17.315199971199036,
+      "reduction_percent": 29.410995711791287
+    },
+    {
+      "rows": 4,
+      "unpacked": 26.632799208164215,
+      "packed": 18.44959929585457,
+      "reduction_percent": 30.72602263227783
+    },
+    {
+      "rows": 8,
+      "unpacked": 28.919999301433563,
+      "packed": 22.522400319576263,
+      "reduction_percent": 22.121712089876056
+    },
+    {
+      "rows": 16,
+      "unpacked": 36.874400079250336,
+      "packed": 28.81239950656891,
+      "reduction_percent": 21.863408097093384
+    },
+    {
+      "rows": 512,
+      "unpacked": 291.19319915771484,
+      "packed": 283.6735963821411,
+      "reduction_percent": 2.582341482330086
+    }
+  ],
+  "timing_aggregation": "Median across both owner positions, both ranks and five samples per record; exact samples in raw log",
+  "raw_sha256": "28ed1b187a702344a6b04434da49eecbc21e6d964665f4297f70b88426893919",
+  "gzip_sha256": "d0ad77d6cea14b8ec6915456f09d871781653c09f0578cda82592ae3c3c755f3",
+  "probe_sha256": "2db8303548441a0cde6b2dbc38d10877c3dbfec6dc01a48a01dc844820d17650"
+}
