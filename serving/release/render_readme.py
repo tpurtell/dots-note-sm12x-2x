@@ -40,6 +40,9 @@ def render(reports,paths):
         env=profile.get('selected_environment') or r.get('hardware',{}).get(next(iter(r['profile'])),{}).get('runtime',{}).get('selected_environment',[])
         env=dict(x.split('=',1) for x in env if '=' in x)
         table(['Measured runtime choice','Value'],[(k,env.get(k,'not recorded')) for k in ['VLLM_HYBRID_LAYER_PARTITION','VLLM_HYBRID_MM_OWNERS','VLLM_HYBRID_PACKED_ROUTING','VLLM_HYBRID_FUSED_PACK','VLLM_HYBRID_OVERLAP_SHARED','VLLM_HYBRID_BALANCE_KV_GROUPS','DOTS3_B12X_EXACT_FP8','DOTS3_B12X_EXACT_FP8_ROWS']])
+        restart=r.get('restart_continuation')
+        if restart:
+            lines+=['',f"Qualification spans an explicitly recorded restart: {len(restart['preserved_stages'])} completed stages were preserved, and {len(restart['remaining_stages'])} unfinished stages were continued with the same image, model, launch profile and workload sources. This was not one uninterrupted run. The report retains the interruption evidence, old/new runtime identities and prior-artifact hashes."]
     lines+=['','Hybrid profiles assign attention/norm/shared-expert parameters and their KV caches to layer owners while retaining routed-expert TP2 across both GPUs. Compact DSA records, bounded SWA pools and owner-aware cache grouping reduce wasted capacity. These settings are platform-qualified; sparse-MQA and boundary ownership experiments are not implied by this explanation.','',
       'The [Brandon-derived RTX recipe](https://github.com/tpurtell/glm-5.3-flash-ext3-4-bit-2x-rtx) and [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next) are optimization/reporting references. Selected Dots3 features and rejected candidates are recorded in the [optimization matrix](docs/optimization-matrix.md).','',
       '## Headline measurements']
