@@ -86,7 +86,8 @@
         62,
         63,
         64
-      ]
+      ],
+      "reasoning_parser": "dots3"
     },
     "spark": {
       "architecture": "arm64",
@@ -171,7 +172,8 @@
         62,
         63,
         64
-      ]
+      ],
+      "reasoning_parser": "dots3"
     }
   }
 }

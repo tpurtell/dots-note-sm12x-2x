@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Development images may predate the parser; qualified release/run.py pins dots3.
+reasoning_args=()
+case "${REASONING_PARSER:-}" in
+  '') ;;
+  dots3) reasoning_args=(--reasoning-parser dots3) ;;
+  *) echo "REASONING_PARSER must be empty (development) or dots3" >&2; exit 2 ;;
+esac
+
 # Start rank 1 first, then rank 0. Known development hosts have defaults;
 # other Spark pairs supply NODE_RANK, HOST_IP and MASTER_ADDR explicitly.
 case "$(hostname -s)" in
@@ -103,7 +111,7 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
   -v "$hf_home:/root/.cache/huggingface:ro" \
   "${model_mount[@]}" \
   -v "$runtime_cache:/root/.cache/vllm-runtime" \
-  "${IMAGE:-dots3-vllm-spark:dev}" "${args[@]}" "$@"
+  "${IMAGE:-dots3-vllm-spark:dev}" "${args[@]}" "${reasoning_args[@]}" "$@"
 
 # Spark shares physical RAM with the host. Keep the qualified host-headroom
 # monitor outside the container so it can stop this workload under pressure.

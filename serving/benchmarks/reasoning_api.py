@@ -136,8 +136,8 @@ def violations(result, thinking, *, expected=None, expect_tool=False, json_answe
 
 def assistant_message(result):
     message = {'role': 'assistant', 'content': result['content']}
-    # This is the checkpoint template's documented history field, regardless
-    # of which response field alias this vLLM version emits.
+    # vLLM accepts the canonical API history field and aliases it to the
+    # checkpoint template's reasoning_content internally.
     if result['reasoning']:
         message['reasoning'] = result['reasoning']
     if result['tool_calls']:

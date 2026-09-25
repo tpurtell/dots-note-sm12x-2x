@@ -33,6 +33,8 @@ def settings(path, selected):
         config.setdefault('b12x_roce', False)
         config.setdefault('b12x_roce_eager', False)
         config.setdefault('b12x_roce_rows', list(range(1, 65)))
+    if config.get('reasoning_parser') != 'dots3':
+        fail('Qualified release requires explicit reasoning_parser=dots3; legacy parser-off profiles are development-only')
     expected = {'rtx': 'amd64', 'spark': 'arm64'}[selected]
     if config.get('architecture') != expected:
         fail('Release platform architecture mismatch')
@@ -87,6 +89,8 @@ def main():
     extra = argv[split + 1:] if split < len(argv) else []
     if extra and args.action != 'start':
         fail('Extra vLLM arguments are supported only with start')
+    if any(flag.split('=', 1)[0] in ('--reasoning-parser', '--reasoning-parser-plugin') for flag in extra):
+        fail('Release reasoning parser is pinned to dots3; use the development launcher for parser experiments')
     config = settings(args.settings, args.platform)
     native = {'x86_64': 'amd64', 'aarch64': 'arm64'}.get(platform.machine())
     if native != config['architecture']:
@@ -101,7 +105,7 @@ def main():
     else:
         container = env.get('CONTAINER_NAME', 'dots3-vllm-rtx')
     port = int(env.get('PORT', config['port']))
-    env.update(IMAGE=config['image'], MODEL_REVISION=MODEL_REVISION, PORT=str(port),
+    env.update(REASONING_PARSER=config['reasoning_parser'], IMAGE=config['image'], MODEL_REVISION=MODEL_REVISION, PORT=str(port),
         GPU_MEMORY_UTILIZATION=str(config['gpu_memory_utilization']),
         MAX_MODEL_LEN=str(config['max_model_len']), MAX_NUM_SEQS=str(config['max_num_seqs']),
         MAX_BATCHED_TOKENS=str(config['max_num_batched_tokens']), KV_CACHE_DTYPE=config['kv_cache_dtype'],
@@ -111,6 +115,11 @@ def main():
         DOTS3_B12X_ROCE_ROWS=','.join(map(str, config['b12x_roce_rows'])),
         DOTS3_B12X_EXACT_FP8=config['b12x_exact_fp8'],
         DOTS3_B12X_EXACT_FP8_ROWS=','.join(map(str, config['b12x_exact_fp8_rows'])))
+    if args.action in ('start', 'restart'):
+        label = subprocess.check_output(['docker', 'image', 'inspect', '--format',
+            '{{index .Config.Labels "io.tpurtell.dots3.reasoning-parser"}}', config['image']], text=True).strip()
+        if label != config['reasoning_parser']:
+            fail('Release image lacks the verified dots3 reasoning-parser label; legacy development wrappers cannot serve this profile')
     if args.action == 'start':
         if extra:
             print('Additional vLLM flags can change the qualified behavior and performance.', file=sys.stderr)

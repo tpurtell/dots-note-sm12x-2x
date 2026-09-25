@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Development images may predate the parser; qualified release/run.py pins dots3.
+reasoning_args=()
+case "${REASONING_PARSER:-}" in
+  '') ;;
+  dots3) reasoning_args=(--reasoning-parser dots3) ;;
+  *) echo "REASONING_PARSER must be empty (development) or dots3" >&2; exit 2 ;;
+esac
+
 hf_home="${HF_HOME:-$HOME/.cache/huggingface}"
 model_revision="${MODEL_REVISION:-d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da}"
 model_path="hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/$model_revision"
@@ -43,4 +51,4 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
   --structured-outputs-config '{"backend":"xgrammar"}' \
   --limit-mm-per-prompt '{"image":1,"audio":1,"video":0}' \
   --enable-auto-tool-choice --tool-call-parser dots \
-  --host 0.0.0.0 --port "${PORT:-8001}" "$@"
+  --host 0.0.0.0 --port "${PORT:-8001}" "${reasoning_args[@]}" "$@"

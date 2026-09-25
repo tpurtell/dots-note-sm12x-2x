@@ -26,8 +26,8 @@ with fabricated assistant history.
 Every request preserves its actual payload, raw JSON or SSE events, reasoning,
 final content, tool calls, usage, finish reason and elapsed time. Returned tool
 arguments are validated against the one local`add(2,3)` fixture; arbitrary model
-code or tool names are never executed. History returns reasoning in the
-checkpoint template's`reasoning_content` field. Thinking-enabled cases require
+code or tool names are never executed. History returns reasoning in the canonical API `reasoning` field; vLLM
+aliases it to the checkpoint template's `reasoning_content` internally. Thinking-enabled cases require
 nonempty reasoning; nonthinking cases require none. Final answers, JSON, call
 names/arguments, marker leakage and natural termination have explicit checks.
 

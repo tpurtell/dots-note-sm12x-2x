@@ -4,6 +4,36 @@ These tools prepare separate `linux/amd64` RTX and `linux/arm64` Spark release
 images from the exact runtime images qualified on their native hosts. They do
 not download model weights, publish images, or choose serving defaults.
 
+## Spark host memory guard
+
+The existing Spark launcher starts `watch_spark_memory.py` on each host by
+default (`MEMORY_GUARD=1`, `MIN_HOST_AVAILABLE_GIB=8`). It stops that container
+after three one-second samples below the physical-memory threshold. Logs and
+PID are under `RUNTIME_CACHE/memory-watch.{log,pid}`. Keep this guard enabled
+during qualification and serving; GPU utilization is separate from available
+host RAM on Spark. These environment settings are currently inherited rather
+than pinned in the release profile.
+
+The current `restart` action restarts Docker directly and does not rearm a guard
+that exited after a stop. For Spark, use `stop`, `remove`, and `start` on both
+hosts (worker first when starting) to establish new guards.
+
+## Reasoning parser contract
+
+Both final profiles require explicit `reasoning_parser: "dots3"`. The release
+runner sets `REASONING_PARSER=dots3`, rejects parser override flags, and requires
+the image's verified parser label before start/restart. The wrapper build checks
+the installed registry and exact recipe parser source hash using CPU-only AST
+inspection. Live reasoning, tools, JSON and speculative boundary gates must
+still pass on each final platform image before marking settings qualified.
+
+Development launchers leave `REASONING_PARSER` unset by default to support older
+parser-off images. Set `REASONING_PARSER=dots3` when qualifying the new parent and
+wrapper. Building an older development wrapper requires the explicit
+`--development-without-reasoning-parser` option; its parser label is `none`, and
+the final release runner rejects it. This option does not establish support for
+reasoning in the old image.
+
 ## Build sequence
 
 1. Build the native runtime image, including the optional soundfile dependency
@@ -45,7 +75,7 @@ not download model weights, publish images, or choose serving defaults.
    primary bundle's vLLM/Triton cache is retained; secondary rank UUID-specific
    B12x executables are added. Copy Moa's exported bundle to Rhea beforehand.
 4. Qualify the wrapper with a **new empty runtime cache** using the existing
-   launcher and `IMAGE=... RUNTIME_CACHE=...`. Do this for both Spark ranks.
+   launcher and `IMAGE=... RUNTIME_CACHE=... REASONING_PARSER=dots3`. Do this for both Spark ranks.
    Inspect startup, run functional and performance gates, then publish approved
    versioned tags with `docker push`. Record the registry digest.
 5. Pull each image by digest and repeat the release gates. Public access must be
