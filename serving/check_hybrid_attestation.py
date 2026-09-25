@@ -90,3 +90,24 @@ replicated.output_partition_sizes=[2]
 assert not _parallel_module_evidence(replicated)[1]
 assert not _parallel_module_evidence(NS(tp_size=2,tp_rank=1))[1]
 print('Replicated indexer full-weight evidence passes; partial weight and nonreplicated TP2 still rejected')
+
+# CPU buffers remain visible in total storage but cannot inflate modeled CUDA
+# weights. Draft ownership checks include norms/projection and target head alias.
+cpu_tensor=Tensor(777);cpu_tensor.device='cpu'
+summary=_module_storage(NS(parameters=lambda:iter([Tensor(778)]),buffers=lambda:iter([cpu_tensor])))
+assert summary['unique_storage_bytes']==16 and summary['cuda_storage_bytes']==8
+assert summary['unique_storage_bytes_by_device']=={'cuda:0':8,'cpu':8}
+from hybrid_attestation import attest_draft_and_boundaries
+head=Module(True)
+language=NS(model=NS(embed_tokens=Module(True)),lm_head=head)
+draft_layer=NS(mtp_block=layers[2],enorm=Module(),hnorm=Module(),eh_proj=Module(),
+               shared_head=NS(norm=Module(),head=head))
+draft=NS(model=NS(embed_tokens=Module(True),layers={'46':draft_layer}))
+extra,errors=attest_draft_and_boundaries(NS(language_model=language),draft,0)
+assert not errors,errors
+assert extra['draft_layers'][0]['dense_storage']['cuda_storage_bytes']==0
+draft_layer.eh_proj=Module(True)
+assert any('nonowner dense' in e for e in attest_draft_and_boundaries(NS(language_model=language),draft,0)[1])
+draft_layer.eh_proj=Module();draft_layer.shared_head.head=Module(True)
+assert any('not shared' in e for e in attest_draft_and_boundaries(NS(language_model=language),draft,0)[1])
+print('CUDA-only accounting, draft nonowner storage and target/draft head alias checks passed')

@@ -22,7 +22,8 @@ def _parameter_bytes(module):
 def _modules_storage(modules):
     modules = [m for m in modules if m is not None]
     if not modules:
-        return {'present': False, 'parameter_bytes': 0, 'unique_storage_bytes': 0}
+        return {'present': False, 'parameter_bytes': 0, 'unique_storage_bytes': 0,
+                'cuda_storage_bytes': 0, 'unique_storage_bytes_by_device': {}}
     parameters = list({id(p): p for m in modules for p in m.parameters()}.values())
     buffers = list({id(p): p for m in modules for p in m.buffers()}.values())
     storages = {}
@@ -31,7 +32,11 @@ def _modules_storage(modules):
         detail = _tensor(tensor)
         storages[(detail['device'], detail['storage_pointer'])] = detail['storage_bytes']
         by_dtype[detail['dtype']] = by_dtype.get(detail['dtype'], 0) + tensor.numel() * tensor.element_size()
-    return {'present': True, 'parameter_count': sum(p.numel() for p in parameters),
+    by_device = {}
+    for (device, _), size in storages.items():
+        by_device[device] = by_device.get(device, 0) + size
+    return {'present': True, 'cuda_storage_bytes': sum(size for device,size in by_device.items() if device.startswith('cuda')),
+            'unique_storage_bytes_by_device': by_device, 'parameter_count': sum(p.numel() for p in parameters),
             'parameter_bytes': sum(p.numel()*p.element_size() for p in parameters),
             'buffer_bytes': sum(p.numel()*p.element_size() for p in buffers),
             'unique_storage_bytes': sum(storages.values()), 'logical_bytes_by_dtype': by_dtype}
@@ -140,19 +145,93 @@ def attest_model(model, vllm_config, *, require_bound_cache=True):
         if detail['storage_bytes']:
             storages[(detail['device'], detail['storage_pointer'])] = detail['storage_bytes']
     if require_bound_cache and not caches: errors.append('no bound owner caches')
+    mm_storage = {name: _module_storage(getattr(model, name, None))
+                  for name in ('visual', 'audio_tower')}
+    mm_plan = getattr(model, 'hybrid_mm_owners', None)
+    if mm_plan is not None:
+        limits = model.multimodal_config
+        video_enabled = limits.get_limit_per_prompt('video') > 0
+        for name, modality in (('visual', 'image'), ('audio_tower', 'audio')):
+            enabled = video_enabled or limits.get_limit_per_prompt(modality) > 0
+            expected = enabled and mm_plan[name] == group.rank_in_group
+            state = mm_storage[name]
+            state['expected_local_owner'] = expected
+            if state['present'] != expected or (expected and state['cuda_storage_bytes'] <= 0):
+                errors.append(f'{name}: tower presence/storage disagrees with owner plan')
     receipt = {'schema':'hybrid-owner-attestation-v1','rank':group.rank_in_group,
                'world_size':group.world_size,
-               'multimodal_storage': {name: _module_storage(getattr(model, name, None))
-                                      for name in ('visual', 'audio_tower')},
+               'multimodal_storage': mm_storage, 'multimodal_owner_plan': mm_plan,
                'layers':rows,'routed_experts':routed,
                'caches':caches,'unique_kv_storage_bytes':sum(storages.values()),
                'passed':not errors,'errors':errors}
     return receipt
 
 
+def _boundary_storage(module, rank, errors, name):
+    detail = _module_storage(module)
+    detail['owner_rank'] = getattr(module, 'hybrid_owner', None)
+    if getattr(module, '_hybrid_owned_boundary', False):
+        owner = module.hybrid_owner == rank
+        if owner:
+            weight = getattr(module, 'weight', None)
+            if weight is None:
+                errors.append(f'{name}: missing owner boundary weight')
+            else:
+                detail['weight'] = _tensor(weight)
+                if (module.tp_size != 1 or weight.ndim != 2 or
+                        weight.shape[0] < module.num_embeddings or
+                        weight.shape[1] != module.embedding_dim):
+                    errors.append(f'{name}: boundary weight is not full owner table')
+        elif detail['parameter_bytes'] or detail['cuda_storage_bytes']:
+            errors.append(f'{name}: nonowner boundary storage remains')
+    return detail
+
+
+def attest_draft_and_boundaries(model, draft, rank):
+    language = getattr(model, 'language_model', model)
+    errors = []
+    boundary = {'target_embedding': _boundary_storage(language.model.embed_tokens,rank,errors,'target_embedding'),
+                'target_head': _boundary_storage(language.lm_head,rank,errors,'target_head')}
+    layers = []
+    if draft is not None:
+        boundary['draft_embedding'] = _boundary_storage(draft.model.embed_tokens,rank,errors,'draft_embedding')
+        for name, layer in draft.model.layers.items():
+            block = layer.mtp_block
+            dense = _owner_dense_storage(block)
+            auxiliary = _modules_storage([layer.enorm,layer.hnorm,layer.eh_proj,layer.shared_head.norm])
+            local_owner = block.owner == rank
+            row = {'layer':int(name),'owner_rank':block.owner,'local_owner':local_owner,
+                   'dense_storage':dense,'normalization_projection_storage':auxiliary,
+                   'head_is_shared_with_target':layer.shared_head.head is language.lm_head}
+            if local_owner:
+                backend = block.self_attn.mla_attn
+                backend = getattr(backend,'mla_attn',backend)
+                row['attention_heads'] = backend.num_heads
+                if backend.num_heads != 64:
+                    errors.append(f'draft layer{name}: Dots MTP requires full64 SWA heads')
+                if dense['cuda_storage_bytes'] <= 0 or auxiliary['cuda_storage_bytes'] <= 0:
+                    errors.append(f'draft layer{name}: missing owner dense weights')
+            elif dense['parameter_bytes'] or auxiliary['parameter_bytes'] or dense['cuda_storage_bytes'] or auxiliary['cuda_storage_bytes']:
+                errors.append(f'draft layer{name}: nonowner dense weights remain')
+            if not row['head_is_shared_with_target']:
+                errors.append(f'draft layer{name}: head is not shared with target')
+            layers.append(row)
+    return {'boundary_storage':boundary,'draft_layers':layers},errors
+
+
 class HybridAttestationWorkerExtension:
     def hybrid_ownership_receipt(self):
         receipt = attest_model(self.model_runner.model, self.vllm_config)
+        speculator = getattr(self.model_runner, 'speculator', None)
+        if speculator is None:
+            speculator = getattr(self.model_runner, 'drafter', None)
+        draft = getattr(speculator, 'model', None)
+        extra, errors = attest_draft_and_boundaries(self.model_runner.model, draft, receipt['rank'])
+        receipt.update(extra)
+        if self.vllm_config.speculative_config is not None and not extra['draft_layers']:
+            errors.append('configured MTP model missing from runtime attestation')
+        receipt['errors'].extend(errors)
+        receipt['passed'] = not receipt['errors']
         budget = getattr(self, 'available_kv_cache_memory_bytes', None)
         receipt['available_kv_cache_memory_bytes'] = None if budget is None else int(budget)
         return receipt

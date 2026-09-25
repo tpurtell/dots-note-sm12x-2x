@@ -8,10 +8,10 @@ for rank in (0,1):
     workers.append({'rank':rank,'passed':True,'layers':[
         {'layer':i,'local_owner':(i<23)==(rank==0),
          'expected_full_attention_heads':128 if i in dsa else 64,
-         'owner_dense_storage':{'unique_storage_bytes':128*1024**2}}
+         'owner_dense_storage':{'cuda_storage_bytes':128*1024**2}}
         for i in range(46)],'multimodal_storage':{
-            'visual':{'present':True,'unique_storage_bytes':8*GIB},
-            'audio_tower':{'present':True,'unique_storage_bytes':2*GIB}}})
+            'visual':{'present':True,'cuda_storage_bytes':8*GIB},
+            'audio_tower':{'present':True,'cuda_storage_bytes':2*GIB}}})
 receipt={'passed':True,'workers':workers}
 rows,actual_dsa,towers=storage_plan(receipt,(10,10),(0,1),(0,0))
 assert actual_dsa==dsa and len(rows)==45

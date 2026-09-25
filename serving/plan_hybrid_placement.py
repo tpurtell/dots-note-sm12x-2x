@@ -39,18 +39,18 @@ def storage_plan(receipt, kv_budgets, mm_owners, reserves):
             if not layer['local_owner']: continue
             index=layer['layer']
             if index in layers: raise ValueError('duplicate dense owner')
-            layers[index]=layer['owner_dense_storage']['unique_storage_bytes']
+            layers[index]=layer['owner_dense_storage']['cuda_storage_bytes']
             old_dense[rank]+=layers[index]
             if layer['expected_full_attention_heads']==128: dsa.add(index)
             elif layer['expected_full_attention_heads']!=64: raise ValueError('unsupported attention geometry')
-        old_mm[rank]=sum(worker['multimodal_storage'][name]['unique_storage_bytes']
+        old_mm[rank]=sum(worker['multimodal_storage'][name]['cuda_storage_bytes']
                          for name in ('visual','audio_tower'))
     if set(layers)!=set(range(46)) or len(dsa)!=13:
         raise ValueError('receipt must describe all 46 Dots layers and 13 DSA layers')
     new_mm=[0,0]
     tower_bytes={}
     for name,owner in zip(('visual','audio_tower'),mm_owners):
-        present=[w['multimodal_storage'][name]['unique_storage_bytes'] for w in workers
+        present=[w['multimodal_storage'][name]['cuda_storage_bytes'] for w in workers
                  if w['multimodal_storage'][name]['present']]
         if not present or len(set(present))!=1:
             raise ValueError(f'{name}: missing or inconsistent full native tower storage')
@@ -131,7 +131,7 @@ def main():
         'mm_owners':mm,'tower_storage_bytes':towers,'extra_workspace_reserve_gib':args.extra_workspace_reserve_gib,
         'assumptions':['Same model/MTP3/compact-cache/block64/batch and CUDA graph settings as receipt startup.',
           'Per-rank budgets are pre-allocation available KV memory, not the allocated shared-minimum pools.',
-          'Only persistent registered owner weights/buffers move; attention workspaces and peak activations may change.',
+          'Only persistent registered CUDA owner weights/buffers move; attention workspaces and peak activations may change.',
           'Target embedding/vocabulary and draft owner remain unchanged; final runtime admission must be tested.'],
         'candidates':apply_real_cache_planner(candidates,dsa)}
     import hashlib
