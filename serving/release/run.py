@@ -162,6 +162,8 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
             fail(f'Qualification TP2/tool parser mismatch for {host}')
         if config['hybrid_layer_partition'] and str(profile.get('block_size')) != '64':
             fail(f'Qualification hybrid cache block size mismatch for {host}')
+        if config['hybrid_layer_partition'] and profile.get('worker_extension_cls') != 'hybrid_attestation.HybridAttestationWorkerExtension':
+            fail(f'Qualification hybrid ownership extension mismatch for {host}')
         spec = json.loads(profile['speculative_config'])
         if (spec.get('method') != 'mtp' or spec.get('num_speculative_tokens') != config['mtp_tokens']
                 or spec.get('num_speculative_tokens_per_batch_size') is not None):
@@ -219,6 +221,9 @@ def validate_existing_container(data, config, selected):
          'gpu_memory_utilization', 'kv_cache_dtype', 'reasoning_parser',
          'tool_call_parser', 'tensor_parallel_size', 'speculative_config')}
     profile['selected_environment'] = data['Config']['Env']
+    if config['hybrid_layer_partition']:
+        profile['block_size'] = one('--block-size')
+        profile['worker_extension_cls'] = one('--worker-extension-cls')
     # Reuse exactly the same profile comparison as the accepted report. For a
     # two-host deployment this checks the local container; each host runs it.
     local_report = {'schema': 'dots3-release-report-v1', 'platform': selected,
@@ -313,6 +318,7 @@ def main():
         VLLM_HYBRID_FUSED_PACK=str(int(config['hybrid_fused_pack'])),
         VLLM_HYBRID_OVERLAP_SHARED=str(int(config['hybrid_overlap_shared'])),
         VLLM_HYBRID_BOUNDARY_OWNERS=','.join(map(str, config['hybrid_boundary_owners'])),
+        VLLM_HYBRID_ATTESTATION_PATH='/root/.cache/vllm-runtime/hybrid-ownership.json' if config['hybrid_layer_partition'] else '',
         DOTS3_B12X_VOCAB=str(int(config['b12x_vocab'])), DOTS3_B12X_PCIE=str(int(config['b12x_pcie'])),
         DOTS3_B12X_ROCE=str(int(config['b12x_roce'])),
         DOTS3_B12X_ROCE_EAGER=str(int(config['b12x_roce_eager'])),
@@ -335,6 +341,8 @@ def main():
         command = ['bash', str(HERE.parent / ('start_rtx.sh' if args.platform == 'rtx' else 'start_spark_node.sh'))]
         if config['mtp_tokens']:
             command += ['--speculative-config', json.dumps({'method': 'mtp', 'num_speculative_tokens': config['mtp_tokens']})]
+        if config['hybrid_layer_partition']:
+            command += ['--worker-extension-cls', 'hybrid_attestation.HybridAttestationWorkerExtension']
         command += extra
     elif args.action == 'pull':
         command = ['docker', 'pull', '--platform', f'linux/{config["architecture"]}', config['image']]
