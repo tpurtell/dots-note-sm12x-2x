@@ -521,3 +521,15 @@ has been claimed or selected.
 ## User preference: agentic coding and reasoning at C1–C4
 
 The final default must prioritize coding/reasoning latency and useful throughput at C1, C2 and C4. Prose C16 and the seven-workload aggregate remain reporting data, not the main selection criterion. The preliminary RTX MTP2 choice is therefore provisional pending matched concurrent coding tests with actual thinking enabled. Existing reference coding-depth tests explicitly disable thinking and cannot establish this new preference.
+
+## Reasoning-enabled coding baseline and parser preparation
+
+RTX MTP2 completed the new natural-stop coding/reasoning workload at 262K / 0.95 / 512-token chunks, using the release wrapper with native collectives. Three measured runs per C1/C2/C4 each contain four debugging tasks; the output budget is 8,192 tokens and thinking is enabled. All 36 measured requests finished naturally with no HTTP or token-accounting errors. Median per-request decode rates: 166.76 / 130.56 / 96.43 tokens/s; completed-answer latency: 23.61 / 35.59 / 40.29 seconds. These rates include reasoning. Median output lengths differ (3,836 / 4,870.5 / 3,850 tokens), so latency alone cannot select a candidate. The source-identical MTP3 comparison is running; Spark's native MTP3 control is also running.
+
+Current static checks pass 35/36 RTX requests. One C4 retry answer omitted the requested final JSON. A separate validator ambiguity was repaired without changing prompts: `successful_reservations` may be a count of one or a list containing one request ID. The comparison report preserves the originally reported checks and the recomputed checks, with validator hashes. These checks do not execute generated code or establish behavioral correctness.
+
+The original 4,096-token screening budget truncated the async task inside reasoning; its partial receipts are retained. Under 8,192 tokens one RTX warmup was truncated, but all measured requests completed. Raw baseline: `.cache/serving/rtx/coding-mtp2-8192.jsonl`; audited report: `.cache/serving/rtx/coding-comparison/mtp2-report.json`. Final release measurements remain pending.
+
+The RTX wrapper started from a new empty runtime cache and passed prefix caching, eight tool modes, image/audio, and the repeated seven-workload suite (170.63 weighted tokens/s, 18/21 contracts). It has not been published. A newer parent image now contains the optional Dots3 reasoning parser. Its CPU evidence covers nonthinking, prior turns, tool returns, grammar start after thinking, speculative validation rollback and xgrammar reset. The actual API gate must still pass on both platforms before this parser is enabled in release profiles.
+
+The latest stable vLLM was rechecked through the official releases API on 2026-09-25: v0.30.0, published 2026-09-22. The pinned baseline therefore remains current.
