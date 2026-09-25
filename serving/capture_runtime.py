@@ -35,6 +35,28 @@ def command(*args: str) -> str:
     return subprocess.check_output(args, text=True, stderr=subprocess.STDOUT)
 
 
+def capture_hybrid_attestation(container, info):
+    env = dict(item.split("=", 1) for item in info["Config"]["Env"] if "=" in item)
+    path = env.get("VLLM_HYBRID_ATTESTATION_PATH", "")
+    if not env.get("VLLM_HYBRID_LAYER_PARTITION"):
+        return {"status": "disabled"}
+    if not path:
+        return {"status": "not-configured"}
+    script = """import hashlib,json,sys
+from pathlib import Path
+p=Path(sys.argv[1])
+if p.is_file():
+ b=p.read_bytes()
+ print(json.dumps({'status':'captured','path':str(p),'sha256':hashlib.sha256(b).hexdigest(),'raw_json':b.decode()}))
+else:
+ print(json.dumps({'status':'pending','path':str(p)}))
+"""
+    try:
+        return json.loads(command("docker", "exec", container, "python3", "-c", script, path))
+    except (subprocess.CalledProcessError, json.JSONDecodeError) as exc:
+        return {"status": "unavailable", "path": path, "error": str(exc)}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("container")
@@ -60,6 +82,7 @@ def main() -> None:
         "container": args.container,
         "image_id": info["Image"],
         "args": info["Args"],
+        "hybrid_attestation": capture_hybrid_attestation(args.container, info),
         "started_at": info["State"]["StartedAt"],
         "status": info["State"]["Status"],
         "device_requests": info["HostConfig"]["DeviceRequests"],

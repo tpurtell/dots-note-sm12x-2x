@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "startup rejected by false-positive metadata attestation; no performance claim",
+  "image_id": "sha256:6915af02003ede5944cce03c86c01a366a125ccd6a54ec84d26ae3fcd84b6b69",
+  "source_commit": "fc7551a",
+  "fix_commit": "362edab",
+  "diagnosis": "Actual ReplicatedLinear indexer.wq_b carries global TP2 metadata while loading full weights and executing without TP collectives. Initial attestation incorrectly required TP1 metadata for this replicated class. Fix validates full output partitions and loaded weight element count; sharded linear classes still require TP1. Model execution unchanged.",
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/startup-packed-v1.log",
+      "archive": "startup-packed-v1.log.gz",
+      "bytes": 296500,
+      "sha256": "b0fb0cb97492905ec76a7e521f71367bc30d27f41a77acba9756bce34e362a9e",
+      "gzip_sha256": "a4d5812c06d42c87e96c754fd9b10449277b6dcb92e1fcfe826d52a9318c68d2"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/container-packed-v1.json",
+      "archive": "container-packed-v1.json.gz",
+      "bytes": 16575,
+      "sha256": "3a9563cdbab559b11c51bd913a2a415311360c2d416725f150b453de2cba5147",
+      "gzip_sha256": "e1cbabc152cf6a653f249f5ea81d24fdc502b7c3cb3a26463854334c4b5d07d3"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime-packed-v1.json",
+      "archive": "runtime-packed-v1.json.gz",
+      "bytes": 3076,
+      "sha256": "5e9b9c498644c3fb55b05eae3f289672b163c269f2d4b2da694c7c33655b96e4",
+      "gzip_sha256": "7c54db5eda6538b74d959b9a64e2bc6d7517b1f75fb67095971b8f567b5a1792"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/start-packed-v1.log",
+      "archive": "start-packed-v1.log.gz",
+      "bytes": 65,
+      "sha256": "35af4e5740ef4b20e53cc01a814090274282339405b05a8cda44378dff224bc0",
+      "gzip_sha256": "5421d54a0d29b7552a19065570959d46cce6ea796ed401482f573d9a17e3a9a5"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/runtime/ownership-packed-v1.json",
+      "archive": "runtime-ownership-packed-v1.json.gz",
+      "bytes": 172304,
+      "sha256": "8eea58e5b388c335ba766d8942e1fd07610a482563d400518170a42b011b3e34",
+      "gzip_sha256": "e1885d28a7e153b326e1ec1b6dca19e9116775c4f85c93bda42d4aa9f2b27a90"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-packed-provenance.json.v1",
+      "archive": "build-packed-provenance.json.v1.gz",
+      "bytes": 1209,
+      "sha256": "84fd8765d7b602bbe358e89043a765c920e628b89468e8339306b959e1765e34",
+      "gzip_sha256": "67f73092fc1dba6659f516b242d9e775d4aec57f08b18e39a4e7129e40798952"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/build-packed.log.v1",
+      "archive": "build-packed.log.v1.gz",
+      "bytes": 2288,
+      "sha256": "af02bb5ba0409d3d2177e3a7ad314f7fec72f8e7ae9d09b768c5f3791f8f2606",
+      "gzip_sha256": "b04625312383beaf3aecae91a3d2a0ddc133fb059f5fda4f987f3ee2551e5d39"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/Dockerfile.packed.v1",
+      "archive": "Dockerfile.packed.v1.gz",
+      "bytes": 947,
+      "sha256": "7a2ab495c7dd91738319dab1827e678e942fa0618fabd31242d7fc3f2bbb539c",
+      "gzip_sha256": "9a0b34864a91405461b74027f7da07f5e689efa40da468ef6721db5ca033d5a3"
+    }
+  ]
+}

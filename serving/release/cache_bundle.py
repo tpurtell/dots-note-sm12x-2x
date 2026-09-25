@@ -28,6 +28,11 @@ for root in ['/opt/b12x/b12x', '/usr/local/lib/python3.12/dist-packages/vllm']:
         digest.update(str(path.relative_to(root)).encode() + b'\0')
         digest.update(hashlib.sha256(path.read_bytes()).digest())
     result['sources'][root] = digest.hexdigest()
+# The worker extension lives outside vLLM. Hash its exact source when present;
+# avoid /opt/dots3 as a whole, which the release wrapper itself extends.
+helper = Path('/opt/dots3/hybrid_attestation.py')
+if helper.is_file():
+    result['sources'][str(helper)] = hashlib.sha256(helper.read_bytes()).hexdigest()
 print(json.dumps(result, sort_keys=True))
 """
 CACHES = {

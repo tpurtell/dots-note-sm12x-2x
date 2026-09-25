@@ -57,6 +57,23 @@ def distribution(values):
             'max':max(values) if values else None}
 
 
+def hybrid_attestation(runtime):
+    env = dict(item.split('=',1) for item in runtime.get('selected_environment',[]) if '=' in item)
+    if not env.get('VLLM_HYBRID_LAYER_PARTITION'):
+        return None
+    proof = runtime.get('hybrid_attestation', {})
+    require(proof.get('status') == 'captured', 'Hybrid final runtime lacks captured ownership evidence')
+    require(proof.get('path') == env.get('VLLM_HYBRID_ATTESTATION_PATH'), 'Hybrid receipt path mismatch')
+    raw = proof.get('raw_json','')
+    require(hashlib.sha256(raw.encode()).hexdigest() == proof.get('sha256'), 'Hybrid receipt hash mismatch')
+    receipt = json.loads(raw)
+    require(receipt.get('passed') is True, 'Hybrid ownership attestation failed')
+    workers = receipt.get('workers', [])
+    require(len(workers) == 2 and {w.get('rank') for w in workers} == {0,1}, 'Hybrid ownership must attest both ranks')
+    require(all(w.get('passed') is True and not w.get('errors') and w.get('world_size') == 2 for w in workers), 'Hybrid worker ownership failure')
+    return {'path':proof['path'], 'sha256':proof['sha256'], 'receipt':receipt}
+
+
 def memory_summary(source, platform):
     """Observed sample extrema, not exact instantaneous allocation peaks."""
     hosts={};errors=[];files=[]
@@ -255,12 +272,14 @@ def export(args):
         hardware['rtx'] = {k: runtime[k] for k in ['host', 'architecture', 'gpu_inventory_csv', 'meminfo', 'docker_stats']}
         profiles['rtx']['selected_environment'] = runtime['selected_environment']
         hardware['rtx']['startup_memory_evidence']=startup_memory(runtime)
+        hardware['rtx']['hybrid_attestation']=hybrid_attestation(runtime)
     else:
         for host in identities:
             snapshot = read(complete_path.parent/f'{host}-after.json')
             require(snapshot['identity'] == identities[host], 'Final host identity changed')
             hardware[host] = {k: v for k, v in snapshot.items() if k not in ('container_log', 'guard_log', 'identity')}
             hardware[host]['startup_memory_evidence']=startup_memory(snapshot.get('runtime',{}))
+            hardware[host]['hybrid_attestation']=hybrid_attestation(snapshot.get('runtime',{}))
     report = {'schema': 'dots3-release-report-v1', 'status': 'runner-completed; release-profile approval separate',
         'platform': args.platform, 'image': args.image, 'image_id': next(iter(image_ids)),
         'model_revision': cache['model_revision'], 'recipe_revision': cache['recipe_revision'],
