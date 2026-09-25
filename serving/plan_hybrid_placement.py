@@ -110,7 +110,7 @@ def apply_real_cache_planner(candidates,dsa):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--attestation',type=Path,required=True)
-    parser.add_argument('--kv-budgets-gib',type=parse_pair,required=True)
+    parser.add_argument('--kv-budgets-gib',type=parse_pair,help='Optional explicit override; default exact worker receipt budgets')
     parser.add_argument('--extra-workspace-reserve-gib',type=parse_pair,default=(0.,0.))
     parser.add_argument('--mm-owners',default='0,1')
     parser.add_argument('--output',type=Path,required=True)
@@ -118,9 +118,16 @@ def main():
     mm=tuple(int(x) for x in args.mm_owners.split(','))
     if len(mm)!=2 or any(x not in (0,1) for x in mm): parser.error('MM owners must be two worker ranks')
     receipt=json.loads(args.attestation.read_text())
-    candidates,dsa,towers=storage_plan(receipt,args.kv_budgets_gib,mm,args.extra_workspace_reserve_gib)
+    budgets = args.kv_budgets_gib
+    if budgets is None:
+        measured = [w.get('available_kv_cache_memory_bytes') for w in sorted(receipt['workers'],key=lambda w:w['rank'])]
+        if len(measured)!=2 or any(not isinstance(x,int) or x<=0 for x in measured):
+            parser.error('receipt lacks exact worker KV budgets; provide --kv-budgets-gib explicitly')
+        budgets = tuple(x/GIB for x in measured)
+    candidates,dsa,towers=storage_plan(receipt,budgets,mm,args.extra_workspace_reserve_gib)
     result={'schema':'dots3-hybrid-placement-estimate-v1','measured_performance':False,
-        'source_attestation':str(args.attestation.resolve()),'source_kv_budgets_gib':args.kv_budgets_gib,
+        'source_attestation':str(args.attestation.resolve()),'source_kv_budgets_gib':budgets,
+        'kv_budget_source':'override' if args.kv_budgets_gib else 'exact_worker_receipt',
         'mm_owners':mm,'tower_storage_bytes':towers,'extra_workspace_reserve_gib':args.extra_workspace_reserve_gib,
         'assumptions':['Same model/MTP3/compact-cache/block64/batch and CUDA graph settings as receipt startup.',
           'Per-rank budgets are pre-allocation available KV memory, not the allocated shared-minimum pools.',

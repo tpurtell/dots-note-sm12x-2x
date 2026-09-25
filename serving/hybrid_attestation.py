@@ -152,7 +152,10 @@ def attest_model(model, vllm_config, *, require_bound_cache=True):
 
 class HybridAttestationWorkerExtension:
     def hybrid_ownership_receipt(self):
-        return attest_model(self.model_runner.model, self.vllm_config)
+        receipt = attest_model(self.model_runner.model, self.vllm_config)
+        budget = getattr(self, 'available_kv_cache_memory_bytes', None)
+        receipt['available_kv_cache_memory_bytes'] = None if budget is None else int(budget)
+        return receipt
 
 
 def write_startup_receipt(executor, path):
