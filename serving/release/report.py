@@ -121,6 +121,14 @@ def spark_hybrid_attestations(runtimes):
         require(len({env.get(key,'') for env in environments.values()})==1, f'Spark ownership profile mismatch: {key}')
     for key in ['--max-model-len','--max-num-seqs','--max-num-batched-tokens','--gpu-memory-utilization','--kv-cache-dtype','--tensor-parallel-size']:
         require(len({flag(runtime.get('args',[]),key) for runtime in runtimes.values()})==1, f'Spark runtime profile mismatch: {key}')
+    attention=[]
+    for runtime in runtimes.values():
+        args=runtime.get('args',[])
+        present=any(x=='--attention-config' or x.startswith('--attention-config=') for x in args)
+        value=json.loads(flag(args,'--attention-config')) if present else {}
+        require(isinstance(value,dict), 'Attention configuration must be a JSON object')
+        attention.append(value)
+    require(all(value==attention[0] for value in attention), 'Spark attention configuration mismatch')
     heads=[host for host,runtime in runtimes.items() if runtime.get('hybrid_attestation',{}).get('status')=='captured']
     require(len(heads)==1, 'Require exactly one captured EngineCore aggregate ownership receipt')
     head=heads[0]
@@ -323,7 +331,7 @@ def export(args):
         # Ordinary TP releases predate the hybrid block-size/worker extension
         # flags. Preserve explicit values when present without requiring them
         # in historical or newly qualified ordinary TP profiles.
-        for key in ('--block-size', '--worker-extension-cls'):
+        for key in ('--block-size', '--worker-extension-cls', '--attention-config'):
             if any(item == key or item.startswith(key+'=') for item in command):
                 profiles[host][key[2:].replace('-', '_')] = flag(command, key)
     artifacts = {source/'manifest.json', complete_path}

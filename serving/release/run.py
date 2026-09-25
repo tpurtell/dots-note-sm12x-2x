@@ -21,6 +21,20 @@ def fail(message):
     raise SystemExit(message)
 
 
+def attention_config(value):
+    if value is None:return {}
+    parsed=json.loads(value) if isinstance(value,str) else value
+    if not isinstance(parsed,dict) or set(parsed)-{'sparse_mla_force_mqa'}:
+        fail('Unsupported qualified attention configuration')
+    enabled=parsed.get('sparse_mla_force_mqa',False)
+    if type(enabled) is not bool:fail('sparse_mla_force_mqa must be boolean')
+    return {'sparse_mla_force_mqa':True} if enabled else {}
+
+
+def attention_flags(config):
+    return ['--attention-config',json.dumps({'sparse_mla_force_mqa':True})] if config.get('sparse_mla_force_mqa',False) else []
+
+
 def settings(path, selected):
     doc = json.loads(path.read_text())
     if doc.get('schema') != 1:
@@ -30,6 +44,8 @@ def settings(path, selected):
     if doc.get('model_revision') != MODEL_REVISION:
         fail('Unexpected checkpoint revision')
     config = dict(doc['platforms'][selected])
+    config.setdefault('sparse_mla_force_mqa', False)
+    if type(config['sparse_mla_force_mqa']) is not bool:fail('sparse_mla_force_mqa must be boolean')
     config.setdefault('compact_dsa_cache', False)
     config.setdefault('indexer_prefill_contexts', 40)
     config.setdefault('hybrid_layer_partition', [])
@@ -151,6 +167,9 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
     if len(profiles) != expected_hosts:
         fail('Qualification report must cover every platform host')
     for host, profile in profiles.items():
+        expected_attention={'sparse_mla_force_mqa':True} if config.get('sparse_mla_force_mqa',False) else {}
+        if attention_config(profile.get('attention_config')) != expected_attention:
+            fail(f'Qualification attention configuration mismatch for {host}')
         for key, setting in [('max_model_len', 'max_model_len'), ('max_num_seqs', 'max_num_seqs'),
                 ('max_num_batched_tokens', 'max_num_batched_tokens'),
                 ('kv_cache_dtype', 'kv_cache_dtype'), ('reasoning_parser', 'reasoning_parser')]:
@@ -220,6 +239,8 @@ def validate_existing_container(data, config, selected):
         ('max_model_len', 'max_num_seqs', 'max_num_batched_tokens',
          'gpu_memory_utilization', 'kv_cache_dtype', 'reasoning_parser',
          'tool_call_parser', 'tensor_parallel_size', 'speculative_config')}
+    if any(value=='--attention-config' or value.startswith('--attention-config=') for value in args):
+        profile['attention_config']=one('--attention-config')
     profile['selected_environment'] = data['Config']['Env']
     if config['hybrid_layer_partition']:
         profile['block_size'] = one('--block-size')
@@ -343,6 +364,9 @@ def main():
             command += ['--speculative-config', json.dumps({'method': 'mtp', 'num_speculative_tokens': config['mtp_tokens']})]
         if config['hybrid_layer_partition']:
             command += ['--worker-extension-cls', 'hybrid_attestation.HybridAttestationWorkerExtension']
+        if any(value=='--attention-config' or value.startswith('--attention-config=') for value in extra):
+            fail('Release attention configuration is pinned; remove duplicate extra flag')
+        command += attention_flags(config)
         command += extra
     elif args.action == 'pull':
         command = ['docker', 'pull', '--platform', f'linux/{config["architecture"]}', config['image']]
