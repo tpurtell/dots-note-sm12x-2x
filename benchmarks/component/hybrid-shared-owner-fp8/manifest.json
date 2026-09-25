@@ -1,0 +1,121 @@
+{
+  "scope": "Idle RTX component probes only; no whole-model performance claim",
+  "shared_overlap": {
+    "passed": true,
+    "probe_scope": "Idle-GPU fork/join probe using real FP8 shared MLP and EXL3 routed weights.\n\nEight real layer1 routed experts use their rank0 TP2 slices (N768), top8.\nThis is a concurrency/storage/graph probe, not full256 routing or transport.\n",
+    "median_us": [
+      {
+        "rows": 1,
+        "serial": 129.28160429000854,
+        "overlap": 126.13120079040527
+      },
+      {
+        "rows": 4,
+        "serial": 134.0664029121399,
+        "overlap": 128.89679670333862
+      },
+      {
+        "rows": 16,
+        "serial": 137.2879981994629,
+        "overlap": 132.7888011932373
+      },
+      {
+        "rows": 512,
+        "serial": 645.7352161407471,
+        "overlap": 807.4584007263184
+      }
+    ],
+    "initial_failure": "CPU fixture SimpleNamespace omitted model_config.is_moe; corrected fixture v2 passed",
+    "deployment_gate": "a8d8744 restricts overlap to1\u201316 rows;512 remains serial"
+  },
+  "owner_fp8": {
+    "checkpoint_partition_size": 1,
+    "cases": [
+      {
+        "weight": "model.layers.0.self_attn.q_b_proj",
+        "shape": [
+          24576,
+          1024
+        ],
+        "source_immutable": true,
+        "rows": [
+          1,
+          4,
+          8,
+          16,
+          2
+        ],
+        "max_relative_l2": 3.217521953047253e-05
+      },
+      {
+        "weight": "model.layers.2.self_attn.q_b_proj",
+        "shape": [
+          16384,
+          1024
+        ],
+        "source_immutable": true,
+        "rows": [
+          1,
+          4,
+          8,
+          16,
+          2
+        ],
+        "max_relative_l2": 8.507749589625746e-05
+      },
+      {
+        "weight": "model.layers.0.self_attn.o_proj",
+        "shape": [
+          5120,
+          16384
+        ],
+        "source_immutable": true,
+        "rows": [
+          1,
+          4,
+          8,
+          16,
+          2
+        ],
+        "max_relative_l2": 0.0028887020889669657
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "source": ".cache/serving/rtx/hybrid/shared-overlap-gpu0.log",
+      "archive": "shared-overlap-gpu0.log.gz",
+      "bytes": 1236,
+      "sha256": "d5b611179c7bd4f23103376eb718ffcfebfd12330135884a5a4f4694d751b3a5",
+      "gzip_sha256": "9e7dc84c169d1a66b4082b2b4d18d92a576c346b29262800b63b25b6c24b9ae0"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/shared-overlap-gpu0-v2.log",
+      "archive": "shared-overlap-gpu0-v2.log.gz",
+      "bytes": 2545,
+      "sha256": "ec1d082d26af4a1297fb64e4bf38b5e7299531531743f9d157fbdec2f175e629",
+      "gzip_sha256": "474a2ec02c7211e2ae78cefa64e5c1231ab573c3ea358e20a008c209cf996fa1"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/shared-overlap-gpu0-v2.json",
+      "archive": "shared-overlap-gpu0-v2.json.gz",
+      "bytes": 2218,
+      "sha256": "90708fe4effd1adc129c517f1cbc06e2e3013f5481e820899f793f1a42881463",
+      "gzip_sha256": "cd2776b8ae7901a790ef4043aeb239689101ef33977a238fa9436c0347008e34"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/owner-fp8-gpu1.json",
+      "archive": "owner-fp8-gpu1.json.gz",
+      "bytes": 8597,
+      "sha256": "1453e1a92008b62b7e4aa9cdc3ba90ddb3d7493fda9041407614a02fa3f172df",
+      "gzip_sha256": "5325c5c0f004fd2f7a8ef98867423c083e881a513f78b320623dcb7e7c2523bb"
+    },
+    {
+      "source": ".cache/serving/rtx/hybrid/owner-fp8-gpu1.log",
+      "archive": "owner-fp8-gpu1.log.gz",
+      "bytes": 6094,
+      "sha256": "ead73b93d3b27dfb82b473277b73f4a60950d0cf8f775e0c90d23cee80f74ba9",
+      "gzip_sha256": "ba85c972387b4c14d1460b21de5d05def3fa9dd68aedf65701c9e668787237f8"
+    }
+  ]
+}
