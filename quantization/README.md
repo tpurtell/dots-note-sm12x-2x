@@ -1,6 +1,15 @@
 # Dots3 Note source and calibration gates
 
-This directory contains the source audit, corpus, and Spark runner for uniform EXL3 K4 quantization of the routed language-model experts. The full run started on 2026-09-23; the finished checkpoint and acceptance evidence are pending. Do not publish an artifact from preparation scripts alone.
+This directory contains the source audit, corpus, and Spark runner for uniform EXL3 K4 quantization of the routed language-model experts. The run completed all 34,560 projections, and the recovered streaming export passed the complete tensor audit on 2026-09-25. The published revision is `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`.
+
+The installed Hugging Face Hub 1.32.0 cache can keep Xet payloads in the
+cache-wide `hub/blobs/<prefix>/<hash>` store. Snapshot links point to per-model
+blob links, which point into that shared store. Copying only `models--.../`
+therefore does not necessarily copy the weights. For host-to-host installation,
+copy the repository directory and every resolved blob it references from the
+existing local cache, including the shared-store metadata, then verify the
+snapshot against `artifact-files.json`. Do not download this artifact again
+from Hugging Face. Use `du -shL` on the snapshot to include linked weight data.
 
 ## Inputs
 

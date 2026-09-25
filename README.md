@@ -2,7 +2,7 @@
 
 This repository is building one Dots3 Note Preview checkpoint and a two-Spark vLLM recipe. The checkpoint will retain the [FP8 source](https://huggingface.co/dots-studio/dots3-note-prev-fp8) outside the routed language-model experts. Every routed expert `gate_proj`, `up_proj`, and `down_proj` weight in layers 1–45 will come from the [BF16 source](https://huggingface.co/dots-studio/dots3-note-prev) and use uniform EXL3 K4. Vision experts remain as supplied by the FP8 checkpoint. The target publication is [`wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1`](https://huggingface.co/wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1).
 
-**Status (2026-09-23):** the distributed quantization run is active on rhea and moa. The quantized checkpoint and serving measurements are pending; no throughput values below are inferred from another model. The RTX recipe begins after the Spark recipe is accepted.
+**Status (2026-09-25):** quantization and the complete tensor audit passed. The checkpoint is published at revision `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. Serving qualification and measurements are pending. The RTX recipe begins after the Spark recipe is accepted.
 
 ## Source and calibration
 
