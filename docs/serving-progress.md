@@ -590,3 +590,31 @@ latencies are 490.50/489.36 µs versus native 507.28/507.78 µs—a small compon
 benefit, not a full-model speed claim. [Raw receipts and command/source/image provenance](../benchmarks/component/vocab/manifest.json)
 are preserved. Recovery of 262K model startup capacity and matched whole-model
 vocabulary A/B remain pending.
+
+
+## RTX vocabulary screen: retain native projection; capacity recovered
+
+The original vocabulary-enabled image (`7055b0…`) rejected 262K startup at 0.95:
+it exposed 4.30 GiB KV versus the required 4.57 GiB. The shared-plan fix in image
+`5ecf76…` restores **5.03 GiB KV / 288,320 cache tokens**, matching the native
+control without raising utilization. The failed startup log, accepted runtime
+receipts, raw streams, API checks and comparison are preserved losslessly with
+hashes in [the vocabulary evidence manifest](../benchmarks/development/rtx-vocab/manifest.json).
+
+Both accepted candidates use MTP3 and passed all 80 reasoning API checks. The
+matched one-run coding screen has four measured tasks each at C1 and C4:
+
+| Clients | Native vocabulary decode tokens/s | B12x vocabulary decode tokens/s | B12x relative rate change |
+| --- | ---: | ---: | ---: |
+| 1 | 180.405 | 183.263 | +1.58% |
+| 4 | 110.825 | 106.821 | −3.61% |
+
+Retain **native vocabulary (`DOTS3_B12X_VOCAB=0`) with MTP3** for the final RTX
+recipe: this screen shows no clear balanced whole-model speed benefit. It is a
+limited sample and the images differ by the vocabulary lifetime fix. Native
+completed 7/8 measured responses naturally, versus B12x 8/8; native's remaining
+`async_pool` response exhausted 8192 tokens during reasoning. Output lengths
+differ, so these completion and latency observations do not establish causal
+quality or speed changes. The MTP3 truncation also confirms that this output
+budget can truncate other samples; the earlier MTP4 observations do not identify
+an intrinsic MTP4 defect. Final release measurements remain pending.

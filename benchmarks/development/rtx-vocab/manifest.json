@@ -1,0 +1,214 @@
+{
+  "schema": "dots3-development-evidence-v1",
+  "release_qualification": false,
+  "scope": "One-run vocabulary screen at MTP3, C1/C4, four thinking-enabled coding tasks per concurrency,8192-token budget plus warmups. Payloads matched by archived comparison. Static checks do not execute code; image IDs differ by the shared-plan lifetime fix.",
+  "decision": "Select native vocabulary (vocab0) for final RTX MTP3; no clear balanced C1-C4 whole-model gain from optional B12x vocabulary.",
+  "candidates": {
+    "vocab0": {
+      "image_id": "sha256:7055b0baa7784280ba30ea98ca212752d62719bcb63db89c6656f68021e19ae1",
+      "server_args": [
+        "serve",
+        "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+        "--served-model-name",
+        "dots3-note-exl3-k4",
+        "--tensor-parallel-size",
+        "2",
+        "--pipeline-parallel-size",
+        "1",
+        "--distributed-executor-backend",
+        "mp",
+        "--max-model-len",
+        "262144",
+        "--max-num-seqs",
+        "16",
+        "--max-num-batched-tokens",
+        "512",
+        "--gpu-memory-utilization",
+        "0.95",
+        "--kv-cache-dtype",
+        "fp8",
+        "--enable-prefix-caching",
+        "--structured-outputs-config",
+        "{\"backend\":\"xgrammar\"}",
+        "--limit-mm-per-prompt",
+        "{\"image\":1,\"audio\":1,\"video\":0}",
+        "--enable-auto-tool-choice",
+        "--tool-call-parser",
+        "dots",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8001",
+        "--reasoning-parser",
+        "dots3",
+        "--speculative-config",
+        "{\"method\":\"mtp\",\"num_speculative_tokens\":3}"
+      ],
+      "selected_environment": [
+        "DOTS3_B12X_EXACT_FP8=",
+        "DOTS3_B12X_EXACT_FP8_ROWS=4,16,64,512",
+        "DOTS3_B12X_VOCAB=0",
+        "VLLM_ENABLE_PCIE_ALLREDUCE=0",
+        "B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile",
+        "VLLM_PCIE_ALLREDUCE_BACKEND=b12x",
+        "OMP_NUM_THREADS=8",
+        "CUTE_DSL_ARCH=sm_120a",
+        "VLLM_EXL3_TRELLIS_MIN_M=1",
+        "VLLM_EXL3_PREFILL_TRELLIS=1"
+      ],
+      "runtime_receipt": "runtime-vocab0.json.gz"
+    },
+    "vocab1": {
+      "image_id": "sha256:5ecf76bc12da2141373d461adea41bf7ba92fcc74bcead92dddcbec7f2d87c45",
+      "server_args": [
+        "serve",
+        "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+        "--served-model-name",
+        "dots3-note-exl3-k4",
+        "--tensor-parallel-size",
+        "2",
+        "--pipeline-parallel-size",
+        "1",
+        "--distributed-executor-backend",
+        "mp",
+        "--max-model-len",
+        "262144",
+        "--max-num-seqs",
+        "16",
+        "--max-num-batched-tokens",
+        "512",
+        "--gpu-memory-utilization",
+        "0.95",
+        "--kv-cache-dtype",
+        "fp8",
+        "--enable-prefix-caching",
+        "--structured-outputs-config",
+        "{\"backend\":\"xgrammar\"}",
+        "--limit-mm-per-prompt",
+        "{\"image\":1,\"audio\":1,\"video\":0}",
+        "--enable-auto-tool-choice",
+        "--tool-call-parser",
+        "dots",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8001",
+        "--reasoning-parser",
+        "dots3",
+        "--speculative-config",
+        "{\"method\":\"mtp\",\"num_speculative_tokens\":3}"
+      ],
+      "selected_environment": [
+        "DOTS3_B12X_EXACT_FP8=",
+        "VLLM_ENABLE_PCIE_ALLREDUCE=0",
+        "VLLM_PCIE_ALLREDUCE_BACKEND=b12x",
+        "OMP_NUM_THREADS=8",
+        "DOTS3_B12X_EXACT_FP8_ROWS=4,16,64,512",
+        "DOTS3_B12X_VOCAB=1",
+        "B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile",
+        "CUTE_DSL_ARCH=sm_120a",
+        "VLLM_EXL3_TRELLIS_MIN_M=1",
+        "VLLM_EXL3_PREFILL_TRELLIS=1"
+      ],
+      "runtime_receipt": "runtime-vocab1.json.gz"
+    }
+  },
+  "startup_failure": {
+    "image_id": "sha256:7055b0baa7784280ba30ea98ca212752d62719bcb63db89c6656f68021e19ae1",
+    "vocab_enabled": true,
+    "available_kv_gib": 4.3,
+    "required_kv_gib_for_262144": 4.57,
+    "outcome": "Startup rejected requested model length; not accepted benchmark evidence",
+    "log": "container-vocab1-startup-failed.log.gz"
+  },
+  "restored_startup": {
+    "image_id": "sha256:5ecf76bc12da2141373d461adea41bf7ba92fcc74bcead92dddcbec7f2d87c45",
+    "adapter_fix_commit": "102bd2af697450602e05c225d191afb9cf40f138",
+    "vocab_enabled": true,
+    "available_kv_gib": 5.03,
+    "cache_tokens": 288320,
+    "max_model_len": 262144,
+    "gpu_memory_utilization": 0.95,
+    "runtime_receipt": "runtime-vocab1.json.gz"
+  },
+  "results": {
+    "C1_median_decode_tps_native_b12x": [
+      180.4050346767704,
+      183.26263429222632
+    ],
+    "C4_median_decode_tps_native_b12x": [
+      110.82469199907459,
+      106.82128546200413
+    ],
+    "natural_completions_native_b12x": [
+      7,
+      8
+    ],
+    "measured_requests_each": 8,
+    "reasoning_api_passed_each": 80,
+    "reasoning_api_total_each": 80,
+    "caveat": "One native async_pool response truncated during reasoning at8192; response lengths differ. This limited screen does not establish causal quality changes. Earlier MTP4 truncations are not evidence of an intrinsic MTP4 defect."
+  },
+  "files": {
+    "coding-vocab0.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/coding-vocab0.jsonl",
+      "raw_sha256": "ac311fc06a4a5aa6edbb845ce8417da0722c1c1ba8f648458397aee858b7a3aa",
+      "compressed_sha256": "846ffc047ffef1660d2d00162147e38dc232db0456775c62a5b13a7001f7bc49",
+      "raw_bytes": 17225139
+    },
+    "coding-vocab1.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/coding-vocab1.jsonl",
+      "raw_sha256": "d8bb2425fef12d9a8d4f43d9a5180aa1dc245e4f450520ce442c5011c2954638",
+      "compressed_sha256": "0dc545e8d681608ba6e1358b4c8f8dd879b758943b2db703dab5e8f8fabf3bba",
+      "raw_bytes": 16944144
+    },
+    "comparison.json.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/comparison.json",
+      "raw_sha256": "4ac6e70ea6bb5fa2365b727925e660f29a9af93cc6c1fde758e98aa131b2f49d",
+      "compressed_sha256": "30645e62eb9c8b27bdbb10d37137ae383d959c5c9610d5daaf526d60f2bb86d1",
+      "raw_bytes": 39556
+    },
+    "runtime-vocab0.json.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/runtime-vocab0.json",
+      "raw_sha256": "6153ec80567844904ce3959c4bb6eaf2901e065ea4f0e300ee4c6e2a4f97b73f",
+      "compressed_sha256": "2bd461a2b42c864eecd8546804cbd8bc03f04073e144f20b538ce40555f79da7",
+      "raw_bytes": 8808
+    },
+    "runtime-vocab1.json.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/runtime-vocab1.json",
+      "raw_sha256": "60c03abc7e3ff2d7eb7e473069fdbe73114404c8abf5a5d70ae53dbf94fdd637",
+      "compressed_sha256": "06e57ee9a08749e6f227c43f7ac3a5aca2b6b8ea559518f75f70a3bd47083187",
+      "raw_bytes": 8809
+    },
+    "container-vocab0.log.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/container-vocab0.log",
+      "raw_sha256": "63bd4a990c39898a1ec7fb580981c402be763fe6bae4d8806fd80486750dcd34",
+      "compressed_sha256": "8456de68ae4e3e60d3842e64ded51edec300d3cd8e1571066d8f7591d4627a8b",
+      "raw_bytes": 322641
+    },
+    "container-vocab1.log.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/container-vocab1.log",
+      "raw_sha256": "808814a22d9b725cfcaf229837609a72a00026e386d238d355ccd1577623c45f",
+      "compressed_sha256": "764fe5972281b0328d073b640e5045e8089e0171c0b9994a7c06ee30a16bce5a",
+      "raw_bytes": 321327
+    },
+    "api-vocab0-parser.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/api-vocab0-parser.jsonl",
+      "raw_sha256": "2858ceaeb2bc43d8dc49feb83a74c4fdf429c48b61c6e7757718c58deadef256",
+      "compressed_sha256": "2085b2ca7efeaa2c1d964c412727deb3ae1c9015ae38626aa5c5e0c564b2a6f4",
+      "raw_bytes": 446867
+    },
+    "api-vocab1.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/api-vocab1.jsonl",
+      "raw_sha256": "7afcba70c33aebeccce36ad1421f4b04695b8de7d9372cce7d04dcc4f1ea14ef",
+      "compressed_sha256": "0f7e33afbdde5ddb38e8e0e9e4791b695a50d9236319d9117b53f7ae9d5b92d9",
+      "raw_bytes": 446871
+    },
+    "container-vocab1-startup-failed.log.gz": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/container-vocab1-startup-failed.log",
+      "raw_sha256": "ad6c8f5b0c6733f37a7491d8199cdf27d5be4f9734fe190207796a2bc730331e",
+      "compressed_sha256": "1834f17aed7bda0fabac2cbef4e1c4560d08cfd084d2b6c4bb1b144deb18741f",
+      "raw_bytes": 294593
+    }
+  }
+}
