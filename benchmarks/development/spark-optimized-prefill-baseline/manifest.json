@@ -1,0 +1,506 @@
+{
+  "schema": 1,
+  "scope": "Spark optimized native masked-prefill development baseline; force-MQA unselected",
+  "image_ids": {
+    "rhea": "sha256:174bee763fcb533573b31956e9510444a1be0b87504dca6afaa2929f9af0ab8d",
+    "moa": "sha256:b2e57dd8c3a307313c35259d124de91fcd067290c0ee422f63e48386a23cac82"
+  },
+  "identity_limitation": "Native host image IDs differ; preserve both exactly. This is not the shared published-digest final qualification.",
+  "profile": "Hybrid17/29, packed+fused routing,bounded shared overlap,batch512,native524288context; exact args/env preserved",
+  "kv_capacity_tokens": 2750605,
+  "prefill": {
+    "schema": "dots3-prefill-depth.v1",
+    "nonce": "fb04c97e76974d8d9a2bb9fca3f8d837",
+    "method": "C1 exact-length unique prompts; client request to first streamed token; server tokenization and one-token handoff included; no prefix reuse",
+    "model": "dots3-note-exl3-k4",
+    "quant_profile": "fp8-core-exl3-k4-routed",
+    "kv_cache_dtype": "fp8",
+    "runs_per_point": 3,
+    "points": [
+      {
+        "prompt_tokens": 8192,
+        "effective_prompt_tokens_per_second": {
+          "median": 839.3495222474265,
+          "min": 837.487954797642,
+          "max": 842.711579760137
+        },
+        "ttft_seconds": {
+          "median": 9.759938836999936,
+          "min": 9.721000869991258,
+          "max": 9.781633220001822
+        },
+        "runs": [
+          {
+            "prompt_tokens": 8192,
+            "prompt_sha256": "c35420e2deb45474c3b9a0a6a046cbd6d4a639ab5aaa56bbcea6cf4b95b76e88",
+            "usage": {
+              "prompt_tokens": 8192,
+              "total_tokens": 8193,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 9.781633220001822,
+            "effective_prompt_tokens_per_second": 837.487954797642
+          },
+          {
+            "prompt_tokens": 8192,
+            "prompt_sha256": "2a3309a49a67f3cd79406942f870a08c920afdeb262e16c9f8d10fb0d5442b84",
+            "usage": {
+              "prompt_tokens": 8192,
+              "total_tokens": 8193,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 9.759938836999936,
+            "effective_prompt_tokens_per_second": 839.3495222474265
+          },
+          {
+            "prompt_tokens": 8192,
+            "prompt_sha256": "b15c71d7ef337f8a5d5e2a9f390cc2ded4235e5102a956db452bfda20be102f4",
+            "usage": {
+              "prompt_tokens": 8192,
+              "total_tokens": 8193,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 9.721000869991258,
+            "effective_prompt_tokens_per_second": 842.711579760137
+          }
+        ]
+      },
+      {
+        "prompt_tokens": 32768,
+        "effective_prompt_tokens_per_second": {
+          "median": 824.4549543336944,
+          "min": 823.5570137011164,
+          "max": 825.691478340498
+        },
+        "ttft_seconds": {
+          "median": 39.74504589699791,
+          "min": 39.68552523499238,
+          "max": 39.78838071299833
+        },
+        "runs": [
+          {
+            "prompt_tokens": 32768,
+            "prompt_sha256": "29ab5191650366eeace5b9631bfdf20731a75a799245c83ebf0a6fd0f6b11956",
+            "usage": {
+              "prompt_tokens": 32768,
+              "total_tokens": 32769,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 39.68552523499238,
+            "effective_prompt_tokens_per_second": 825.691478340498
+          },
+          {
+            "prompt_tokens": 32768,
+            "prompt_sha256": "e499017b736210d4994fa1844cf82fed090d21e01eba702ddb6619cb1dd66ef9",
+            "usage": {
+              "prompt_tokens": 32768,
+              "total_tokens": 32769,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 39.74504589699791,
+            "effective_prompt_tokens_per_second": 824.4549543336944
+          },
+          {
+            "prompt_tokens": 32768,
+            "prompt_sha256": "9a15cf4d077c99614e4e39f017b7cf2cff4094280d6a1c20266ce8f23ae136d2",
+            "usage": {
+              "prompt_tokens": 32768,
+              "total_tokens": 32769,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 39.78838071299833,
+            "effective_prompt_tokens_per_second": 823.5570137011164
+          }
+        ]
+      },
+      {
+        "prompt_tokens": 131072,
+        "effective_prompt_tokens_per_second": {
+          "median": 541.279813139444,
+          "min": 497.51450769482415,
+          "max": 558.7370750595371
+        },
+        "ttft_seconds": {
+          "median": 242.15201974700904,
+          "min": 234.58618704698165,
+          "max": 263.453623909998
+        },
+        "runs": [
+          {
+            "prompt_tokens": 131072,
+            "prompt_sha256": "6ee2d78acc85fda3e87397a89804cb0a7fa0979ce057c84f01dac109f9050e36",
+            "usage": {
+              "prompt_tokens": 131072,
+              "total_tokens": 131073,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 234.58618704698165,
+            "effective_prompt_tokens_per_second": 558.7370750595371
+          },
+          {
+            "prompt_tokens": 131072,
+            "prompt_sha256": "154995b96c44a8ffeeeed9c777f6bb9e1afb42f4f3cf23f84576367be389e8bc",
+            "usage": {
+              "prompt_tokens": 131072,
+              "total_tokens": 131073,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 242.15201974700904,
+            "effective_prompt_tokens_per_second": 541.279813139444
+          },
+          {
+            "prompt_tokens": 131072,
+            "prompt_sha256": "8262158ceadb77e332743fc09798cfce7ba22fd639433856c218dcec8a26985a",
+            "usage": {
+              "prompt_tokens": 131072,
+              "total_tokens": 131073,
+              "completion_tokens": 1
+            },
+            "cached_tokens": null,
+            "ttft_seconds": 263.453623909998,
+            "effective_prompt_tokens_per_second": 497.51450769482415
+          }
+        ]
+      }
+    ]
+  },
+  "reasoning_summary": {
+    "record": "summary",
+    "passed": true,
+    "cases_passed": 40,
+    "cases_total": 40,
+    "failed_cases": [],
+    "evidence_issues": [],
+    "speculative_draft_token_delta": 1846.0,
+    "structured_boundary_chunks": [
+      {
+        "case": "tool_named",
+        "repeat": 0,
+        "chunks": [
+          [
+            151722,
+            90
+          ]
+        ]
+      },
+      {
+        "case": "tool_required",
+        "repeat": 0,
+        "chunks": [
+          [
+            151722,
+            58
+          ]
+        ]
+      }
+    ],
+    "speculative_metrics_after": {
+      "raw_lines": [
+        "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 634.0",
+        "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1846.0",
+        "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\"} 1494.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"0\"} 568.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"1\"} 503.0",
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"dots3-note-exl3-k4\",position=\"2\"} 423.0"
+      ],
+      "totals": {
+        "vllm:spec_decode_num_drafts_total": 634.0,
+        "vllm:spec_decode_num_draft_tokens_total": 1846.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 1494.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1494.0
+      }
+    },
+    "boundary_evidence_scope": "An SSE token chunk crossing </think> shows an accepted output burst; it does not expose rejected drafts or prove their exact contents."
+  },
+  "host_identity": {
+    "rhea": {
+      "image_id": "sha256:174bee763fcb533573b31956e9510444a1be0b87504dca6afaa2929f9af0ab8d",
+      "args": [
+        "serve",
+        "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+        "--served-model-name",
+        "dots3-note-exl3-k4",
+        "--tensor-parallel-size",
+        "2",
+        "--pipeline-parallel-size",
+        "1",
+        "--distributed-executor-backend",
+        "mp",
+        "--nnodes",
+        "2",
+        "--node-rank",
+        "0",
+        "--master-addr",
+        "10.55.1.5",
+        "--master-port",
+        "29501",
+        "--max-model-len",
+        "524288",
+        "--max-num-seqs",
+        "16",
+        "--max-num-batched-tokens",
+        "512",
+        "--gpu-memory-utilization",
+        "0.80",
+        "--kv-cache-dtype",
+        "fp8",
+        "--enable-prefix-caching",
+        "--structured-outputs-config",
+        "{\"backend\":\"xgrammar\"}",
+        "--limit-mm-per-prompt",
+        "{\"image\":1,\"audio\":1,\"video\":0}",
+        "--enable-auto-tool-choice",
+        "--tool-call-parser",
+        "dots",
+        "--block-size",
+        "64",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--reasoning-parser",
+        "dots3",
+        "--worker-extension-cls",
+        "hybrid_attestation.HybridAttestationWorkerExtension",
+        "--speculative-config",
+        "{\"method\":\"mtp\",\"num_speculative_tokens\":3}"
+      ],
+      "selected_environment": [
+        "VLLM_HYBRID_BOUNDARY_OWNERS=",
+        "DOTS3_B12X_VOCAB=0",
+        "B12X_ROCE_SPIN_LIMIT=20000000",
+        "DOTS3_COMPACT_DSA_CACHE=1",
+        "DOTS3_INDEXER_PREFILL_CONTEXTS=4",
+        "VLLM_HYBRID_MM_OWNERS=0,1",
+        "DOTS3_B12X_EXACT_FP8_ROWS=4,16,64,512",
+        "B12X_ROCE_HCA=roceP2p1s0f0",
+        "NCCL_SOCKET_IFNAME==enP2p1s0f0np0",
+        "VLLM_HYBRID_FUSED_PACK=1",
+        "DOTS3_B12X_ROCE_ROWS=1-64",
+        "OMP_NUM_THREADS=8",
+        "VLLM_HOST_IP=10.55.1.5",
+        "DOTS3_B12X_EXACT_FP8=",
+        "B12X_ROCE_GID_INDEX=3",
+        "GLOO_SOCKET_IFNAME=enP2p1s0f0np0",
+        "VLLM_HYBRID_LAYER_PARTITION=17,29",
+        "VLLM_HYBRID_BALANCE_KV_GROUPS=1",
+        "VLLM_HYBRID_PACKED_ROUTING=1",
+        "VLLM_HYBRID_OVERLAP_SHARED=1",
+        "DOTS3_B12X_ROCE=1",
+        "DOTS3_B12X_ROCE_EAGER=0",
+        "B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile",
+        "VLLM_HYBRID_ATTESTATION_PATH=/root/.cache/vllm-runtime/opt-v7-17-b512-attestation.json",
+        "CUTE_DSL_ARCH=sm_121a",
+        "B12X_ROCE_CACHE_DIR=/opt/dots3/native-roce",
+        "VLLM_EXL3_TRELLIS_MIN_M=1",
+        "VLLM_EXL3_PREFILL_TRELLIS=1"
+      ],
+      "started_at": "2026-09-25T09:44:03.831526537Z"
+    },
+    "moa": {
+      "image_id": "sha256:b2e57dd8c3a307313c35259d124de91fcd067290c0ee422f63e48386a23cac82",
+      "args": [
+        "serve",
+        "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+        "--served-model-name",
+        "dots3-note-exl3-k4",
+        "--tensor-parallel-size",
+        "2",
+        "--pipeline-parallel-size",
+        "1",
+        "--distributed-executor-backend",
+        "mp",
+        "--nnodes",
+        "2",
+        "--node-rank",
+        "1",
+        "--master-addr",
+        "10.55.1.5",
+        "--master-port",
+        "29501",
+        "--max-model-len",
+        "524288",
+        "--max-num-seqs",
+        "16",
+        "--max-num-batched-tokens",
+        "512",
+        "--gpu-memory-utilization",
+        "0.80",
+        "--kv-cache-dtype",
+        "fp8",
+        "--enable-prefix-caching",
+        "--structured-outputs-config",
+        "{\"backend\":\"xgrammar\"}",
+        "--limit-mm-per-prompt",
+        "{\"image\":1,\"audio\":1,\"video\":0}",
+        "--enable-auto-tool-choice",
+        "--tool-call-parser",
+        "dots",
+        "--block-size",
+        "64",
+        "--headless",
+        "--reasoning-parser",
+        "dots3",
+        "--worker-extension-cls",
+        "hybrid_attestation.HybridAttestationWorkerExtension",
+        "--speculative-config",
+        "{\"method\":\"mtp\",\"num_speculative_tokens\":3}"
+      ],
+      "selected_environment": [
+        "DOTS3_B12X_ROCE_ROWS=1-64",
+        "VLLM_HYBRID_PACKED_ROUTING=1",
+        "VLLM_HYBRID_OVERLAP_SHARED=1",
+        "VLLM_HYBRID_ATTESTATION_PATH=/root/.cache/vllm-runtime/opt-v7-17-b512-attestation.json",
+        "DOTS3_B12X_EXACT_FP8=",
+        "GLOO_SOCKET_IFNAME=enP2p1s0f0np0",
+        "VLLM_HYBRID_BOUNDARY_OWNERS=",
+        "DOTS3_B12X_VOCAB=0",
+        "DOTS3_B12X_ROCE=1",
+        "DOTS3_B12X_ROCE_EAGER=0",
+        "B12X_ROCE_HCA=roceP2p1s0f0",
+        "B12X_ROCE_SPIN_LIMIT=20000000",
+        "OMP_NUM_THREADS=8",
+        "VLLM_HOST_IP=10.55.1.6",
+        "NCCL_SOCKET_IFNAME==enP2p1s0f0np0",
+        "DOTS3_COMPACT_DSA_CACHE=1",
+        "VLLM_HYBRID_LAYER_PARTITION=17,29",
+        "VLLM_HYBRID_FUSED_PACK=1",
+        "VLLM_HYBRID_MM_OWNERS=0,1",
+        "DOTS3_INDEXER_PREFILL_CONTEXTS=4",
+        "VLLM_HYBRID_BALANCE_KV_GROUPS=1",
+        "DOTS3_B12X_EXACT_FP8_ROWS=4,16,64,512",
+        "B12X_ROCE_GID_INDEX=3",
+        "B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile",
+        "CUTE_DSL_ARCH=sm_121a",
+        "B12X_ROCE_CACHE_DIR=/opt/dots3/native-roce",
+        "VLLM_EXL3_TRELLIS_MIN_M=1",
+        "VLLM_EXL3_PREFILL_TRELLIS=1"
+      ],
+      "started_at": "2026-09-25T09:43:56.292264814Z"
+    }
+  },
+  "artifacts": [
+    {
+      "archive": "launch-opt-v7-17-b512.sh.gz",
+      "bytes": 1134,
+      "sha256": "8a316745acb3e1b8b8864d2f3d6c8c238dafca8a0112766dce36d842cfb87b29",
+      "gzip_sha256": "abd55c466cdc472a5770cb3c6da81b56d69d90e49aafe26ccc4ed7891568ed36"
+    },
+    {
+      "archive": "opt-v7-17-b512-attestation.json.gz",
+      "bytes": 286658,
+      "sha256": "fc4974931e7511db74a7c898a0ffc6983abbcea87bffd12be85dfb46b05b4e47",
+      "gzip_sha256": "9a7f84a18d58482f95ad070ad02bccee2f7251f4cf450cdb5305bc81299365a7"
+    },
+    {
+      "archive": "opt-v7-17-b512-moa-memory.log.gz",
+      "bytes": 174282,
+      "sha256": "58a48e3099330d830fd32d1b4aeac361e0117aecbbd30dd726b6f6e77742f876",
+      "gzip_sha256": "e4e3ec07ccedc98502f0362c991ca02ae07f2a1b944f066d1757c735e30e1f4a"
+    },
+    {
+      "archive": "opt-v7-17-b512-moa.log.gz",
+      "bytes": 36431,
+      "sha256": "e39efab6cb9afabf34d4abfa4e7b4ed0a07527c70762d6d656cdb5a20c781ddb",
+      "gzip_sha256": "3f569d1720f8581580c77010f30ed13de6fd7f9f6b49836d569e248cc3e20ca3"
+    },
+    {
+      "archive": "opt-v7-17-b512-rhea-memory.log.gz",
+      "bytes": 176153,
+      "sha256": "7def70100183e8b41a9d7a94edd0d3d08b8a894f0dc274331aba532a5385e36d",
+      "gzip_sha256": "7f3cb2fd86cb270c62658030a7605cdf10ac30b1746de3e5a0075f36a04ecda7"
+    },
+    {
+      "archive": "opt-v7-17-b512-rhea-startup.log.gz",
+      "bytes": 73059,
+      "sha256": "f45d20686bb0b810727f955682e5961d827c5d0a9b9f92564a0d8fe4b5b6775b",
+      "gzip_sha256": "8f85d60f6657f1b7182c8ead4e06d6dc9c5bfd317edcfd3bb6f2125eb5b8c1a1"
+    },
+    {
+      "archive": "opt-v7-17-b512-rhea.log.gz",
+      "bytes": 94100,
+      "sha256": "5b05f5547e2b2b6625e00eafa155edd2136e312a3b6ebf244ed637899d419662",
+      "gzip_sha256": "9646b5d4d266b78a69407a7ad4eb642bccfaaea15f81550da5829c34c360550a"
+    },
+    {
+      "archive": "prefill-opt-v7-17-b512.jsonl.gz",
+      "bytes": 5378,
+      "sha256": "f627ee39ad199f8ea0323ee4f45eab88d68cce7c2ec3fd3773cb0cea476f2edb",
+      "gzip_sha256": "4f77ab27c38df6831ea13d6974e6c789ae4103774efc8ef11474faa1b049ecd0"
+    },
+    {
+      "archive": "prefill-opt-v7-17-b512.log.gz",
+      "bytes": 441,
+      "sha256": "1ddb86ed67f05ceb394ea3967b9c065b589a8d4ee72bd234b07485b1a8195856",
+      "gzip_sha256": "4bf6173921967a0dd2ba23f50819eb77a40883b7a999b2759d051ad44856a4f9"
+    },
+    {
+      "archive": "prefill128-gpu-moa.txt.gz",
+      "bytes": 104,
+      "sha256": "284e93f7321425b166424c4fc379cbb00221a6e702c53763a6400dee0f9fa25c",
+      "gzip_sha256": "7c9c823565bbfa58c81a0e7a191e5b036a361deb84834e5afdb34b4919dc66c9"
+    },
+    {
+      "archive": "prefill128-gpu-rhea.txt.gz",
+      "bytes": 104,
+      "sha256": "284e93f7321425b166424c4fc379cbb00221a6e702c53763a6400dee0f9fa25c",
+      "gzip_sha256": "7c9c823565bbfa58c81a0e7a191e5b036a361deb84834e5afdb34b4919dc66c9"
+    },
+    {
+      "archive": "prefill128-memory-moa.txt.gz",
+      "bytes": 4767,
+      "sha256": "17b0ebe887e17d69708f2054e9131787fd8663373776d282d6b4118539c375cf",
+      "gzip_sha256": "618b2e8c50226142b78de86e9c1dcb8e82dd8602eedcd7e3d321b5c0cf9cb879"
+    },
+    {
+      "archive": "prefill128-memory-rhea.txt.gz",
+      "bytes": 3812,
+      "sha256": "abda676fc72d656ac5af01706915e5f5c9c7d7d98732661097518412f910c719",
+      "gzip_sha256": "86ae9dbf65cc3084f9a8e65bb733726f2e34e427a723068d61cff4e80f2cb9e3"
+    },
+    {
+      "archive": "prefill128-smaps-moa.txt.gz",
+      "bytes": 698,
+      "sha256": "4ad1bcd771bcde7089e813bcc3693fc50cc37bb172c85203b04bd42b86972461",
+      "gzip_sha256": "ff7ea1fb755ddb5993394b6099989f868aa21c282ce7ac68098f944a5d169bc6"
+    },
+    {
+      "archive": "prefill128-smaps-rhea.txt.gz",
+      "bytes": 698,
+      "sha256": "3a87fcffc1f2157a0ffa1692eb7b5d72479b82b3b51f8f47d5a709ac5fcb6260",
+      "gzip_sha256": "16ae9da03d7730ebfe5ea4e885578503867765222b3fc51e91a359ee188e4c53"
+    },
+    {
+      "archive": "reasoning-api-opt-v7-17-b512.jsonl.gz",
+      "bytes": 228254,
+      "sha256": "0f2d664f60944409ae7738e3037e8bf3caf6858bdc12ab874d9b0182b224ce98",
+      "gzip_sha256": "98d3e4753ab0a2f0c5dba8e9f6987f0fea0a2832a47787605955f9a1139ceeb0"
+    },
+    {
+      "archive": "reasoning-api-opt-v7-17-b512.log.gz",
+      "bytes": 5651,
+      "sha256": "ca574ac21a2f4a0fa75afe846ea2dc7990b2f9bc680eede0cb3047452a98a9a0",
+      "gzip_sha256": "443c9bbf86d87168181452d0f060cf6c8d710568409bb41f903ee33c4176c41d"
+    },
+    {
+      "archive": "runtime-moa-opt-v7-17-b512.json.gz",
+      "bytes": 4593,
+      "sha256": "b3c02eb5cee22b9e3f61e81aab0c3a521a9ea67543af71cc232bdc096ce0a80b",
+      "gzip_sha256": "260d2f93d039541a2f56283dff57a31602067ab8c00c3d39c775ee9c4072e393"
+    },
+    {
+      "archive": "runtime-rhea-opt-v7-17-b512.json.gz",
+      "bytes": 321768,
+      "sha256": "0898a886e5d4a2d31cba864370c6603155b1108c870cb0db2e5a4cbe960f56d2",
+      "gzip_sha256": "0a79d5e128794ee64652996caf0e903c54dfad8e59ab56d9da5bcb09cbc6075a"
+    }
+  ]
+}
