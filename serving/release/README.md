@@ -279,6 +279,10 @@ platform stores its own:
   measured report. Start/restart bind this setting to the captured
   `DOTS3_COMPACT_DSA_CACHE` environment. Older profiles default to `false`.
 - Required `reasoning_parser: "dots3"`, verified against the image label.
+- `hybrid_layer_partition`: empty for ordinary TP2, or two positive decoder
+  layer counts totaling 46 for hybrid non-expert ownership with expert TP2.
+  This is bound to the qualification report and explicitly set on launch;
+  an inherited shell setting cannot change a qualified profile.
 - `indexer_prefill_contexts`: indexer gather workspace budget in full contexts
   (1–40). Older profiles use 40. A smaller budget requires a supporting image
   and qualification with the same captured `DOTS3_INDEXER_PREFILL_CONTEXTS` value.
