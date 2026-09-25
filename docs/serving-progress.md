@@ -73,8 +73,15 @@ The bounded diagnostic subsequently attributed about 10 GiB of growth per host
 to freed, unsplit CUDA allocator segments: live tensors, inactive splits and CPU
 resident memory were approximately stable. It stopped deliberately before the
 1 GiB guards fired. [Telemetry and attribution](../benchmarks/development/spark-context-memory-growth/README.md)
-are archived. A native-allocator reclamation policy is the next targeted
-candidate; no successful full-boundary fix is claimed yet.
+are archived. The post-warmup native-allocator reclamation candidate has now
+**passed the exact 524,032-input + 256-output boundary**: TTFT 1,071.070 s,
+decode 39.19 tokens/s, and no guard trips. Request-window minimum physical
+headroom was 3.955 GiB on Rhea and 5.334 GiB on Moa. This is one diagnostic
+image measurement, retained with its exact provenance rather than rerun.
+The policy uses an allocator ceiling of 0.90 and reclamation threshold of 0.90
+of that ceiling; vLLM utilization 0.80 and the 1 GiB guard remain unchanged.
+The production ARM parent is built and is starting on both hosts. Final
+wrapper packaging and the previously unfinished workloads remain pending.
 Optional kernel weight copies must also fit the combined
 capacity floor of **2,550,605 tokens** and pass physical-memory qualification.
 [Batch evidence](../benchmarks/development/spark-prefill-batch-gates/manifest.json).
