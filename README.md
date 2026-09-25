@@ -2,7 +2,7 @@
 
 This repository provides one Dots3 Note Preview checkpoint and is developing two-GPU vLLM recipes for DGX Spark and RTX PRO 6000. The completed checkpoint retains the [FP8 source](https://huggingface.co/dots-studio/dots3-note-prev-fp8) outside the routed language-model experts. Every routed expert `gate_proj`, `up_proj`, and `down_proj` weight in layers 1–45 comes from the [BF16 source](https://huggingface.co/dots-studio/dots3-note-prev) and uses uniform EXL3 K4. Vision experts remain as supplied by the FP8 checkpoint. The published checkpoint is [`wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1`](https://huggingface.co/wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1).
 
-**Status (2026-09-25):** quantization and the complete tensor audit passed. The checkpoint is published at revision `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. RTX development checks pass text, image, audio, prefix caching, constrained JSON, eight tool-call cases, and an initial 7/7 content screen. Later repeated content-contract scores vary (documented in the qualification ledger). Full performance tuning, final-image qualification, and GHCR publication remain pending. Both platforms now pass text, image/audio, prefix caching, constrained JSON and eight tool-call cases. Spark target-only measured 24.38 weighted decode tokens/s with 16/21 repeated content contracts; RTX MTP3 measured 183.02 with 17/21. These are development configurations, not release-image results. Parallel tuning continues with measured Spark memory headroom. See the [serving qualification ledger](docs/serving-progress.md) for remaining gates, including separate GHCR releases.
+**Status (2026-09-25):** the quantization, tensor audit, publication and local cache installation are complete. The checkpoint is pinned to `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. Both serving tracks pass text, image/audio, prefix caching, constrained JSON and eight tool-call cases. Recent development seven-workload results are 37.39 weighted tokens/s on Spark MTP3 and 170.63 on the RTX MTP2 container wrapper, each with 18/21 content contracts. These are different development profiles, not final release results. **Default selection now prioritizes reasoning-enabled coding at C1–C4, independently for each platform.** Those comparisons, final qualification and separate GHCR publication are in progress; see the [qualification ledger](docs/serving-progress.md).
 
 ## Source and calibration
 
@@ -19,11 +19,13 @@ Both Sparks have 121 GiB unified memory and local NVMe. The source checkpoint ex
 
 ## Serving target
 
-Start from [vLLM v0.30.0](https://github.com/vllm-project/vllm/releases/tag/v0.30.0), the latest stable release checked on 2026-09-23. Native Dots3 Note support entered through [#51255](https://github.com/vllm-project/vllm/pull/51255), and the merged [Dots3 runtime optimization #53517](https://github.com/vllm-project/vllm/pull/53517) is present in the pinned source. The open [video-audio cache repair #57655](https://github.com/vllm-project/vllm/pull/57655) remains relevant if video with audio is qualified. The [two-node launch script](serving/start_spark_node.sh) targets two GB10 GPUs at tensor parallel size 2 and approximately **85% GPU memory utilization**, subject to a measured unified-memory budget and successful startup.
+Start from [vLLM v0.30.0](https://github.com/vllm-project/vllm/releases/tag/v0.30.0), the latest stable release checked on 2026-09-23. Native Dots3 Note support entered through [#51255](https://github.com/vllm-project/vllm/pull/51255), and the merged [Dots3 runtime optimization #53517](https://github.com/vllm-project/vllm/pull/53517) is present in the pinned source. The open [video-audio cache repair #57655](https://github.com/vllm-project/vllm/pull/57655) remains relevant if video with audio is qualified. The [two-node launch script](serving/start_spark_node.sh) targets two GB10 GPUs at tensor parallel size 2 with an original target near **85% GPU memory utilization**. Current Spark candidates use **80%**, based on measured unified-memory headroom and a host-memory guard; final limits require request qualification.
 
 Qualification must prove prefix-cache hits on repeated long prompts, including Dots3's sliding-window and sparse-MLA cache groups. Record cached-token counters and warm versus cold TTFT; review vLLM's [prefix caching contract](https://docs.vllm.ai/en/latest/features/automatic_prefix_caching/) and sparse-MLA alignment rules. Exercise xgrammar JSON and tool calls with and without speculation. The earlier Qwen recipe carried a termination fix related to [#52805](https://github.com/vllm-project/vllm/pull/52805), with a [reported follow-up](https://github.com/vllm-project/vllm/issues/53181); carry a patch only if the pinned release still needs it.
 
 Use B12x where its exact Dots3 geometry and semantics qualify: EXL3 MoE, dense projections, MLA/DSA or SWA attention, and vocabulary projection. Record correctness and graph replay before performance comparisons. Dots3's padded DSA cache and sliding-window MLA require separate checks from existing GLM sparse-MLA paths.
+
+The [Brandon-derived GLM RTX recipe](https://github.com/tpurtell/glm-5.3-flash-ext3-4-bit-2x-rtx) guides the RTX B12x investigation, and the [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next) guides the Spark integration and reporting. See the [optimization decisions](docs/optimization-matrix.md) for Dots3-specific results.
 
 ## Headline measurements
 
@@ -47,6 +49,16 @@ The [serving component probes](serving/README.md) describe their input sizes and
 | C16 sampled-prose aggregate median, tokens/s | — | — |
 | Full-context boundary, input + output tokens | — | — |
 | API tool constraints / retrieval probes | — | — |
+
+### Reasoning-enabled coding: C1–C4
+
+Four debugging tasks use natural stopping and an 8,192-token output budget, including reasoning. Report completed-answer latency alongside token rates, output lengths, truncation and static response checks. Static checks do not establish behavioral code correctness. Identical request payloads are required for MTP comparisons; select defaults separately on each platform.
+
+| Clients | Spark per-request decode tokens/s | Spark completed-answer latency, s | RTX per-request decode tokens/s | RTX completed-answer latency, s |
+| ---: | ---: | ---: | ---: | ---: |
+| 1 | — | — | — | — |
+| 2 | — | — | — | — |
+| 4 | — | — | — | — |
 
 ### Seven content workloads: C1
 
@@ -99,6 +111,6 @@ The quantization and kernel sources are pinned as Git submodules:
 | Path | Purpose | Branch |
 | --- | --- | --- |
 | `third_party/GPTQModel` | Quantization | `main` |
-| `third_party/sparkinfer-glmrt` | GPU kernels and serving integration | `master` |
+| `third_party/sparkinfer-glmrt` | GPU kernels and serving integration | `dots3-tp2-strided-mla` |
 
 Clone with `git clone --recurse-submodules https://github.com/tpurtell/dots-note-sm12x-2x.git`, or run `git submodule update --init --recursive` after an ordinary clone. The parent repository records exact commits. Make library changes inside its submodule and push them before committing the updated pointer here. To advance to tracked branches, run `git submodule update --remote --merge`, review and test, then commit the pointer updates.

@@ -2,8 +2,8 @@
 
 This ledger tracks development candidates. Final defaults require whole-model
 measurements on the named platform and qualification on its release image.
-References: [Brandon RTX recipe](../../brandon-glm-5.3-flash/recipe/README.md)
-and [Qwen Spark recipe](../../rtx6k-exl3-qwen3.8-flash-next/README.md).
+References: [Brandon RTX recipe](https://github.com/tpurtell/glm-5.3-flash-ext3-4-bit-2x-rtx)
+and [Qwen Spark recipe](https://github.com/tpurtell/sm12x-exl3-qwen3.8-flash-next).
 
 | Area | Current implementation / evidence | Remaining decision |
 | --- | --- | --- |

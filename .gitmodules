@@ -5,4 +5,4 @@
 [submodule "third_party/sparkinfer-glmrt"]
 	path = third_party/sparkinfer-glmrt
 	url = https://github.com/tpurtell/sparkinfer-glmrt.git
-	branch = master
+	branch = dots3-tp2-strided-mla
