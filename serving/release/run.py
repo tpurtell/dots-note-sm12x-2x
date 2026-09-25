@@ -136,6 +136,8 @@ def validate_report(read_report, config, selected, *, expected_hosts=None):
             fail(f'Qualification memory allocation mismatch for {host}')
         if str(profile.get('tensor_parallel_size')) != '2' or profile.get('tool_call_parser') != 'dots':
             fail(f'Qualification TP2/tool parser mismatch for {host}')
+        if config['hybrid_layer_partition'] and str(profile.get('block_size')) != '64':
+            fail(f'Qualification hybrid cache block size mismatch for {host}')
         spec = json.loads(profile['speculative_config'])
         if (spec.get('method') != 'mtp' or spec.get('num_speculative_tokens') != config['mtp_tokens']
                 or spec.get('num_speculative_tokens_per_batch_size') is not None):

@@ -225,7 +225,7 @@ def export(args):
         require(any(cache['model_revision'] in item for item in command), 'Checkpoint revision absent from launch args')
         profiles[host] = {key[2:].replace('-', '_'): flag(command, key) for key in
             ['--max-model-len', '--max-num-seqs', '--max-num-batched-tokens', '--gpu-memory-utilization',
-             '--kv-cache-dtype', '--reasoning-parser', '--tool-call-parser', '--speculative-config', '--tensor-parallel-size']}
+             '--kv-cache-dtype', '--reasoning-parser', '--tool-call-parser', '--speculative-config', '--tensor-parallel-size', '--block-size']}
     artifacts = {source/'manifest.json', complete_path}
     results = {}
     require(len({s['name'] for s in manifest['plan']}) == len(manifest['plan']), 'Duplicate stage names')
