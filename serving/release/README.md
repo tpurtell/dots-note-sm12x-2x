@@ -204,8 +204,11 @@ Avoid putting secrets in shared shell history.
 
 ### Final settings contract
 
-The JSON schema version is `1`; `status` must become `qualified` only after the
-published digest has been pulled and verified. Each platform stores its own:
+The JSON schema version is `1`. Each platform has its own `status`; set that
+platform to `qualified` only after its published digest and complete report are
+verified. RTX can qualify while Spark remains pending, or vice versa. The
+legacy top-level status is used only when a platform status is absent. Each
+platform stores its own:
 
 - Native architecture and immutable `ghcr.io/...@sha256:...` image reference.
 - Repository-relative qualification report path and SHA256 of its exact bytes.
@@ -217,7 +220,9 @@ published digest has been pulled and verified. Each platform stores its own:
 - Spark RoCE enable/eager booleans and explicit admitted row counts (disabled by default).
 - Explicit exact-FP8 projection selector string (empty disables) and row counts.
 
-The runner validates these fields without an additional JSON-schema dependency.
+The runner checks the report hash and binds its completed platform, image,
+checkpoint and measured profile to these settings, without an additional
+JSON-schema dependency.
 It uses the existing platform launcher, overriding profile environment variables
 with the qualified values. Optional networking, host cache paths and CPU thread
 settings use the existing launcher conventions. Separate settings files can be

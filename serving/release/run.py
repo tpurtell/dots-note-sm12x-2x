@@ -23,8 +23,10 @@ def fail(message):
 
 def settings(path, selected):
     doc = json.loads(path.read_text())
-    if doc.get('schema') != 1 or doc.get('status') != 'qualified':
-        fail('Release is not finalized. GHCR digests and qualified settings must be filled in after release-image verification.')
+    if doc.get('schema') != 1:
+        fail('Unsupported release settings schema')
+    if doc.get('platforms', {}).get(selected, {}).get('status', doc.get('status')) != 'qualified':
+        fail(f'{selected} release is not finalized. Record its completed evidence and qualified settings after release-image verification.')
     if doc.get('model_revision') != MODEL_REVISION:
         fail('Unexpected checkpoint revision')
     config = doc['platforms'][selected]
@@ -80,7 +82,41 @@ def settings(path, selected):
     rows = config.get('b12x_exact_fp8_rows')
     if not isinstance(rows, list) or not rows or any(type(n) is not int or n <= 0 for n in rows):
         fail('b12x_exact_fp8_rows must be explicit positive row counts')
+    validate_report(json.loads(report_path.read_text()), config, selected)
     return config
+
+
+def validate_report(read_report, config, selected):
+    report = read_report
+    if (report.get('schema') != 'dots3-release-report-v1' or
+            report.get('platform') != selected or report.get('image') != config['image'] or
+            report.get('model_revision') != MODEL_REVISION or
+            report.get('completion', {}).get('completed') is not True):
+        fail('Qualification report does not bind this completed platform/image/checkpoint')
+    profiles = report.get('profile', {})
+    if len(profiles) != (1 if selected == 'rtx' else 2):
+        fail('Qualification report must cover every platform host')
+    for host, profile in profiles.items():
+        for key, setting in [('max_model_len', 'max_model_len'), ('max_num_seqs', 'max_num_seqs'),
+                ('max_num_batched_tokens', 'max_num_batched_tokens'),
+                ('kv_cache_dtype', 'kv_cache_dtype'), ('reasoning_parser', 'reasoning_parser')]:
+            if str(profile.get(key)) != str(config[setting]):
+                fail(f'Qualification profile mismatch for {host}: {setting}')
+        if float(profile['gpu_memory_utilization']) != config['gpu_memory_utilization']:
+            fail(f'Qualification memory allocation mismatch for {host}')
+        spec = json.loads(profile['speculative_config'])
+        if spec.get('method') != 'mtp' or spec.get('num_speculative_tokens') != config['mtp_tokens']:
+            fail(f'Qualification MTP mismatch for {host}')
+        runtime_env = profile.get('selected_environment')
+        if runtime_env is None:
+            runtime_env = report.get('hardware', {}).get(host, {}).get('runtime', {}).get('selected_environment', [])
+        env = dict(item.split('=', 1) for item in runtime_env)
+        for variable, setting in [('DOTS3_B12X_VOCAB', 'b12x_vocab'),
+                ('VLLM_ENABLE_PCIE_ALLREDUCE', 'b12x_pcie'), ('DOTS3_B12X_ROCE', 'b12x_roce')]:
+            if env.get(variable, '0') != str(int(config[setting])):
+                fail(f'Qualification B12x mismatch for {host}: {setting}')
+        if env.get('DOTS3_B12X_EXACT_FP8', '') != config['b12x_exact_fp8']:
+            fail(f'Qualification exact-FP8 selection mismatch for {host}')
 
 
 def check_spark_headroom(minimum_gib):

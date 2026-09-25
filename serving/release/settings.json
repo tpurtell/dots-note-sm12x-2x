@@ -87,7 +87,8 @@
         63,
         64
       ],
-      "reasoning_parser": "dots3"
+      "reasoning_parser": "dots3",
+      "status": "pending-qualification"
     },
     "spark": {
       "architecture": "arm64",
@@ -175,7 +176,8 @@
       ],
       "reasoning_parser": "dots3",
       "memory_guard": true,
-      "min_host_available_gib": 8
+      "min_host_available_gib": 8,
+      "status": "pending-qualification"
     }
   }
 }
