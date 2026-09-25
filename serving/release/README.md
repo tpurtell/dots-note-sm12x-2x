@@ -150,7 +150,7 @@ validated library feature with compatibility checks and new-device numerical
 qualification. Caches from a later source or dependency build must be exported
 again; the release wrapper rejects dependency or source drift.
 
-## Registry access: current RTX publication
+## Registry access: qualified RTX v1 and published v2
 
 RTX version `20260925-v1` has been pushed as:
 
@@ -176,6 +176,13 @@ The package owner subsequently made it public, and the deployment evidence
 records the successful anonymous check. No Spark digest is supplied before its
 native publication.
 
+RTX `20260925-v2` is also public at
+`ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e`.
+Authenticated and anonymous digest pulls passed; its full published-image
+qualification is still running. See the [v2 publication evidence](../../benchmarks/development/rtx-native-v2-wrapper/README.md).
+Publication alone does not activate v2 in `settings.json`; the commands below
+continue to select the qualified settings, not the newest registry tag.
+
 ## Container fast path
 
 RTX settings contain the published digest, qualified profile and completed
@@ -190,7 +197,12 @@ with the host guard. These decisions must be reflected in the final settings
 after the corresponding release images pass qualification. Bare development
 launcher defaults do not reproduce these profiles.
 
-Run the following commands from the recipe checkout root. For RTX:
+Run from the same recipe checkout revision on both Spark hosts, or from the
+RTX checkout root. Each host needs Docker with NVIDIA GPU support, Bash,
+Python 3 and `rg` on the host. RTX requires native x86-64; Spark requires native
+ARM64. Do not substitute the RTX image on Spark or use architecture emulation.
+
+For RTX:
 
 ```bash
 export HF_HOME="$HOME/.cache/huggingface"
@@ -234,10 +246,34 @@ settings against the qualified profile. A same-image container with different
 settings is rejected. To change settings, stop and remove the container, then start
 again. On Spark, stop the head before the worker; restart the worker before the
 head. `health` runs on the head only; a worker has no HTTP endpoint. HTTP health
-alone does not establish functional request readiness.
+alone does not establish functional request readiness. Startup is asynchronous:
+inspect logs while weights load, then run `health` again once the API is ready.
+A failed early health request does not stop startup. Keep the same per-host
+network, `PORT`, `HF_HOME` and `RUNTIME_CACHE` exports for subsequent commands.
+
+For a coordinated Spark restart, stop both ranks first:
+
+```bash
+# Head host (NODE_RANK=0):
+bash serving/release/run.sh spark stop
+# Worker host (NODE_RANK=1), after head stops:
+bash serving/release/run.sh spark stop
+bash serving/release/run.sh spark restart
+# Head host, after worker restart:
+bash serving/release/run.sh spark restart
+bash serving/release/run.sh spark health
+```
+
+`remove` removes only the stopped local container, not the mounted model or
+runtime cache. `start` requires that the old container has been removed;
+`restart` reuses an existing container.
 
 `HF_HOME` must contain the already installed checkpoint and is mounted in full,
-read-only, with offline mode enabled. No command downloads model weights.
+read-only, with offline mode enabled. Set it to the directory containing `hub/`,
+not to `hub/` itself or a model snapshot. Each Spark needs its own complete local
+cache, including all blobs targeted by snapshot symlinks. A snapshot containing
+only small symlinks is not sufficient unless their blob targets exist inside
+the mounted cache. No command downloads model weights.
 `RUNTIME_CACHE` must be writable; do not use this project's `/mnt/scratch` disk.
 `PORT` can customize the HTTP port. Extra arguments after `--` are passed to
 vLLM, for example `... rtx start -- --api-key YOUR_LOCAL_KEY`. Reasoning parser

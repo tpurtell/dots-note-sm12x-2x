@@ -15,6 +15,8 @@ See [current hybrid qualification](docs/serving-progress.md#current-development-
 
 The public **amd64 RTX** container is available; the separate **arm64 Spark** container is under qualification. Each contains its platform kernels and runtime caches. Use the [container run instructions](serving/release/README.md#container-fast-path): pull the platform image, mount the entire existing `HF_HOME`, and start the pinned profile. Spark runs one container on each host, worker first. Model downloads are unnecessary when the published checkpoint is already installed.
 
+RTX v2 is now publicly published, but its native 524,288-context profile is still undergoing full published-image qualification. [Publication receipts](benchmarks/development/rtx-native-v2-wrapper/README.md) distinguish these gates from final qualification. The fast path continues to use qualified v1 until its settings are explicitly updated.
+
 The [release settings](serving/release/settings.json) qualify each platform independently. RTX is qualified and its public fast path is verified. Spark remains pending. The runner refuses incomplete platform settings. Development launchers have different defaults; see [serving development and qualification](serving/README.md).
 
 ## Source and calibration
