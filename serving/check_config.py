@@ -46,6 +46,17 @@ assert len(quant.tensor_storage) == 34560
 assert quant.fp8_core.weight_block_size == [128, 128]
 print('GPTQModel metadata: 34,560 uniform MCG K4 projections and FP8 core validated')
 
+from vllm.config.speculative import SpeculativeConfig
+mtp = SpeculativeConfig.hf_config_override(copy.deepcopy(config))
+assert mtp.model_type == 'dots3_note_mtp'
+assert mtp.num_nextn_predict_layers == 1
+assert mtp.layer_types[-1] == 'sliding_attention'
+mtp_quant = Dots3HybridExl3Config.from_config(raw['quantization_config'])
+mtp_quant.maybe_update_config(sys.argv[1], mtp)
+assert mtp_quant.fp8_core.weight_block_size == [128, 128]
+assert not mtp_quant._linear_prefix_is_exl3('model.layers.46.eh_proj')
+print('Dots3 MTP configuration retains FP8 prediction-layer quantization')
+
 from vllm.models.dots3_note.nvidia.audio import Dots3NoteAudioConfig
 from transformers import WhisperConfig
 from vllm.models.dots3_note.common.processor import load_note_config_section

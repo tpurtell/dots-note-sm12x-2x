@@ -213,3 +213,79 @@ The initial client screen verified actual overlapping stream counts of
 1/2/4/8/16, matching each requested concurrency. RTX remains running at
 TP2, FP8 KV, 512 prefill tokens, 32K context, 16 slots and memory utilization
 0.90. The working baseline is ready for larger-context and B12x tuning.
+
+After saving the baseline and source commit `65ef447`, RTX was deliberately
+restarted for a 262,144-token capacity candidate at utilization 0.94, retaining
+512 prefill tokens and 16 slots. Container `dots3-vllm-rtx` is running startup
+(image includes shared scratch and the graph/tool fixes). This larger-context
+candidate is not yet qualified. Do not restart it solely on an observation
+timeout. Sparks still await the user's explicit ready signal after reboot.
+
+## Larger-context RTX and PCIe comparison
+
+The 262K candidate passed exactly 261,888 input + 256 output tokens. Startup
+reported 5.41 GiB KV memory and 310,070 request-equivalent tokens. The single
+boundary run measured 80.57s TTFT and 77.05 decode tokens/s. Temporary CUDA
+allocation retries occurred during prefill, but the request completed. Receipts:
+`context-262k-boundary.jsonl`, `startup-262k.log`, and
+`runtime-262k-boundary.json` in `.cache/serving/rtx/`.
+
+A three-run seven-workload control at this capacity passed all contracts and
+measured 86.30 weighted decode tokens/s (`seven-262k-native-ar.jsonl`). This is
+the control for the optional B12x PCIe adapter adapted from the Brandon recipe
+to the current planned B12x API. It prepares BF16 5120-channel row counts 1–32
+before graph capture and retains native fallbacks outside that admission set.
+
+The isolated PCIe test passed exact changed-input parity against NCCL for
+1/2/4/8/16/32 rows. It also compares native vLLM graphs: B12x was similar at
+small rows and slower at 16/32, so no default change is justified yet. Raw
+receipt: `pcie-check.log`. The full model is starting with the optional B12x
+adapter for the matched end-to-end comparison; that candidate is unqualified.
+
+The matched PCIe model run completed all content contracts: 86.60 weighted
+tokens/s versus 86.30 native (about +0.35%). Given the small C1 difference and
+slower 16/32-row components, native remains the default while other candidates
+are investigated. The B12x path stays an explicit evaluation option, not a
+release optimization claim. Receipts: `seven-262k-b12x-ar.jsonl` and
+`runtime-pcie-candidate.json`.
+
+The checkpoint does include native MTP: layer 46 contains FP8 projection and
+dense MLP weights plus the predictor norms, and `model.mtp.embed_tokens.weight`
+is present. vLLM supplies `num_nextn_predict_layers=1` and selects sliding
+attention for the prediction layer. The hybrid adapter previously recognized
+only `dots3_note`; it now also retains the FP8 core for `dots3_note_mtp`.
+The configuration probe covers this conversion. An MTP1 candidate is being
+prepared with native communication; actual loading and execution are pending.
+
+MTP configuration checks passed. RTX container `dots3-vllm-rtx` is now
+starting image `dots3-vllm-rtx:mtp-dev` with MTP1, 131,072 context, memory
+utilization 0.94, 512 prefill tokens, and native communication. Poll this
+container before making further lifecycle changes. Sparks await user readiness.
+
+## Spark recovery and initial RTX MTP1 evidence
+
+The user confirmed both Sparks are ready after reboot. Both were responsive
+with about 115 GiB available and zero swap use. Fresh native images were built
+on both hosts, and the adapter/gather hashes match the local source. Their
+configuration probes pass, including MTP FP8 handling. Both now run the corrected
+TP2 target-only startup at 0.85 utilization, 512 prefill tokens and 32K context.
+Host-side memory monitors sample once a second and stop this recipe's container
+after three samples below 8 GiB available RAM. Monitor logs live in each remote
+recipe's `.cache/serving/spark/memory-watch.log`; verify the process and log
+before trusting the guard. These monitors do not replace memory qualification.
+
+RTX MTP1 loaded successfully (79.6 GiB model memory/rank), reports 5.0 GiB KV
+memory and 283,447 equivalent tokens, and returned a correct first chat response.
+Three seven-workload runs passed all content contracts at 136.92 weighted
+tokens/s. Eight tool checks and prefix/JSON/forced-tool checks pass with MTP1;
+the latter recorded 3,520 cached-token hits. Native no-spec control used 262K
+configured context while this MTP candidate uses 128K, so the final tuning
+comparison must align settings. MTP1 concurrency testing is running.
+
+MTP1 concurrency completed at C1/2/4/8/16 with actual overlap matching all five
+levels; its single-run C16 aggregate was 739.23 tokens/s. Image/audio content
+and normal completion contracts passed. The candidate's runtime and cumulative
+speculation counters were saved (`runtime-mtp1-qualified-initial.json`,
+`mtp1-metrics-after-checks.txt`). MTP2 is now starting on RTX with the same 128K,
+0.94 utilization, 512 prefill and native-communication settings. Spark loading
+continues with both memory monitors live and substantial available RAM.

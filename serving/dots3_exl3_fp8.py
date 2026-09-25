@@ -277,7 +277,10 @@ class Dots3HybridExl3Config(Exl3Config):
         hf_config: PretrainedConfig | None = None,
         revision: str | None = None,
     ) -> None:
-        if getattr(hf_config, "model_type", None) == "dots3_note" and not self.tensor_storage:
+        is_dots3 = getattr(hf_config, "model_type", None) in (
+            "dots3_note", "dots3_note_mtp",
+        )
+        if is_dots3 and not self.tensor_storage:
             # GPTQModel writes its full EXL3 map under quantize_config.json;
             # config.json deliberately contains only the summary.
             payload = get_hf_file_to_dict(
@@ -293,7 +296,7 @@ class Dots3HybridExl3Config(Exl3Config):
                 raise ValueError("Dots3 requires 34,560 uniform K4 projection records")
             self.tensor_storage = storage
         super().maybe_update_config(model_name, hf_config, revision)
-        if getattr(hf_config, "model_type", None) != "dots3_note":
+        if not is_dots3:
             return
         source = getattr(hf_config, "dots3_fp8_core", None)
         if source is not None and source != {
