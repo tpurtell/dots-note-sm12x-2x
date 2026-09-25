@@ -34,9 +34,13 @@ Spark currently uses the 17/29 split with utilization **0.80** and exactly a
 **1 GiB** host reserve. Its batch-512 baseline accounts for **2,750,605 tokens**.
 Batch 2048 (**1,648,961**) and 4096 (**1,212,943**) violate the 200,000-token loss
 limit and were rejected before performance traffic. Batch 1024 accounts for
-**2,617,069**, passing that limit with a loss of **133,536**; its performance
-comparison is still in progress. Any optional kernel weight copies must also
-fit the combined capacity floor of **2,550,605 tokens**.
+**2,617,069**, passing that limit with a loss of **133,536**, but is also rejected:
+its 128K warmup drove Rhea below the 1 GiB physical-memory threshold for three
+samples, and the guard killed the container. Both hosts remained responsive;
+the partial 8K/32K measurements showed about 10% faster prefill but cannot
+qualify this configuration. Batch 512 is retained pending its actual native
+524K boundary check. Optional kernel weight copies must also fit the combined
+capacity floor of **2,550,605 tokens** and pass physical-memory qualification.
 [Batch evidence](../benchmarks/development/spark-prefill-batch-gates/manifest.json).
 Final Spark kernel selection, the common ARM image on both hosts, publication,
 and full qualification remain outstanding.
