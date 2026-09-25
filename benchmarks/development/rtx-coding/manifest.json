@@ -1,0 +1,44 @@
+{
+  "schema": "dots3-development-evidence-v1",
+  "release_qualification": false,
+  "scope": "Matched RTX MTP2/MTP3 reasoning-enabled coding, three runs at C1/C2/C4; same parent/wrapper image and request payloads. Source and runtime details in each receipt. Static checks are not executed-code correctness.",
+  "files": {
+    "coding-mtp2-8192.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/coding-mtp2-8192.jsonl",
+      "raw_sha256": "289dc20fcaf7f0d24ea1d0903b87425aa6d802258a93f3a2cc0004b680db05b1",
+      "compressed_sha256": "ca2940e6b15780a04fc16c96468f165be0013301e51e830bda0bd22a0654ee69",
+      "raw_bytes": 61160680
+    },
+    "coding-mtp3-8192.jsonl.gz": {
+      "original_path": ".cache/serving/rtx/coding-mtp3-8192.jsonl",
+      "raw_sha256": "acc9f2c06991ab2ad4c4ecfbb6a9e32636c60d6e1bb8b0471b92b5e542b301fc",
+      "compressed_sha256": "f63a690df6518905968725a1bb2dad99e49dfcb31aa69c40ea83a7dfa1d6bf2f",
+      "raw_bytes": 50367732
+    },
+    "runtime-mtp2.json.gz": {
+      "original_path": ".cache/serving/rtx/coding-comparison/runtime-mtp2.json",
+      "raw_sha256": "40b807da40c931c419bcdb24e75f9af72249d23fb498e184a54fe26bdb9668b5",
+      "compressed_sha256": "bb272b78bcb76aabcceec2e1dfb64fdb2c2f1eab2b548109a107d2dbf22f12c0",
+      "raw_bytes": 8435
+    },
+    "runtime-mtp3.json.gz": {
+      "original_path": ".cache/serving/rtx/coding-comparison/runtime-mtp3.json",
+      "raw_sha256": "c59f2f1ffe34aaddf979a0cc1e968b8e87e78b246d6a90e9bec659c4d531e7ea",
+      "compressed_sha256": "570bf29cdbe1021f5bde3b316aea056f7fba7129cca63a889957217a5fe63fee",
+      "raw_bytes": 8816
+    },
+    "mtp2-container.log.gz": {
+      "original_path": ".cache/serving/rtx/coding-comparison/mtp2-container.log",
+      "raw_sha256": "f72faf7e88a2cb5f0120cf738646da491c23498a1f79efd213dff222681649f2",
+      "compressed_sha256": "3cee5b9328a6adc2ccfa7e6081281328d1c1d8ee0da0d819dbbe700576de8195",
+      "raw_bytes": 366334
+    },
+    "mtp3-container.log.gz": {
+      "original_path": ".cache/serving/rtx/coding-comparison/mtp3-container.log",
+      "raw_sha256": "72177f84d71dc70a66e022e5045e459f9f909675ca3cbc059f41833736ebae14",
+      "compressed_sha256": "a873b9446458bda4186fed53a1b0d6a4783538a29a5a78b0adc491de06a6affe",
+      "raw_bytes": 348186
+    }
+  },
+  "comparison_sha256": "34034103ffb739358e08e570f4d21b6738a6e471cf170b8f62357e58468ab227"
+}

@@ -1,0 +1,2513 @@
+{
+  "schema": "dots3-coding-comparison-v1",
+  "candidates": [
+    {
+      "name": "mtp2",
+      "path": ".cache/serving/rtx/coding-mtp2-8192.jsonl",
+      "sha256": "289dc20fcaf7f0d24ea1d0903b87425aa6d802258a93f3a2cc0004b680db05b1",
+      "complete": true,
+      "completeness": {
+        "terminal_summary": true,
+        "expected_requests": 36,
+        "observed_requests": 36,
+        "observed_task_ids": [
+          "async_pool",
+          "merge_intervals",
+          "reservation_race",
+          "retry_boundary"
+        ],
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "duplicate_keys": [],
+        "parse_issues": []
+      },
+      "static_validation_audit": [
+        {
+          "key": [
+            1,
+            0,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            0,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            0,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            0,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": false,
+            "issues": [
+              "final JSON reference answer missing or incorrect"
+            ],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": true
+        },
+        {
+          "key": [
+            1,
+            1,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            1,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            1,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            1,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": false,
+            "issues": [
+              "final JSON reference answer missing or incorrect"
+            ],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": true
+        },
+        {
+          "key": [
+            1,
+            2,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            2,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            2,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            2,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            0,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            0,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            0,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            0,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            1,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            1,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            1,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            1,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            2,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            2,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            2,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            2,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            0,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            0,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            0,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": false,
+            "issues": [
+              "final JSON reference answer missing or incorrect"
+            ],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": false,
+            "issues": [
+              "final JSON reference answer missing or incorrect"
+            ],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            0,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            1,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            1,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            1,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            1,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            2,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            2,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            2,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            2,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": false,
+            "issues": [
+              "final JSON reference answer missing or incorrect"
+            ],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": true
+        }
+      ],
+      "by_concurrency": {
+        "1": {
+          "requests": 12,
+          "completed": 12,
+          "natural_stop": 12,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 12,
+          "natural_stop_rate": 1.0,
+          "truncation_rate": 0.0,
+          "static_check_rate": 1.0,
+          "valid_token_accounting": 12,
+          "median_decode_tps": 166.75600409420704,
+          "median_completed_latency_seconds": 23.61009241749707,
+          "median_all_terminal_latency_seconds": 23.61009241749707,
+          "median_output_tokens": 3836.0,
+          "median_completed_output_tokens": 3836.0,
+          "median_ttft_seconds": 0.08853606450429652,
+          "reasoning_finished": 12,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_reasoning_duration_seconds_approx": 19.49873724700592,
+          "quality_scope": "Static artifacts/reference answers only; generated code was not executed.",
+          "wave_peak_overlap": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "aggregate_output_tps": 164.38132336505518,
+          "aggregate_decode_tps": 164.8941740342953,
+          "by_task": {
+            "async_pool": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 163.8948167659777,
+              "median_completed_latency_seconds": 31.830386584973894,
+              "median_all_terminal_latency_seconds": 31.830386584973894,
+              "median_output_tokens": 5203,
+              "median_completed_output_tokens": 5203,
+              "median_ttft_seconds": 0.08931888599181548,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 26.561985621985514,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "merge_intervals": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 167.7602381307859,
+              "median_completed_latency_seconds": 18.879748998995638,
+              "median_all_terminal_latency_seconds": 18.879748998995638,
+              "median_output_tokens": 3137,
+              "median_completed_output_tokens": 3137,
+              "median_ttft_seconds": 0.089073417999316,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 15.352174386993283,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "reservation_race": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 158.2444543050246,
+              "median_completed_latency_seconds": 19.446860208990984,
+              "median_all_terminal_latency_seconds": 19.446860208990984,
+              "median_output_tokens": 3120,
+              "median_completed_output_tokens": 3120,
+              "median_ttft_seconds": 0.08533833001274616,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 15.019168890983565,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "retry_boundary": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 169.08597366250333,
+              "median_completed_latency_seconds": 29.69034300101339,
+              "median_all_terminal_latency_seconds": 29.69034300101339,
+              "median_output_tokens": 5007,
+              "median_completed_output_tokens": 5007,
+              "median_ttft_seconds": 0.0904729219910223,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 25.82127397498698,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            }
+          }
+        },
+        "2": {
+          "requests": 12,
+          "completed": 12,
+          "natural_stop": 12,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 12,
+          "natural_stop_rate": 1.0,
+          "truncation_rate": 0.0,
+          "static_check_rate": 1.0,
+          "valid_token_accounting": 12,
+          "median_decode_tps": 130.55895282857455,
+          "median_completed_latency_seconds": 35.59424798899272,
+          "median_all_terminal_latency_seconds": 35.59424798899272,
+          "median_output_tokens": 4870.5,
+          "median_completed_output_tokens": 4870.5,
+          "median_ttft_seconds": 0.1254063640080858,
+          "reasoning_finished": 12,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_reasoning_duration_seconds_approx": 31.359738726983778,
+          "quality_scope": "Static artifacts/reference answers only; generated code was not executed.",
+          "wave_peak_overlap": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "aggregate_output_tps": 221.77543367488252,
+          "aggregate_decode_tps": 222.15041830898232,
+          "by_task": {
+            "async_pool": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 149.0017281201683,
+              "median_completed_latency_seconds": 45.506977016018936,
+              "median_all_terminal_latency_seconds": 45.506977016018936,
+              "median_output_tokens": 6757,
+              "median_completed_output_tokens": 6757,
+              "median_ttft_seconds": 0.08733273000689223,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 40.805283725989284,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "merge_intervals": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 128.35534313493272,
+              "median_completed_latency_seconds": 19.915088778012432,
+              "median_all_terminal_latency_seconds": 19.915088778012432,
+              "median_output_tokens": 2535,
+              "median_completed_output_tokens": 2535,
+              "median_ttft_seconds": 0.16347999800927937,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 16.17310057900613,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "reservation_race": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 120.43986314037943,
+              "median_completed_latency_seconds": 31.867272738018073,
+              "median_all_terminal_latency_seconds": 31.867272738018073,
+              "median_output_tokens": 3892,
+              "median_completed_output_tokens": 3892,
+              "median_ttft_seconds": 0.08296583199989982,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 26.073950695979875,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "retry_boundary": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 137.6014791282653,
+              "median_completed_latency_seconds": 39.84617419398273,
+              "median_all_terminal_latency_seconds": 39.84617419398273,
+              "median_output_tokens": 5570,
+              "median_completed_output_tokens": 5570,
+              "median_ttft_seconds": 0.16856320199440233,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 34.480867504986236,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            }
+          }
+        },
+        "4": {
+          "requests": 12,
+          "completed": 12,
+          "natural_stop": 12,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 11,
+          "natural_stop_rate": 1.0,
+          "truncation_rate": 0.0,
+          "static_check_rate": 0.9166666666666666,
+          "valid_token_accounting": 12,
+          "median_decode_tps": 96.43445947196139,
+          "median_completed_latency_seconds": 40.292545347008854,
+          "median_all_terminal_latency_seconds": 40.292545347008854,
+          "median_output_tokens": 3850.0,
+          "median_completed_output_tokens": 3850.0,
+          "median_ttft_seconds": 0.21701685649168212,
+          "reasoning_finished": 12,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_reasoning_duration_seconds_approx": 33.57796359699569,
+          "quality_scope": "Static artifacts/reference answers only; generated code was not executed.",
+          "wave_peak_overlap": [
+            4,
+            4,
+            4
+          ],
+          "aggregate_output_tps": 323.6136116664047,
+          "aggregate_decode_tps": 324.05997751853073,
+          "by_task": {
+            "async_pool": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 100.57537913655793,
+              "median_completed_latency_seconds": 43.78618473900133,
+              "median_all_terminal_latency_seconds": 43.78618473900133,
+              "median_output_tokens": 4383,
+              "median_completed_output_tokens": 4383,
+              "median_ttft_seconds": 0.21721262598293833,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 37.527688482019585,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "merge_intervals": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 94.39676854543775,
+              "median_completed_latency_seconds": 34.26927807502216,
+              "median_all_terminal_latency_seconds": 34.26927807502216,
+              "median_output_tokens": 3166,
+              "median_completed_output_tokens": 3166,
+              "median_ttft_seconds": 0.08216310502029955,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 27.16329861700069,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "reservation_race": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 90.19810290183088,
+              "median_completed_latency_seconds": 34.045310810994124,
+              "median_all_terminal_latency_seconds": 34.045310810994124,
+              "median_output_tokens": 3068,
+              "median_completed_output_tokens": 3068,
+              "median_ttft_seconds": 0.21773585298797116,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 27.12418911998975,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "retry_boundary": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 2,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 0.6666666666666666,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 106.82094098027788,
+              "median_completed_latency_seconds": 47.92846489799558,
+              "median_all_terminal_latency_seconds": 47.92846489799558,
+              "median_output_tokens": 5091,
+              "median_completed_output_tokens": 5091,
+              "median_ttft_seconds": 0.2785407880146522,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 44.57978555597947,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "mtp3",
+      "path": ".cache/serving/rtx/coding-mtp3-8192.jsonl",
+      "sha256": "acc9f2c06991ab2ad4c4ecfbb6a9e32636c60d6e1bb8b0471b92b5e542b301fc",
+      "complete": true,
+      "completeness": {
+        "terminal_summary": true,
+        "expected_requests": 36,
+        "observed_requests": 36,
+        "observed_task_ids": [
+          "async_pool",
+          "merge_intervals",
+          "reservation_race",
+          "retry_boundary"
+        ],
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "duplicate_keys": [],
+        "parse_issues": []
+      },
+      "static_validation_audit": [
+        {
+          "key": [
+            1,
+            0,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            0,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            0,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            0,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            1,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            1,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            1,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            1,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            2,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            2,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            2,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            1,
+            2,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            0,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            0,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            0,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            0,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            1,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            1,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            1,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            1,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            2,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            2,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            2,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            2,
+            2,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            0,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": false,
+            "issues": [
+              "no syntactically valid Python block defining merge_intervals"
+            ],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": false,
+            "issues": [
+              "no syntactically valid Python block defining merge_intervals"
+            ],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            0,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            0,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            0,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            1,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            1,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            1,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            1,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            2,
+            "merge_intervals"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            2,
+            "async_pool"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            2,
+            "retry_boundary"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        },
+        {
+          "key": [
+            4,
+            2,
+            "reservation_race"
+          ],
+          "original_reported": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "recomputed": {
+            "static_checks_passed": true,
+            "issues": [],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          },
+          "changed": false
+        }
+      ],
+      "by_concurrency": {
+        "1": {
+          "requests": 12,
+          "completed": 12,
+          "natural_stop": 12,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 12,
+          "natural_stop_rate": 1.0,
+          "truncation_rate": 0.0,
+          "static_check_rate": 1.0,
+          "valid_token_accounting": 12,
+          "median_decode_tps": 181.33320004803593,
+          "median_completed_latency_seconds": 23.995098007508204,
+          "median_all_terminal_latency_seconds": 23.995098007508204,
+          "median_output_tokens": 4221.0,
+          "median_completed_output_tokens": 4221.0,
+          "median_ttft_seconds": 0.0909823440015316,
+          "reasoning_finished": 12,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_reasoning_duration_seconds_approx": 20.060352915490512,
+          "quality_scope": "Static artifacts/reference answers only; generated code was not executed.",
+          "wave_peak_overlap": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "aggregate_output_tps": 179.56844591972967,
+          "aggregate_decode_tps": 180.19298249071215,
+          "by_task": {
+            "async_pool": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 181.07917416165358,
+              "median_completed_latency_seconds": 32.31278664601268,
+              "median_all_terminal_latency_seconds": 32.31278664601268,
+              "median_output_tokens": 5852,
+              "median_completed_output_tokens": 5852,
+              "median_ttft_seconds": 0.09230309800477698,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 28.045769932010444,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "merge_intervals": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 182.1345044395958,
+              "median_completed_latency_seconds": 18.739288771001156,
+              "median_all_terminal_latency_seconds": 18.739288771001156,
+              "median_output_tokens": 3326,
+              "median_completed_output_tokens": 3326,
+              "median_ttft_seconds": 0.0908762050094083,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 15.081925090984441,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "reservation_race": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 172.04805841026953,
+              "median_completed_latency_seconds": 17.39574692599126,
+              "median_all_terminal_latency_seconds": 17.39574692599126,
+              "median_output_tokens": 3042,
+              "median_completed_output_tokens": 3042,
+              "median_ttft_seconds": 0.08714727300684899,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 13.031888716999674,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "retry_boundary": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 188.60132615741958,
+              "median_completed_latency_seconds": 28.043355945992516,
+              "median_all_terminal_latency_seconds": 28.043355945992516,
+              "median_output_tokens": 5273,
+              "median_completed_output_tokens": 5273,
+              "median_ttft_seconds": 0.09012346400413662,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 22.655883939005435,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            }
+          }
+        },
+        "2": {
+          "requests": 12,
+          "completed": 12,
+          "natural_stop": 12,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 12,
+          "natural_stop_rate": 1.0,
+          "truncation_rate": 0.0,
+          "static_check_rate": 1.0,
+          "valid_token_accounting": 12,
+          "median_decode_tps": 141.38332726653408,
+          "median_completed_latency_seconds": 26.9814496049803,
+          "median_all_terminal_latency_seconds": 26.9814496049803,
+          "median_output_tokens": 3645.0,
+          "median_completed_output_tokens": 3645.0,
+          "median_ttft_seconds": 0.11660667198884767,
+          "reasoning_finished": 12,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_reasoning_duration_seconds_approx": 22.009135430504102,
+          "quality_scope": "Static artifacts/reference answers only; generated code was not executed.",
+          "wave_peak_overlap": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "aggregate_output_tps": 231.5666028692645,
+          "aggregate_decode_tps": 232.08566916608245,
+          "by_task": {
+            "async_pool": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 149.88914123870978,
+              "median_completed_latency_seconds": 43.03440678498009,
+              "median_all_terminal_latency_seconds": 43.03440678498009,
+              "median_output_tokens": 6717,
+              "median_completed_output_tokens": 6717,
+              "median_ttft_seconds": 0.08648767197155394,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 38.003168784984155,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "merge_intervals": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 132.96811032742113,
+              "median_completed_latency_seconds": 24.923211360001005,
+              "median_all_terminal_latency_seconds": 24.923211360001005,
+              "median_output_tokens": 3290,
+              "median_completed_output_tokens": 3290,
+              "median_ttft_seconds": 0.18788687500637025,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 21.427704832982272,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "reservation_race": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 121.0203026088197,
+              "median_completed_latency_seconds": 21.708208497002488,
+              "median_all_terminal_latency_seconds": 21.708208497002488,
+              "median_output_tokens": 2554,
+              "median_completed_output_tokens": 2554,
+              "median_ttft_seconds": 0.11661858498700894,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 16.76723149701138,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "retry_boundary": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 151.61510786375197,
+              "median_completed_latency_seconds": 31.530874774005497,
+              "median_all_terminal_latency_seconds": 31.530874774005497,
+              "median_output_tokens": 4902,
+              "median_completed_output_tokens": 4902,
+              "median_ttft_seconds": 0.11659475899068639,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 26.639496171002975,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            }
+          }
+        },
+        "4": {
+          "requests": 12,
+          "completed": 12,
+          "natural_stop": 12,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 11,
+          "natural_stop_rate": 1.0,
+          "truncation_rate": 0.0,
+          "static_check_rate": 0.9166666666666666,
+          "valid_token_accounting": 12,
+          "median_decode_tps": 102.53244949397089,
+          "median_completed_latency_seconds": 43.39565452901297,
+          "median_all_terminal_latency_seconds": 43.39565452901297,
+          "median_output_tokens": 4458.5,
+          "median_completed_output_tokens": 4458.5,
+          "median_ttft_seconds": 0.2224706819979474,
+          "reasoning_finished": 12,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_reasoning_duration_seconds_approx": 37.77127884948277,
+          "quality_scope": "Static artifacts/reference answers only; generated code was not executed.",
+          "wave_peak_overlap": [
+            4,
+            4,
+            4
+          ],
+          "aggregate_output_tps": 329.65326983905953,
+          "aggregate_decode_tps": 330.0973219788125,
+          "by_task": {
+            "async_pool": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 114.84594314293297,
+              "median_completed_latency_seconds": 51.639588554011425,
+              "median_all_terminal_latency_seconds": 51.639588554011425,
+              "median_output_tokens": 5922,
+              "median_completed_output_tokens": 5922,
+              "median_ttft_seconds": 0.08472704701125622,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 47.69332782001584,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "merge_intervals": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 2,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 0.6666666666666666,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 99.37667361785103,
+              "median_completed_latency_seconds": 32.79681570699904,
+              "median_all_terminal_latency_seconds": 32.79681570699904,
+              "median_output_tokens": 3274,
+              "median_completed_output_tokens": 3274,
+              "median_ttft_seconds": 0.2267068010114599,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 29.042329357995186,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "reservation_race": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 93.49771911849356,
+              "median_completed_latency_seconds": 27.175210284010973,
+              "median_all_terminal_latency_seconds": 27.175210284010973,
+              "median_output_tokens": 2521,
+              "median_completed_output_tokens": 2521,
+              "median_ttft_seconds": 0.2226297059969511,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 20.598427238001022,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            },
+            "retry_boundary": {
+              "requests": 3,
+              "completed": 3,
+              "natural_stop": 3,
+              "truncated": 0,
+              "errors": 0,
+              "static_checks_passed": 3,
+              "natural_stop_rate": 1.0,
+              "truncation_rate": 0.0,
+              "static_check_rate": 1.0,
+              "valid_token_accounting": 3,
+              "median_decode_tps": 113.9133009024656,
+              "median_completed_latency_seconds": 47.05088132401579,
+              "median_all_terminal_latency_seconds": 47.05088132401579,
+              "median_output_tokens": 5327,
+              "median_completed_output_tokens": 5327,
+              "median_ttft_seconds": 0.2959858110116329,
+              "reasoning_finished": 3,
+              "reasoning_incomplete": 0,
+              "reasoning_unobserved": 0,
+              "median_reasoning_duration_seconds_approx": 42.912060105998535,
+              "quality_scope": "Static artifacts/reference answers only; generated code was not executed."
+            }
+          }
+        }
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "baseline": "mtp2",
+      "candidate": "mtp3",
+      "eligible_for_complete_run_comparison": true,
+      "common_requests": 36,
+      "request_key_sets_equal": true,
+      "task_hash_equal": true,
+      "payload_mismatch_keys": [],
+      "only_baseline_keys": [],
+      "only_candidate_keys": [],
+      "interpretation": "Decode rate and completed latency are separate. Shorter output can lower latency without improving decode. No automatic quality ranking.",
+      "paired_median_ratios": {
+        "1": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.091012414968766,
+            "pairs": 12
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 0.9438632473198699,
+            "pairs": 12
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 1.0499626744168626,
+            "pairs": 12
+          }
+        },
+        "1:async_pool": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0944771538050424,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 1.0206085046387665,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 1.116966315354412,
+            "pairs": 3
+          }
+        },
+        "1:merge_intervals": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.085683392375753,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 1.0008428022007745,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 1.0812743823146944,
+            "pairs": 3
+          }
+        },
+        "1:reservation_race": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0770675125889542,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 0.9431986410869755,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 1.0467997247075018,
+            "pairs": 3
+          }
+        },
+        "1:retry_boundary": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.1152679966274788,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 0.8671776102995095,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 0.9724603319350721,
+            "pairs": 3
+          }
+        },
+        "2": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0447259160245612,
+            "pairs": 12
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 0.8746862194594011,
+            "pairs": 12
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 0.9319462873783184,
+            "pairs": 12
+          }
+        },
+        "2:async_pool": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0059557236666798,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 0.9380975012067511,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 0.9210189452124936,
+            "pairs": 3
+          }
+        },
+        "2:merge_intervals": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0359374770058405,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 1.2514737763819497,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 1.2978303747534516,
+            "pairs": 3
+          }
+        },
+        "2:reservation_race": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0052800308731376,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 0.616182347088115,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 0.6487667009249743,
+            "pairs": 3
+          }
+        },
+        "2:retry_boundary": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.129816584199138,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 0.8328129220352696,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 0.9428736295441431,
+            "pairs": 3
+          }
+        },
+        "4": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0567348742895026,
+            "pairs": 12
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 1.0350721046029006,
+            "pairs": 12
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 1.1021618928760355,
+            "pairs": 12
+          }
+        },
+        "4:async_pool": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0717100811718705,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 1.179358029520551,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 1.2833173537871525,
+            "pairs": 3
+          }
+        },
+        "4:merge_intervals": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0645617037258073,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 1.0045062727125902,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 1.0647154471544715,
+            "pairs": 3
+          }
+        },
+        "4:reservation_race": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0291259733020044,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 0.8162563925032441,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 0.8341933264533884,
+            "pairs": 3
+          }
+        },
+        "4:retry_boundary": {
+          "candidate_over_baseline_decode_tps": {
+            "median": 1.0715721155701117,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_latency": {
+            "median": 1.1387464562622438,
+            "pairs": 3
+          },
+          "candidate_over_baseline_completed_output_tokens": {
+            "median": 1.2416028285209193,
+            "pairs": 3
+          }
+        }
+      },
+      "ratio_direction": "Candidate / baseline. Higher decode ratio is faster; lower completed-latency ratio is shorter. Read output-token ratio alongside latency."
+    }
+  ],
+  "baseline": "mtp2",
+  "ranking": null,
+  "static_validator": {
+    "policy": "recompute all measured content checks; retain original results in per-request audit",
+    "function_sha256": "7d56d33b80301f798e92b97467e1e678bf8932548ff5c0874dce8b94574a8fb0",
+    "module_sha256": "5b6aa8dda995a8cb180bf660a0e8af3a2f1e691cac9dbef47cd54efab27ff9da",
+    "comparison_script_sha256": "80270b6bc32e3d977684d19ed96afb13267bcb8b583790ecd176931e66a75d23",
+    "scope": "Static response checks only, not behavioral code validation"
+  }
+}

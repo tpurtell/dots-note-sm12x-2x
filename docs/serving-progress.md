@@ -535,3 +535,15 @@ The RTX wrapper started from a new empty runtime cache and passed prefix caching
 The latest stable vLLM was rechecked through the official releases API on 2026-09-25: v0.30.0, published 2026-09-22. The pinned baseline therefore remains current.
 
 The 2026-09-25 Dots3 PR search is preserved in `benchmarks/development/dots3-pr-review-20260925.jsonl`. The video/audio processor-cache repair #57655 is still open; video remains outside this recipe’s qualified modalities. Newer hits include processor naming cleanup and experimental media preprocessing, which do not justify replacing the stable runtime during qualification. No additional PR was applied solely from its search title.
+
+## Matched RTX coding result: MTP3 leads MTP2 at C1–C4
+
+Both complete candidates use the same container image, 262K context, 0.95 utilization, 512-token chunks, 16 slots, native collectives, and exactly matched measured request payloads. Three runs of four reasoning-enabled debugging tasks at each concurrency finished naturally: 36/36 per candidate, zero HTTP or token-accounting errors. Recomputed static checks pass 35/36 for each. Evidence and validator audit are preserved in [the comparison](../benchmarks/development/rtx-coding/mtp2-vs-mtp3.json), with [raw receipt hashes](../benchmarks/development/rtx-coding/manifest.json).
+
+| Clients | MTP2 median per-request decode tokens/s | MTP3 median per-request decode tokens/s | MTP2 / MTP3 completed-answer latency, s |
+| --- | ---: | ---: | ---: |
+| 1 | 166.76 | 181.33 | 23.61 / 24.00 |
+| 2 | 130.56 | 141.38 | 35.59 / 26.98 |
+| 4 | 96.43 | 102.53 | 40.29 / 43.40 |
+
+Responses have different lengths; compare token rate alongside latency and output lengths, not latency alone. All measured requests visibly finished reasoning. Concurrent waves reach their requested overlap, then naturally drain as tasks finish. MTP3 is the current RTX preference for the requested C1–C4 coding balance; a matched one-run MTP4 screen is running before final choice. The earlier MTP2 preference from sampled prose/C16 no longer drives the default. Dynamic depth is not needed to reconcile these fixed-K curves because MTP3 leads at all three coding levels.
