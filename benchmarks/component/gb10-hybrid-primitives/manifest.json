@@ -1,0 +1,76 @@
+{
+  "scope": "Both GB10 physical GPUs, full128head TP1 sparseMLA component and actualvLLMadapter; twohost realPyNccl hybridowner transport viaRDMA. Not whole-modelhybridqualification.",
+  "b12x_commit": "bf5677c6",
+  "kernel_pytest_selection": "1-576 or 1-1088",
+  "kernel_passed_each_host": 22,
+  "adapter_command": "check_sparse_adapter.py --compact --heads 128",
+  "source_overlay": "candidate-v4 plus mounted B12x bf5677c6 and full-head dots3_b12x_attention.py",
+  "transport": {
+    "command": "torchrun --nnodes 2 --nproc-per-node 1 --node-rank R --master-addr 10.55.1.5 --master-port 29713 /probe/serving/check_hybrid_transport.py",
+    "rows": [
+      1,
+      4,
+      16,
+      512
+    ],
+    "owners": [
+      0,
+      1
+    ],
+    "changed_graph_replays": 3,
+    "hca": "roceP2p1s0f0",
+    "gid": 3,
+    "network": "IB",
+    "preliminary_socket_run": "Preserved separately; /dev/infiniband was omitted from its probecontainer; corrected RDMA run is qualification"
+  },
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/hybrid128-rhea-kernels.log",
+      "artifact": "hybrid128-rhea-kernels.log.gz",
+      "source_sha256": "cf21cbe070a44feb741357be2969605cabfd00ba6bd2f792106a802ac1d2e949",
+      "artifact_sha256": "bc151c88e85ebbf94a665a61376a7c0ae2526782a149ccf819080bb6e707d3eb"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid128-moa-adapter.log",
+      "artifact": "hybrid128-moa-adapter.log.gz",
+      "source_sha256": "0b6b274b1d8b70e8aac2342a144f9a7849b293707c0609c5fe5e343eb603ff8b",
+      "artifact_sha256": "e7cbe2cf252b1cfd37d3f8f6137fd4292e6eef550204c40c80c883a161ffbad2"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid128-rhea-adapter.log",
+      "artifact": "hybrid128-rhea-adapter.log.gz",
+      "source_sha256": "0b6b274b1d8b70e8aac2342a144f9a7849b293707c0609c5fe5e343eb603ff8b",
+      "artifact_sha256": "e7cbe2cf252b1cfd37d3f8f6137fd4292e6eef550204c40c80c883a161ffbad2"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid128-moa-kernels.log",
+      "artifact": "hybrid128-moa-kernels.log.gz",
+      "source_sha256": "65e9e21d9aa0af0976fede1ef3983e34af16d33d94b4f340df7be65d569e0170",
+      "artifact_sha256": "4b8f39ecaff0b9f0939eb36bf1bde50d40c7d2dcfa60daf2c135a7c391435e2f"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid-transport-rhea.log",
+      "artifact": "hybrid-transport-rhea.log.gz",
+      "source_sha256": "28c61c382f5adf97c83d7e01933e65d0de6a8644f12f69c677fd7553624a11be",
+      "artifact_sha256": "4644be089a76085390c41e3bfff13a21a04a58df187f8eafbc35c61d059fa4cb"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid-transport-rdma-moa.log",
+      "artifact": "hybrid-transport-rdma-moa.log.gz",
+      "source_sha256": "2f8c45131f7a5f1b0bfdf62fd68fff547adb6111aa8c98a9060911be063c4c4b",
+      "artifact_sha256": "b23b79ab3e4d01e6800ab5d5c18855f00bc0dad8763f99e6b107f9df20a4718a"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid-transport-rdma-rhea.log",
+      "artifact": "hybrid-transport-rdma-rhea.log.gz",
+      "source_sha256": "68275afca94bb0c34f72592ba517bb9ca31902f891d63f007cab604e0559ed7f",
+      "artifact_sha256": "a48334014116e7d88687b1923220825bb1014d538fd3fef9210a48a56d312dd6"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid-transport-moa.log",
+      "artifact": "hybrid-transport-moa.log.gz",
+      "source_sha256": "38dc0d090967a7dd9370a16823ac4c466b7be947ea5e0f1201ed17c2e59eecf3",
+      "artifact_sha256": "aea0c11ceff0f6a73f8aed5c48e891ca36f095c3fa7da447cfbdf6162c61f10f"
+    }
+  ]
+}
