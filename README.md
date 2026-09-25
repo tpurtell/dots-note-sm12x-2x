@@ -6,6 +6,13 @@ This repository provides one Dots3 Note Preview checkpoint and is developing two
 
 ## Container fast path
 
+The published RTX v1 profile below uses ordinary TP2 and a **262,144-token**
+context. The next recipes target the model's **524,288-token** context with
+owner-local attention/KV and multimodal towers while retaining **TP2 for every
+routed expert**. Those hybrid recipes are still being qualified on both
+platforms; their development results have not replaced the release tables.
+See [current hybrid qualification](docs/serving-progress.md#current-development-hybrid-layer-owners-and-expert-tp2).
+
 The public **amd64 RTX** container is available; the separate **arm64 Spark** container is under qualification. Each contains its platform kernels and runtime caches. Use the [container run instructions](serving/release/README.md#container-fast-path): pull the platform image, mount the entire existing `HF_HOME`, and start the pinned profile. Spark runs one container on each host, worker first. Model downloads are unnecessary when the published checkpoint is already installed.
 
 The [release settings](serving/release/settings.json) qualify each platform independently. RTX is qualified and its public fast path is verified. Spark remains pending. The runner refuses incomplete platform settings. Development launchers have different defaults; see [serving development and qualification](serving/README.md).
