@@ -21,10 +21,13 @@ class DenseParallelContext:
         return {'disable_tp': True}
     tensor_parallel_size: int = 1
     tensor_parallel_rank: int = 0
+    def __post_init__(self):
+        if self.tensor_parallel_size != 1 or self.tensor_parallel_rank != 0:
+            raise ValueError("owner-local dense context must be TP1/rank0")
 
 
 @dataclass(frozen=True)
-class ExpertParallelContext:
+class ExpertTensorParallelContext:
     """Tensor partitions of every expert; this is not expert parallelism."""
     tensor_parallel_size: int
     tensor_parallel_rank: int

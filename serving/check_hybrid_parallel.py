@@ -2,7 +2,7 @@
 """CPU protocol checks with two concurrent emulated tensor-parallel ranks."""
 from concurrent.futures import ThreadPoolExecutor
 from threading import Barrier, Lock
-from hybrid_parallel import (LayerOwnerPlan, ExpertParallelContext,
+from hybrid_parallel import (LayerOwnerPlan, ExpertTensorParallelContext,
     HybridModelCapabilities, RoutedLayerBuffers, execute_routed_layer)
 
 class Buffer:
@@ -39,7 +39,7 @@ class Group:
 
 assert LayerOwnerPlan.contiguous(46, 2).owner_changes() == (23,)
 assert LayerOwnerPlan.contiguous(46, 2).dense_context(24, 1).owns_parameters
-assert ExpertParallelContext(2, 1).tensor_parallel_rank == 1
+assert ExpertTensorParallelContext(2, 1).tensor_parallel_rank == 1
 try:
     HybridModelCapabilities(True, False, True, True).validate()
 except ValueError: pass
