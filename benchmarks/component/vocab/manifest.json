@@ -1,0 +1,116 @@
+{
+  "schema": "dots3-vocab-component-evidence-v1",
+  "release_qualification": false,
+  "scope": "Two independent GPU component runs on distinct RTX TP vocabulary shards; not a distributed collective test or full-model benchmark.",
+  "image_tag": "dots3-vllm-rtx:vocab-plan-candidate",
+  "image_id": "sha256:5ecf76bc12da2141373d461adea41bf7ba92fcc74bcead92dddcbec7f2d87c45",
+  "image_adapter_commit": "102bd2af697450602e05c225d191afb9cf40f138",
+  "b12x_commit": "c5e23d830c3d1e76be56a5df290d13e30bc66702",
+  "model_revision": "d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+  "source_sha256": {
+    "serving/smoke_vocab.py": "e08f643abf06f7d4d5877696b3285dcc43c67b2cee0365c68aadd75d7582ed83",
+    "serving/dots3_exl3_fp8.py": "12ef89206a89ef154825d8e23502738773f427311e249bfaab8c47930418d6c7",
+    "third_party/sparkinfer-glmrt/b12x/gemm/bf16_vocab_projection/_preparation.py": "dee31ec6904aa6c826298b83e17cbc59b725bc59cae4c9b127867624f8b4ff41",
+    "third_party/sparkinfer-glmrt/b12x/gemm/bf16_vocab_projection/_contracts.py": "2ca884cf25844a9e75b536b1e43a73fd821ecb8690087f11ff4cc86b9f845266",
+    "third_party/sparkinfer-glmrt/b12x/gemm/bf16_vocab_projection/_kernel.py": "9003c109ba45a9d26dfefe2fa2cbff061c87cb9bc7728afe61ae9010a9bb4181",
+    "third_party/sparkinfer-glmrt/b12x/preparation/session.py": "da712f7ffa87dac146e7c0714cfe078ae6e09694f444d8635798e28afefed23d",
+    "third_party/sparkinfer-glmrt/b12x/preparation/types.py": "c92d9111db0da0c7b5b995957d00880762d87af464d3ba197046cd614b3ee06c"
+  },
+  "source_note": "Smoke extension mounted from project before commit. Its docstring changed GB10 to SM12x after process import; archived hash describes final source with identical functional code.",
+  "cwd": "/home/tj/Developer/dots-note-sm12x-2x",
+  "commands": [
+    {
+      "rank": 0,
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--gpus",
+        "device=0",
+        "--ipc=host",
+        "-e",
+        "HF_HUB_OFFLINE=1",
+        "-e",
+        "TRANSFORMERS_OFFLINE=1",
+        "-v",
+        "/home/tj/.cache/huggingface:/root/.cache/huggingface:ro",
+        "-v",
+        "/home/tj/Developer/dots-note-sm12x-2x:/recipe",
+        "--entrypoint",
+        "python3",
+        "dots3-vllm-rtx:vocab-plan-candidate",
+        "/recipe/serving/smoke_vocab.py",
+        "--fp8-source",
+        "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+        "--tp-rank",
+        "0",
+        "--check-plan-reuse",
+        "--output",
+        "/recipe/.cache/serving/rtx/reasoning-vocab/component/reuse-rank0.json"
+      ],
+      "stdout_stderr": ".cache/serving/rtx/reasoning-vocab/component/reuse-rank0.log"
+    },
+    {
+      "rank": 1,
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--gpus",
+        "device=1",
+        "--ipc=host",
+        "-e",
+        "HF_HUB_OFFLINE=1",
+        "-e",
+        "TRANSFORMERS_OFFLINE=1",
+        "-v",
+        "/home/tj/.cache/huggingface:/root/.cache/huggingface:ro",
+        "-v",
+        "/home/tj/Developer/dots-note-sm12x-2x:/recipe",
+        "--entrypoint",
+        "python3",
+        "dots3-vllm-rtx:vocab-plan-candidate",
+        "/recipe/serving/smoke_vocab.py",
+        "--fp8-source",
+        "/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+        "--tp-rank",
+        "1",
+        "--check-plan-reuse",
+        "--output",
+        "/recipe/.cache/serving/rtx/reasoning-vocab/component/reuse-rank1.json"
+      ],
+      "stdout_stderr": ".cache/serving/rtx/reasoning-vocab/component/reuse-rank1.log"
+    }
+  ],
+  "execution": "Ranks launched concurrently in separate containers, each restricted to its corresponding physical GPU.",
+  "files": {
+    "reuse-rank0.json": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/component/reuse-rank0.json",
+      "sha256": "b4642f20a546e8d8cb592bf4bf5e5e012f2fc1be9f2b9745129df269ee5f49b2",
+      "bytes": 2217
+    },
+    "reuse-rank0.log": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/component/reuse-rank0.log",
+      "sha256": "36a8ee7f776bfe77b2cc2a6c6db4bbe40530a37ee7b0ec6c50a27bdcaf171b12",
+      "bytes": 649
+    },
+    "reuse-rank1.json": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/component/reuse-rank1.json",
+      "sha256": "4236ac36bca53081bc7b8fdcaef5d4a6d633ebc5b3ed2fe48a8d59845e41a9ac",
+      "bytes": 2238
+    },
+    "reuse-rank1.log": {
+      "original_path": ".cache/serving/rtx/reasoning-vocab/component/reuse-rank1.log",
+      "sha256": "ef715274d13d0c2764020f67ab357d7b6e2efafccf3f4bc0ae6796438571ab61",
+      "bytes": 664
+    }
+  },
+  "validation": {
+    "same_prepared_plan": true,
+    "distinct_output_storage": true,
+    "changed_input_and_inplace_weight_graph_max_abs_error": 0.0,
+    "obsolete_weight_released_bytes_per_rank": 778567680,
+    "ratio_direction": "native latency / B12x latency; greater than1 favors B12x",
+    "full_model_ab": "pending"
+  }
+}

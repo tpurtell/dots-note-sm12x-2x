@@ -576,3 +576,17 @@ so neither latency nor static checks alone ranks overall coding quality.
 Final release-image qualification and README performance tables remain pending.
 The next RTX checks use the selected MTP3 with the Dots-aware reasoning parser
 and evaluate the optional vocabulary optimization against its native control.
+
+
+## RTX vocabulary shared-plan component qualification
+
+The optional vocabulary path initially retained the temporary MTP head through
+its preparation session. Sharing the weight-independent prepared plan avoids a
+second persistent head. On both RTX shards, GPU checks now verify distinct live
+output storage, exact eager/graph equality after changing inputs and weights,
+and release of **778,567,680 bytes per rank** when the obsolete head is replaced.
+BF16-native cosine is at least 0.99999994 and top20 indices agree. B12x median
+latencies are 490.50/489.36 µs versus native 507.28/507.78 µs—a small component
+benefit, not a full-model speed claim. [Raw receipts and command/source/image provenance](../benchmarks/component/vocab/manifest.json)
+are preserved. Recovery of 262K model startup capacity and matched whole-model
+vocabulary A/B remain pending.
