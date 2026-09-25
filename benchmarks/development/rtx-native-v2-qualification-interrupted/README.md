@@ -36,22 +36,24 @@ Wait for `/health` to succeed, inspect startup logs/ownership, and capture a new
 curl --fail http://127.0.0.1:8001/health
 python3 serving/capture_runtime.py dots3-vllm-rtx-v2-published \
   --output .cache/release/rtx-native-v2/published/runtime-after-reboot.json
-python3 serving/release/qualify_rtx.py \
+python3 serving/release/continue_rtx.py \
   --container dots3-vllm-rtx-v2-published \
   --expected-image-id sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e \
   --expected-mtp 3 --max-model-len 524288 \
   --base-url http://127.0.0.1:8001 \
-  --output-dir .cache/release/rtx-published-v2-qualification-after-reboot \
+  --output-dir .cache/release/rtx-published-v2-qualification \
+  --interruption-reason "User authorized only unfinished stages after Xid79 reboot" \
+  --failure-evidence benchmarks/development/rtx-native-v2-qualification-interrupted/manifest.json \
   --execute
 ```
 
-**Run the complete suite again in this new output directory.** The runner correctly binds container start/restart identity; do not bypass that gate or rewrite the interrupted manifest. Do not combine prior completed stages with a restarted engine as a single uninterrupted qualification.
+**The user explicitly requested that completed tests not be repeated.** The separate continuation CLI preserves the original manifest and all14 completed stage receipts byte-for-byte, revalidates their hashes/content, and runs only `context-524032`, `retrieval-8192`, and `retrieval-522144`. It requires the same immutable image, model arguments, environment/profile, and workload/validator source hashes. A new immutable `restart-continuation.json` binds the original manifest, old/new lifecycle identities, prior files, and failure evidence. The final report explicitly describes an interrupted then continued qualification; it must not describe an uninterrupted run. The original runner identity gate remains unchanged. No temperature, power, or runtime-profile changes are part of this continuation.
 
 After a terminal completion receipt, export the report using the existing registry receipt and cache manifest:
 
 ```bash
 python3 serving/release/report.py \
-  --input .cache/release/rtx-published-v2-qualification-after-reboot \
+  --input .cache/release/rtx-published-v2-qualification \
   --output benchmarks/releases/rtx-20260925-v2 \
   --platform rtx \
   --image ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:d350ceb8c9be1dce3851ab20fba4c586f1530bef0a65a7094305b4ee8d2df16e \

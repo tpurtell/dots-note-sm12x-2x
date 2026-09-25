@@ -305,7 +305,22 @@ def export(args):
     validator_name = f'qualify_{args.platform}'
     require(f'serving/release/{validator_name}.py' in manifest['source_sha256'], 'Validator source is not bound')
     validator = importlib.import_module(validator_name)
+    restart = None
+    restart_path = source/'restart-continuation.json'
+    if restart_path.exists():
+        require(args.platform == 'rtx', 'Restart continuation currently supports RTX only')
+        import restart_continuation as restart_audit
+        restart = restart_audit.verify(source, manifest)
+        require(completion.get('uninterrupted_run') is False, 'Restart must be disclosed')
+        require(completion.get('restart_continuation') == {
+            'artifact': restart_path.name, 'sha256': sha(restart_path)}, 'Completion restart binding mismatch')
+        require(completion.get('preserved_stages') == restart['preserved_stages'] and
+                completion.get('continued_stages') == restart['remaining_stages'], 'Restart stage binding mismatch')
+    else:
+        require(not completion.get('restart_continuation'), 'Missing restart ledger')
     identities = {'rtx': manifest['identity']} if args.platform == 'rtx' else manifest['identity']
+    if restart:
+        identities = {'rtx': restart['continuation_identity']}
     image_ids = {i['image_id'] for i in identities.values()}
     require(len(image_ids) == 1, 'Ranks use different image IDs')
     require(re.fullmatch(r'ghcr\.io/[a-z0-9_./-]+@sha256:[a-f0-9]{64}', args.image), 'Require immutable GHCR digest')
@@ -335,6 +350,9 @@ def export(args):
             if any(item == key or item.startswith(key+'=') for item in command):
                 profiles[host][key[2:].replace('-', '_')] = flag(command, key)
     artifacts = {source/'manifest.json', complete_path}
+    if restart:
+        artifacts.add(restart_path)
+        artifacts.update(contained(source, relative) for relative in restart['preserved_files'])
     results = {}
     require(len({s['name'] for s in manifest['plan']}) == len(manifest['plan']), 'Duplicate stage names')
     for step in manifest['plan']:
@@ -344,7 +362,8 @@ def export(args):
         receipt = read(receipt_path)
         artifact = contained(stage, receipt['artifact'])
         if current_schema:
-            require(receipt.get('identity')==manifest['identity'], 'Stage runtime image/profile identity mismatch')
+            expected_identity = restart_audit.stage_identity(restart, step['name']) if restart else manifest['identity']
+            require(receipt.get('identity')==expected_identity, 'Stage runtime image/profile identity mismatch')
         require(sha(artifact) == receipt['sha256'], f'Artifact hash mismatch: {step["name"]}')
         require(receipt['validated'].get('complete') is True, 'Unvalidated stage receipt')
         if args.platform == 'spark':
@@ -364,6 +383,10 @@ def export(args):
     if args.platform == 'rtx':
         runtime = read(complete_path.parent/'runtime-after.json')
         require(runtime['image_id'] in image_ids, 'Final runtime image mismatch')
+        if restart:
+            require(runtime['started_at'] == restart['continuation_identity']['started_at'] and
+                    runtime['args'] == restart['continuation_identity']['args'],
+                    'Final runtime does not match audited restart')
         hardware['rtx'] = {k: runtime[k] for k in ['host', 'architecture', 'gpu_inventory_csv', 'meminfo', 'docker_stats']}
         profiles['rtx']['selected_environment'] = runtime['selected_environment']
         hardware['rtx']['startup_memory_evidence']=startup_memory(runtime)
@@ -390,11 +413,17 @@ def export(args):
         'completion': completion, 'registry_receipt': {k: registry[k] for k in ('registry_digest', 'registry', 'image_tag') if k in registry} if registry else None,
         'quality_scope': 'Static code/content checks are not executed-code correctness. Misses/truncations remain in stage results. Fixed-output timing probes are not natural-completion tests.',
         'prefill_scope': 'Actual prompt tokens / client TTFT, including first-token handoff; not kernel-only prefill speed.'}
+    if restart:
+        report['restart_continuation'] = restart
     target.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='.report-', dir=target.parent) as temp:
         temp = Path(temp); archive = []
         sources = [(p, 'runner/'+str(p.relative_to(source))) for p in sorted(artifacts)]
         sources.extend((contained(ROOT, path), 'provenance/source/'+path) for path in manifest['source_sha256'])
+        if restart:
+            sources.extend((contained(ROOT, path), 'provenance/source/'+path)
+                           for path in restart['continuation_source_sha256'])
+            sources.append((Path(restart['failure_evidence']), 'provenance/interruption-evidence.json'))
         sources.append((Path(__file__).resolve(), 'provenance/source/serving/release/report.py'))
         sources.append((args.cache_manifest.resolve(), 'provenance/cache-seed-manifest.json'))
         if args.registry_receipt:
