@@ -147,40 +147,29 @@ RTX version `20260925-v1` has been pushed as:
 ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6
 ```
 
-The initial registry verification passed an authenticated pull. Its package
-was private, and the anonymous pull returned `unauthorized`; see the
-[archived publication receipt](../../benchmarks/development/rtx-release-wrapper/README.md).
-This is a publication/access result. The full published-image qualification
-and final profile approval are separate and remain pending.
-
-While the package is private, an account with package access must authenticate
-Docker on the RTX host. If GitHub CLI is already authenticated with a token
-that can read packages, pass it directly to Docker without displaying it:
+The RTX package is **public**. An anonymous pull of this digest passed using a
+Docker configuration with no authentication settings. Its fresh launch and
+restart through `run.sh` passed health, prefix reuse, constrained JSON and tool
+checks; the reasoning API example below also passed. See the
+[release benchmark report](../../benchmarks/releases/rtx-20260925-v1/report.json)
+and [deployment evidence](../../benchmarks/releases/rtx-20260925-v1/fastpath/report.json).
 
 ```bash
-gh auth token | docker login ghcr.io --username YOUR_GITHUB_LOGIN --password-stdin
 docker pull --platform linux/amd64 \
   ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6
 ```
 
-Alternatively use a classic personal access token with `read:packages` via
-Docker's password-stdin login. Authentication does not grant package access
-that the account lacks. See [GitHub's registry authentication documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry).
-The release `pull` action uses the same host Docker credentials once that
-platform's settings are qualified. No model weights are downloaded by this
-image pull.
+Initial publication was private; the earlier authenticated success and anonymous
+`unauthorized` result remain in the [publication receipt](../../benchmarks/development/rtx-release-wrapper/README.md).
+The package owner subsequently made it public, and the deployment evidence
+records the successful anonymous check. No Spark digest is supplied before its
+native publication.
 
-Anonymous access becomes an available fast path only after package visibility
-is public and a fresh unauthenticated pull has passed. GitHub's supported
-visibility control is [Package settings → Change visibility](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility#configuring-visibility-of-packages-for-your-personal-account).
-Publishing/linking the source repository alone does not establish anonymous
-package access. No Spark digest is supplied before its native publication.
+## Container fast path
 
-## Public fast path (enabled after final qualification)
-
-`settings.json` intentionally contains null digest/profile fields and
-`pending-qualification` status. `run.sh` refuses to launch until the final
-published image digests, qualified profiles and report hashes are recorded.
+RTX settings contain the published digest, qualified profile and completed
+report hash. Spark remains `pending-qualification` until its native image and
+report are ready. `run.sh` refuses incomplete platform settings.
 No development image tag is a release fallback. Keep this recipe checkout,
 including its qualification reports and `serving/start_*.sh` launchers.
 
@@ -190,8 +179,7 @@ with the host guard. These decisions must be reflected in the final settings
 after the corresponding release images pass qualification. Bare development
 launcher defaults do not reproduce these profiles.
 
-Run the following commands from the recipe checkout root. For RTX, after the
-final release settings are committed:
+Run the following commands from the recipe checkout root. For RTX:
 
 ```bash
 export HF_HOME="$HOME/.cache/huggingface"
@@ -244,6 +232,24 @@ read-only, with offline mode enabled. No command downloads model weights.
 vLLM, for example `... rtx start -- --api-key YOUR_LOCAL_KEY`. Reasoning parser
 override flags are rejected. Other extra flags may change qualified behavior; published performance applies to the stored profile.
 Avoid putting secrets in shared shell history.
+
+### API example
+
+Run this on the RTX host, or use port `8000` on the Spark head after its release
+is qualified. The model name is the same on both platforms.
+
+```bash
+curl --fail-with-body --silent --show-error http://127.0.0.1:8001/v1/chat/completions \
+  -H 'Content-Type: application/json' --data-binary @- <<'JSON'
+{"model":"dots3-note-exl3-k4","messages":[{"role":"user","content":"Identify and fix the bug in this Python function: def square(x): return x + x"}],"temperature":0,"max_tokens":2048,"chat_template_kwargs":{"enable_thinking":true}}
+JSON
+```
+
+The response separates `choices[0].message.reasoning` from the final answer in
+`choices[0].message.content`. Set `enable_thinking` to `false` for direct answers;
+add `"stream":true` to use SSE. Output budgets include reasoning tokens. The
+benchmark's 8,192-token budget is not a server output limit; larger requests
+must still fit the model's available total context.
 
 ### Final settings contract
 

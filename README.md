@@ -2,13 +2,13 @@
 
 This repository provides one Dots3 Note Preview checkpoint and is developing two-GPU vLLM recipes for DGX Spark and RTX PRO 6000. The completed checkpoint retains the [FP8 source](https://huggingface.co/dots-studio/dots3-note-prev-fp8) outside the routed language-model experts. Every routed expert `gate_proj`, `up_proj`, and `down_proj` weight in layers 1–45 comes from the [BF16 source](https://huggingface.co/dots-studio/dots3-note-prev) and uses uniform EXL3 K4. Vision experts remain as supplied by the FP8 checkpoint. The published checkpoint is [`wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1`](https://huggingface.co/wrldsuksgo2mars/dots3-note-prev-exl3-k4-v1).
 
-**Status (2026-09-25):** quantization, tensor audit, publication and local cache installation are complete. The checkpoint is pinned to `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. Both serving tracks pass development checks for text, image/audio, prefix caching, constrained JSON and tool calls. **RTX selects MTP3 with native vocabulary projection for reasoning-enabled coding at C1–C4; Spark selects its settings independently.** RTX uses 0.95 GPU memory utilization; current Spark candidates use 0.80 with the host-memory guard. The Dots-aware `dots3` reasoning parser is required by both final release profiles. Final image qualification and separate GHCR publication remain in progress; development evidence is in the [qualification ledger](docs/serving-progress.md).
+**Status (2026-09-25):** quantization, tensor audit, publication and local cache installation are complete. The checkpoint is pinned to `d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da`; its 36 artifact files total 163,552,088,967 bytes. Both serving tracks pass development checks for text, image/audio, prefix caching, constrained JSON and tool calls. **RTX selects MTP3 with native vocabulary projection for reasoning-enabled coding at C1–C4; Spark selects its settings independently.** RTX uses 0.95 GPU memory utilization; current Spark candidates use 0.80 with the host-memory guard. The Dots-aware `dots3` reasoning parser is required by both final release profiles. RTX published-image qualification is complete and its benchmark profile is accepted; the public container fast path has passed fresh-start and restart checks. Spark qualification and native GHCR publication remain in progress. See the [RTX release report](benchmarks/releases/rtx-20260925-v1/report.json) and [qualification ledger](docs/serving-progress.md).
 
 ## Container fast path
 
-The release provides separate native **amd64 RTX** and **arm64 Spark** containers, each with its platform kernels and runtime caches. Use the [container run instructions](serving/release/README.md#public-fast-path-enabled-after-final-qualification): pull the platform image, mount the entire existing `HF_HOME`, and start the pinned profile. Spark runs one container on each host, worker first. Model downloads are unnecessary when the published checkpoint is already installed.
+The public **amd64 RTX** container is available; the separate **arm64 Spark** container is under qualification. Each contains its platform kernels and runtime caches. Use the [container run instructions](serving/release/README.md#container-fast-path): pull the platform image, mount the entire existing `HF_HOME`, and start the pinned profile. Spark runs one container on each host, worker first. Model downloads are unnecessary when the published checkpoint is already installed.
 
-The [release settings](serving/release/settings.json) remain pending until immutable GHCR digests and qualification reports are recorded. The runner refuses incomplete settings. Development launchers have different defaults; see [serving development and qualification](serving/README.md).
+The [release settings](serving/release/settings.json) qualify each platform independently. RTX is qualified and its public fast path is verified. Spark remains pending. The runner refuses incomplete platform settings. Development launchers have different defaults; see [serving development and qualification](serving/README.md).
 
 ## Source and calibration
 
@@ -49,12 +49,16 @@ The [serving component probes](serving/README.md) describe their input sizes and
 
 | Measurement | 2× DGX Spark | 2× RTX PRO 6000 |
 | --- | ---: | ---: |
-| C1 seven-workload weighted decode, tokens/s | — | — |
-| C1 greedy `merge_intervals` median, tokens/s | — | — |
-| C1 sampled async coding task median, tokens/s | — | — |
-| C16 sampled-prose aggregate median, tokens/s | — | — |
-| Full-context boundary, input + output tokens | — | — |
-| API tool constraints / retrieval probes | — | — |
+| C1 seven-workload weighted decode, tokens/s | — | 181.48 (17/21 contracts) |
+| C1 greedy `merge_intervals` median, tokens/s | — | 233.52 |
+| C1 sampled async code, first-burst-excluded median tokens/s | — | 203.21 |
+| C16 sampled-prose aggregate median, tokens/s | — | 693.71 |
+| Full-context boundary, input + output tokens | — | 261,888 + 256 = 262,144 |
+| API tool constraints / retrieval probes | — | 80/80 reasoning/tool/JSON cases; 6/6 retrieval |
+
+RTX uses the published MTP3/dots3-parser image with native vocabulary and collectives, FP8 KV, 0.95 memory utilization, 262,144 context, 16 slots and 512 batched tokens. Measurements use three runs; coding medians pool 12 requests per concurrency. The seven-workload headline is weighted by timed decode duration. Quality checks pass 17/21 seven-workload contracts and 34/36 coding responses. The sampled async-code headline uses the depth-0 prompt and excludes the entire first speculative SSE token burst from decode tokens/time; the older `(output tokens − 1)` convention is retained separately in raw/report evidence. Prefill rates use actual prompt tokens divided by client TTFT, including first-token handoff.
+
+See the [RTX release report](benchmarks/releases/rtx-20260925-v1/report.json), [lossless evidence hashes](benchmarks/releases/rtx-20260925-v1/archive-manifest.json), and [public pull/start/restart checks](benchmarks/releases/rtx-20260925-v1/fastpath/report.json) for exact image/source identities, output lengths, memory observations and deployment evidence.
 
 ### Reasoning-enabled coding: C1–C4
 
@@ -62,53 +66,66 @@ Four debugging tasks use natural stopping and an 8,192-token output budget, incl
 
 | Clients | Spark per-request decode tokens/s | Spark completed-answer latency, s | RTX per-request decode tokens/s | RTX completed-answer latency, s |
 | ---: | ---: | ---: | ---: | ---: |
-| 1 | — | — | — | — |
-| 2 | — | — | — | — |
-| 4 | — | — | — | — |
+| 1 | — | — | 180.44 | 19.72 |
+| 2 | — | — | 140.87 | 23.74 |
+| 4 | — | — | 102.81 | 35.78 |
+
+RTX natural completions and static checks: **34/36**. One C2 and one C4 request hit this benchmark’s 8,192-token per-request output budget, including reasoning; completed-answer latency excludes those two requests. Decode rates include reasoning and all measured requests. This budget is a benchmark setting, not a server output limit; clients can request larger outputs within the available context. Output lengths include reasoning:
+
+| Clients | RTX output tokens, median (min–max) | Natural completions |
+| ---: | ---: | ---: |
+| 1 | 3,602.0 (2,434–7,311) | 12/12 |
+| 2 | 3,317.5 (1,968–8,192) | 11/12 |
+| 4 | 3,710.0 (2,230–8,192) | 11/12 |
 
 ### Seven content workloads: C1
 
 | Workload | Spark decode tokens/s | Contract | RTX decode tokens/s | Contract |
 | --- | ---: | ---: | ---: | ---: |
-| Code | — | — | — | — |
-| Math | — | — | — | — |
-| Fable | — | — | — | — |
-| Hello | — | — | — | — |
-| Topic | — | — | — | — |
-| Structured JSON | — | — | — | — |
-| Multilingual | — | — | — | — |
+| Code | — | — | 233.52 | 3/3 |
+| Math | — | — | 225.36 | 3/3 |
+| Fable | — | — | 129.50 | 1/3 |
+| Hello | — | — | 189.80 | 3/3 |
+| Topic | — | — | 157.25 | 1/3 |
+| Structured JSON | — | — | 234.54 | 3/3 |
+| Multilingual | — | — | 161.51 | 3/3 |
+
+RTX seven-workload contracts pass **17/21**: two fables miss the word-count range and two topic responses omit paging.
 
 ### Sampled prose: independent clients
 
 | Clients | Spark aggregate tokens/s | Minimum overlap | RTX aggregate tokens/s | Minimum overlap |
 | ---: | ---: | ---: | ---: | ---: |
-| 1 | — | — | — | — |
-| 2 | — | — | — | — |
-| 4 | — | — | — | — |
-| 8 | — | — | — | — |
-| 16 | — | — | — | — |
+| 1 | — | — | 124.30 | 1 |
+| 2 | — | — | 195.64 | 2 |
+| 4 | — | — | 311.94 | 4 |
+| 8 | — | — | 455.96 | 8 |
+| 16 | — | — | 693.71 | 16 |
 
 ### Prefill and context scaling: C1
 
 | Prompt tokens | Spark prefill tokens/s | Spark TTFT, s | Spark decode tokens/s | RTX prefill tokens/s | RTX TTFT, s | RTX decode tokens/s |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 2,048 | — | — | — | — | — | — |
-| 8,192 | — | — | — | — | — | — |
-| 32,768 | — | — | — | — | — | — |
-| 65,536 | — | — | — | — | — | — |
-| 131,072 | — | — | — | — | — | — |
-| Maximum qualified context | — | — | — | — | — | — |
+| 2,048 | — | — | — | 4219.33 | 0.485 | 225.23 |
+| 8,192 | — | — | — | 4096.49 | 2.000 | 226.14 |
+| 32,768 | — | — | — | 4021.17 | 8.149 | 223.47 |
+| 65,536 | — | — | — | 3851.92 | 17.014 | 223.41 |
+| 131,072 | — | — | — | 3523.21 | 37.202 | 222.77 |
+| Maximum qualified context | — | — | — | 3014.80 | 86.867 | 221.69 |
 
 ### Functional checks
 
 | Check | 2× DGX Spark | 2× RTX PRO 6000 |
 | --- | --- | --- |
-| Repeated-prefix cached tokens and TTFT | — | — |
-| xgrammar JSON and tool constraints | — | — |
-| Text, image, and audio requests | — | — |
-| CUDA graph replay and stable workspace | — | — |
+| Repeated-prefix cached tokens and TTFT | — | 3,520 hits / 3,612 queried; cold 9.713 s → warm 0.058 s |
+| xgrammar JSON and tool constraints | — | 80/80 thinking/nonthinking, stream/nonstream API cases |
+| Text, image, and audio requests | — | Passed text, source-example image and audio contracts |
+| CUDA graphs | — | Full/piecewise capture and C1–C16 request checks passed; [component replay evidence](docs/optimization-matrix.md) |
+| Sampled peak GPU memory / minimum host available | — | GPU 0: 93.17 GiB; GPU 1: 93.15 GiB; host available minimum 163.62 GiB |
 
-Raw responses, timing samples, exact image and source revisions, GPU mode, memory snapshots, and quantization error evidence belong beside each accepted table entry.
+The RTX maximum-context row uses 261,888 prompt tokens plus 256 output tokens. Cold/warm TTFT includes first-use runtime overhead; the cache counters establish prefix reuse, while the timing ratio is not an isolated cache speedup. GPU memory entries are sampled peaks and can miss brief higher allocations. RTX GPUs were limited to 400 W each.
+
+Raw responses, timing samples, exact image and source revisions, GPU mode, memory snapshots, and quantization error evidence accompany each accepted table entry.
 
 ## Third-party sources
 

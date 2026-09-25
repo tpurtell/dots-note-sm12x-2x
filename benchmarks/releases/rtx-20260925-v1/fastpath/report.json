@@ -1,0 +1,81 @@
+{
+  "schema": "dots3-release-fastpath-v1",
+  "platform": "rtx",
+  "passed": true,
+  "image": "ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6",
+  "container_id": "e580b467726e0c977f3637f10da7d25c92b3d6384521a75382b9136f60d57268",
+  "checks": [
+    "authenticated digest pull",
+    "status",
+    "health",
+    "logs follow (observer stopped after 2s)",
+    "stop and remove prior qualified container",
+    "fresh start with empty runtime cache: 3464 seed files copied, zero existing",
+    "fresh prefix hits, constrained JSON and forced tool",
+    "documented reasoning API example: natural stop, reasoning/content separate, correct multiplication answer",
+    "restart preserving pinned configuration",
+    "restarted health, prefix hits, constrained JSON and forced tool",
+    "anonymous digest pull after user changed package visibility to public"
+  ],
+  "commands": [
+    "bash serving/release/run.sh rtx pull",
+    "bash serving/release/run.sh rtx status",
+    "bash serving/release/run.sh rtx health",
+    "bash serving/release/run.sh rtx stop",
+    "bash serving/release/run.sh rtx remove",
+    "bash serving/release/run.sh rtx start",
+    "bash serving/release/run.sh rtx logs",
+    "bash serving/release/run.sh rtx restart"
+  ],
+  "environment": {
+    "HF_HOME": "/home/tj/.cache/huggingface",
+    "RUNTIME_CACHE": "/home/tj/Developer/dots-note-sm12x-2x/.cache/release/rtx-fastpath-runtime"
+  },
+  "registry_access": "public; anonymous digest pull passed with Docker config containing no auths, credential store or helpers",
+  "readiness": {
+    "fresh": {
+      "http_status": 200,
+      "observed_ready_unix": 1790320827.1240797,
+      "poll_seconds": 70.15907454490662,
+      "container_state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 423372,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-09-25T07:18:43.39658047Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      }
+    },
+    "restart": {
+      "http_status": 200,
+      "observed_ready_unix": 1790321003.6066592,
+      "poll_seconds": 60.12519359588623,
+      "container_state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 435118,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-09-25T07:22:04.337594522Z",
+        "FinishedAt": "2026-09-25T07:22:04.302084764Z"
+      }
+    }
+  },
+  "benchmark_report_sha256": "e0e1fafb81063f93ec5e001f0521d197dbd7ffc21f1e218a9b84fcdc4efdce84",
+  "quality_scope": "Lifecycle smoke gates complement the separate 359-request published-image benchmark; they do not repeat that entire suite.",
+  "public_visibility_observed": {
+    "name": "dots3-note-exl3-k4-rtx",
+    "visibility": "public",
+    "source": "gh api /user/packages/container/dots3-note-exl3-k4-rtx",
+    "observed_unix": 1790321196.9927192
+  }
+}

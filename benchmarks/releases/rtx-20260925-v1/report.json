@@ -1,0 +1,1159 @@
+{
+  "schema": "dots3-release-report-v1",
+  "status": "runner-completed; release-profile approval separate",
+  "platform": "rtx",
+  "image": "ghcr.io/tpurtell/dots3-note-exl3-k4-rtx@sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6",
+  "image_id": "sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6",
+  "model_revision": "d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+  "recipe_revision": "48fa6cc91917471b9eda94020ee2077131b05980",
+  "parent_image_id": "sha256:5ecf76bc12da2141373d461adea41bf7ba92fcc74bcead92dddcbec7f2d87c45",
+  "source_sha256": {
+    "serving/benchmarks/clients.py": "0297ba27333f1875cadc0fa5361584c4d73aafe5209276975862c6fb31bd0145",
+    "serving/benchmarks/code_agent.py": "1a22a7f91d0a89b47bb6616cff040918857ab12be45a591ea1ae3834fa9ceda4",
+    "serving/benchmarks/coding_clients.py": "82be71a16c2af692a73d552dad596fa889876b38564f37f0b3f0669819d95e5f",
+    "serving/benchmarks/compare_coding.py": "80270b6bc32e3d977684d19ed96afb13267bcb8b583790ecd176931e66a75d23",
+    "serving/benchmarks/content_contracts.py": "ba302bf96adc4dec23bc6e78d3788480b836c479eb8e0c8b6e7e1f50a10db483",
+    "serving/benchmarks/context.py": "d1f36114111c50d28b17507b8afede4ee47cacecd7da9e5bb4154ce4f1e68110",
+    "serving/benchmarks/multimodal.py": "344c8d7bb96d4a6906842c188bdaa0b80087cf149d6e3db8aba6b1e0139702c1",
+    "serving/benchmarks/prefill.py": "a557182c93b3625585465f78a7ef0e34f960a5f4025cfa1cf6b40e6722d6a77a",
+    "serving/benchmarks/reasoning_api.py": "f69aadccd6c0ad4d605fb0324853077b45afd3e1fe51ea4f68ff21c4f4bd87eb",
+    "serving/benchmarks/retrieval.py": "63960021554a70ce576a74f898390434eddecc329340c15f0af5ba764ba70a82",
+    "serving/benchmarks/tools.py": "07923b8dc0ee99cd144fc3fac5d50b4f5f549491b58cfb8656fd5950b4bae398",
+    "serving/benchmarks/workloads.py": "8e04e8305e54faefd4d1de7cf530c003e416b4fdea2856979f8a9c5a6a21d5ca",
+    "serving/release/qualify_rtx.py": "c0a5e461b1eb233565fb20133643fa6e6a74dc619a4b2d7d134d217b2c219958",
+    "serving/qualify_prefix_xgrammar.py": "2e5b5877261031dae69bea25ca7098e6c54b1ec14b2016ee0a8efe49212640df",
+    "serving/capture_runtime.py": "334a4a867d2a2aca70e00e871590ba76f5c0e72cc1563fdac35366483f7a3416",
+    "serving/benchmarks/code-agent-prompt.txt": "dc9468eed590b52f5874d0ecaf8956746f0ccc2d54ffaff89d16230863fddde8"
+  },
+  "hardware": {
+    "rtx": {
+      "host": "raptor",
+      "architecture": "x86_64",
+      "gpu_inventory_csv": [
+        "0, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, GPU-fe5b6dd0-a77c-c8fb-6360-e1b9d9918ac0, 595.91.07, 97887 MiB, 400.00 W",
+        "1, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, GPU-95f8f212-9131-df99-fd53-7535965197d7, 595.91.07, 97887 MiB, 400.00 W"
+      ],
+      "meminfo": {
+        "MemTotal": "192735812 kB",
+        "MemFree": "12660340 kB",
+        "MemAvailable": "171944088 kB",
+        "SwapTotal": "8388604 kB",
+        "SwapFree": "7222868 kB"
+      },
+      "docker_stats": {
+        "BlockIO": "20.3GB / 169MB",
+        "CPUPerc": "185.50%",
+        "Container": "dots3-vllm-rtx",
+        "ID": "508d46bead97",
+        "MemPerc": "9.69%",
+        "MemUsage": "17.81GiB / 183.8GiB",
+        "Name": "dots3-vllm-rtx",
+        "NetIO": "0B / 0B",
+        "PIDs": "455"
+      },
+      "startup_memory_evidence": {
+        "model_loading_gib": [
+          {
+            "value": 79.6,
+            "raw_line": "(Worker_TP1 pid=198) INFO 09-25 06:44:08 [model_runner.py:428] Model loading took 79.6 GiB memory and 34.182087 seconds"
+          },
+          {
+            "value": 79.62,
+            "raw_line": "(Worker_TP0 pid=175) INFO 09-25 06:44:08 [model_runner.py:428] Model loading took 79.62 GiB memory and 34.183221 seconds"
+          }
+        ],
+        "available_kv_gib": [
+          {
+            "value": 5.03,
+            "raw_line": "(Worker_TP0 pid=175) INFO 09-25 06:44:29 [gpu_worker.py:640] Available KV cache memory: 5.03 GiB"
+          }
+        ],
+        "gpu_kv_cache_tokens": [
+          {
+            "value": 288320,
+            "raw_line": "(EngineCore pid=130) INFO 09-25 06:44:29 [kv_cache_utils.py:2395] GPU KV cache size: 288,320 tokens, Maximum concurrency for 262,144 tokens per request: 1.10x"
+          }
+        ],
+        "graph_capture_gib": [
+          {
+            "value": 0.57,
+            "raw_line": "(Worker_TP1 pid=198) INFO 09-25 06:44:29 [model_runner.py:1066] Graph capturing finished in 9 secs, took 0.57 GiB"
+          },
+          {
+            "value": 0.57,
+            "raw_line": "(Worker_TP0 pid=175) INFO 09-25 06:44:29 [model_runner.py:1066] Graph capturing finished in 9 secs, took 0.57 GiB"
+          },
+          {
+            "value": 0.32,
+            "raw_line": "(Worker_TP0 pid=175) INFO 09-25 06:44:37 [model_runner.py:1066] Graph capturing finished in 5 secs, took 0.32 GiB"
+          },
+          {
+            "value": 0.32,
+            "raw_line": "(Worker_TP1 pid=198) INFO 09-25 06:44:37 [model_runner.py:1066] Graph capturing finished in 5 secs, took 0.32 GiB"
+          }
+        ],
+        "scope": "Directly parsed startup log entries; rank-specific/repeated graph phases are preserved and not summed or treated as simultaneous allocations."
+      }
+    }
+  },
+  "profile": {
+    "rtx": {
+      "max_model_len": "262144",
+      "max_num_seqs": "16",
+      "max_num_batched_tokens": "512",
+      "gpu_memory_utilization": "0.95",
+      "kv_cache_dtype": "fp8",
+      "reasoning_parser": "dots3",
+      "tool_call_parser": "dots",
+      "speculative_config": "{\"method\":\"mtp\",\"num_speculative_tokens\":3}",
+      "tensor_parallel_size": "2",
+      "selected_environment": [
+        "OMP_NUM_THREADS=8",
+        "DOTS3_B12X_EXACT_FP8=",
+        "DOTS3_B12X_EXACT_FP8_ROWS=4,16,64,512",
+        "DOTS3_B12X_VOCAB=0",
+        "VLLM_ENABLE_PCIE_ALLREDUCE=0",
+        "B12X_COMPILE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/compile",
+        "VLLM_PCIE_ALLREDUCE_BACKEND=b12x",
+        "CUTE_DSL_ARCH=sm_120a",
+        "VLLM_EXL3_TRELLIS_MIN_M=1",
+        "VLLM_EXL3_PREFILL_TRELLIS=1",
+        "B12X_ROCE_CACHE_DIR=/root/.cache/vllm-runtime/b12x/roce"
+      ]
+    }
+  },
+  "stage_results": {
+    "prefix": {
+      "warm_prefix_hits": 3520.0,
+      "warm_prefix_queries": 3612.0,
+      "xgrammar_json": {
+        "answer": 42
+      },
+      "cold": {
+        "ttft_seconds": 9.712846042995807,
+        "elapsed_seconds": 9.784653634007555,
+        "content": "The paragraph is repeated to test prefix caching in Dots3 Note.",
+        "finish_reason": "stop",
+        "usage": {
+          "prompt_tokens": 3612,
+          "total_tokens": 3627,
+          "completion_tokens": 15,
+          "completion_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        }
+      },
+      "warm": {
+        "ttft_seconds": 0.05776105300174095,
+        "elapsed_seconds": 0.12582167101209052,
+        "content": "This paragraph is repeated to test prefix caching in Dots3 Note.",
+        "finish_reason": "stop",
+        "usage": {
+          "prompt_tokens": 3612,
+          "total_tokens": 3627,
+          "completion_tokens": 15,
+          "completion_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        }
+      },
+      "forced_tool": {
+        "choice": {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "",
+            "refusal": null,
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "tool_calls": [
+              {
+                "id": "chatcmpl-tool-ad5870f8f77e6ef9",
+                "type": "function",
+                "function": {
+                  "name": "add_numbers",
+                  "arguments": "{\n  \"a\": 2,\n  \"b\": 3\n}"
+                }
+              }
+            ],
+            "reasoning": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": 151668,
+          "token_ids": null,
+          "routed_experts": null
+        },
+        "usage": {
+          "prompt_tokens": 205,
+          "total_tokens": 222,
+          "completion_tokens": 17,
+          "prompt_tokens_details": null,
+          "completion_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "arguments": {
+          "a": 2,
+          "b": 3
+        }
+      }
+    },
+    "reasoning-api": {
+      "passed": true,
+      "cases_passed": 80,
+      "cases_total": 80,
+      "failed_cases": [],
+      "evidence_issues": [],
+      "speculative_draft_token_delta": 3126.0,
+      "structured_boundary_chunks": [
+        {
+          "case": "json",
+          "repeat": 0,
+          "chunks": [
+            [
+              20,
+              27275,
+              151722,
+              4913
+            ]
+          ]
+        },
+        {
+          "case": "tool_named",
+          "repeat": 0,
+          "chunks": [
+            [
+              151722,
+              90
+            ]
+          ]
+        },
+        {
+          "case": "tool_required",
+          "repeat": 0,
+          "chunks": [
+            [
+              151722,
+              58
+            ]
+          ]
+        },
+        {
+          "case": "json",
+          "repeat": 1,
+          "chunks": [
+            [
+              20,
+              27275,
+              151722,
+              4913
+            ]
+          ]
+        },
+        {
+          "case": "tool_named",
+          "repeat": 1,
+          "chunks": [
+            [
+              151722,
+              90
+            ]
+          ]
+        },
+        {
+          "case": "tool_required",
+          "repeat": 1,
+          "chunks": [
+            [
+              151722,
+              58
+            ]
+          ]
+        }
+      ],
+      "boundary_evidence_scope": "An SSE token chunk crossing </think> shows an accepted output burst; it does not expose rejected drafts or prove their exact contents."
+    },
+    "multimodal": {
+      "examples": [
+        {
+          "kind": "image",
+          "asset_url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/cats.png",
+          "question": "How many cats are in this image? Answer in one short sentence.",
+          "elapsed_seconds": 2.353536997019546,
+          "answer": "There are two cats resting on the fishing nets in this image.",
+          "usage": {
+            "prompt_tokens": 362,
+            "total_tokens": 376,
+            "completion_tokens": 14,
+            "prompt_tokens_details": null,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          "finish_reason": "stop",
+          "contract_passed": true,
+          "raw_response": {
+            "id": "chatcmpl-b4b5d45b414db5ec",
+            "object": "chat.completion",
+            "created": 1790318717,
+            "model": "dots3-note-exl3-k4",
+            "choices": [
+              {
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "There are two cats resting on the fishing nets in this image.",
+                  "refusal": null,
+                  "annotations": null,
+                  "audio": null,
+                  "function_call": null,
+                  "reasoning": null
+                },
+                "logprobs": null,
+                "finish_reason": "stop",
+                "stop_reason": 151668,
+                "token_ids": null,
+                "routed_experts": null
+              }
+            ],
+            "service_tier": null,
+            "system_fingerprint": "vllm-0.30.0-tp2-06459c01",
+            "usage": {
+              "prompt_tokens": 362,
+              "total_tokens": 376,
+              "completion_tokens": 14,
+              "prompt_tokens_details": null,
+              "completion_tokens_details": {
+                "reasoning_tokens": 0
+              }
+            },
+            "prompt_logprobs": null,
+            "prompt_token_ids": null,
+            "prompt_text": null,
+            "kv_transfer_params": null,
+            "ec_transfer_params": null,
+            "metrics": null
+          }
+        },
+        {
+          "kind": "audio",
+          "asset_url": "https://huggingface.co/datasets/hf-internal-testing/dummy-audio-samples/resolve/main/mary_had_lamb.mp3",
+          "question": "Transcribe this nursery rhyme.",
+          "elapsed_seconds": 1.2884195290098432,
+          "answer": "The first words I spoke in the original phonograph, a little piece of practical poetry: \"Mary had a little lamb, its fleece was white as snow. And everywhere that Mary went, the lamb was sure to go.\"",
+          "usage": {
+            "prompt_tokens": 224,
+            "total_tokens": 270,
+            "completion_tokens": 46,
+            "prompt_tokens_details": null,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          "finish_reason": "stop",
+          "contract_passed": true,
+          "raw_response": {
+            "id": "chatcmpl-a09c67aac686a8e3",
+            "object": "chat.completion",
+            "created": 1790318719,
+            "model": "dots3-note-exl3-k4",
+            "choices": [
+              {
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "The first words I spoke in the original phonograph, a little piece of practical poetry: \"Mary had a little lamb, its fleece was white as snow. And everywhere that Mary went, the lamb was sure to go.\"",
+                  "refusal": null,
+                  "annotations": null,
+                  "audio": null,
+                  "function_call": null,
+                  "reasoning": null
+                },
+                "logprobs": null,
+                "finish_reason": "stop",
+                "stop_reason": 151668,
+                "token_ids": null,
+                "routed_experts": null
+              }
+            ],
+            "service_tier": null,
+            "system_fingerprint": "vllm-0.30.0-tp2-06459c01",
+            "usage": {
+              "prompt_tokens": 224,
+              "total_tokens": 270,
+              "completion_tokens": 46,
+              "prompt_tokens_details": null,
+              "completion_tokens_details": {
+                "reasoning_tokens": 0
+              }
+            },
+            "prompt_logprobs": null,
+            "prompt_token_ids": null,
+            "prompt_text": null,
+            "kv_transfer_params": null,
+            "ec_transfer_params": null,
+            "metrics": null
+          }
+        }
+      ]
+    },
+    "seven": {
+      "record": "summary",
+      "weighted_decode_tps": 181.47677505460229,
+      "median_tps_by_case": {
+        "code": 233.51615646841557,
+        "math": 225.36215480416683,
+        "fable": 129.49824855795163,
+        "hello": 189.7966420914294,
+        "topic": 157.25247081487376,
+        "structured-json": 234.5425282441659,
+        "multilingual": 161.51460837337788
+      },
+      "contracts_passed": 17,
+      "contracts_total": 21,
+      "failed_contracts": [
+        {
+          "run": 0,
+          "case": "fable",
+          "contract": {
+            "quality_contract_passed": false,
+            "quality_contract_issues": [
+              "fable has 133 words, outside 140..170"
+            ]
+          }
+        },
+        {
+          "run": 1,
+          "case": "topic",
+          "contract": {
+            "quality_contract_passed": false,
+            "quality_contract_issues": [
+              "response omits paging"
+            ]
+          }
+        },
+        {
+          "run": 2,
+          "case": "fable",
+          "contract": {
+            "quality_contract_passed": false,
+            "quality_contract_issues": [
+              "fable has 123 words, outside 140..170"
+            ]
+          }
+        },
+        {
+          "run": 2,
+          "case": "topic",
+          "contract": {
+            "quality_contract_passed": false,
+            "quality_contract_issues": [
+              "response omits paging"
+            ]
+          }
+        }
+      ]
+    },
+    "code-agent": {
+      "points": [
+        {
+          "depth": 0,
+          "samples": 3,
+          "actual_prompt_tokens": [
+            151
+          ],
+          "completion_tokens": [
+            256
+          ],
+          "ttft_seconds_median": 0.05910735699580982,
+          "decode_tokens_per_second_median": 203.21439088726277,
+          "effective_prefill_tokens_per_second_median": 2554.673524155454,
+          "reference_n_minus_one_tokens_per_second": {
+            "samples": 3,
+            "min": 203.1643709636756,
+            "median": 203.21439088726277,
+            "max": 203.50692405270826
+          }
+        },
+        {
+          "depth": 8192,
+          "samples": 3,
+          "actual_prompt_tokens": [
+            8192
+          ],
+          "completion_tokens": [
+            256
+          ],
+          "ttft_seconds_median": 0.07750579898129217,
+          "decode_tokens_per_second_median": 206.2379336891569,
+          "effective_prefill_tokens_per_second_median": 105695.31709462577,
+          "reference_n_minus_one_tokens_per_second": {
+            "samples": 3,
+            "min": 193.05862542341066,
+            "median": 206.2379336891569,
+            "max": 215.0745727534295
+          }
+        },
+        {
+          "depth": 24000,
+          "samples": 3,
+          "actual_prompt_tokens": [
+            24000
+          ],
+          "completion_tokens": [
+            256
+          ],
+          "ttft_seconds_median": 0.08343576500192285,
+          "decode_tokens_per_second_median": 202.00988106954884,
+          "effective_prefill_tokens_per_second_median": 287646.4307536091,
+          "reference_n_minus_one_tokens_per_second": {
+            "samples": 3,
+            "min": 196.33961197225386,
+            "median": 202.00988106954884,
+            "max": 212.9220087611906
+          }
+        }
+      ],
+      "decode_timing": "decode_tokens_per_second_median excludes every token in the first SSE burst; elapsed time is last burst minus first burst.",
+      "reference_timing": "reference_n_minus_one_tokens_per_second uses (output_tokens-1) / the same elapsed time, matching the older reference convention; speculative multi-token first bursts can make this larger.",
+      "headline_mapping": "Sampled async coding baseline is depth0, temperature0.2, thinking disabled, fixed256-token completion. State which timing convention is used.",
+      "generation_scope": "Fixed-length throughput probe; natural completion and code correctness are not established."
+    },
+    "clients": {
+      "method": "separate HTTP requests with unique prompt identifiers; aggregate decode uses sum(N-1) over the global first-to-last SSE token window; sampling seeds are fixed per sequence",
+      "output_tokens_per_sequence": 256,
+      "points": [
+        {
+          "concurrency": 1,
+          "aggregate_decode_tokens_per_second": {
+            "median": 124.29718042136359,
+            "min": 122.94196293092526,
+            "max": 142.03705392911397
+          },
+          "minimum_overlap": 1
+        },
+        {
+          "concurrency": 2,
+          "aggregate_decode_tokens_per_second": {
+            "median": 195.63692996888352,
+            "min": 194.9411863120438,
+            "max": 199.02108062906342
+          },
+          "minimum_overlap": 2
+        },
+        {
+          "concurrency": 4,
+          "aggregate_decode_tokens_per_second": {
+            "median": 311.935696380997,
+            "min": 288.615486991488,
+            "max": 321.5964881037119
+          },
+          "minimum_overlap": 4
+        },
+        {
+          "concurrency": 8,
+          "aggregate_decode_tokens_per_second": {
+            "median": 455.964321437537,
+            "min": 455.509954143957,
+            "max": 469.15973535012955
+          },
+          "minimum_overlap": 8
+        },
+        {
+          "concurrency": 16,
+          "aggregate_decode_tokens_per_second": {
+            "median": 693.7138954178636,
+            "min": 693.543885403216,
+            "max": 694.8852033452171
+          },
+          "minimum_overlap": 16
+        }
+      ]
+    },
+    "coding": {
+      "record": "summary",
+      "by_concurrency": {
+        "1": {
+          "requests": 12,
+          "completed": 12,
+          "truncated": 0,
+          "errors": 0,
+          "static_checks_passed": 12,
+          "median_ttft_seconds": 0.09273196700087283,
+          "median_completion_latency_seconds": 19.716278138992493,
+          "median_completed_latency_seconds": 19.716278138992493,
+          "reasoning_finished": 12,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_per_request_decode_tps": 180.43611994698722,
+          "wave_peak_overlap": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "aggregate_output_tps": 180.30033975647407
+        },
+        "2": {
+          "requests": 12,
+          "completed": 11,
+          "truncated": 1,
+          "errors": 0,
+          "static_checks_passed": 11,
+          "median_ttft_seconds": 0.11812657600967214,
+          "median_completion_latency_seconds": 24.297329981491202,
+          "median_completed_latency_seconds": 23.738401190988952,
+          "reasoning_finished": 12,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_per_request_decode_tps": 140.87070546580406,
+          "wave_peak_overlap": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "aggregate_output_tps": 228.71056937343693
+        },
+        "4": {
+          "requests": 12,
+          "completed": 11,
+          "truncated": 1,
+          "errors": 0,
+          "static_checks_passed": 11,
+          "median_ttft_seconds": 0.22587368248787243,
+          "median_completion_latency_seconds": 37.792155788993114,
+          "median_completed_latency_seconds": 35.784920244972454,
+          "reasoning_finished": 12,
+          "reasoning_incomplete": 0,
+          "reasoning_unobserved": 0,
+          "median_per_request_decode_tps": 102.80594731977759,
+          "wave_peak_overlap": [
+            4,
+            4,
+            4
+          ],
+          "aggregate_output_tps": 319.3128935348123
+        }
+      },
+      "distributions_by_concurrency": {
+        "1": {
+          "all_terminal": {
+            "requests": 12,
+            "output_tokens": {
+              "samples": 12,
+              "min": 2434,
+              "median": 3602.0,
+              "max": 7311
+            },
+            "latency_seconds": {
+              "samples": 12,
+              "min": 14.136968489008723,
+              "median": 19.716278138992493,
+              "max": 39.73288940099883
+            }
+          },
+          "naturally_completed": {
+            "requests": 12,
+            "output_tokens": {
+              "samples": 12,
+              "min": 2434,
+              "median": 3602.0,
+              "max": 7311
+            },
+            "latency_seconds": {
+              "samples": 12,
+              "min": 14.136968489008723,
+              "median": 19.716278138992493,
+              "max": 39.73288940099883
+            }
+          },
+          "truncated": {
+            "requests": 0,
+            "output_tokens": {
+              "samples": 0,
+              "min": null,
+              "median": null,
+              "max": null
+            },
+            "latency_seconds": {
+              "samples": 0,
+              "min": null,
+              "median": null,
+              "max": null
+            }
+          }
+        },
+        "2": {
+          "all_terminal": {
+            "requests": 12,
+            "output_tokens": {
+              "samples": 12,
+              "min": 1968,
+              "median": 3317.5,
+              "max": 8192
+            },
+            "latency_seconds": {
+              "samples": 12,
+              "min": 16.740278190001845,
+              "median": 24.297329981491202,
+              "max": 49.20817289498518
+            }
+          },
+          "naturally_completed": {
+            "requests": 11,
+            "output_tokens": {
+              "samples": 11,
+              "min": 1968,
+              "median": 3089,
+              "max": 7188
+            },
+            "latency_seconds": {
+              "samples": 11,
+              "min": 16.740278190001845,
+              "median": 23.738401190988952,
+              "max": 46.189166569005465
+            }
+          },
+          "truncated": {
+            "requests": 1,
+            "output_tokens": {
+              "samples": 1,
+              "min": 8192,
+              "median": 8192,
+              "max": 8192
+            },
+            "latency_seconds": {
+              "samples": 1,
+              "min": 49.20817289498518,
+              "median": 49.20817289498518,
+              "max": 49.20817289498518
+            }
+          }
+        },
+        "4": {
+          "all_terminal": {
+            "requests": 12,
+            "output_tokens": {
+              "samples": 12,
+              "min": 2230,
+              "median": 3710.0,
+              "max": 8192
+            },
+            "latency_seconds": {
+              "samples": 12,
+              "min": 22.342942942021182,
+              "median": 37.792155788993114,
+              "max": 59.909377878997475
+            }
+          },
+          "naturally_completed": {
+            "requests": 11,
+            "output_tokens": {
+              "samples": 11,
+              "min": 2230,
+              "median": 3638,
+              "max": 7463
+            },
+            "latency_seconds": {
+              "samples": 11,
+              "min": 22.342942942021182,
+              "median": 35.784920244972454,
+              "max": 59.909377878997475
+            }
+          },
+          "truncated": {
+            "requests": 1,
+            "output_tokens": {
+              "samples": 1,
+              "min": 8192,
+              "median": 8192,
+              "max": 8192
+            },
+            "latency_seconds": {
+              "samples": 1,
+              "min": 59.603180169011466,
+              "median": 59.603180169011466,
+              "max": 59.603180169011466
+            }
+          }
+        }
+      },
+      "distribution_scope": "Output token distributions include reasoning and require valid stream/usage accounting. Natural completion and length truncation latency distributions are separate; all_terminal includes any errors.",
+      "quality_misses": [
+        {
+          "concurrency": 2,
+          "run": 1,
+          "task": "async_pool",
+          "truncated": true,
+          "finish_reason": "length",
+          "content_result": {
+            "static_checks_passed": false,
+            "issues": [
+              "response did not finish naturally"
+            ],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          }
+        },
+        {
+          "concurrency": 4,
+          "run": 2,
+          "task": "async_pool",
+          "truncated": true,
+          "finish_reason": "length",
+          "content_result": {
+            "static_checks_passed": false,
+            "issues": [
+              "response did not finish naturally"
+            ],
+            "code_executed": false,
+            "scope": "response syntax/required artifacts and bounded reference answers; not behavioral code correctness"
+          }
+        }
+      ]
+    },
+    "context-2048": {
+      "points": [
+        {
+          "depth": 2048,
+          "samples": 3,
+          "actual_prompt_tokens": [
+            2048
+          ],
+          "completion_tokens": [
+            256
+          ],
+          "ttft_seconds_median": 0.4853852179949172,
+          "decode_tokens_per_second_median": 225.22928042639978,
+          "effective_prefill_tokens_per_second_median": 4219.32915151414
+        }
+      ],
+      "generation_scope": "Fixed-length throughput probe; natural completion and code correctness are not established."
+    },
+    "context-8192": {
+      "points": [
+        {
+          "depth": 8192,
+          "samples": 3,
+          "actual_prompt_tokens": [
+            8192
+          ],
+          "completion_tokens": [
+            256
+          ],
+          "ttft_seconds_median": 1.9997612909937743,
+          "decode_tokens_per_second_median": 226.13651904417392,
+          "effective_prefill_tokens_per_second_median": 4096.488934401273
+        }
+      ],
+      "generation_scope": "Fixed-length throughput probe; natural completion and code correctness are not established."
+    },
+    "context-32768": {
+      "points": [
+        {
+          "depth": 32768,
+          "samples": 3,
+          "actual_prompt_tokens": [
+            32768
+          ],
+          "completion_tokens": [
+            256
+          ],
+          "ttft_seconds_median": 8.148880577005912,
+          "decode_tokens_per_second_median": 223.47212411053326,
+          "effective_prefill_tokens_per_second_median": 4021.1658141687635
+        }
+      ],
+      "generation_scope": "Fixed-length throughput probe; natural completion and code correctness are not established."
+    },
+    "context-65536": {
+      "points": [
+        {
+          "depth": 65536,
+          "samples": 3,
+          "actual_prompt_tokens": [
+            65536
+          ],
+          "completion_tokens": [
+            256
+          ],
+          "ttft_seconds_median": 17.013852683012374,
+          "decode_tokens_per_second_median": 223.41307093645236,
+          "effective_prefill_tokens_per_second_median": 3851.9200336931904
+        }
+      ],
+      "generation_scope": "Fixed-length throughput probe; natural completion and code correctness are not established."
+    },
+    "context-131072": {
+      "points": [
+        {
+          "depth": 131072,
+          "samples": 3,
+          "actual_prompt_tokens": [
+            131072
+          ],
+          "completion_tokens": [
+            256
+          ],
+          "ttft_seconds_median": 37.202466201008065,
+          "decode_tokens_per_second_median": 222.767292146835,
+          "effective_prefill_tokens_per_second_median": 3523.2072866300564
+        }
+      ],
+      "generation_scope": "Fixed-length throughput probe; natural completion and code correctness are not established."
+    },
+    "context-261888": {
+      "points": [
+        {
+          "depth": 261888,
+          "samples": 3,
+          "actual_prompt_tokens": [
+            261888
+          ],
+          "completion_tokens": [
+            256
+          ],
+          "ttft_seconds_median": 86.86735475299065,
+          "decode_tokens_per_second_median": 221.69187960562027,
+          "effective_prefill_tokens_per_second_median": 3014.8034407711
+        }
+      ],
+      "generation_scope": "Fixed-length throughput probe; natural completion and code correctness are not established."
+    },
+    "retrieval-8192": {
+      "passed": true,
+      "requests": 3,
+      "positions": [
+        {
+          "position_fraction": 0.05,
+          "passed": true,
+          "usage": {
+            "prompt_tokens": 8263,
+            "total_tokens": 8281,
+            "completion_tokens": 18,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          }
+        },
+        {
+          "position_fraction": 0.5,
+          "passed": true,
+          "usage": {
+            "prompt_tokens": 8264,
+            "total_tokens": 8281,
+            "completion_tokens": 17,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          }
+        },
+        {
+          "position_fraction": 0.95,
+          "passed": true,
+          "usage": {
+            "prompt_tokens": 8264,
+            "total_tokens": 8282,
+            "completion_tokens": 18,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          }
+        }
+      ]
+    },
+    "retrieval-260000": {
+      "passed": true,
+      "requests": 3,
+      "positions": [
+        {
+          "position_fraction": 0.05,
+          "passed": true,
+          "usage": {
+            "prompt_tokens": 260072,
+            "total_tokens": 260091,
+            "completion_tokens": 19,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          }
+        },
+        {
+          "position_fraction": 0.5,
+          "passed": true,
+          "usage": {
+            "prompt_tokens": 260071,
+            "total_tokens": 260088,
+            "completion_tokens": 17,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          }
+        },
+        {
+          "position_fraction": 0.95,
+          "passed": true,
+          "usage": {
+            "prompt_tokens": 260074,
+            "total_tokens": 260093,
+            "completion_tokens": 19,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          }
+        }
+      ]
+    }
+  },
+  "memory_observations": {
+    "scope": "All recorded runner attempts, including earlier resumed/failed attempts; sampled extrema can miss brief peaks. Host swap use is system-wide, not attributable solely to vLLM.",
+    "gpu_scope": "RTX records nvidia-smi MiB. Spark monitor records physical unified host memory; no separate GPU allocation series is inferred.",
+    "files": [
+      "attempt-1790318682207644202/memory.jsonl"
+    ],
+    "hosts": {
+      "rtx": {
+        "samples": 385,
+        "first_sample_unix": 1790318682.2334952,
+        "last_sample_unix": 1790320615.321308,
+        "minimum_mem_available_bytes": 175683477504,
+        "maximum_swap_used_bytes": 1195565056,
+        "gpus": {
+          "GPU-fe5b6dd0-a77c-c8fb-6360-e1b9d9918ac0": {
+            "index": "0",
+            "peak_observed_memory_used_mib": 95402.0,
+            "memory_used_mib": {
+              "samples": 385,
+              "min": 91844.0,
+              "median": 92628.0,
+              "max": 95402.0
+            },
+            "memory_total_mib": {
+              "samples": 385,
+              "min": 97887.0,
+              "median": 97887.0,
+              "max": 97887.0
+            },
+            "utilization_percent": {
+              "samples": 385,
+              "min": 0.0,
+              "median": 100.0,
+              "max": 100.0
+            },
+            "power_watts": {
+              "samples": 385,
+              "min": 96.65,
+              "median": 399.99,
+              "max": 419.26
+            }
+          },
+          "GPU-95f8f212-9131-df99-fd53-7535965197d7": {
+            "index": "1",
+            "peak_observed_memory_used_mib": 95388.0,
+            "memory_used_mib": {
+              "samples": 385,
+              "min": 91830.0,
+              "median": 92614.0,
+              "max": 95388.0
+            },
+            "memory_total_mib": {
+              "samples": 385,
+              "min": 97887.0,
+              "median": 97887.0,
+              "max": 97887.0
+            },
+            "utilization_percent": {
+              "samples": 385,
+              "min": 0.0,
+              "median": 100.0,
+              "max": 100.0
+            },
+            "power_watts": {
+              "samples": 385,
+              "min": 82.97,
+              "median": 399.98,
+              "max": 419.98
+            }
+          }
+        }
+      }
+    },
+    "monitor_errors": []
+  },
+  "completion": {
+    "completed": true,
+    "requests_in_full_plan": 359,
+    "curves": [
+      {
+        "prompt_tokens": 2048,
+        "ttft_seconds_median": 0.4853852179949172,
+        "effective_prefill_tps_median": 4219.32915151414,
+        "decode_tps_median": 225.22928042639978,
+        "raw_receipt": "context-2048/receipt.json"
+      },
+      {
+        "prompt_tokens": 8192,
+        "ttft_seconds_median": 1.9997612909937743,
+        "effective_prefill_tps_median": 4096.488934401273,
+        "decode_tps_median": 226.13651904417392,
+        "raw_receipt": "context-8192/receipt.json"
+      },
+      {
+        "prompt_tokens": 32768,
+        "ttft_seconds_median": 8.148880577005912,
+        "effective_prefill_tps_median": 4021.1658141687635,
+        "decode_tps_median": 223.47212411053326,
+        "raw_receipt": "context-32768/receipt.json"
+      },
+      {
+        "prompt_tokens": 65536,
+        "ttft_seconds_median": 17.013852683012374,
+        "effective_prefill_tps_median": 3851.9200336931904,
+        "decode_tps_median": 223.41307093645236,
+        "raw_receipt": "context-65536/receipt.json"
+      },
+      {
+        "prompt_tokens": 131072,
+        "ttft_seconds_median": 37.202466201008065,
+        "effective_prefill_tps_median": 3523.2072866300564,
+        "decode_tps_median": 222.767292146835,
+        "raw_receipt": "context-131072/receipt.json"
+      },
+      {
+        "prompt_tokens": 261888,
+        "ttft_seconds_median": 86.86735475299065,
+        "effective_prefill_tps_median": 3014.8034407711,
+        "decode_tps_median": 221.69187960562027,
+        "raw_receipt": "context-261888/receipt.json"
+      }
+    ],
+    "prefill_method": "Exact unique context prompt tokens / client TTFT from same context requests; includes first-token handoff, not a kernel-only rate",
+    "quality_scope": "Seven/coding static misses retained in receipts; completion is not a claim of perfect model quality."
+  },
+  "registry_receipt": {
+    "registry_digest": "sha256:2aff95d9896b3f3d3f8e3f4cfbaed90c77344d41d58fe7322eff9f4c73ec63b6",
+    "registry": {
+      "push": "passed",
+      "authenticated_digest_pull": "passed",
+      "anonymous_digest_pull": "failed: unauthorized",
+      "visibility": "private",
+      "visibility_source": "Parent agent actual package metadata observation at publication; anonymous failure preserved separately"
+    },
+    "image_tag": "ghcr.io/tpurtell/dots3-note-exl3-k4-rtx:20260925-v1"
+  },
+  "quality_scope": "Static code/content checks are not executed-code correctness. Misses/truncations remain in stage results. Fixed-output timing probes are not natural-completion tests.",
+  "prefill_scope": "Actual prompt tokens / client TTFT, including first-token handoff; not kernel-only prefill speed."
+}
