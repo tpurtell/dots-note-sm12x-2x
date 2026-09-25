@@ -23,6 +23,7 @@ from vllm.transformers_utils.repo_utils import get_hf_file_to_dict
 
 _SCRATCH_LOCK = threading.Lock()
 _SCRATCH_BY_SPEC = {}
+_PRIMERS_BY_SPEC = {}
 _SESSION_LOCK = threading.Lock()
 _SESSIONS_BY_DEVICE = {}
 
@@ -182,10 +183,22 @@ class Dots3B12xExl3MoEMethod(Exl3MoEMethod):
         hidden = int(layer.exl3_hidden_size)
         top_k = int(layer.top_k)
         device = x.device
-        dummy_x = torch.randn((tokens, hidden), dtype=x.dtype, device=device) * 0.125
-        ids = torch.arange(tokens * top_k, dtype=torch.int32, device=device)
-        ids = ids.reshape(tokens, top_k).remainder_(layer.local_num_experts).contiguous()
-        weights = torch.full((tokens, top_k), 1 / top_k, dtype=torch.float32, device=device)
+        # Preparation is serial on the rank's stream, just like the shared
+        # scratch arena. Retaining primers per layer wastes ~0.67 GiB at 512
+        # tokens across 45 routed layers, and doubles with each capacity step.
+        primer_key = (device.type, device.index, x.dtype, tokens, hidden,
+                      top_k, int(layer.local_num_experts))
+        with _SCRATCH_LOCK:
+            primers = _PRIMERS_BY_SPEC.get(primer_key)
+            if primers is None:
+                dummy_x = torch.randn((tokens, hidden), dtype=x.dtype, device=device) * 0.125
+                ids = torch.arange(tokens * top_k, dtype=torch.int32, device=device)
+                ids = ids.reshape(tokens, top_k).remainder_(layer.local_num_experts).contiguous()
+                weights = torch.full((tokens, top_k), 1 / top_k, dtype=torch.float32, device=device)
+                output = torch.empty((tokens, hidden), dtype=torch.float32, device=device)
+                primers = (dummy_x, ids, weights, output)
+                _PRIMERS_BY_SPEC[primer_key] = primers
+        dummy_x, ids, weights, output = primers
 
         def prepare(state):
             # PreparedCall owners survive preparation. Allocating here would
@@ -193,7 +206,6 @@ class Dots3B12xExl3MoEMethod(Exl3MoEMethod):
             # execution are serial on the rank's stream, so use the same
             # capacity-planned arena as live execution.
             scratch = Dots3B12xExl3MoEMethod._scratch(state.scratch, device)
-            output = torch.empty((tokens, hidden), dtype=torch.float32, device=device)
             binding = state.bind(
                 scratch=scratch,
                 a=dummy_x,

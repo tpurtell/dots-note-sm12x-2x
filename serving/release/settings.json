@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "status": "pending-qualification",
+  "model_revision": "d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+  "platforms": {
+    "rtx": {
+      "architecture": "amd64",
+      "image": null,
+      "qualification_report": null,
+      "qualification_report_sha256": null,
+      "port": 8001,
+      "gpu_memory_utilization": null,
+      "max_model_len": null,
+      "max_num_seqs": null,
+      "max_num_batched_tokens": null,
+      "kv_cache_dtype": "fp8",
+      "mtp_tokens": null,
+      "b12x_vocab": null,
+      "b12x_pcie": null,
+      "b12x_exact_fp8": null,
+      "b12x_exact_fp8_rows": null
+    },
+    "spark": {
+      "architecture": "arm64",
+      "image": null,
+      "qualification_report": null,
+      "qualification_report_sha256": null,
+      "port": 8000,
+      "gpu_memory_utilization": null,
+      "max_model_len": null,
+      "max_num_seqs": null,
+      "max_num_batched_tokens": null,
+      "kv_cache_dtype": "fp8",
+      "mtp_tokens": null,
+      "b12x_vocab": null,
+      "b12x_pcie": false,
+      "b12x_exact_fp8": null,
+      "b12x_exact_fp8_rows": null
+    }
+  }
+}

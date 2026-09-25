@@ -98,3 +98,14 @@ docker run -d --name "$container" --gpus all --ipc=host --network=host \
   "${model_mount[@]}" \
   -v "$runtime_cache:/root/.cache/vllm-runtime" \
   "${IMAGE:-dots3-vllm-spark:dev}" "${args[@]}" "$@"
+
+# Spark shares physical RAM with the host. Keep the qualified host-headroom
+# monitor outside the container so it can stop this workload under pressure.
+if [[ "${MEMORY_GUARD:-1}" == 1 ]]; then
+  nohup python3 "$project_root/serving/watch_spark_memory.py" \
+    --container "$container" --min-available-gib "${MIN_HOST_AVAILABLE_GIB:-8}" \
+    > "$runtime_cache/memory-watch.log" 2>&1 < /dev/null &
+  guard_pid=$!
+  echo "$guard_pid" > "$runtime_cache/memory-watch.pid"
+  echo "Host memory monitor PID $guard_pid; log: $runtime_cache/memory-watch.log"
+fi

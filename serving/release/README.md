@@ -90,3 +90,80 @@ arbitrary hardware. Architecture-wide B12x artifact reuse needs a supported,
 validated library feature with compatibility checks and new-device numerical
 qualification. Caches from a later source or dependency build must be exported
 again; the release wrapper rejects dependency or source drift.
+
+## Public fast path (enabled after final qualification)
+
+`settings.json` intentionally contains null digest/profile fields and
+`pending-qualification` status. `run.sh` refuses to launch until the final
+published image digests, qualified profiles and report hashes are recorded.
+No development image tag is a release fallback. Keep this recipe checkout,
+including its qualification reports and `serving/start_*.sh` launchers.
+
+For RTX, after the final release settings are committed:
+
+```bash
+export HF_HOME="$HOME/.cache/huggingface"
+# Optional: persistent kernel/graph cache on a native Linux filesystem.
+export RUNTIME_CACHE="$PWD/.cache/release/rtx-runtime"
+bash serving/release/run.sh rtx pull
+bash serving/release/run.sh rtx start
+bash serving/release/run.sh rtx health
+bash serving/release/run.sh rtx logs
+```
+
+For Spark, run `pull` on each native ARM64 host, then start the **worker first**.
+Set addresses and the network interface for your own hosts. The interface must
+reach the other Spark; the existing launcher also exposes `/dev/infiniband`.
+
+```bash
+# On both hosts:
+export HF_HOME="$HOME/.cache/huggingface"
+export RUNTIME_CACHE="$PWD/.cache/release/spark-runtime"
+export MASTER_ADDR=HEAD_NETWORK_IP
+export SOCKET_IFNAME=RDMA_NETWORK_INTERFACE
+bash serving/release/run.sh spark pull
+
+# On the worker:
+export NODE_RANK=1 HOST_IP=WORKER_NETWORK_IP
+bash serving/release/run.sh spark start
+
+# Then on the head:
+export NODE_RANK=0 HOST_IP=HEAD_NETWORK_IP
+bash serving/release/run.sh spark start
+bash serving/release/run.sh spark health
+```
+
+Use `status`, `logs`, `stop`, `restart` or `remove` instead of `start` for local
+container management. `logs` follows output; Ctrl-C stops following. `stop`
+retains the container; `restart` uses its original settings and verifies it is
+the pinned image. To change settings, stop and remove the container, then start
+again. On Spark, stop the head before the worker; restart the worker before the
+head. `health` runs on the head only; a worker has no HTTP endpoint. HTTP health
+alone does not establish functional request readiness.
+
+`HF_HOME` must contain the already installed checkpoint and is mounted in full,
+read-only, with offline mode enabled. No command downloads model weights.
+`RUNTIME_CACHE` must be writable; do not use this project's `/mnt/scratch` disk.
+`PORT` can customize the HTTP port. Extra arguments after `--` are passed to
+vLLM, for example `... rtx start -- --api-key YOUR_LOCAL_KEY`. Extra flags may
+change qualified behavior; published performance applies to the stored profile.
+Avoid putting secrets in shared shell history.
+
+### Final settings contract
+
+The JSON schema version is `1`; `status` must become `qualified` only after the
+published digest has been pulled and verified. Each platform stores its own:
+
+- Native architecture and immutable `ghcr.io/...@sha256:...` image reference.
+- Repository-relative qualification report path and SHA256 of its exact bytes.
+- GPU memory utilization, context limit, sequence limit and prefill chunk size.
+- FP8 KV format and MTP token count (`0` explicitly disables MTP).
+- Boolean B12x vocab and RTX PCIe settings.
+- Explicit exact-FP8 projection selector string (empty disables) and row counts.
+
+The runner validates these fields without an additional JSON-schema dependency.
+It uses the existing platform launcher, overriding profile environment variables
+with the qualified values. Optional networking, host cache paths and CPU thread
+settings use the existing launcher conventions. Separate settings files can be
+selected with `--settings PATH`; qualification report paths remain relative to
+the recipe repository. Custom profiles require their own qualification evidence.

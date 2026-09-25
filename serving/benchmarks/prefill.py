@@ -66,7 +66,7 @@ def exact_prompt(base_url: str, model: str, target_tokens: int, nonce: str) -> s
 
 
 def time_to_first_token(base_url: str, model: str, prompt: str) -> dict:
-    parsed = urlparse(base_url)
+    parsed = urlparse(base_url.rstrip("/").removesuffix("/v1") + "/v1")
     connection_type = (
         http.client.HTTPSConnection
         if parsed.scheme == "https"

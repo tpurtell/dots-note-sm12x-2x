@@ -384,3 +384,56 @@ cache. Earlier containers only persisted vLLM/Triton caches, so removing them
 lost B12x compile artifacts and added repeated startup work. Spark's current
 MTP1 container predates this launcher change; its artifacts will be copied
 before the next removal.
+
+## Exact Q-B whole-model result and scheduler tuning
+
+The opt-in Q-B/MTP3 image loaded successfully and completed both workload and
+concurrency screens. Weighted decode was 187.29 tokens/s with 16/21 contracts;
+C1/2/4/8/16 rates were 137.24/202.26/311.81/500.23/679.93. Native Q-B/MTP3 was
+183.02 with 17/21 contracts and 723.82 at C16. Extra originals raised model
+allocation to 80.02–80.06 GiB/rank and reduced available KV to 4.62 GiB. The
+small C1 aggregate difference does not justify the quality/capacity/concurrency
+tradeoff; native FP8 remains the default. This opt-in experiment is retained
+for reproducibility, with receipts `seven-128k-mtp3-exact-qb.jsonl`,
+`clients-mtp3-exact-qb.json`, and `runtime-mtp3-exact-qb.json`.
+
+RTX next tests MTP2/native FP8 at 1,024-token prefill chunks, 128K context and
+0.94 utilization to measure prefill/latency and capacity against 512-token
+chunks. Spark MTP1 at 0.80 has passed prefix/xgrammar, eight tools and image/audio
+with about 11–13 GiB physical memory remaining after modalities; repeated
+workloads are running.
+
+## Prefill tradeoff, shared preparation and 262K MTP2
+
+RTX MTP2 at 1,024-token chunks achieved about 5,024 input tokens/s median
+at 32K, but C1/2/4/8/16 decode was only
+120.98/199.70/294.47/447.97/654.88 aggregate tokens/s. KV capacity fell to
+2.61 GiB (145,902 equivalent tokens) at 128K/0.94. Larger chunks are not the
+balanced default. Receipts: `prefill-mtp2-batch1024.json`,
+`clients-mtp2-batch1024.json`, `runtime-mtp2-batch1024.json`.
+
+The MoE preparation code now shares dummy inputs/routes/outputs by static
+geometry, in addition to shared scratch. This removes duplicate retained
+primers; whole-model validation is running. With 512-token chunks and MTP2,
+the 262K/0.94 startup explicitly rejected insufficient KV (4.15 GiB available
+versus 4.57 required); the container exited cleanly. The 0.95 RTX candidate
+started with 5.10 GiB and 292,303 equivalent tokens. This RTX allocation does
+not apply to unified-memory Sparks. 32K prefill median was 4,371 tokens/s;
+the seven screen was 169.92 weighted decode tokens/s with 18/21 contracts and
+eight tool cases passed. Boundary, prefix, modalities and concurrency checks
+are running. The different configured context limits prevent attributing
+these KV differences solely to primer sharing.
+
+Spark MTP1 at 0.80 completed C1/2/4/8/16 at
+31.52/46.59/74.02/107.18/161.83 aggregate tokens/s; actual overlap matched
+each level. Minimum available physical memory was 11.196 GiB on Rhea and
+12.343 GiB on Moa. Its seven screen was 33.79 with 17/21 contracts. Both
+containers stopped cleanly after receipts and compile-cache preservation.
+MTP2 is now loading with the same allocation/context/chunks/native vocabulary.
+
+The public Spark launcher now starts a host memory monitor automatically.
+The monitor binds to the original container ID, tolerates inspection timeouts
+and retries failed stop attempts. It remains a best-effort monitor, not a
+hard memory limit. Current development jobs continue with their already
+verified manual monitors; final fast-path qualification must verify the
+automatically launched monitor.
