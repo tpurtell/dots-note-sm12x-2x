@@ -20,6 +20,10 @@ Set the selected final MTP value and actual image ID, then append `--execute`.
 The script requires explicit TP2, `--max-model-len 262144`, and the expected MTP
 in the running container arguments. The selected recipe must have its reasoning
 parser, tools, xgrammar, multimodal support, and prefix caching enabled.
+Identity validation requires explicit `--reasoning-parser dots3`,
+`--tool-call-parser dots`, `--enable-auto-tool-choice`,
+`--enable-prefix-caching`, and an explicit xgrammar structured-output backend.
+Dynamic MTP schedules are rejected because this gate qualifies a fixed K.
 
 ## Coverage
 
@@ -30,11 +34,27 @@ parser, tools, xgrammar, multimodal support, and prefix caching enabled.
 | Image and audio examples | 2 |
 | Seven workloads: one warmup plus three measured runs | 28 |
 | Reference code-agent task at baseline/8K/24K: one warmup plus three runs | 12 |
-| Independent prose clients C1/2/4/8/16: two warmup waves plus three measured waves, 128 output tokens | 155 |
+| Independent prose clients C1/2/4/8/16: two warmup waves plus three measured waves, 256 output tokens | 155 |
 | Reasoning coding C1/2/4: four tasks, one warmup plus three runs, natural stop within 8192 tokens | 48 |
 | Context at 2048/8192/32768/65536/131072/261888: one warmup plus three runs, 256 output tokens | 24 |
 | Retrieval at 8192 and 260000 filler tokens, early/middle/late | 6 |
 | **Total** | **359** |
+
+### Greedy and sampled code coverage
+
+The seven-workload suite uses **temperature 0** with thinking disabled, including
+its code case: one warmup and **three measured greedy code responses**. The
+reference code-agent depth suite uses **temperature 0.2** with thinking disabled:
+one warmup and three measurements at each of baseline/8K/24K, totaling **nine
+measured sampled code responses**. Those responses are forced to 256 tokens for
+decode timing and do not establish completed-code correctness.
+
+The separate realistic coding/reasoning suite uses **temperature 0.2** with
+thinking enabled: four tasks × three measured runs × C1/C2/C4, totaling **36
+measured responses**, plus 12 warmups. It permits natural termination up to 8192
+tokens and records completion/truncation and static answer contracts. Independent
+prose clients use their existing **temperature 0.7** and 256-token output length.
+No additional benchmark family is needed for greedy/sampled code coverage.
 
 Tokenization, metrics, and runtime inspection add non-generation requests.
 Multimodal uses the existing script's public example URLs. Retrieval positions

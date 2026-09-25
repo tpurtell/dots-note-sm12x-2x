@@ -42,7 +42,7 @@ def plan(args):
                 ['--depths','0','8192','24000','--runs','3','--warmups','1','--output-tokens','256'],12),
            step('clients','serving/benchmarks/clients.py',
                 ['--concurrency','1','2','4','8','16','--runs','3','--warmup-runs','2',
-                 '--output-tokens','128','--nonce-prefix','dots3-final-release-v1'],155,'json'),
+                 '--output-tokens','256','--nonce-prefix','dots3-final-release-v1'],155,'json'),
            step('coding','serving/benchmarks/coding_clients.py',
                 ['--concurrency','1','2','4','--runs','3','--warmup-runs','1','--output-tokens','8192'],48)]
     for depth in DEPTHS:
@@ -54,9 +54,19 @@ def plan(args):
     return steps
 
 
+def option(step,name,default=None):
+    options=step['options']
+    if name not in options:return default
+    start=options.index(name)+1
+    end=next((i for i in range(start,len(options)) if options[i].startswith('--')),len(options))
+    return options[start:end]
+
+
 def validate(step,path):
     """Validate completion independently of exit status; retain measured quality misses."""
     name=step['name']; text=path.read_text()
+    runs=int(option(step,'--runs',['3'])[0])
+    output_tokens=int(option(step,'--output-tokens',['128'])[0])
     if step['format']=='json':
         data=json.loads(text)
         if name=='prefix':
@@ -65,13 +75,13 @@ def validate(step,path):
         elif name=='multimodal':
             assert len(data['source_examples'])==2 and all(r['contract_passed'] for r in data['source_examples'])
         elif name=='clients':
-            assert [p['concurrency'] for p in data['points']]==[1,2,4,8,16]
+            assert [p['concurrency'] for p in data['points']]==[int(x) for x in option(step,'--concurrency')]
             for point in data['points']:
-                assert len(point['runs'])==3
+                assert len(point['runs'])==runs
                 for run in point['runs']:
                     assert len(run['request_results'])==point['concurrency']
                     for row in run['request_results']:
-                        assert row['completion_tokens']==128 and len(row['token_times_seconds'][0])==128
+                        assert row['completion_tokens']==output_tokens and len(row['token_times_seconds'][0])==output_tokens
         return {'complete':True}
     rows=[json.loads(line) for line in text.splitlines() if line.strip()]
     assert rows[0]['record']=='meta'
@@ -98,11 +108,12 @@ def validate(step,path):
         assert {r['position_fraction'] for r in measurements}=={.05,.5,.95}
         assert all(r['usage']['prompt_tokens']+r['usage']['completion_tokens']<=262144 for r in measurements)
     else:
-        expected_depths=[0,8192,24000] if name=='code-agent' else [int(name.split('-')[1])]
-        assert {(r['depth'],r['run']) for r in measurements}=={(d,r) for d in expected_depths for r in (-1,0,1,2)}
+        expected_depths=[int(x) for x in option(step,'--depths')]
+        warmups=int(option(step,'--warmups',['1'])[0])
+        assert {(r['depth'],r['run']) for r in measurements}=={(d,r) for d in expected_depths for r in range(-warmups,runs)}
         for row in measurements:
-            assert row['usage']['completion_tokens']==256
-            assert sum(len(c['token_ids']) for c in row['chunks'])==256
+            assert row['usage']['completion_tokens']==output_tokens
+            assert sum(len(c['token_ids']) for c in row['chunks'])==output_tokens
             target=row.get('actual_prompt_tokens',row['depth'])
             assert row['usage']['prompt_tokens']==target
             if name=='context-261888':
@@ -122,8 +133,15 @@ def identity(args):
         raise ValueError(f'missing explicit server flag {name}')
     assert int(flag('--max-model-len'))==262144
     assert int(flag('--tensor-parallel-size'))==2
+    assert flag('--reasoning-parser')=='dots3', 'require Dots-aware reasoning parser'
+    assert flag('--tool-call-parser')=='dots', 'require Dots tool parser'
+    for enabled in ('--enable-prefix-caching','--enable-auto-tool-choice'):
+        assert enabled in command and '--no-'+enabled[2:] not in command, f'require explicit {enabled}'
+    structured=json.loads(flag('--structured-outputs-config'))
+    assert structured['backend']=='xgrammar', 'require explicit xgrammar backend'
     spec=json.loads(flag('--speculative-config'))
     assert spec['num_speculative_tokens']==args.expected_mtp and spec['method']=='mtp'
+    assert spec.get('num_speculative_tokens_per_batch_size') is None, 'qualification expects fixed MTP K'
     return {'id':data['Id'],'image_id':data['Image'],'started_at':data['State']['StartedAt'],
             'restart_count':data['RestartCount'],'args':command,
             'environment_sha256':hashlib.sha256(json.dumps(data['Config']['Env'],sort_keys=True).encode()).hexdigest()}
