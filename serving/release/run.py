@@ -132,7 +132,9 @@ def settings(path, selected):
     rows = config.get('b12x_exact_fp8_rows')
     if not isinstance(rows, list) or not rows or any(type(n) is not int or n <= 0 for n in rows):
         fail('b12x_exact_fp8_rows must be explicit positive row counts')
-    validate_report(json.loads(report_path.read_text()), config, selected)
+    accepted_report=json.loads(report_path.read_text())
+    validate_report(accepted_report, config, selected)
+    validate_final_tool_quality(accepted_report, config)
     return config
 
 
@@ -152,6 +154,25 @@ def parse_rows(text):
         return rows
     except ValueError:
         fail('Invalid active row selection in qualification report')
+
+
+def validate_final_tool_quality(report, config):
+    # Preserve the published ordinary-TP 262K v1 profile; new native-context
+    # and hybrid profiles require the mandatory v2 tool suite.
+    if config.get('max_model_len',0)<524288 and not config.get('hybrid_layer_partition'):
+        return
+    if not str(report.get('qualification_schema','')).endswith('-v2') or report.get('tool_quality_required') is not True:
+        fail('New native-context/hybrid release requires v2 tool-quality qualification')
+    result=report.get('stage_results',{}).get('tool-quality',{})
+    if result.get('complete') is not True or result.get('excluded_scenarios'):
+        fail('Final tool-quality evidence is incomplete or excludes infrastructure failures')
+    if result.get('benchmark_commit')!='cf54b4bfe705f12f71e8866f10730572497c8105':
+        fail('Final tool-quality suite pin mismatch')
+    groups=result.get('groups',{})
+    for name,count in [('Basic',69),('Hard',19),('Total',88)]:
+        group=groups.get(name,{})
+        if group.get('scenarios')!=count or group.get('graded')!=count or group.get('max_points')!=count*2:
+            fail('Final Basic/Hard/Total evidence is incomplete')
 
 
 def validate_report(read_report, config, selected, *, expected_hosts=None):

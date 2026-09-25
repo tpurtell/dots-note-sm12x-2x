@@ -66,6 +66,15 @@ def plan(args):
     return steps
 
 
+def preflight_tool_quality(steps, output):
+    step=next(step for step in steps if step['name']=='tool-quality')
+    # CLI plan verifies exact clean benchmark revision and prepared environment;
+    # it never contacts Docker or the model endpoint.
+    subprocess.run([sys.executable,str(ROOT/step['script'])]+step['options']+
+                   ['--output',str(output/'tool-preflight-unused'),'--plan'],
+                   cwd=ROOT,stdout=subprocess.DEVNULL,check=True)
+
+
 def stage_command(step, run_dir):
     if step['name']=='tool-quality':
         destination=run_dir/'tool-quality'
@@ -232,6 +241,7 @@ def main():
     if not args.execute:
         print(json.dumps({'requests':sum(s['requests'] for s in steps),'steps':steps},indent=2));return
     out=args.output_dir.resolve();out.mkdir(parents=True,exist_ok=True)
+    preflight_tool_quality(steps,out)
     source_paths=sorted((ROOT/'serving/benchmarks').glob('*.py'))+[Path(__file__),ROOT/'serving/qualify_prefix_xgrammar.py',ROOT/'serving/capture_runtime.py',ROOT/'serving/benchmarks/code-agent-prompt.txt']
     binding={'schema':'dots3-rtx-release-qualification-v2','identity':identity(args),
              'base_url':args.base_url,'model':args.model,'plan':steps,

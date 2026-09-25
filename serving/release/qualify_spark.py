@@ -200,6 +200,7 @@ def main():
     if not args.execute:
         print(json.dumps({'requests':sum(s['requests'] for s in steps),'hosts':hosts(args),'steps':steps},indent=2));return
     out=args.output_dir.resolve();out.mkdir(parents=True,exist_ok=True)
+    shared.preflight_tool_quality(steps,out)
     first=inspect_hosts(args)
     sources=sorted((ROOT/'serving/benchmarks').glob('*.py'))+[Path(__file__),Path(shared.__file__),ROOT/'serving/capture_runtime.py',ROOT/'serving/watch_spark_memory.py',ROOT/'serving/qualify_prefix_xgrammar.py',ROOT/'serving/benchmarks/code-agent-prompt.txt']
     binding={'schema':'dots3-spark-release-qualification-v2','identity':{h:d['identity'] for h,d in first.items()},
