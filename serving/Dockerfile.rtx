@@ -16,9 +16,12 @@ COPY serving/dots3_b12x_attention.py /usr/local/lib/python3.12/dist-packages/vll
 COPY serving/source_multimodal_config.json /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/common/source_multimodal_config.json
 COPY serving/dots3_cache_gather.py /usr/local/lib/python3.12/dist-packages/vllm/models/dots3_note/nvidia/cache_gather.py
 COPY serving/port_vllm.py /tmp/port_vllm.py
+COPY serving/dots3_reasoning_parser.py /usr/local/lib/python3.12/dist-packages/vllm/reasoning/dots3_reasoning_parser.py
+COPY serving/port_reasoning.py /tmp/port_reasoning.py
 COPY serving/b12x_pcie_all_reduce.py /usr/local/lib/python3.12/dist-packages/vllm/distributed/device_communicators/b12x_pcie_all_reduce.py
 COPY serving/port_pcie.py /tmp/port_pcie.py
 RUN python3 /tmp/port_vllm.py /usr/local/lib/python3.12/dist-packages/vllm \
+ && python3 /tmp/port_reasoning.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 /tmp/port_pcie.py /usr/local/lib/python3.12/dist-packages/vllm \
  && python3 -c 'from vllm.model_executor.layers.quantization import get_quantization_config; assert get_quantization_config("exl3").__name__ == "Dots3HybridExl3Config"'
 

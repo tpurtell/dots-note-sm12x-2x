@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "runtime_image_id": "sha256:55f1ade62ad72f144d8ec43edd365719d767ec576296feb8fbbb94f615142ec9",
+  "model_revision": "d8e3b9a48d3b5b8e23d9c6b3f6cc645f48b2f9da",
+  "vllm": "0.30.0",
+  "execution": "CPU subprocess inside existing RTX release container with CUDA_VISIBLE_DEVICES empty; no API requests or GPU kernels",
+  "sha256": {
+    "serving/dots3_reasoning_parser.py": "c34d448f089aecfe7903da181b91c0cdf8963f71aa79694315df82723c9882b6",
+    "serving/port_reasoning.py": "a735bbb1ed669abad829a758c571ac89616d14af32c21a3258bc83090f657a6c",
+    "serving/check_reasoning.py": "0b4938cd602dc2d6a6e3aecc37a20671f1ae279b90b94deb9e460ab37f25517f",
+    "benchmarks/component/reasoning/deepseek-r1-baseline.jsonl": "1b698165bea5220b04ded0ba92102d0a114d099586e72ba637d463d43be29c17",
+    "benchmarks/component/reasoning/dots3-cpu.json": "9aaf6d99a362e409b713ea9376621f0560fe7e5109966963a01272f8902a6207"
+  },
+  "registry_port": "pristine stable source anchors, patched syntax and reapplication rejection passed",
+  "live_qualification": "pending"
+}

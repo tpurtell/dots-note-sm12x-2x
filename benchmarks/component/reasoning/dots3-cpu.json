@@ -1,0 +1,47 @@
+{
+  "event": "dots3_reasoning_cpu_qualified",
+  "tokens": {
+    "<think>": [
+      151721
+    ],
+    "</think>": [
+      151722
+    ],
+    "<|assistant|>": [
+      151667
+    ],
+    "<|endofassistant|>": [
+      151668
+    ]
+  },
+  "stream_contracts_passed": 120,
+  "nonstream_contracts_passed": 30,
+  "xgrammar_gating_cases_passed": 6,
+  "vllm_spec_boundary_rollback_reset_repeats": 3,
+  "baseline_defects": [
+    {
+      "case": "prior_thinking",
+      "thinking": true,
+      "baseline_prompt_reasoning_end": true
+    },
+    {
+      "case": "tool_return",
+      "thinking": true,
+      "baseline_prompt_reasoning_end": true
+    },
+    {
+      "case": "nonthinking_nonstream",
+      "baseline": [
+        "Hello",
+        null
+      ],
+      "expected": [
+        null,
+        "Hello"
+      ]
+    }
+  ],
+  "limitations": [
+    "Synthetic parser/token tests only; live decoding, tool roundtrips and speculative structured output still require API qualification."
+  ]
+}

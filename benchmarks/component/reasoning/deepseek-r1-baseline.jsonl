@@ -1,0 +1,4 @@
+{"tokens": {"<think>": [151721], "</think>": [151722], "<|assistant|>": [151667], "<|endofassistant|>": [151668]}}
+{"thinking": false, "reasoning_end": true, "extract_plain": ["Hello", null], "tail": "<|system|>You are a helpful assistant.<|endofsystem|><|user|>Hi<no_think><|endofuser|><|assistant|><think>\n\n</think>\n\n"}
+{"thinking": true, "reasoning_end": false, "extract_plain": ["Hello", null], "tail": "<|system|>You are a helpful assistant.<|endofsystem|><|user|>Hi<|endofuser|><|assistant|>"}
+{"multi_turn_thinking": true, "incorrect_reasoning_end": true, "tail": "<|system|>You are a helpful assistant.<|endofsystem|><|user|>First<|endofuser|><|assistant|><think>\nearlier\n</think>\n\nDone<|endofassistant|><|user|>Next<|endofuser|><|assistant|>"}
