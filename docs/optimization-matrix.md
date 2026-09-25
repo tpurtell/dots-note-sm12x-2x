@@ -46,3 +46,16 @@ all of these are development measurements.
 The final benchmark report must preserve accepted evidence with exact source,
 model, image, hardware and launch settings. Current results are not GHCR release
 qualification.
+
+## RTX SWA Q-B finite screen: retain native FP8
+
+The opt-in `swa_q_b_proj` selector at rows 1/4/16 completed an eight-request
+matched C1/C4 screen. Native versus candidate median decode rates were
+180.436/186.543 tokens/s at C1 (+3.38%) and 104.648/105.269 at C4 (+0.59%).
+Native completed 8/8 naturally; the candidate completed 7/8, with one request
+reaching the benchmark's 8,192-token output budget including reasoning.
+Different sampled outputs prevent a causal quality-regression conclusion.
+Retain native FP8: this finite screen does not establish a clear balanced
+benefit, the copied weights add about 264 MiB per GPU, and native 524K-context
+capacity is now the priority. [Exact raw evidence and provenance](../benchmarks/development/rtx-swa-qb-priority/manifest.json)
+are archived; no benchmark extension is planned.

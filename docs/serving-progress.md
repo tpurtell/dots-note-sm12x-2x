@@ -636,3 +636,18 @@ raw receipts, registry logs and exact image/source/cache provenance are in the
 Full qualification is now running separately against the published digest
 with another fresh runtime cache. Release settings and final performance
 tables remain pending.
+
+## Completed RTX SWA Q-B priority screen
+
+The finite C1/C4 comparison completed eight matched measured requests per
+candidate with unchanged MTP3/262K/0.95 settings. Native median decode rates
+were 180.436 and 104.648 tokens/s; the SWA Q-B exact-FP8 candidate measured
+186.543 and 105.269 (+3.38% and +0.59%). Native finished 8/8 naturally versus
+7/8 for the candidate; one candidate response reached the benchmark's
+8,192-token output budget. This sampled completion difference does not establish
+causal quality loss. The default remains native FP8: no clear balanced benefit
+is established by this limited screen, extra weight copies cost about 264 MiB
+per GPU, and preserving memory for native 524K context is the next priority.
+[Lossless outputs, matched baseline subset, build/source/runtime provenance and
+hashes](../benchmarks/development/rtx-swa-qb-priority/manifest.json) are archived.
+The screen is complete and will not be extended.
