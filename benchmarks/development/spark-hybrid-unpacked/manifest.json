@@ -1,0 +1,115 @@
+{
+  "scope": "Spark unpacked hybrid23/23, TP2experts, compact524K .80 guard1 MTP3; finite C1/C4 screen1warm1timed, notfinalrelease. Comparisonnative32Khasmatchedrequestsbutdifferentcontextprofile.",
+  "coding": {
+    "c1_median_tps": 31.2524992206,
+    "c4_median_tps": 19.9434527749,
+    "natural": 8,
+    "requests": 8,
+    "static": 8
+  },
+  "api_cases_passed": 40,
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/runtime-moa-hybrid524-v5-startup.json",
+      "artifact": "runtime-moa-hybrid524-v5-startup.json.gz",
+      "source_sha256": "c313a68be6abb523a886c2c3d560563604851e9bc83b8cb04fb0491259558d57",
+      "artifact_sha256": "7c6e1937b6bbb3ba2462cb69207d3fa7a8b752199efa59981ccae4bbb33c6096"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid524-v5-rhea-memory.log",
+      "artifact": "hybrid524-v5-rhea-memory.log.gz",
+      "source_sha256": "3f9cf2240cc56a94784d29f63dbb31bf775e5b1bac88c2e68d0b158c3fcd6f91",
+      "artifact_sha256": "456fb7aedcad83e8db57a625b51c9dedec30540334406e129dce27d9efed374a"
+    },
+    {
+      "source": ".cache/serving/spark/coding-hybrid524-v5-8192.log",
+      "artifact": "coding-hybrid524-v5-8192.log.gz",
+      "source_sha256": "d35f08111dcd2f0bed31ccc150e754d37ceca92a7c14055b254295b56c516d20",
+      "artifact_sha256": "4760a9fd2241a64854b0af15b5b46b6f3034b666a6979e1c100a5551a05d3ce6"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid524-v5-rhea-final.log",
+      "artifact": "hybrid524-v5-rhea-final.log.gz",
+      "source_sha256": "a9975280a0d8321f707d83308f0664fc84e19da80209c7be055f4b889118c7f5",
+      "artifact_sha256": "fb956ed93ee5ed60710fcc560ef5525bb9667fa2627db1cb1afac218b79dc91a"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid524-v5-moa-memory.log",
+      "artifact": "hybrid524-v5-moa-memory.log.gz",
+      "source_sha256": "b0f445d6586daaa52eb4fb7cc6e7450a1e142874a2cd434ae11daf9612aa09d6",
+      "artifact_sha256": "b6445308cfb07be2126f37333c87a796ba6e6413b2143ff5a947acbd479a2fb7"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid524-v5-rhea-startup.log",
+      "artifact": "hybrid524-v5-rhea-startup.log.gz",
+      "source_sha256": "4dffd28ab546d4cbdc0626079a2bb479566a0e464d8933297b24309c9e9036f2",
+      "artifact_sha256": "9865e46289636886c75ffa7e8bf4fe0997d910282409b885df78c96842fef619"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-hybrid524-v5-final.json",
+      "artifact": "runtime-rhea-hybrid524-v5-final.json.gz",
+      "source_sha256": "113c48a929231caf2a63a14199b92cb0ceb72e1e0a702a6fd0715c3c94a1322a",
+      "artifact_sha256": "62a143807b9748a036a1fdd04ba2d58b7c3b8435ec5b52d9140b0284ffa7461d"
+    },
+    {
+      "source": ".cache/serving/spark/prefix-hybrid524-v5.log",
+      "artifact": "prefix-hybrid524-v5.log.gz",
+      "source_sha256": "ad52635535967fdd17318fbd4d7d9bed743a4e4e3efbff5fd0abb087e9bc3fe9",
+      "artifact_sha256": "ed2e78420188acc10874423286acb9c38dc8a52c2a063e24a8ed8853df55621d"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid524-v5-moa-final.log",
+      "artifact": "hybrid524-v5-moa-final.log.gz",
+      "source_sha256": "24187418ef433f42fe35b640460e444f58d620d164e62afee0354fd2c48635e6",
+      "artifact_sha256": "9a265a10976394f9d716ebb394e49ccd2ab4de6d0784bebfa518ddacf9884015"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-moa-hybrid524-v5-final.json",
+      "artifact": "runtime-moa-hybrid524-v5-final.json.gz",
+      "source_sha256": "1957d943017f5112852fc7f4b3bf330ba515773b9bc314ce02597a08e9909af1",
+      "artifact_sha256": "3e1f9e01f7af5527d4eb8b75700eeb901a21257d4badaf4d89d636c0117ff3b1"
+    },
+    {
+      "source": ".cache/serving/spark/prefix-hybrid524-v5.json",
+      "artifact": "prefix-hybrid524-v5.json.gz",
+      "source_sha256": "de7ee26562a97687798f52d6223a2656c43e94f02929b995c8c9901e0486b85e",
+      "artifact_sha256": "6eb69880b577a3171c1859b6aedaaee6c4a896955e39157277cc19d2f6169af9"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-hybrid524-v5-startup.json",
+      "artifact": "runtime-rhea-hybrid524-v5-startup.json.gz",
+      "source_sha256": "4b1cd225b3ced06ce8385ee9cae5b2473b40bdbcd291572155094f0a55650e3e",
+      "artifact_sha256": "9e30b0c9a79f7415de9e558d31333e67ef800eb2c822928ad3dd729b0538e765"
+    },
+    {
+      "source": ".cache/serving/spark/coding-hybrid524-v5-8192.jsonl",
+      "artifact": "coding-hybrid524-v5-8192.jsonl.gz",
+      "source_sha256": "643c23734218ecfe42b299cb216bfa56645681c2c064a04fa4d2c29b7886444d",
+      "artifact_sha256": "d5322be7c5280f5b7483354667d1e002f37d74d8896f4d9627b1d3785c88209b"
+    },
+    {
+      "source": ".cache/serving/spark/reasoning-api-hybrid524-v5.log",
+      "artifact": "reasoning-api-hybrid524-v5.log.gz",
+      "source_sha256": "f9c51d42ffa9e339586a461ecd2e3cd0a41edcc919b42ebc15cddbbe44f0a85f",
+      "artifact_sha256": "127391071d66fa73abdc6ac7d89280e36d862dedd165b6b98bece26a194b4e79"
+    },
+    {
+      "source": ".cache/serving/spark/hybrid524-v5-metrics.txt",
+      "artifact": "hybrid524-v5-metrics.txt.gz",
+      "source_sha256": "44daed416be4af0d40bb1ca6cec280230db884b3200745d9e80c4d7e29789645",
+      "artifact_sha256": "062fd74665b8fd35ada533b3a7f30a8f0206614c38ddaf89108aae235f55e876"
+    },
+    {
+      "source": ".cache/serving/spark/reasoning-api-hybrid524-v5.jsonl",
+      "artifact": "reasoning-api-hybrid524-v5.jsonl.gz",
+      "source_sha256": "b2dbc18425bcf16ddf0f58194057a215098ea0d981a699f2fab44906a42886b7",
+      "artifact_sha256": "0f7d156b837530d36a56ee1a311c04b9d0153e941f35b81815378e9a2bb797d6"
+    },
+    {
+      "source": ".cache/serving/spark/coding-native32k-vs-hybrid524k-screen.json",
+      "artifact": "coding-native32k-vs-hybrid524k-screen.json.gz",
+      "source_sha256": "916f4f929b934a21fbed71f2fa2732bb574c0a3f21dc0c75441d9436c3898677",
+      "artifact_sha256": "5f60c0801a21c7f87fc79889edc8121f156918eda9cbeb5f436b56e11143be9e"
+    }
+  ]
+}
