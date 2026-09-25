@@ -19,12 +19,16 @@ FP8 core. Two separate kernel choices are under evaluation:
   provisionally retains it: C1/C2/C4 rates 167.41/139.41/97.04 tokens/s and
   2,004,801 accounted cache tokens. Final release qualification is pending.
 - **Sparse-attention prefill:** vLLM's
-  `--attention-config '{"sparse_mla_force_mqa":true}'` sends sparse prefills
-  through our compact-cache MQA adapter instead of the native masked-MHA path
-  that expands cached latent vectors into K/V tensors. It does not alter SWA
-  execution or expert quantization. The adapter's FP8-query numerical reference
-  is not proof of equivalence to native BF16-query prefill; long-context
-  retrieval, coding and memory tests are required before adoption.
+  `--attention-config '{"sparse_mla_force_mqa":true}'` disables its dense-MHA
+  shortcut for prefixes no longer than the sparse top-k (2,048 tokens).
+  Long-context prefills already use our compact-cache MQA adapter on SM12.
+  In vLLM 0.30, `_is_masked_mha_available` requires capability family 100;
+  the masked-MHA long-prefill branch is unavailable on SM120/121. Our earlier
+  hypothesis that this flag would avoid large long-context K/V expansion on
+  these GPUs was incorrect. It does not alter SWA execution or expert
+  quantization. The RTX screen found unchanged KV capacity and peak memory,
+  with slightly slower prefill, so the flag is rejected for RTX. Component
+  FP8-query reference checks alone do not establish whole-model equivalence.
 
 Neither option changes the published checkpoint. Results in the table below
 include earlier ordinary-TP controls; later hybrid sections identify the
