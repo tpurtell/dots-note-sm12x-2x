@@ -44,14 +44,50 @@ TP mode and eager encoder execution; decoder CUDA graphs remain supported.
 The initial loaded RTX receipt measured **7.459 GiB vision** and **1.651 GiB
 audio** on *each* worker. These include registered buffers and deduplicate
 storage aliases. Vision's runtime FP8 conversion makes this smaller than its
-12.799 GiB checkpoint tensor total. Owner-only placement is expected to remove
-one copy of each tower across the pair; usable KV gains require a new startup
-profile and an uneven layer split.
+12.799 GiB checkpoint tensor total. Loaded ownership receipts now verify that
+the peer skips each tower, removing one copy of each across the pair. Usable KV
+gains depend on the new startup profile and layer split.
 
 Choose that split using actual owner weight allocations, per-rank KV block
 costs and measured profiling headroom. Equal layer counts or equal free bytes
 alone do not maximize the shared token capacity. Admission and long-context
 requests must validate any estimated improvement.
+
+### Capacity calculation
+
+For this checkpoint and FP8 cache, each DSA layer retains **576 bytes of MLA
+state plus 132 bytes of indexer state per token**. Each SWA layer retains
+**1,088 bytes per token** within its 513-token window. There are 33 target SWA
+layers plus the MTP SWA layer. Their logical window payload totals about
+**18.10 MiB per request** across both GPUs; scheduler in-flight reservations
+and physical arena padding are additional.
+
+The current allocator uses a shared block-ID pool with different physical
+strides on the two owners. For measured per-rank budgets `K0`, `K1` and
+physical block strides `S0`, `S1`, available blocks are:
+
+```
+B = min(floor(K0 / S0), floor(K1 / S1))
+R(L) = ceil(L / 64) + G_swa * A_swa(L, in_flight_tokens)
+accounted_context_tokens = floor(B / R(L) * L)
+```
+
+`G_swa` is the global number of SWA groups after refinement;
+`A_swa` comes from vLLM's actual SWA admission rule. At batch 512 with the
+current asynchronous runner, 1,024 tokens may be in flight and the SWA rule
+reserves 25 blocks per group per request. These values must be recomputed when
+the batch cap changes. The formula reports equivalent capacity at the selected
+length `L`; it does not prove concurrent requests at that length have passed.
+
+`VLLM_HYBRID_BALANCE_KV_GROUPS=1` splits oversized SWA groups before worker
+projection so bounded SWA pages do not unnecessarily widen every history
+block. It preserves a common global group list and layer membership, appending
+overflow groups while retaining the original IDs. This reduces padding within
+the existing allocator; it does not introduce independent per-type arenas.
+The [placement planner](../serving/plan_hybrid_placement.py) invokes the actual
+vLLM grouping/allocation code and reports useful history, bounded SWA payload,
+padding and the limiting rank separately. A fresh loaded receipt is required
+to replace its estimated budgets after changing the cut.
 
 ## Interfaces and qualification
 
@@ -65,6 +101,8 @@ parameter geometry, expert partitions, cache ownership and storage allocations.
 The initial unpacked hybrid and native TP2 passed the same 12-request 524K
 coding screen. See the [matched comparison](../benchmarks/development/rtx-native524-hybrid-comparison).
 Packed communication has passed eager and changed-input CUDA graph component
-checks on RTX; whole-model packed and owner-only multimodal qualification is
-still in progress. These development features do not change the published
+checks on both platforms. Whole-model owner-only multimodal checks passed on
+both; the optimized RTX 18/28 screen also passed all 12 coding requests and 40
+API cases. See the [current qualification ledger](serving-progress.md) for
+measured profiles and remaining gates. These development features do not change the published
 RTX v1 profile until release-image qualification is complete on each platform.
