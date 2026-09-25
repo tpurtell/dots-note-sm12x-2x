@@ -29,4 +29,13 @@ separate qualification gates; these component results do not establish them.
 Subsequent full-model inspection identified MTP as SWA: the real compact pool
 uses 589,248 bytes per block (1,023 records), with 13 DSA, 13 indexer and
 34 SWA layers. The initial 1,102-record fixture remains a stride stress case;
-the actual geometry requires its own targeted component gate.
+the actual geometry has now passed its targeted component gate on both RTX
+GPUs: three kernel tests plus actual adapter and gather checks per GPU. The
+fixture-only follow-up is `cb70291a52d84ae3dd03558d568941bf31d369a5`; kernel
+implementation bytes remain those of `c963d8f7`. Corrected allocator accounting
+uses 4.5642 GiB per rank at 524,288 context. The initial 4.902 GiB figure above
+is retained as historical CPU evidence, not the actual-runtime estimate.
+
+The current CPU indexer workspace check also passed: default behavior,
+4-context allocation/planner agreement, full-context and more-than-four-request
+chunk coverage. Its saved stdout and source hash are in the archive.

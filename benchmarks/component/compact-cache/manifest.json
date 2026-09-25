@@ -133,6 +133,105 @@
       "raw_bytes": 175,
       "raw_sha256": "987f5a1a9a6389b403a8a006bdcd758a3958a1769a4faa1fd2cb1e62b20b2451",
       "gzip_sha256": "f4c577b8f8bd5017c719b1842ead7f14f3423532f19edc68102260a4e471f9f3"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/gpu0/actual1023.log",
+      "archive": "gpu0/actual1023.log.gz",
+      "raw_bytes": 826,
+      "raw_sha256": "3b2cbdee9af70472dd7a5f18cb78f55b8b4f492369db91b8754b5f5288317f42",
+      "gzip_sha256": "b20543844faafd24692ce566ba6f4d55eb95c29183cc1d8f9e01c83f32e2b0c5"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/gpu1/actual1023.log",
+      "archive": "gpu1/actual1023.log.gz",
+      "raw_bytes": 826,
+      "raw_sha256": "0fec49385b6b9579cae62eaa5ddf365aff1e126bc618c515bdcf17e66545fd7d",
+      "gzip_sha256": "2cd3418a57aa44e3b81c9a31169ce43f2dab1a438d800fab0b894ab952433805"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/cpu-layout-corrected-mtp.json",
+      "archive": "cpu-layout-corrected-mtp.json.gz",
+      "raw_bytes": 771,
+      "raw_sha256": "36be3056baf7d87d4bb2c01fdbf5a1b081d1e72f1e1ecef7ed5b4eb7ea4e98c3",
+      "gzip_sha256": "c57fc522c3f2bbf38bc1efc111a7ddc6be89a313ecfb09e98eca50499ada7cc7"
+    },
+    {
+      "source": ".cache/serving/rtx/compact-cache/cpu-indexer-workspace.log",
+      "archive": "cpu-indexer-workspace.log.gz",
+      "raw_bytes": 129,
+      "raw_sha256": "e6b682f4afed1e592055d8b707ff332ed63766635ea80266a0ff245f4bd3ccdc",
+      "gzip_sha256": "2eb209f3f05187b75f56a06bc43dd7970fc33a3080b89f7420806e2f5af9d92e"
     }
-  ]
+  ],
+  "actual_runtime_geometry": {
+    "kernel_fixture_revision": "cb70291a52d84ae3dd03558d568941bf31d369a5",
+    "runtime_kernel_revision": "c963d8f7c98792a026eaf81a96a72d01b4aa0047",
+    "mtp_attention": "SWA",
+    "layers": {
+      "DSA": 13,
+      "indexer": 13,
+      "SWA": 34
+    },
+    "pool_block_bytes": 589248,
+    "physical_records_per_block": 1023,
+    "record_width": 576,
+    "layer7_storage_offset_records": 448,
+    "image_id": "sha256:7d832b17bc58b06f3d73ecd1636d76aa7862e434abc3cebf16a28f147e688497",
+    "mounts": [
+      "Host B12x read-only at /opt/b12x",
+      "Project read-only at /recipe"
+    ],
+    "commands": [
+      [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "/opt/b12x/tests/attention/test_sparse_mla_strided.py",
+        "-k",
+        "2-576-actual"
+      ],
+      [
+        "python3",
+        "/recipe/serving/check_sparse_adapter.py",
+        "--compact"
+      ],
+      [
+        "python3",
+        "/recipe/serving/check_cache_gather.py",
+        "--compact"
+      ]
+    ],
+    "per_device": {
+      "0": {
+        "kernel_passed": 3,
+        "kernel_deselected": 42,
+        "seconds": 2.5,
+        "adapter_passed": true,
+        "gather_passed": true,
+        "exit_code": 0
+      },
+      "1": {
+        "kernel_passed": 3,
+        "kernel_deselected": 42,
+        "seconds": 2.5,
+        "adapter_passed": true,
+        "gather_passed": true,
+        "exit_code": 0
+      }
+    },
+    "source_sha256": {
+      "third_party/sparkinfer-glmrt/tests/attention/test_sparse_mla_strided.py": "971d4b4d5ce9c5ece2063ae942d9fd759643bdead928963ffc75d0c52bc62e90",
+      "serving/check_sparse_adapter.py": "f3ed658356e649a89ad9ee0b5af9217332e33dbad15578eb3f9a1a0718868611",
+      "serving/check_cache_gather.py": "8f64429f077cd3a779fe57a273c985a68d7f6a5bc8dd98318b8f999cf72ab6f1",
+      "serving/check_indexer_workspace.py": "da54c5d94ec728a903e35386affdfd9cb1e20aeedb68f25908e2c588cc0bb5be"
+    },
+    "cpu_indexer_verification": {
+      "command": "python3 serving/check_indexer_workspace.py",
+      "exit_code": 0,
+      "scope": "CPU-only current-source rerun, no GPU or service calls"
+    },
+    "corrected_524288_cache_gib": 4.564202964305878,
+    "qualification_scope": "Component gates only; full native-context and hybrid exploration pending"
+  }
 }
