@@ -1,0 +1,56 @@
+{
+  "window_start_unix": 1790337024.4908335,
+  "window_stop_unix": 1790337237.813512,
+  "stop_event": {
+    "event": "diagnostic-stop-before-guard",
+    "time": 1790337237.813512
+  },
+  "ranks": {
+    "0": {
+      "samples": 102,
+      "allocated_bytes.all.current": {
+        "first": 95037140480,
+        "last": 95054603264,
+        "min": 95037140480,
+        "max": 95330538496
+      },
+      "reserved_bytes.all.current": {
+        "first": 96695484416,
+        "last": 107474845696,
+        "min": 96695484416,
+        "max": 107474845696
+      },
+      "inactive_split_bytes.all.current": {
+        "first": 1446531584,
+        "last": 1426971648,
+        "min": 1364020224,
+        "max": 1446531584
+      }
+    },
+    "1": {
+      "samples": 103,
+      "allocated_bytes.all.current": {
+        "first": 97916314112,
+        "last": 98088317952,
+        "min": 97916314112,
+        "max": 98213855744
+      },
+      "reserved_bytes.all.current": {
+        "first": 99212066816,
+        "last": 109664272384,
+        "min": 99212066816,
+        "max": 109664272384
+      },
+      "inactive_split_bytes.all.current": {
+        "first": 1035705856,
+        "last": 939199488,
+        "min": 939199488,
+        "max": 1035705856
+      }
+    }
+  },
+  "minimum_host_available_bytes": {
+    "rhea": 2713919488,
+    "moa": 1942618112
+  }
+}

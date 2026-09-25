@@ -1,0 +1,72 @@
+{
+  "schema": "dots3-development-evidence-v1",
+  "purpose": "Bounded reproduction of failed native524K Spark prefill; allocator attribution, not performance qualification",
+  "files": [
+    {
+      "source": ".cache/serving/spark/diagnostic-rank0.jsonl",
+      "artifact": "raw/diagnostic-rank0.jsonl.gz",
+      "bytes": 2766876,
+      "sha256": "1d94e2eb441c304b2d252209aec620fd4fc8e98db088f064460c1fce09418a06",
+      "gzip_sha256": "a567892f00a2774ea24cd003e5f3a9ec851120a468764c821e37789a90ad09c8"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-rank1.jsonl",
+      "artifact": "raw/diagnostic-rank1.jsonl.gz",
+      "bytes": 2826383,
+      "sha256": "ee97399687ad3e5edbc89ad28e19c90451819deed552d0c51769a36973cf2789",
+      "gzip_sha256": "3580232e8566be252ec6d72642601b55db96dd7731eedba2ac69a5152cc3f341"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-external.jsonl",
+      "artifact": "raw/diagnostic-external.jsonl.gz",
+      "bytes": 20651,
+      "sha256": "40199c5a2fd626fc926fe7298f1c08fe142beb7337a459116a11c793b80bb01d",
+      "gzip_sha256": "4762a243922b01896ca8f8c20e5d9823d1e0e3267f5095c9c2f781135bf3f00f"
+    },
+    {
+      "source": ".cache/serving/spark/context-memory-diagnostic-524.jsonl",
+      "artifact": "raw/context-memory-diagnostic-524.jsonl.gz",
+      "bytes": 349,
+      "sha256": "e36a92901e2be21d216841eb626f5804ade6c02601ff836514c34c0094e9b88b",
+      "gzip_sha256": "96ed17cea02dee65c2e4a86a1e4cca690858cd4917f7d33b93e09b57c6dda19e"
+    },
+    {
+      "source": ".cache/serving/spark/context-memory-diagnostic-524.log",
+      "artifact": "raw/context-memory-diagnostic-524.log.gz",
+      "bytes": 559,
+      "sha256": "07eee6f0b83d137c4098d4d51c2053cd8fd3883b8ad0611ebcc7d4a81b41a4d6",
+      "gzip_sha256": "a76eb92f00ff09878b3dceb928cfe5d49efe79ea019148c253c73bef84194dd7"
+    },
+    {
+      "source": ".cache/serving/spark/monitor-diagnostic.py",
+      "artifact": "raw/monitor-diagnostic.py.gz",
+      "bytes": 1419,
+      "sha256": "0204a241f448cbfb74776bf474107955cb265d73021b6e46a45eddf9de0f25e5",
+      "gzip_sha256": "bee240157f2519b34cf8ad6fb17fe151a74f9b1fc1273f54abc883f7bb4a1965"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-image/Dockerfile",
+      "artifact": "raw/diagnostic-image--Dockerfile.gz",
+      "bytes": 131,
+      "sha256": "2ca932ee5bc2fbb0bf1bbd78e3b784717bdb9ef9204d8185a38935a865c349b5",
+      "gzip_sha256": "0308ef282bcd458aecd2db7d2591325508a8fc747b75787b572a75a1e42a9e1d"
+    },
+    {
+      "source": ".cache/serving/spark/diagnostic-image/diagnostic_memory.py",
+      "artifact": "raw/diagnostic-image--diagnostic_memory.py.gz",
+      "bytes": 1956,
+      "sha256": "7d28849ee62f7a292e631ce02680916e2a7c7b3a45e01ea605a0c9d6dcbfd18d",
+      "gzip_sha256": "0d83b0d147f8b3fa012d2fcb4354f174cf42fdb9bbd0a843ee6dbc3137a0248c"
+    },
+    {
+      "source": ".cache/serving/spark/launch-memory-diagnostic.sh",
+      "artifact": "raw/launch-memory-diagnostic.sh.gz",
+      "bytes": 1140,
+      "sha256": "5d1ae8cdcbbb449ad91b80fecdd1447c309f350cfb098766ec4e08a559898570",
+      "gzip_sha256": "5d4ad219a0dbe1c46d2389ab3ed2697e8edf9def1abf0a8397d918e15de52af4"
+    }
+  ],
+  "summary_sha256": "af49552d972291972b6480be463f30a23041e228e45166dd896c0aa7878b4ef6",
+  "parent_image_id": "sha256:c9e1bbefc60a5d5f012d83d7b03f4816e173267f606dafafe9f7dca7a7f1419a",
+  "diagnostic_image_id": "sha256:1d6034f6a044d61ad86d3ad61f836e8630abc944cfe081e81200d3c4da0075a6"
+}
