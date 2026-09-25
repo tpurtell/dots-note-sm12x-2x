@@ -1,0 +1,29 @@
+{
+  "scope": "GB10 realsharedMLP/expert forkjoin changedgraph/componenttimings, rows<=16useful,512neutral.",
+  "artifacts": [
+    {
+      "source": ".cache/serving/spark/shared-overlap-moa.log",
+      "artifact": "shared-overlap-moa.log.gz",
+      "source_sha256": "5fecfde109cca83a648c6f732f3c550ae0bd1d75d5e2370009bd60da8f79518a",
+      "artifact_sha256": "5679299fb33362844e4bb4a30b42c98d4a2f82321b762af221868fae096c22e8"
+    },
+    {
+      "source": ".cache/serving/spark/shared-overlap-rhea.log",
+      "artifact": "shared-overlap-rhea.log.gz",
+      "source_sha256": "798edf97d4c5d1dee2c83f0634e95a408cf4bb5e26a0b19ec69a878e803f16de",
+      "artifact_sha256": "0b2197b40fd9ea81c4515010ecd8896495956bb050ba1edc16909679ff9ed0f4"
+    },
+    {
+      "source": ".cache/serving/spark/shared-overlap-rhea.json",
+      "artifact": "shared-overlap-rhea.json.gz",
+      "source_sha256": "db3532ef644fbb4a5da3acd4c160d18a7f6030b6d9f63201687945705a23ed8b",
+      "artifact_sha256": "9e05ccebbb1f83183dcf596a35f0fedf2d9a8da7c31b4796b33dadb5f784d644"
+    },
+    {
+      "source": ".cache/serving/spark/shared-overlap-moa.json",
+      "artifact": "shared-overlap-moa.json.gz",
+      "source_sha256": "8dced5f284379109248448340d8ca45ed49209748f0984fc01a3d12383c74ccd",
+      "artifact_sha256": "78fe3c70b7f46f8349c95d391290472730728c1f75c351c2b3c3e00479768c3d"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "scope": "Spark hybrid packed MM owners0,1 23/23 native524K .80 guard1; ownership attestation +API40 +MMpass; measured KV budgets inform predicted20/26 nextcut, notyetadmitted. Cut20/26 actualadmission2,416,692equivtokens/4.61x; budgets9.7070/12.9466GiB, prefix/toolJSONpassed; nofullcoding.",
+  "scope": "Spark hybrid packed MM owners0,1 23/23 native524K .80 guard1; ownership attestation +API40 +MMpass; measured KV budgets inform predicted20/26 nextcut, notyetadmitted. Cut20/26 actualadmission2,416,692equivtokens/4.61x; budgets9.7070/12.9466GiB, prefix/toolJSONpassed; nofullcoding. 17/29 revisedgroupsactualcapacity2,738,627tokens5.22x, prefixpassed; cutplannerchooses17fromactualbudgets.",
   "artifacts": [
     {
       "source": ".cache/serving/spark/mm-v6-23-moa.log",
@@ -132,6 +132,78 @@
       "artifact": "mm-v6-20-attestation.json.gz",
       "source_sha256": "198b997757d29077043defa8beae01a59399a9717487281132bbb92647f728c7",
       "artifact_sha256": "f3a1f46e0da924f27a2e23ac0dbe4b738030567a94cbd696838622a06fbb32df"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v7-17-rhea-memory.log",
+      "artifact": "mm-v7-17-rhea-memory.log.gz",
+      "source_sha256": "5f0d5681ba1fe5398adf9be26205784e4fd9d9f822fb75780175578534e17e64",
+      "artifact_sha256": "a1730bd18bc7aff86bc00a68170e978d8e444957c0e7cfb542de841f41e4c978"
+    },
+    {
+      "source": ".cache/serving/spark/prefix-mm-v7-17.log",
+      "artifact": "prefix-mm-v7-17.log.gz",
+      "source_sha256": "1405d63458b94175c5e0df3bbf105032d9b5568a290fdfb91f12559a41b2b11e",
+      "artifact_sha256": "67e650d15ba4afe7a222a61d11aa9e62aaf90a4750af5e494fad40cc045dff93"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v7-17-moa.log",
+      "artifact": "mm-v7-17-moa.log.gz",
+      "source_sha256": "f33274de65cb7d94e9b8b940e2ecd0b5ee9848b66a9cccf4381df6ac691a4082",
+      "artifact_sha256": "ad926432a2514d2d24eb42b1e695e878d93579ccbb157a0ab46c4241f40a9e01"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-moa-mm-v7-17.json",
+      "artifact": "runtime-moa-mm-v7-17.json.gz",
+      "source_sha256": "e33307d4ebe246b70d9349ffada4354c45dd3da42741e128b31020e5261edf99",
+      "artifact_sha256": "d4bfb26572fae9d3726f190090ad732c4e667807830402d0ab64e7a4219726a7"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v7-17-attestation.json",
+      "artifact": "mm-v7-17-attestation.json.gz",
+      "source_sha256": "df31874994aba480f42bc6bd8e09b043f51d2306035b769579a1a4734743fca3",
+      "artifact_sha256": "23d3800decc78c3d5b09d990642f91acb0a947f18980c9c3f31cc3d0631cc913"
+    },
+    {
+      "source": ".cache/serving/spark/runtime-rhea-mm-v7-17.json",
+      "artifact": "runtime-rhea-mm-v7-17.json.gz",
+      "source_sha256": "d9b27b291bfa3d20de8edfb234e452e58f48e10ce3cf51f278cf4de3dba7b767",
+      "artifact_sha256": "cc037de7199ce9b7168e6d322833da7ec55e3cf814824520cb6fb585532c53d4"
+    },
+    {
+      "source": ".cache/serving/spark/placement-mm-v7-17.json",
+      "artifact": "placement-mm-v7-17.json.gz",
+      "source_sha256": "31ca5aa458f5a7969754b73bb63e9431ef7caad8f5bed24b1adf1177206e0f9a",
+      "artifact_sha256": "1b4528c6de0f6d0024719bb7fcd0f504015bc7cb3df3ca11ebdedbadc2633fc8"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v7-17-moa-memory.log",
+      "artifact": "mm-v7-17-moa-memory.log.gz",
+      "source_sha256": "5033aae07de27e3dcd44b72e9149cce829867a511691950fdbd016f0a9c3213d",
+      "artifact_sha256": "ed7055fe2547f33d7625d2c6a808b656dfc55408473732a58bac181ea04e01e0"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v7-17-rhea.log",
+      "artifact": "mm-v7-17-rhea.log.gz",
+      "source_sha256": "1d8e25a814604acadb9ff6d6a3bd102f9b19bd6cd644d4a481696de7a67f4c1a",
+      "artifact_sha256": "0c094894bdf377aea5fa0e78e9f331ebeabf7de43dd8cdb3d1a56284cd154221"
+    },
+    {
+      "source": ".cache/serving/spark/mm-v7-17-rhea-startup.log",
+      "artifact": "mm-v7-17-rhea-startup.log.gz",
+      "source_sha256": "e7557d795d4b26353a6199f6758fadcbaf7d2b11ad54531a007f78f2f3f22431",
+      "artifact_sha256": "611d02af1ac940fa5b647f5c45e9b200bb673b551c836f2fe80f9436738374dd"
+    },
+    {
+      "source": ".cache/serving/spark/placement-mm-v7-17.log",
+      "artifact": "placement-mm-v7-17.log.gz",
+      "source_sha256": "a37193214eff76f2b5c3f9a4822854d4e4bec0717ca2ed1819b90c67f0922476",
+      "artifact_sha256": "06869422b76b3f5bb6bde36b6e49910b52d47b98dbecfe311cc91cb2571a3693"
+    },
+    {
+      "source": ".cache/serving/spark/prefix-mm-v7-17.json",
+      "artifact": "prefix-mm-v7-17.json.gz",
+      "source_sha256": "6ce83375b7c93b9888eb2a11bf9135ed5298946f757957f5831f1ecf94ff7923",
+      "artifact_sha256": "e8147d0bca898ab9155ed2149d861928f884ea5753a939ee66b95747879f6130"
     }
   ]
 }
