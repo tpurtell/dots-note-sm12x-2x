@@ -104,7 +104,7 @@ def parse_rows(text):
         fail('Invalid active row selection in qualification report')
 
 
-def validate_report(read_report, config, selected):
+def validate_report(read_report, config, selected, *, expected_hosts=None):
     report = read_report
     if (report.get('schema') != 'dots3-release-report-v1' or
             report.get('platform') != selected or report.get('image') != config['image'] or
@@ -112,7 +112,9 @@ def validate_report(read_report, config, selected):
             report.get('completion', {}).get('completed') is not True):
         fail('Qualification report does not bind this completed platform/image/checkpoint')
     profiles = report.get('profile', {})
-    if len(profiles) != (1 if selected == 'rtx' else 2):
+    if expected_hosts is None:
+        expected_hosts = 1 if selected == 'rtx' else 2
+    if len(profiles) != expected_hosts:
         fail('Qualification report must cover every platform host')
     for host, profile in profiles.items():
         for key, setting in [('max_model_len', 'max_model_len'), ('max_num_seqs', 'max_num_seqs'),
@@ -125,7 +127,8 @@ def validate_report(read_report, config, selected):
         if str(profile.get('tensor_parallel_size')) != '2' or profile.get('tool_call_parser') != 'dots':
             fail(f'Qualification TP2/tool parser mismatch for {host}')
         spec = json.loads(profile['speculative_config'])
-        if spec.get('method') != 'mtp' or spec.get('num_speculative_tokens') != config['mtp_tokens']:
+        if (spec.get('method') != 'mtp' or spec.get('num_speculative_tokens') != config['mtp_tokens']
+                or spec.get('num_speculative_tokens_per_batch_size') is not None):
             fail(f'Qualification MTP mismatch for {host}')
         runtime_env = profile.get('selected_environment')
         if runtime_env is None:
@@ -146,6 +149,40 @@ def validate_report(read_report, config, selected):
                 fail(f'Qualification RoCE eager setting mismatch for {host}')
             if parse_rows(env.get('DOTS3_B12X_ROCE_ROWS', '')) != set(config['b12x_roce_rows']):
                 fail(f'Qualification RoCE rows mismatch for {host}')
+
+
+def validate_existing_container(data, config, selected):
+    if data['Config']['Image'] != config['image']:
+        fail('Existing container uses a different image. Stop/remove it and start the pinned release.')
+    args = data['Args']
+    def one(name):
+        values = [args[i+1] for i, value in enumerate(args[:-1]) if value == name]
+        values += [value.split('=', 1)[1] for value in args if value.startswith(name+'=')]
+        if len(values) != 1:
+            fail(f'Existing container requires one explicit {name}')
+        return values[0]
+    profile = {key: one('--'+key.replace('_', '-')) for key in
+        ('max_model_len', 'max_num_seqs', 'max_num_batched_tokens',
+         'gpu_memory_utilization', 'kv_cache_dtype', 'reasoning_parser',
+         'tool_call_parser', 'tensor_parallel_size', 'speculative_config')}
+    profile['selected_environment'] = data['Config']['Env']
+    # Reuse exactly the same profile comparison as the accepted report. For a
+    # two-host deployment this checks the local container; each host runs it.
+    local_report = {'schema': 'dots3-release-report-v1', 'platform': selected,
+        'image': config['image'], 'model_revision': MODEL_REVISION,
+        'completion': {'completed': True}, 'profile': {'local': profile}}
+    validate_report(local_report, config, selected, expected_hosts=1)
+    model_path = '/root/.cache/huggingface/hub/models--wrldsuksgo2mars--dots3-note-prev-exl3-k4-v1/snapshots/'+MODEL_REVISION
+    if model_path not in args or one('--pipeline-parallel-size') != '1' or one('--distributed-executor-backend') != 'mp':
+        fail('Existing container checkpoint or parallel execution differs from the release launcher')
+    if one('--served-model-name') != 'dots3-note-exl3-k4':
+        fail('Existing container served model name differs from the release launcher')
+    for name in ('--enable-prefix-caching', '--enable-auto-tool-choice'):
+        if (args.count(name) != 1 or '--no-'+name[2:] in args
+                or any(value.startswith(name+'=') for value in args)):
+            fail(f'Existing container does not enable {name}')
+    if json.loads(one('--structured-outputs-config')).get('backend') != 'xgrammar':
+        fail('Existing container does not use the qualified xgrammar backend')
 
 
 def check_spark_headroom(minimum_gib):
@@ -249,9 +286,8 @@ def main():
         return
     else:
         if args.action == 'restart':
-            actual = subprocess.check_output(['docker', 'inspect', '--format', '{{.Config.Image}}', container], text=True).strip()
-            if actual != config['image']:
-                fail('Existing container uses a different image. Stop/remove it and start the pinned release.')
+            actual = json.loads(subprocess.check_output(['docker', 'inspect', container], text=True))[0]
+            validate_existing_container(actual, config, args.platform)
         command = {'logs': ['docker', 'logs', '--tail', '100', '-f', container],
                    'stop': ['docker', 'stop', '--time', '60', container],
                    'restart': ['docker', 'restart', '--time', '60', container],

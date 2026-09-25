@@ -229,8 +229,10 @@ bash serving/release/run.sh spark health
 
 Use `status`, `logs`, `stop`, `restart` or `remove` instead of `start` for local
 container management. `logs` follows output; Ctrl-C stops following. `stop`
-retains the container; `restart` uses its original settings and verifies it is
-the pinned image. To change settings, stop and remove the container, then start
+retains the container; `restart` uses its original settings and verifies its
+image, checkpoint, parser, memory/context limits, fixed MTP and active B12x
+settings against the qualified profile. A same-image container with different
+settings is rejected. To change settings, stop and remove the container, then start
 again. On Spark, stop the head before the worker; restart the worker before the
 head. `health` runs on the head only; a worker has no HTTP endpoint. HTTP health
 alone does not establish functional request readiness.
